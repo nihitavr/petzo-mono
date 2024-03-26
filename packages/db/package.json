@@ -1,5 +1,5 @@
 {
-  "name": "@acme/db",
+  "name": "@petzo/db",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -16,31 +16,31 @@
     "clean": "rm -rf .turbo node_modules",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint .",
-    "push": "pnpm with-env drizzle-kit push:mysql --config src/config.ts",
+    "push": "pnpm with-env drizzle-kit push:pg --config src/config.ts",
     "studio": "pnpm with-env drizzle-kit studio --config src/config.ts",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false",
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "@planetscale/database": "^1.16.0",
-    "drizzle-orm": "^0.30.4"
+    "drizzle-orm": "^0.30.4",
+    "postgres": "~3.3"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
+    "@petzo/eslint-config": "workspace:*",
+    "@petzo/prettier-config": "workspace:*",
+    "@petzo/tsconfig": "workspace:*",
     "dotenv-cli": "^7.4.1",
     "drizzle-kit": "^0.20.14",
     "eslint": "^8.57.0",
-    "mysql2": "^3.9.2",
+    "pg": "~8.10",
     "prettier": "^3.2.5",
     "typescript": "^5.4.3"
   },
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@acme/eslint-config/base"
+      "@petzo/eslint-config/base"
     ]
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@petzo/prettier-config"
 }

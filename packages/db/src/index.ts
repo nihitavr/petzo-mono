@@ -1,19 +1,20 @@
-import { Client } from "@planetscale/database";
-import { drizzle } from "drizzle-orm/planetscale-serverless";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 
 import * as auth from "./schema/auth";
 import * as post from "./schema/post";
 
 export const schema = { ...auth, ...post };
 
-export { mySqlTable as tableCreator } from "./schema/_table";
+export { pgTable, customerPgTable, centerPgTable } from "./schema/_table";
 
 export * from "drizzle-orm";
 
-const psClient = new Client({
-  host: process.env.DB_HOST!,
-  username: process.env.DB_USERNAME!,
-  password: process.env.DB_PASSWORD!,
-});
+const globalForDb = globalThis as unknown as {
+  conn: postgres.Sql | undefined;
+};
 
-export const db = drizzle(psClient, { schema });
+const conn = globalForDb.conn ?? postgres(process.env.DATABASE_URL!);
+if (process.env.NODE_ENV !== "production") globalForDb.conn = conn;
+
+export const db = drizzle(conn, { schema });

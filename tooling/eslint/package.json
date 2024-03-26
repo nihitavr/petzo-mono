@@ -1,5 +1,5 @@
 {
-  "name": "@acme/eslint-config",
+  "name": "@petzo/eslint-config",
   "version": "0.2.0",
   "private": true,
   "license": "MIT",
@@ -25,8 +25,8 @@
     "eslint-plugin-react-hooks": "^4.6.0"
   },
   "devDependencies": {
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
+    "@petzo/prettier-config": "workspace:*",
+    "@petzo/tsconfig": "workspace:*",
     "@types/eslint": "^8.56.6",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
@@ -38,5 +38,5 @@
       "./base.js"
     ]
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@petzo/prettier-config"
 }

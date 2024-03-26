@@ -1,5 +1,5 @@
 {
-  "name": "@acme/validators",
+  "name": "@petzo/validators",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -22,17 +22,17 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
+    "@petzo/eslint-config": "workspace:*",
+    "@petzo/prettier-config": "workspace:*",
+    "@petzo/tsconfig": "workspace:*",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "typescript": "^5.4.3"
   },
   "eslintConfig": {
     "extends": [
-      "@acme/eslint-config/base"
+      "@petzo/eslint-config/base"
     ]
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@petzo/prettier-config"
 }

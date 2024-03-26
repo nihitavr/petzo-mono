@@ -1,5 +1,5 @@
 {
-  "name": "@acme/api",
+  "name": "@petzo/api",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -19,17 +19,17 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@acme/auth": "workspace:*",
-    "@acme/db": "workspace:*",
-    "@acme/validators": "workspace:*",
+    "@petzo/auth-customer-app": "workspace:*",
+    "@petzo/db": "workspace:*",
+    "@petzo/validators": "workspace:*",
     "@trpc/server": "11.0.0-next.320",
     "superjson": "2.2.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
+    "@petzo/eslint-config": "workspace:*",
+    "@petzo/prettier-config": "workspace:*",
+    "@petzo/tsconfig": "workspace:*",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "typescript": "^5.4.3"
@@ -37,8 +37,8 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@acme/eslint-config/base"
+      "@petzo/eslint-config/base"
     ]
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@petzo/prettier-config"
 }

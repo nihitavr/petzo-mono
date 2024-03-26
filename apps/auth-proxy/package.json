@@ -1,5 +1,5 @@
 {
-  "name": "@acme/auth-proxy",
+  "name": "@petzo/auth-proxy",
   "private": true,
   "type": "module",
   "scripts": {
@@ -14,10 +14,10 @@
     "@auth/core": "0.28.1"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tailwind-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
+    "@petzo/eslint-config": "workspace:*",
+    "@petzo/prettier-config": "workspace:*",
+    "@petzo/tailwind-config": "workspace:*",
+    "@petzo/tsconfig": "workspace:*",
     "@types/node": "^20.11.30",
     "eslint": "^8.57.0",
     "h3": "^1.11.1",
@@ -28,8 +28,8 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@acme/eslint-config/base"
+      "@petzo/eslint-config/base"
     ]
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@petzo/prettier-config"
 }

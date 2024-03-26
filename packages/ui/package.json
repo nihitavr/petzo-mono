@@ -1,5 +1,5 @@
 {
-  "name": "@acme/ui",
+  "name": "@petzo/ui",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -34,10 +34,10 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tailwind-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
+    "@petzo/eslint-config": "workspace:*",
+    "@petzo/prettier-config": "workspace:*",
+    "@petzo/tailwind-config": "workspace:*",
+    "@petzo/tsconfig": "workspace:*",
     "@types/react": "^18.2.69",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
@@ -52,9 +52,9 @@
   },
   "eslintConfig": {
     "extends": [
-      "@acme/eslint-config/base",
-      "@acme/eslint-config/react"
+      "@petzo/eslint-config/base",
+      "@petzo/eslint-config/react"
     ]
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@petzo/prettier-config"
 }

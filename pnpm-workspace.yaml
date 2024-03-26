@@ -1,4 +1,6 @@
 packages:
   - apps/*
   - packages/*
+  - "!packages/auth"
+  - packages/auth/*
   - tooling/*
