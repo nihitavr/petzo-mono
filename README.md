@@ -22,13 +22,19 @@ cp .env.example .env
 docker run --name petzo-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres
 ```
 
-4. Run below command to run **center app** at _**apps/center-app/nextjs**_.
+4. Run below command to push latest db migration changes to your local database. You can look at migrations in **drizzle/** folder. If you have made some new changes in the database schema run `pnpm run db:generate` command before running the below command.
+
+```bash
+pnpm run db:push
+```
+
+5. Run below command to run **center app** at _**apps/center-app/nextjs**_.
 
 ```bash
 pnpm -F center-app run dev
 ```
 
-5. Run below command to run **customer app** at _**apps/customer-app/nextjs**_.
+6. Run below command to run **customer app** at _**apps/customer-app/nextjs**_.
 
 ```bash
 pnpm -F customer-app run dev
