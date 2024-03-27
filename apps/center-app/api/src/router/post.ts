@@ -1,7 +1,8 @@
 import type { TRPCRouterRecord } from "@trpc/server";
+import { z } from "zod";
+
 import { desc, eq, schema } from "@petzo/db";
 import { CreatePostSchema } from "@petzo/validators";
-import { z } from "zod";
 
 import { protectedProcedure, publicProcedure } from "../trpc";
 
