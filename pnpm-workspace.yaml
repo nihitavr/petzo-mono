@@ -1,6 +1,8 @@
 packages:
   - apps/*
   - packages/*
-  - "!packages/auth"
-  - packages/auth/*
+  - apps/customer-app/*
+  - apps/center-app/*
+  - "!apps/customer-app"
+  - "!apps/center-app"
   - tooling/*

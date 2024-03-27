@@ -1,9 +1,8 @@
 import { cache } from "react";
 import { headers } from "next/headers";
 
-import { createCaller, createTRPCContext } from "@petzo/api";
-
-import { auth } from "../../../../packages/auth/customer-app/src";
+import { createCaller, createTRPCContext } from "@petzo/api-customer-app";
+import { auth } from "@petzo/auth-customer-app";
 
 /**
  * This wraps the `createTRPCContext` helper and provides the required context for the tRPC API when

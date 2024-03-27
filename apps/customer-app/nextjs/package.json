@@ -1,5 +1,5 @@
 {
-  "name": "@petzo/center-app",
+  "name": "@petzo/customer-app",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -7,15 +7,15 @@
     "build": "pnpm with-env next build",
     "clean": "git clean -xdf .next .turbo node_modules",
     "dev": "pnpm with-env next dev",
-    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "format": "prettier --check . --ignore-path ../../../.gitignore",
     "lint": "dotenv -v SKIP_ENV_VALIDATION=1 next lint",
     "start": "pnpm with-env next start",
     "typecheck": "tsc --noEmit",
-    "with-env": "dotenv -e ../../.env --"
+    "with-env": "dotenv -e ../../../.env --"
   },
   "dependencies": {
-    "@petzo/api": "workspace:*",
-    "@petzo/auth-center-app": "workspace:*",
+    "@petzo/api-customer-app": "workspace:*",
+    "@petzo/auth-customer-app": "workspace:*",
     "@petzo/db": "workspace:*",
     "@petzo/ui": "workspace:*",
     "@petzo/validators": "workspace:*",

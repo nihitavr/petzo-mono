@@ -1,7 +1,7 @@
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
-import { appRouter, createTRPCContext } from "@petzo/api";
-import { auth } from "@petzo/auth-customer-app";
+import { appRouter, createTRPCContext } from "@petzo/api-center-app";
+import { auth } from "@petzo/auth-center-app";
 
 /**
  * Configure basic CORS headers

@@ -1,5 +1,5 @@
 {
-  "name": "@petzo/customer-app",
+  "name": "@petzo/center-app",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,11 +11,11 @@
     "lint": "dotenv -v SKIP_ENV_VALIDATION=1 next lint",
     "start": "pnpm with-env next start",
     "typecheck": "tsc --noEmit",
-    "with-env": "dotenv -e ../../.env --"
+    "with-env": "dotenv -e ../../../.env --"
   },
   "dependencies": {
-    "@petzo/api": "workspace:*",
-    "@petzo/auth-customer-app": "workspace:*",
+    "@petzo/api-center-app": "workspace:*",
+    "@petzo/auth-center-app": "workspace:*",
     "@petzo/db": "workspace:*",
     "@petzo/ui": "workspace:*",
     "@petzo/validators": "workspace:*",
