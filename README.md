@@ -4,19 +4,31 @@ Mono Repo for Petzo
 
 ## Startup Guide
 
-Install Dependencies
+1. Install Dependencies
 
 ```bash
 pnpm i
 ```
 
-Run below command to run **center app** at _**apps/center-app/nextjs**_.
+2. Run below command to create .env file. After running the command change the environment variables in **.env** file. You would only need to change AUTH_GOOGLE_ID and AUTH_GOOGLE_SECRET to run it on your local.
+
+```bash
+cp .env.example .env
+```
+
+3. First make sure that you have Docker installed and is running. Run below command to run **Postgres Db** on your local machine.
+
+```bash
+docker run --name petzo-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres
+```
+
+4. Run below command to run **center app** at _**apps/center-app/nextjs**_.
 
 ```bash
 pnpm -F center-app run dev
 ```
 
-Run below command to run **customer app** at _**apps/customer-app/nextjs**_.
+5. Run below command to run **customer app** at _**apps/customer-app/nextjs**_.
 
 ```bash
 pnpm -F customer-app run dev
