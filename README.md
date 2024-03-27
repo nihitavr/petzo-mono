@@ -1,28 +1,38 @@
-# create-t3-turbo
+# Petzo App
 
-> **Note**
-> Due to high demand, this repo now uses the `app` directory with some new experimental features. If you want to use the more traditional `pages` router, [check out the repo before the update](https://github.com/t3-oss/create-t3-turbo/tree/414aff131ca124573e721f3779df3edb64989fd4).
+Mono Repo for Petzo
 
-> **Note**
-> OAuth deployments are now working for preview deployments. Read [deployment guide](https://github.com/t3-oss/create-t3-turbo#auth-proxy) and [check out the source](./apps/auth-proxy) to learn more!
+## Startup Guide
 
-## Installation
-
-There are two ways of initializing an app using the `create-t3-turbo` starter. You can either use this repository as a template:
-
-![use-as-template](https://github.com/t3-oss/create-t3-turbo/assets/51714798/bb6c2e5d-d8b6-416e-aeb3-b3e50e2ca994)
-
-or use Turbo's CLI to init your project (use PNPM as package manager):
+Install Dependencies
 
 ```bash
-npx create-turbo@latest -e https://github.com/t3-oss/create-t3-turbo
+pnpm i
 ```
 
-## About
+Run below command to run **center app** at _**apps/center-app/nextjs**_.
 
-Ever wondered how to migrate your T3 application into a monorepo? Stop right here! This is the perfect starter repo to get you running with the perfect stack!
+```bash
+pnpm -F center-app run dev
+```
 
-It uses [Turborepo](https://turborepo.org) and contains:
+Run below command to run **customer app** at _**apps/customer-app/nextjs**_.
+
+```bash
+pnpm -F customer-app run dev
+```
+
+## About the monorepo
+
+This repository is a mono repo for Petzo related services. It uses [Turborepo](https://turborepo.org).
+
+There are mainly 3 apps. Center App, Customer App, Auth Proxy.
+
+1. **Center App**: This app contains everything related to center app. ie. api, auth, nextjs (webapp). In future if we want to add React Native App we can easily add expo.
+2. **Customer App**: This app contains everything related to customer app. ie. api, auth, nextjs (webapp). Same as center app if in future if we want to add React Native App we can easily add expo.
+3. **Auth Proxy**: This is Auth Proxy used for all Preview Deployments. When we use Oauth we need to have Verified Redirect URL in Oauth settings, so we create a single Auth Proxy for all preview related deployments.
+
+**Monorepo Structure**
 
 ```text
 .github
@@ -34,115 +44,28 @@ apps
   ├─ auth-proxy
   |   ├─ Nitro server to proxy OAuth requests in preview deployments
   |   └─ Uses Auth.js Core
-  ├─ expo
-  |   ├─ Expo SDK 49
-  |   ├─ React Native using React 18
-  |   ├─ Navigation using Expo Router
-  |   ├─ Tailwind using NativeWind
-  |   └─ Typesafe API calls using tRPC
-  └─ next.js
-      ├─ Next.js 14
-      ├─ React 18
-      ├─ Tailwind CSS
-      └─ E2E Typesafe API Server & Client
+  └─ center-app
+  |   ├─ api - Center app api function using trpc. These trpc apis can be used in customer nextjs/react-native app.
+  |   ├─ auth - Center related auth using Next Auth.
+  |   └─ nextjs - Center Web app
+  └─ customer-app
+  |   ├─ api - Center app api function using trpc. These trpc apis can be used in customer nextjs/react-native app.
+  |   ├─ auth - Center related auth using Next Auth.
+  |   └─ nextjs - Customer Web app.
+  |   └─ expo - Customer React Native app (Currently Not Getting Used).
 packages
-  ├─ api
-  |   └─ tRPC v11 router definition
-  ├─ auth
-  |   └─ Authentication using next-auth. **NOTE: Only for Next.js app, not Expo**
-  ├─ db
-  |   └─ Typesafe db calls using Drizzle & Planetscale
-  └─ ui
-      └─ Start of a UI package for the webapp using shadcn-ui
+  ├─ db - Typesafe db calls using Drizzle & node-postgres. This is a schema package that is used for both Customer App and Center App. (Doesn't work with edge runtime). This contains customer app, center app and common drizzle schema.
+  └─ ui - Start of a UI package for the webapp using shadcn-ui.
+  └─ validators - Start of a UI package for the webapp using shadcn-ui.
 tooling
-  ├─ eslint
-  |   └─ shared, fine-grained, eslint presets
-  ├─ prettier
-  |   └─ shared prettier configuration
-  ├─ tailwind
-  |   └─ shared tailwind configuration
-  └─ typescript
-      └─ shared tsconfig you can extend from
+  ├─ eslint - Shared, fine-grained, eslint presets
+  ├─ prettier - Shared prettier configuration
+  ├─ tailwind - Shared tailwind configuration
+  └─ typescript - Shared tsconfig you can extend from
+turbo
 ```
 
-> In this template, we use `@petzo` as a placeholder for package names. As a user, you might want to replace it with your own organization or project name. You can use find-and-replace to change all the instances of `@petzo` to something like `@my-company` or `@project-name`.
-
-## Quick Start
-
-> **Note**
-> The [db](./packages/db) package is preconfigured to use PlanetScale and is **edge-bound** with the [database.js](https://github.com/planetscale/database-js) driver. If you're using something else, make the necessary modifications to the [schema](./packages/db/src/schema) as well as the [client](./packages/db/src/index.ts) and the [drizzle config](./packages/db/drizzle.config.ts). If you want to switch to non-edge database driver, remove `export const runtime = "edge";` [from all pages and api routes](https://github.com/t3-oss/create-t3-turbo/issues/634#issuecomment-1730240214).
-
-To get it running, follow the steps below:
-
-### 1. Setup dependencies
-
-```bash
-# Install dependencies
-pnpm i
-
-# Configure environment variables
-# There is an `.env.example` in the root directory you can use for reference
-cp .env.example .env
-
-# Push the Drizzle schema to the database
-pnpm db:push
-```
-
-### 2. Configure Expo `dev`-script
-
-#### Use iOS Simulator
-
-1. Make sure you have XCode and XCommand Line Tools installed [as shown on expo docs](https://docs.expo.dev/workflow/ios-simulator).
-
-   > **NOTE:** If you just installed XCode, or if you have updated it, you need to open the simulator manually once. Run `npx expo start` in the root dir, and then enter `I` to launch Expo Go. After the manual launch, you can run `pnpm dev` in the root directory.
-
-   ```diff
-   +  "dev": "expo start --ios",
-   ```
-
-2. Run `pnpm dev` at the project root folder.
-
-#### Use Android Emulator
-
-1. Install Android Studio tools [as shown on expo docs](https://docs.expo.dev/workflow/android-studio-emulator).
-
-2. Change the `dev` script at `apps/expo/package.json` to open the Android emulator.
-
-   ```diff
-   +  "dev": "expo start --android",
-   ```
-
-3. Run `pnpm dev` at the project root folder.
-
-> **TIP:** It might be easier to run each app in separate terminal windows, so you get the logs from each app separately. This is also required if you want your terminals to be interactive, e.g. to access the Expo QR code. You can run `pnpm --filter expo dev` and `pnpm --filter nextjs dev` to run each app in a separate terminal window.
-
-### 3. When it's time to add a new package
-
-To add a new package, simply run `pnpm turbo gen init` in the monorepo root. This will prompt you for a package name as well as if you want to install any dependencies to the new package (of course you can also do this yourself later).
-
-The generator sets up the `package.json`, `tsconfig.json` and a `index.ts`, as well as configures all the necessary configurations for tooling around your package such as formatting, linting and typechecking. When the package is created, you're ready to go build out the package.
-
-## FAQ
-
-### Does the starter include Solito?
-
-No. Solito will not be included in this repo. It is a great tool if you want to share code between your Next.js and Expo app. However, the main purpose of this repo is not the integration between Next.js and Expo — it's the code splitting of your T3 App into a monorepo. The Expo app is just a bonus example of how you can utilize the monorepo with multiple apps but can just as well be any app such as Vite, Electron, etc.
-
-Integrating Solito into this repo isn't hard, and there are a few [official templates](https://github.com/nandorojo/solito/tree/master/example-monorepos) by the creators of Solito that you can use as a reference.
-
-### What auth solution should I use instead of Next-Auth.js for Expo?
-
-I've left this kind of open for you to decide. Some options are [Clerk](https://clerk.dev), [Supabase Auth](https://supabase.com/docs/guides/auth), [Firebase Auth](https://firebase.google.com/docs/auth/) or [Auth0](https://auth0.com/docs). Note that if you're dropping the Expo app for something more "browser-like", you can still use Next-Auth.js for those. [See an example in a Plasmo Chrome Extension here](https://github.com/t3-oss/create-t3-turbo/tree/chrome/apps/chrome).
-
-The Clerk.dev team even made an [official template repository](https://github.com/clerkinc/t3-turbo-and-clerk) integrating Clerk.dev with this repo.
-
-During Launch Week 7, Supabase [announced their fork](https://supabase.com/blog/launch-week-7-community-highlights#t3-turbo-x-supabase) of this repo integrating it with their newly announced auth improvements. You can check it out [here](https://github.com/supabase-community/create-t3-turbo).
-
-### Does this pattern leak backend code to my client applications?
-
-No, it does not. The `api` package should only be a production dependency in the Next.js application where it's served. The Expo app, and all other apps you may add in the future, should only add the `api` package as a dev dependency. This lets you have full typesafety in your client applications, while keeping your backend code safe.
-
-If you need to share runtime code between the client and server, such as input validation schemas, you can create a separate `shared` package for this and import it on both sides.
+> In this repository, we use `@petzo` as a placeholder for package names.
 
 ## Deployment
 

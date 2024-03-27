@@ -1,10 +1,11 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-import * as auth from "./schema/auth";
-import * as post from "./schema/post";
+import * as centerAuth from "./schema/center-app-auth-schema";
+import * as common from "./schema/common-schema";
+import * as customerAuth from "./schema/customer-app-auth-schema";
 
-export const schema = { ...auth, ...post };
+export const schema = { ...centerAuth, ...customerAuth, ...common };
 
 export { pgTable, customerPgTable, centerPgTable } from "./schema/_table";
 
