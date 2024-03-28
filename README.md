@@ -28,13 +28,13 @@ docker run --name petzo-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5
 pnpm run db:push
 ```
 
-5. Run the following command to run the **center app** located at _**apps/center-app/nextjs**_.
+5. Run the following command to run the **center app** located at _**app-center/nextjs**_.
 
 ```bash
 pnpm -F center-app run dev
 ```
 
-6. Run the following command to run the **customer app** located at _**apps/customer-app/nextjs**_.
+6. Run the following command to run the **customer app** located at _**app-customer/nextjs**_.
 
 ```bash
 pnpm -F customer-app run dev
@@ -55,18 +55,17 @@ There are mainly three apps: Center App, Customer App, and Auth Proxy.
 ```text
 .github
   └─ workflows
-        └─ CI with pnpm cache setup
+  |   └─ CI with pnpm cache setup
 .vscode
-  └─ Recommended extensions and settings for VSCode users
-apps
-  ├─ auth-proxy
-  |   ├─ Nitro server to proxy OAuth requests in preview deployments
-  |   └─ Uses Auth.js Core
-  └─ center-app
+  |   └─ Recommended extensions and settings for VSCode users
+app-auth-proxy
+  |   └─ Nitro server to proxy OAuth requests in preview deployments. Uses Auth.js Core
+app-center
   |   ├─ api - Center app api function using trpc. These trpc apis can be used in customer nextjs/react-native app.
   |   ├─ auth - Center related auth using Next Auth.
-  |   └─ nextjs - Center Web app
-  └─ customer-app
+  |   ├─ nextjs - Center Web app
+  |   └─ expo - Center React Native app (Currently Not Getting Used).
+app-customer
   |   ├─ api - Center app api function using trpc. These trpc apis can be used in customer nextjs/react-native app.
   |   ├─ auth - Center related auth using Next Auth.
   |   ├─ nextjs - Customer Web app.

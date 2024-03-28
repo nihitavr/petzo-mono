@@ -10,8 +10,8 @@ const config = {
 
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: [
-    "@petzo/api",
-    "@petzo/auth",
+    "@petzo/api-center-app",
+    "@petzo/auth-center-app",
     "@petzo/db",
     "@petzo/ui",
     "@petzo/validators",

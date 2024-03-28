@@ -24,7 +24,7 @@ importers:
         specifier: ^5.4.3
         version: 5.4.3
 
-  apps/auth-proxy:
+  app-auth-proxy:
     dependencies:
       '@auth/core':
         specifier: 0.28.1
@@ -32,16 +32,16 @@ importers:
     devDependencies:
       '@petzo/eslint-config':
         specifier: workspace:*
-        version: link:../../tooling/eslint
+        version: link:../tooling/eslint
       '@petzo/prettier-config':
         specifier: workspace:*
-        version: link:../../tooling/prettier
+        version: link:../tooling/prettier
       '@petzo/tailwind-config':
         specifier: workspace:*
-        version: link:../../tooling/tailwind
+        version: link:../tooling/tailwind
       '@petzo/tsconfig':
         specifier: workspace:*
-        version: link:../../tooling/typescript
+        version: link:../tooling/typescript
       '@types/node':
         specifier: ^20.11.30
         version: 20.11.30
@@ -61,17 +61,17 @@ importers:
         specifier: ^5.4.3
         version: 5.4.3
 
-  apps/center-app/api:
+  app-center/api:
     dependencies:
       '@petzo/auth-customer-app':
         specifier: workspace:*
-        version: link:../../customer-app/auth
+        version: link:../../app-customer/auth
       '@petzo/db':
         specifier: workspace:*
-        version: link:../../../packages/db
+        version: link:../../packages/db
       '@petzo/validators':
         specifier: workspace:*
-        version: link:../../../packages/validators
+        version: link:../../packages/validators
       '@trpc/server':
         specifier: 11.0.0-next.320
         version: 11.0.0-next.320
@@ -84,13 +84,13 @@ importers:
     devDependencies:
       '@petzo/eslint-config':
         specifier: workspace:*
-        version: link:../../../tooling/eslint
+        version: link:../../tooling/eslint
       '@petzo/prettier-config':
         specifier: workspace:*
-        version: link:../../../tooling/prettier
+        version: link:../../tooling/prettier
       '@petzo/tsconfig':
         specifier: workspace:*
-        version: link:../../../tooling/typescript
+        version: link:../../tooling/typescript
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -101,14 +101,14 @@ importers:
         specifier: ^5.4.3
         version: 5.4.3
 
-  apps/center-app/auth:
+  app-center/auth:
     dependencies:
       '@auth/drizzle-adapter':
         specifier: ^0.8.0
         version: 0.8.1
       '@petzo/db':
         specifier: workspace:*
-        version: link:../../../packages/db
+        version: link:../../packages/db
       '@t3-oss/env-nextjs':
         specifier: ^0.9.2
         version: 0.9.2(typescript@5.4.3)(zod@3.22.4)
@@ -130,13 +130,13 @@ importers:
     devDependencies:
       '@petzo/eslint-config':
         specifier: workspace:*
-        version: link:../../../tooling/eslint
+        version: link:../../tooling/eslint
       '@petzo/prettier-config':
         specifier: workspace:*
-        version: link:../../../tooling/prettier
+        version: link:../../tooling/prettier
       '@petzo/tsconfig':
         specifier: workspace:*
-        version: link:../../../tooling/typescript
+        version: link:../../tooling/typescript
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -147,7 +147,7 @@ importers:
         specifier: ^5.4.3
         version: 5.4.3
 
-  apps/center-app/nextjs:
+  app-center/nextjs:
     dependencies:
       '@petzo/api-center-app':
         specifier: workspace:*
@@ -157,13 +157,13 @@ importers:
         version: link:../auth
       '@petzo/db':
         specifier: workspace:*
-        version: link:../../../packages/db
+        version: link:../../packages/db
       '@petzo/ui':
         specifier: workspace:*
-        version: link:../../../packages/ui
+        version: link:../../packages/ui
       '@petzo/validators':
         specifier: workspace:*
-        version: link:../../../packages/validators
+        version: link:../../packages/validators
       '@t3-oss/env-nextjs':
         specifier: ^0.9.2
         version: 0.9.2(typescript@5.4.3)(zod@3.22.4)
@@ -200,16 +200,16 @@ importers:
     devDependencies:
       '@petzo/eslint-config':
         specifier: workspace:*
-        version: link:../../../tooling/eslint
+        version: link:../../tooling/eslint
       '@petzo/prettier-config':
         specifier: workspace:*
-        version: link:../../../tooling/prettier
+        version: link:../../tooling/prettier
       '@petzo/tailwind-config':
         specifier: workspace:*
-        version: link:../../../tooling/tailwind
+        version: link:../../tooling/tailwind
       '@petzo/tsconfig':
         specifier: workspace:*
-        version: link:../../../tooling/typescript
+        version: link:../../tooling/typescript
       '@types/node':
         specifier: ^20.11.30
         version: 20.11.30
@@ -238,17 +238,17 @@ importers:
         specifier: ^5.4.3
         version: 5.4.3
 
-  apps/customer-app/api:
+  app-customer/api:
     dependencies:
       '@petzo/auth-customer-app':
         specifier: workspace:*
         version: link:../auth
       '@petzo/db':
         specifier: workspace:*
-        version: link:../../../packages/db
+        version: link:../../packages/db
       '@petzo/validators':
         specifier: workspace:*
-        version: link:../../../packages/validators
+        version: link:../../packages/validators
       '@trpc/server':
         specifier: 11.0.0-next.320
         version: 11.0.0-next.320
@@ -261,13 +261,13 @@ importers:
     devDependencies:
       '@petzo/eslint-config':
         specifier: workspace:*
-        version: link:../../../tooling/eslint
+        version: link:../../tooling/eslint
       '@petzo/prettier-config':
         specifier: workspace:*
-        version: link:../../../tooling/prettier
+        version: link:../../tooling/prettier
       '@petzo/tsconfig':
         specifier: workspace:*
-        version: link:../../../tooling/typescript
+        version: link:../../tooling/typescript
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -278,14 +278,14 @@ importers:
         specifier: ^5.4.3
         version: 5.4.3
 
-  apps/customer-app/auth:
+  app-customer/auth:
     dependencies:
       '@auth/drizzle-adapter':
         specifier: ^0.8.0
         version: 0.8.1
       '@petzo/db':
         specifier: workspace:*
-        version: link:../../../packages/db
+        version: link:../../packages/db
       '@t3-oss/env-nextjs':
         specifier: ^0.9.2
         version: 0.9.2(typescript@5.4.3)(zod@3.22.4)
@@ -307,13 +307,13 @@ importers:
     devDependencies:
       '@petzo/eslint-config':
         specifier: workspace:*
-        version: link:../../../tooling/eslint
+        version: link:../../tooling/eslint
       '@petzo/prettier-config':
         specifier: workspace:*
-        version: link:../../../tooling/prettier
+        version: link:../../tooling/prettier
       '@petzo/tsconfig':
         specifier: workspace:*
-        version: link:../../../tooling/typescript
+        version: link:../../tooling/typescript
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -324,7 +324,7 @@ importers:
         specifier: ^5.4.3
         version: 5.4.3
 
-  apps/customer-app/nextjs:
+  app-customer/nextjs:
     dependencies:
       '@petzo/api-customer-app':
         specifier: workspace:*
@@ -334,13 +334,13 @@ importers:
         version: link:../auth
       '@petzo/db':
         specifier: workspace:*
-        version: link:../../../packages/db
+        version: link:../../packages/db
       '@petzo/ui':
         specifier: workspace:*
-        version: link:../../../packages/ui
+        version: link:../../packages/ui
       '@petzo/validators':
         specifier: workspace:*
-        version: link:../../../packages/validators
+        version: link:../../packages/validators
       '@t3-oss/env-nextjs':
         specifier: ^0.9.2
         version: 0.9.2(typescript@5.4.3)(zod@3.22.4)
@@ -377,16 +377,16 @@ importers:
     devDependencies:
       '@petzo/eslint-config':
         specifier: workspace:*
-        version: link:../../../tooling/eslint
+        version: link:../../tooling/eslint
       '@petzo/prettier-config':
         specifier: workspace:*
-        version: link:../../../tooling/prettier
+        version: link:../../tooling/prettier
       '@petzo/tailwind-config':
         specifier: workspace:*
-        version: link:../../../tooling/tailwind
+        version: link:../../tooling/tailwind
       '@petzo/tsconfig':
         specifier: workspace:*
-        version: link:../../../tooling/typescript
+        version: link:../../tooling/typescript
       '@types/node':
         specifier: ^20.11.30
         version: 20.11.30

@@ -1,8 +1,6 @@
 packages:
-  - apps/*
-  - packages/*
-  - "!apps/customer-app"
-  - "!apps/center-app"
-  - apps/customer-app/*
-  - apps/center-app/*
-  - tooling/*
+  - "app-auth-proxy"
+  - "app-center/*"
+  - "app-customer/*"
+  - "packages/*"
+  - "tooling/*"
