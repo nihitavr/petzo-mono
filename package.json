@@ -1,12 +1,12 @@
 {
-  "name": "create-t3-turbo",
+  "name": "petzo-mono",
   "private": true,
   "engines": {
     "node": ">=20.11.1"
   },
   "packageManager": "pnpm@8.15.5",
   "scripts": {
-    "build": "turbo build",
+    "build": "pnpm -- turbo build",
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo clean",
     "db:generate": "drizzle-kit generate:pg --schema=./packages/db/src/schema",
