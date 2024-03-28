@@ -1,40 +1,40 @@
 # Petzo App
 
-Mono Repo for Petzo
+Mono Repo for Petzo related services.
 
 ## Startup Guide
 
-1. Install Dependencies
+1. First, **clone** the repository to your local machine. Then, install dependencies by running the following command in the root directory. This will install all the required dependencies in all workspaces:
 
 ```bash
 pnpm i
 ```
 
-2. Run below command to create .env file. After running the command change the environment variables in **.env** file. You would only need to change AUTH_GOOGLE_ID and AUTH_GOOGLE_SECRET to run it on your local.
+2. Run the following command to create a **.env** file. After running the command, change the environment variables in the .env file. You will only need to change AUTH_GOOGLE_ID and AUTH_GOOGLE_SECRET to run it on your local machine:
 
 ```bash
 cp .env.example .env
 ```
 
-3. First make sure that you have Docker installed and is running. Run below command to run **Postgres Db** on your local machine.
+3. First, make sure that you have Docker installed and running. Run the following command to run **Postgres DB** on your local machine:
 
 ```bash
 docker run --name petzo-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres
 ```
 
-4. Run below command to push latest db migration changes to your local database. You can look at migrations in **drizzle/** folder. If you have made some new changes in the database schema run `pnpm run db:generate` command before running the below command.
+4. Run the following command to push the latest database migration changes to your local database. You can look at the migrations in the drizzle/ folder. If you have made some new changes in the database schema, run the `pnpm run db:generate` command before running the command below:
 
 ```bash
 pnpm run db:push
 ```
 
-5. Run below command to run **center app** at _**apps/center-app/nextjs**_.
+5. Run the following command to run the **center app** located at _**apps/center-app/nextjs**_.
 
 ```bash
 pnpm -F center-app run dev
 ```
 
-6. Run below command to run **customer app** at _**apps/customer-app/nextjs**_.
+6. Run the following command to run the **customer app** located at _**apps/customer-app/nextjs**_.
 
 ```bash
 pnpm -F customer-app run dev
@@ -42,13 +42,13 @@ pnpm -F customer-app run dev
 
 ## About the monorepo
 
-This repository is a mono repo for Petzo related services. It uses [Turborepo](https://turborepo.org).
+This repository is a monorepo for Petzo-related services. It uses [Turborepo](https://turborepo.org).
 
-There are mainly 3 apps. Center App, Customer App, Auth Proxy.
+There are mainly three apps: Center App, Customer App, and Auth Proxy.
 
-1. **Center App**: This app contains everything related to center app. ie. api, auth, nextjs (webapp). In future if we want to add React Native App we can easily add expo.
-2. **Customer App**: This app contains everything related to customer app. ie. api, auth, nextjs (webapp). Same as center app if in future if we want to add React Native App we can easily add expo.
-3. **Auth Proxy**: This is Auth Proxy used for all Preview Deployments. When we use Oauth we need to have Verified Redirect URL in Oauth settings, so we create a single Auth Proxy for all preview related deployments.
+1. **Center App**: This app contains everything related to the center app, such as API, authentication, and Next.js (web app). In the future, if we want to add a React Native App, we can easily add Expo.
+2. **Customer App**: This app contains everything related to the customer app, such as API, authentication, and Next.js (web app). Similar to the center app, if we want to add a React Native App in the future, we can easily add Expo.
+3. **Auth Proxy**: This is the Auth Proxy used for all preview deployments. When using OAuth, we need to have a verified redirect URL in the OAuth settings, so we create a single Auth Proxy for all preview-related deployments.
 
 **Monorepo Structure**
 
@@ -69,18 +69,18 @@ apps
   └─ customer-app
   |   ├─ api - Center app api function using trpc. These trpc apis can be used in customer nextjs/react-native app.
   |   ├─ auth - Center related auth using Next Auth.
-  |   └─ nextjs - Customer Web app.
+  |   ├─ nextjs - Customer Web app.
   |   └─ expo - Customer React Native app (Currently Not Getting Used).
 packages
-  ├─ db - Typesafe db calls using Drizzle & node-postgres. This is a schema package that is used for both Customer App and Center App. (Doesn't work with edge runtime). This contains customer app, center app and common drizzle schema.
-  └─ ui - Start of a UI package for the webapp using shadcn-ui.
-  └─ validators - Start of a UI package for the webapp using shadcn-ui.
+  |   ├─ db - Typesafe db calls using Drizzle & node-postgres. This is a schema package that is used for both Customer App and Center App. (Doesn't work with edge runtime). This contains customer app, center app and common drizzle schema.
+  |   ├─ ui - Start of a UI package for the webapp using shadcn-ui.
+  |   └─ validators - Schema validators. Currently we are using zod for schema validation.
 tooling
-  ├─ eslint - Shared, fine-grained, eslint presets
-  ├─ prettier - Shared prettier configuration
-  ├─ tailwind - Shared tailwind configuration
-  └─ typescript - Shared tsconfig you can extend from
-turbo
+  |   ├─ eslint - Shared, fine-grained, eslint presets.
+  |   ├─ prettier - Shared prettier configuration.
+  |   ├─ tailwind - Shared tailwind configuration.
+  |   └─ typescript - Shared tsconfig you can extend from in other packages.
+turbo - Turbo related files.
 ```
 
 > In this repository, we use `@petzo` as a placeholder for package names.

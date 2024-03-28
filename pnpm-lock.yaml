@@ -415,46 +415,6 @@ importers:
         specifier: ^5.4.3
         version: 5.4.3
 
-  packages/api:
-    dependencies:
-      '@petzo/auth-customer-app':
-        specifier: workspace:*
-        version: link:../../apps/customer-app/auth
-      '@petzo/db':
-        specifier: workspace:*
-        version: link:../db
-      '@petzo/validators':
-        specifier: workspace:*
-        version: link:../validators
-      '@trpc/server':
-        specifier: 11.0.0-next.320
-        version: 11.0.0-next.320
-      superjson:
-        specifier: 2.2.1
-        version: 2.2.1
-      zod:
-        specifier: ^3.22.4
-        version: 3.22.4
-    devDependencies:
-      '@petzo/eslint-config':
-        specifier: workspace:*
-        version: link:../../tooling/eslint
-      '@petzo/prettier-config':
-        specifier: workspace:*
-        version: link:../../tooling/prettier
-      '@petzo/tsconfig':
-        specifier: workspace:*
-        version: link:../../tooling/typescript
-      eslint:
-        specifier: ^8.57.0
-        version: 8.57.0
-      prettier:
-        specifier: ^3.2.5
-        version: 3.2.5
-      typescript:
-        specifier: ^5.4.3
-        version: 5.4.3
-
   packages/db:
     dependencies:
       drizzle-orm:
