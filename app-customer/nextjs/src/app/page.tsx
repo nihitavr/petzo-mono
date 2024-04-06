@@ -1,40 +1,29 @@
-import { Suspense } from "react";
-
 import { api } from "~/trpc/server";
-import { AuthShowcase } from "./_components/auth-showcase";
-import {
-  CreatePostForm,
-  PostCardSkeleton,
-  PostList,
-} from "./_components/posts";
+import CityDropdown from "./_components/city-dropdown";
+import GlobalSearchInput from "./_components/global-search-input";
+import HomePageServicesCards from "./_components/home-page-services-cards";
 
 export default async function HomePage() {
   // You can await this here if you don't want to show Suspense fallback below
-  const posts = api.post.all();
 
   return (
-    <main className="container h-screen py-16">
-      <div className="flex flex-col items-center justify-center gap-4">
-        <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-          Customer <span className="text-primary">APP</span>
-        </h1>
-        <AuthShowcase />
+    <div className="flex flex-col gap-4">
+      {/* <AuthShowcase /> */}
+      {/* City + Search */}
 
-        <CreatePostForm />
-        <div className="w-full max-w-2xl overflow-y-scroll">
-          <Suspense
-            fallback={
-              <div className="flex w-full flex-col gap-4">
-                <PostCardSkeleton />
-                <PostCardSkeleton />
-                <PostCardSkeleton />
-              </div>
-            }
-          >
-            <PostList posts={posts} />
-          </Suspense>
+      {/*  */}
+      <div className="mt-4 flex items-center gap-2">
+        <CityDropdown />
+        <GlobalSearchInput />
+      </div>
+      <div className="flex flex-col gap-2">
+        <h2 className="text-center text-2xl font-bold md:text-4xl">
+          Our Services
+        </h2>
+        <div className="md:w-[50%]">
+          <HomePageServicesCards />
         </div>
       </div>
-    </main>
+    </div>
   );
 }

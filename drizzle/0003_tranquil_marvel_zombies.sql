@@ -1,0 +1,1 @@
+ALTER TABLE "state" ALTER COLUMN "alpha2_code" SET DATA TYPE varchar(5);

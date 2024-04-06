@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { cn } from "@petzo/ui";
-import { ThemeProvider, ThemeToggle } from "@petzo/ui/theme";
-import { Toaster } from "@petzo/ui/toast";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
+
+import { ThemeProvider, ThemeToggle } from "@petzo/ui/components/theme";
+import { Toaster } from "@petzo/ui/components/toast";
+import { cn } from "@petzo/ui/lib/utils";
 
 import { TRPCReactProvider } from "~/trpc/react";
 
