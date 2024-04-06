@@ -1,0 +1,1 @@
+ALTER TABLE "center" ADD COLUMN "average_rating" integer NOT NULL;

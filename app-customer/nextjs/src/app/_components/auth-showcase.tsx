@@ -1,5 +1,5 @@
 import { auth, signIn, signOut } from "@petzo/auth-customer-app";
-import { Button } from "@petzo/ui/button";
+import { Button } from "@petzo/ui/components/button";
 
 export async function AuthShowcase() {
   const session = await auth();

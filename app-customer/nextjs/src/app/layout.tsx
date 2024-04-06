@@ -1,13 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { cn } from "@petzo/ui";
-import { ThemeProvider, ThemeToggle } from "@petzo/ui/theme";
-import { Toaster } from "@petzo/ui/toast";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
+
+import { ThemeProvider, ThemeToggle } from "@petzo/ui/components/theme";
+import { Toaster } from "@petzo/ui/components/toast";
+import { cn } from "@petzo/ui/lib/utils";
 
 import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
+
+import { auth } from "@petzo/auth-customer-app";
+
+import Header from "./_components/header";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -37,7 +42,9 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout(props: { children: React.ReactNode }) {
+export default async function RootLayout(props: { children: React.ReactNode }) {
+  const session = await auth();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -47,8 +54,13 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           GeistMono.variable,
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <TRPCReactProvider>{props.children}</TRPCReactProvider>
+        <ThemeProvider attribute="class" defaultTheme="light">
+          <TRPCReactProvider>
+            <Header session={session} />
+            <main className="h-screen px-4 py-14 md:px-16 md:py-14">
+              {props.children}
+            </main>
+          </TRPCReactProvider>
           <div className="absolute bottom-4 right-4">
             <ThemeToggle />
           </div>

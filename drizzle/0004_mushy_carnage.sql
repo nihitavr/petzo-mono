@@ -1,0 +1,1 @@
+ALTER TABLE "city" ADD COLUMN "is_active" boolean DEFAULT false NOT NULL;

@@ -1,9 +1,9 @@
 "use client";
 
-import type { RouterOutputs } from "@petzo/api";
 import { use } from "react";
-import { cn } from "@petzo/ui";
-import { Button } from "@petzo/ui/button";
+
+import type { RouterOutputs } from "@petzo/api-customer-app";
+import { Button } from "@petzo/ui/components/button";
 import {
   Form,
   FormControl,
@@ -11,9 +11,10 @@ import {
   FormItem,
   FormMessage,
   useForm,
-} from "@petzo/ui/form";
-import { Input } from "@petzo/ui/input";
-import { toast } from "@petzo/ui/toast";
+} from "@petzo/ui/components/form";
+import { Input } from "@petzo/ui/components/input";
+import { toast } from "@petzo/ui/components/toast";
+import { cn } from "@petzo/ui/lib/utils";
 import { CreatePostSchema } from "@petzo/validators";
 
 import { api } from "~/trpc/react";

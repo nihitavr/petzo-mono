@@ -1,0 +1,1 @@
+ALTER TABLE "center" ALTER COLUMN "average_rating" SET DEFAULT 0;
