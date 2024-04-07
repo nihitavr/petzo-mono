@@ -9,3 +9,5 @@ import { pgTableCreator } from "drizzle-orm/pg-core";
 export const pgTable = pgTableCreator((name) => `${name}`);
 export const customerPgTable = pgTableCreator((name) => `customer_${name}`);
 export const centerPgTable = pgTableCreator((name) => `center_${name}`);
+
+

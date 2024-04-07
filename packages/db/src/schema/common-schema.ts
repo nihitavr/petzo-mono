@@ -1,4 +1,4 @@
-import { relations, sql } from "drizzle-orm";
+import { InferSelectModel, relations, sql } from "drizzle-orm";
 import {
   boolean,
   index,
@@ -102,6 +102,8 @@ export const centerRelations = relations(centers, ({ one, many }) => ({
   }),
   services: many(services),
 }));
+
+export type Center = InferSelectModel<typeof centers>;
 
 export const centerAddresses = pgTable("center_address", {
   id: serial("id").primaryKey(),
