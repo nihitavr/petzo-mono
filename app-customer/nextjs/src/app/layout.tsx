@@ -20,11 +20,14 @@ export const metadata: Metadata = {
       ? "https://turbo.t3.gg"
       : "http://localhost:3000",
   ),
-  title: "Create T3 Turbo",
-  description: "Simple monorepo with shared backend for web & mobile apps",
+  title: "Petzo",
+  icons: [{ rel: "icon", url: "/petzo-logo-icon.svg" }],
+  description:
+    "Petzo is a pet care platform for pet owners and pet service providers",
   openGraph: {
-    title: "Create T3 Turbo",
-    description: "Simple monorepo with shared backend for web & mobile apps",
+    title: "Petzo",
+    description:
+      "Petzo is a pet care platform for pet owners and pet service providers",
     url: "https://create-t3-turbo.vercel.app",
     siteName: "Create T3 Turbo",
   },
