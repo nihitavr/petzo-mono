@@ -10,7 +10,7 @@ import { cn } from "@petzo/ui/lib/utils";
 // import { CartSideSheet } from "./cart-side-sheet";
 import { SideNavSheet } from "./side-nav-sheet";
 
-export default function Header({ session }: { session: Session }) {
+export default function Header({ session }: { session: Session | null }) {
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [headerVisible, setHeaderVisible] = useState(true);
 
@@ -39,22 +39,23 @@ export default function Header({ session }: { session: Session }) {
   return (
     <header
       className={cn(
-        "fixed left-0 top-0 z-50 w-full bg-white",
+        "fixed left-0 top-0 z-50 w-full border-b bg-background px-3 py-2 shadow-sm md:py-2 lg:px-24 xl:px-48",
         headerVisible
           ? "translate-y-0 transition-transform duration-300 ease-in-out"
           : "-translate-y-full transition-transform duration-300 ease-in-out",
       )}
     >
-      <nav className="bg-header flex items-center justify-between border-b px-2 py-2 shadow-sm md:px-16 md:py-2">
+      <nav className="bg-header flex items-center justify-between ">
         <div className="flex flex-row items-center space-x-0 md:flex-row">
           <Link href="/">
-            <div className="relative h-7 w-32">
+            <div className="relative h-8 w-24">
               {/* <div className="relative h-12 w-44"> */}
               <Image
                 src="/petzo-logo.svg"
                 alt="Logo"
                 fill
                 style={{ objectFit: "contain" }}
+                className="w-min"
               />
             </div>
           </Link>

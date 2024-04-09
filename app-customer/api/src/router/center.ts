@@ -31,12 +31,12 @@ export const centerRouter = {
       // Get area ids from the input using the static areaMap.
       const areaIds = input.area?.map((a) => areaMap[a]! || -1);
 
-      const serviceType = schema.serviceTypeList.find(
-        (v) => v === input.serviceType,
+      const serviceTypes = schema.serviceTypeList.filter((v) =>
+        input.serviceType?.includes(v),
       );
 
       // If serviceType is provided but not found in the list, return empty array as no center will be found.
-      if (!serviceType && input.serviceType) {
+      if (!serviceTypes && input.serviceType) {
         return [];
       }
 
@@ -67,8 +67,8 @@ export const centerRouter = {
               eq(schema.centers.id, schema.services.centerId),
 
               // If serviceType is provided, filter by it.
-              serviceType
-                ? eq(schema.services.serviceType, serviceType)
+              serviceTypes?.length
+                ? inArray(schema.services.serviceType, serviceTypes)
                 : undefined,
             ),
           )

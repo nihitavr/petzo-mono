@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSignals } from "@preact/signals-react/runtime";
 import { LuCheck, LuChevronsUpDown } from "react-icons/lu";
 
 import { Button } from "@petzo/ui/components/button";
@@ -18,20 +20,29 @@ import {
 } from "@petzo/ui/components/popover";
 import { cn } from "@petzo/ui/lib/utils";
 
-const cities = [
-  {
-    id: "bengaluru",
-    name: "Bengaluru",
-  },
-  {
-    id: "mumbai",
-    name: "Mumbai",
-  },
-];
+import { filtersStore } from "~/lib/storage/global-storage";
 
-export default function CityDropdown() {
+export default function CityDropdown({
+  cities,
+  defaultCityPublicId,
+}: {
+  cities: {
+    name: string;
+    publicId: string;
+  }[];
+  defaultCityPublicId?: string;
+}) {
+  useSignals();
+
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
-  const [selectedCityId, setSelectedCityId] = useState("bengaluru");
+
+  const selectedCityName = cities.find(
+    (city) =>
+      city.publicId === defaultCityPublicId ||
+      city.publicId === filtersStore.city.value,
+  )?.name;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -40,38 +51,34 @@ export default function CityDropdown() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-32 justify-between"
+          className="w-[200px] justify-between rounded-md"
         >
-          {selectedCityId
-            ? cities.find((city) => city.id.toString() === selectedCityId)?.name
-            : "Select City..."}
+          {selectedCityName}
           <LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-32 p-0">
-        <Command shouldFilter={false}>
-          {/* <CommandInput placeholder="Search City..." /> */}
+      <PopoverContent className="w-[200px] p-0" align="start">
+        <Command shouldFilter={false} value={defaultCityPublicId}>
           <CommandList>
             <CommandEmpty>No City found.</CommandEmpty>
             <CommandGroup>
               {cities.map((city) => (
                 <CommandItem
                   className="cursor-pointer"
-                  key={`${city.id}`}
-                  value={`${city.id}`}
+                  key={`${city.publicId}`}
+                  value={`${city.publicId}`}
                   onSelect={(currentCityId) => {
-                    setSelectedCityId(
-                      currentCityId === selectedCityId.toString()
-                        ? ""
-                        : currentCityId,
-                    );
+                    if (filtersStore.city.value !== currentCityId) {
+                      filtersStore.city.value = currentCityId;
+                      router.push(`/centers?city=${currentCityId}`);
+                    }
                     setOpen(false);
                   }}
                 >
                   <LuCheck
                     className={cn(
                       "mr-2 h-4 w-4",
-                      selectedCityId === city.id.toString()
+                      filtersStore.city.value === city.publicId
                         ? "opacity-100"
                         : "opacity-0",
                     )}
