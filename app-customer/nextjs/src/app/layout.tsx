@@ -60,7 +60,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <ThemeProvider attribute="class" defaultTheme="light">
           <TRPCReactProvider>
             <Header session={session} />
-            <main className="h-screen px-4 py-14 md:px-16 md:py-14">
+            <main className="h-screen px-3 py-14 md:py-14 lg:px-24 xl:px-48">
               {props.children}
             </main>
           </TRPCReactProvider>

@@ -1,11 +1,18 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useSignals } from "@preact/signals-react/runtime";
+
+import { filtersStore } from "~/lib/storage/global-storage";
 
 export default function HomePageServicesCards() {
+  useSignals();
+
   return (
     <div className="grid grid-cols-2 gap-3">
       <Link
-        href={"/centers?city=bengaluru&serviceType=veterinary"}
+        href={`/centers?city=${filtersStore.city.value}&serviceType=veterinary`}
         className="relative m-auto flex aspect-square w-full flex-col overflow-hidden rounded-2xl border px-3 shadow-md"
       >
         <Image
@@ -20,7 +27,7 @@ export default function HomePageServicesCards() {
         </span>
       </Link>
       <Link
-        href={"/centers?city=bengaluru&serviceType=grooming"}
+        href={`/centers?city=${filtersStore.city.value}&serviceType=grooming`}
         className="relative m-auto flex aspect-square w-full flex-col overflow-hidden rounded-2xl border px-3 shadow-md"
       >
         <Image
@@ -35,7 +42,7 @@ export default function HomePageServicesCards() {
         </span>
       </Link>
       <Link
-        href={"/centers?city=bengaluru&serviceType=boarding"}
+        href={`/centers?city=${filtersStore.city.value}&serviceType=boarding`}
         className="relative m-auto flex aspect-square w-full flex-col overflow-hidden rounded-2xl border px-3 shadow-md"
       >
         <Image

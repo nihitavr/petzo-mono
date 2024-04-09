@@ -45,3 +45,6 @@ export type CenterAddress = InferResultType<"centerAddresses"> & {
 };
 
 export type Service = InferResultType<"services">;
+
+// This is to export all the default types from index.ts file
+export * from "../index";

@@ -41,6 +41,7 @@ export const cities = pgTable("city", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 256 }).notNull(),
   isActive: boolean("is_active").default(false).notNull(),
+  public_id: varchar("public_id", { length: 30 }).unique(),
   stateId: integer("state_id")
     .notNull()
     .references(() => states.id),
@@ -50,6 +51,7 @@ export const areas = pgTable("area", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 256 }).notNull(),
   isActive: boolean("is_active").default(false).notNull(),
+  public_id: varchar("public_id", { length: 40 }).unique(),
   cityId: integer("city_id")
     .notNull()
     .references(() => cities.id),

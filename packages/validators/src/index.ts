@@ -1,4 +1,7 @@
+import { zodResolver as zr } from "@hookform/resolvers/zod";
 import { z } from "zod";
+
+export const zodResolver = zr;
 
 export const CreatePostSchema = z.object({
   title: z.string().min(1),
@@ -8,7 +11,10 @@ export const CreatePostSchema = z.object({
 export const CentersFilterSchema = z.object({
   search: z.string().optional(),
   city: z.string(),
-  serviceType: z.string().optional(),
+  serviceType: z
+    .string()
+    .optional()
+    .transform((val) => val?.split(",")),
   rating: z.number().optional(),
   area: z
     .string()
@@ -21,3 +27,21 @@ export const CentersFilterSchema = z.object({
     })
     .optional(),
 });
+
+export const CentersFilterFormSchema = z.object({
+  filters: z.array(
+    z.object({
+      publicId: z.string(),
+      label: z.string(),
+      items: z.array(
+        z.object({
+          label: z.string(),
+          publicId: z.string(),
+          selected: z.boolean(),
+        }),
+      ),
+    }),
+  ),
+});
+
+export const GetCityAreasSchema = z.object({ city: z.string() });
