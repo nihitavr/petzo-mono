@@ -10,9 +10,7 @@ export const CentersList = ({
 }: {
   centersPromise: Promise<Center[]>;
 }) => {
-  let centers = use(centersPromise);
-
-  centers = [...centers, ...centers, ...centers];
+  const centers = use(centersPromise);
 
   const getLowertCostService = (center: Center) => {
     return center.services.reduce((acc, service) => {
@@ -39,7 +37,7 @@ export const CentersList = ({
 
           return (
             <div
-              key={center.id}
+              key={`center-${center.id}`}
               className="flex flex-row rounded-lg md:border md:shadow-sm"
             >
               <div className="flex h-44 w-full gap-2 md:h-60">
@@ -58,7 +56,7 @@ export const CentersList = ({
                 {/* Center Details */}
                 <div className="flex w-3/5 flex-col gap-1 px-1 md:gap-1.5 md:p-2.5">
                   {/* Center Name */}
-                  <h2 className="line-clamp-2 cursor-pointer font-semibold hover:underline md:text-xl">
+                  <h2 className="line-clamp-2 cursor-pointer text-base font-semibold hover:underline md:text-xl">
                     {center.name}
                   </h2>
 
@@ -83,7 +81,7 @@ export const CentersList = ({
                   </div>
 
                   {/* Services Provided */}
-                  <span className="md:text-md line-clamp-1 break-all text-sm font-semibold capitalize text-primary">
+                  <span className="md:text-md line-clamp-1 break-all text-xs font-semibold capitalize text-primary">
                     {serviceTypesProvided.join(", ")}
                   </span>
 

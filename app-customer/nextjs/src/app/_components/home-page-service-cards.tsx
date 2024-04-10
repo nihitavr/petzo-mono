@@ -13,7 +13,7 @@ export default function HomePageServicesCards() {
     <div className="grid grid-cols-2 gap-3">
       <Link
         href={`/centers?city=${filtersStore.city.value}&serviceType=veterinary`}
-        className="relative m-auto flex aspect-square w-full flex-col overflow-hidden rounded-2xl border px-3 shadow-md"
+        className="relative m-auto flex aspect-square w-full flex-col overflow-hidden rounded-2xl px-3 shadow-md"
       >
         <Image
           src={"/vet-consultation-card-image.jpg"}
@@ -28,7 +28,7 @@ export default function HomePageServicesCards() {
       </Link>
       <Link
         href={`/centers?city=${filtersStore.city.value}&serviceType=grooming`}
-        className="relative m-auto flex aspect-square w-full flex-col overflow-hidden rounded-2xl border px-3 shadow-md"
+        className="relative m-auto flex aspect-square w-full flex-col overflow-hidden rounded-2xl px-3 shadow-md"
       >
         <Image
           src={"/pet-grooming-card-image.jpg"}
@@ -43,7 +43,7 @@ export default function HomePageServicesCards() {
       </Link>
       <Link
         href={`/centers?city=${filtersStore.city.value}&serviceType=boarding`}
-        className="relative m-auto flex aspect-square w-full flex-col overflow-hidden rounded-2xl border px-3 shadow-md"
+        className="relative m-auto flex aspect-square w-full flex-col overflow-hidden rounded-2xl px-3 shadow-md"
       >
         <Image
           src={"/pet-boarding-card-image.jpg"}

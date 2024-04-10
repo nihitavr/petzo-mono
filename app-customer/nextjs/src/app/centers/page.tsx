@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
 import { api } from "~/trpc/server";
-import { SelectCityAndSearch } from "../_components/select-city-and-search-input";
+import GlobalSearchInput from "../_components/global-search-input";
 import { CenterFilters } from "./_components/center-filters";
 import { CentersList } from "./_components/centers-list";
 import { MobileCenterFilters } from "./_components/mobile-center-filters";
@@ -81,9 +81,9 @@ export default async function Centers({
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="mt-2 flex items-end justify-between md:mt-4">
-        <SelectCityAndSearch defaultCityPublicId={city} />
-        <div className="hidden h-min rounded-full border px-3 py-1 md:inline">
+      <div className="mt-3 flex items-end justify-between md:mt-4">
+        <GlobalSearchInput />
+        <div className="hidden h-min rounded-full border px-3 py-1 text-sm md:inline">
           Sort (Top Rated)
         </div>
       </div>
@@ -91,7 +91,7 @@ export default async function Centers({
       <div className="flex gap-2 md:hidden">
         {/* <div className="h-min rounded-full border px-3 py-1">Filter By</div> */}
         <MobileCenterFilters filters={filtersObj} />
-        <div className="h-min rounded-full border px-3 py-1">
+        <div className="h-min rounded-full border px-3 py-1 text-sm">
           Sort (Top Rated)
         </div>
       </div>
