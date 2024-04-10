@@ -35,14 +35,14 @@ export default function SignIn({
       {...props}
     >
       <span>Sign In</span>
-      <Image
+      {/* <Image
         className="text-white"
         src={"/icons/google.svg"}
         width={15}
         height={15}
         alt="google logo"
-      />
-      <div>
+      /> */}
+      <div className={`${isSigningIn ? "" : "hidden"}`}>
         <Loader className="h-5 w-5 border-2" show={isSigningIn} />
       </div>
     </Button>

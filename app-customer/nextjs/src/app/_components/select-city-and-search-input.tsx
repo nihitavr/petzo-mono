@@ -14,8 +14,8 @@ export async function SelectCityAndSearch({
   const cities = await api.city.getAll();
 
   return (
-    <div className={cn("flex items-center gap-2", className)}>
-      <CityDropdown cities={cities} defaultCityPublicId={defaultCityPublicId} />
+    <div className={cn("flex w-full items-center gap-2", className)}>
+      {/* <CityDropdown cities={cities} defaultCityPublicId={defaultCityPublicId} /> */}
       <GlobalSearchInput />
     </div>
   );

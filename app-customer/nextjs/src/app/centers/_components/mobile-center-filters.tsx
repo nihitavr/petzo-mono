@@ -30,7 +30,7 @@ export function MobileCenterFilters({
         }}
         className="flex items-center gap-1 rounded-full border px-3 py-1"
       >
-        <span>Filter By</span>
+        <span className="text-sm">Filter By</span>
         <FaFilter className="mt-0.5 h-3.5 text-foreground/50" />
       </DrawerTrigger>
       <DrawerContent>

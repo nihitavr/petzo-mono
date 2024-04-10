@@ -12,6 +12,7 @@ import "~/app/globals.css";
 
 import { auth } from "@petzo/auth-customer-app";
 
+import { api } from "~/trpc/server";
 import Header from "./_components/header";
 
 export const metadata: Metadata = {
@@ -47,6 +48,7 @@ export const viewport: Viewport = {
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const session = await auth();
+  const cities = await api.city.getAll();
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -59,7 +61,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       >
         <ThemeProvider attribute="class" defaultTheme="light">
           <TRPCReactProvider>
-            <Header session={session} />
+            <Header session={session} cities={cities}/>
             <main className="h-screen px-3 py-14 md:py-14 lg:px-24 xl:px-48">
               {props.children}
             </main>

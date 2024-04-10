@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useSignals } from "@preact/signals-react/runtime";
-import { LuCheck, LuChevronsUpDown } from "react-icons/lu";
+import { LuCheck, LuChevronDown } from "react-icons/lu";
+import { SlLocationPin } from "react-icons/sl";
 
-import { Button } from "@petzo/ui/components/button";
 import {
   Command,
   CommandEmpty,
@@ -34,30 +34,22 @@ export default function CityDropdown({
 }) {
   useSignals();
 
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
 
-  const selectedCityName = cities.find(
-    (city) =>
-      city.publicId === defaultCityPublicId ||
-      city.publicId === filtersStore.city.value,
-  )?.name;
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[200px] justify-between rounded-md"
-        >
-          {selectedCityName}
-          <LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
+        <div className="flex cursor-pointer items-center">
+          <SlLocationPin className="size-6 text-foreground/70" />
+          <LuChevronDown className="size-5 text-foreground/70" />
+        </div>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0" align="start">
+      <PopoverContent className="w-[150px] p-0" align="end">
         <Command shouldFilter={false} value={defaultCityPublicId}>
           <CommandList>
             <CommandEmpty>No City found.</CommandEmpty>
@@ -70,8 +62,14 @@ export default function CityDropdown({
                   onSelect={(currentCityId) => {
                     if (filtersStore.city.value !== currentCityId) {
                       filtersStore.city.value = currentCityId;
-                      router.push(`/centers?city=${currentCityId}`);
+
+                      const params = new URLSearchParams(
+                        searchParams.toString(),
+                      );
+                      params.set("city", currentCityId);
+                      router.push(`${pathname}?${params.toString()}`);
                     }
+
                     setOpen(false);
                   }}
                 >

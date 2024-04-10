@@ -2,10 +2,9 @@ import { Skeleton } from "@petzo/ui/components/skeleton";
 
 export default function Loading() {
   return (
-    <div className="mt-3 flex flex-col gap-3">
+    <div className="mt-3 flex flex-col gap-3 md:mt-4">
       <div className="flex items-center gap-2">
-        <Skeleton className="h-10 w-44 rounded-lg" />
-        <Skeleton className="h-10 w-52 rounded-lg" />
+        <Skeleton className="h-11 w-full rounded-full md:w-60" />
       </div>
       <div className="grid grid-cols-12 gap-3">
         {/* Filters */}
@@ -28,15 +27,17 @@ export function LoadingCentersList() {
   return (
     <div className="flex w-full flex-col gap-3">
       {arr.map((_, index) => (
-        <Skeleton key={index} className="flex h-44 rounded-lg md:h-60">
+        <Skeleton
+          key={`skeleton-${index}`}
+          className="flex h-44 rounded-lg md:h-60"
+        >
           <Skeleton className="h-full w-2/5 rounded-lg bg-muted-foreground/15" />
-          <div className="flex w-3/5 flex-col gap-1 p-3">
-            <Skeleton className="h-4 w-1/2 rounded-md bg-muted-foreground/15" />
+          <div className="flex w-3/5 flex-col gap-1 p-2">
+            <Skeleton className="h-6 w-1/2 rounded-md bg-muted-foreground/15" />
             <Skeleton className="h-4 w-3/4 rounded-md bg-muted-foreground/15" />
             <Skeleton className="h-4 w-1/2 rounded-md bg-muted-foreground/15" />
             <Skeleton className="h-4 w-3/4 rounded-md bg-muted-foreground/15" />
-            <Skeleton className="h-4 w-1/2 rounded-md bg-muted-foreground/15" />
-            <Skeleton className="mt-auto h-4 w-3/4 rounded-md bg-muted-foreground/15" />
+            <Skeleton className="mt-auto h-12 w-full rounded-r-full bg-muted-foreground/15 bg-gradient-to-r from-muted/10" />
           </div>
         </Skeleton>
       ))}
@@ -45,5 +46,5 @@ export function LoadingCentersList() {
 }
 
 export function LoadingCenterFilters() {
-  return <Skeleton className="h-10 w-full md:h-96" />;
+  return <Skeleton className="h-7 w-56 rounded-full md:h-96 md:rounded-lg " />;
 }
