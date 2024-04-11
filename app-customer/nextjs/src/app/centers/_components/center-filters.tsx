@@ -154,22 +154,3 @@ export function CenterFilters({
     </Form>
   );
 }
-
-const FilterItem = ({ label, id }: { label: string; id: string }) => {
-  return (
-    <div className="flex items-center gap-2">
-      <Checkbox
-        id={id}
-        onClick={() => {
-          console.log("clicked");
-        }}
-      />
-      <label
-        htmlFor={id}
-        className="leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-      >
-        {label}
-      </label>
-    </div>
-  );
-};

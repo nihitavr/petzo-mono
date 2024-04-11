@@ -9,7 +9,15 @@ export const CreatePostSchema = z.object({
 });
 
 export const CentersFilterSchema = z.object({
-  search: z.string().optional(),
+  search: z
+    .string()
+    .optional()
+    .transform((val) =>
+      val
+        ?.trim()
+        .split(" ")
+        .map((v) => `%${v.trim()}%`),
+    ),
   city: z.string(),
   serviceType: z
     .string()

@@ -1,5 +1,5 @@
 import type { TRPCRouterRecord } from "@trpc/server";
-import { and, eq, gte, ilike, inArray } from "drizzle-orm";
+import { and, eq, gte, ilike, inArray, sql } from "drizzle-orm";
 
 import { schema } from "@petzo/db";
 import { CentersFilterSchema } from "@petzo/validators";
@@ -23,6 +23,14 @@ export const centerRouter = {
   findByFilters: publicProcedure
     .input(CentersFilterSchema)
     .query(async ({ ctx, input }) => {
+      const searchConditions = input.search?.map(
+        (value) => sql`${schema.centers.name} ILIKE ${"%" + value + "%"}`,
+      );
+
+      const combinedConditions = searchConditions
+        ? sql.join(searchConditions, sql` AND `)
+        : undefined;
+
       const cityId = citiyMap[input.city];
       if (!cityId) {
         return [];
@@ -74,10 +82,15 @@ export const centerRouter = {
           )
           .where(
             and(
+              combinedConditions,
               // If search is provided, filter center name by it.
-              input.search
-                ? ilike(schema.centers.name, `%${input.search}%`)
-                : undefined,
+              // input.search
+              //   ? sql`${schema.centers.name} ILIKE ALL(ARRAY[${input.search}])`
+              //   : undefined,
+
+              // input.search
+              //   ? ilike(schema.centers.name, `%${input.search}%`)
+              //   : undefined,
 
               // If rating is provided, filter centers by averageRating greater than or equal to the given rating.
               input.rating

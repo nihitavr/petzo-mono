@@ -10,11 +10,11 @@ export default async function HomePage() {
 
       {/* City + Search */}
 
-      <div className="mt-3 md:mt-4">
+      <div className="mt-3 md:mt-4 md:hidden">
         <GlobalSearchInput />
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 md:mt-6">
         <div className="md:w-[50%]">
           <HomePageServicesCards />
         </div>
