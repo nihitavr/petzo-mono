@@ -26,7 +26,6 @@ export const centerRouter = {
       const searchConditions = input.search?.map(
         (value) => sql`${schema.centers.name} ILIKE ${"%" + value + "%"}`,
       );
-
       const combinedConditions = searchConditions
         ? sql.join(searchConditions, sql` AND `)
         : undefined;
@@ -82,15 +81,8 @@ export const centerRouter = {
           )
           .where(
             and(
-              combinedConditions,
               // If search is provided, filter center name by it.
-              // input.search
-              //   ? sql`${schema.centers.name} ILIKE ALL(ARRAY[${input.search}])`
-              //   : undefined,
-
-              // input.search
-              //   ? ilike(schema.centers.name, `%${input.search}%`)
-              //   : undefined,
+              combinedConditions,
 
               // If rating is provided, filter centers by averageRating greater than or equal to the given rating.
               input.rating

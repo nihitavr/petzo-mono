@@ -5,6 +5,35 @@ import { GrLocation } from "react-icons/gr";
 
 import type { Center, Service } from "@petzo/db";
 
+const colorMap: Record<string, { textColor: string; bgColor: string }> = {
+  a: { textColor: "text-[#000000]", bgColor: "bg-[#264653]" },
+  b: { textColor: "text-[#000000]", bgColor: "bg-[#e9c46a]" },
+  c: { textColor: "text-[#ffffff]", bgColor: "bg-[#2a9d8f]" },
+  d: { textColor: "text-[#ffffff]", bgColor: "bg-[#f4a261]" },
+  e: { textColor: "text-[#000000]", bgColor: "bg-[#e76f51]" },
+  f: { textColor: "text-[#ffffff]", bgColor: "bg-[#d62828]" },
+  g: { textColor: "text-[#000000]", bgColor: "bg-[#6a040f]" },
+  h: { textColor: "text-[#ffffff]", bgColor: "bg-[#370617]" },
+  i: { textColor: "text-[#000000]", bgColor: "bg-[#9d0208]" },
+  j: { textColor: "text-[#ffffff]", bgColor: "bg-[#dc2f02]" },
+  k: { textColor: "text-[#000000]", bgColor: "bg-[#f48c06]" },
+  l: { textColor: "text-[#ffffff]", bgColor: "bg-[#faa307]" },
+  m: { textColor: "text-[#000000]", bgColor: "bg-[#ffba08]" },
+  n: { textColor: "text-[#ffffff]", bgColor: "bg-[#03071e]" },
+  o: { textColor: "text-[#000000]", bgColor: "bg-[#f72585]" },
+  p: { textColor: "text-[#ffffff]", bgColor: "bg-[#b5179e]" },
+  q: { textColor: "text-[#000000]", bgColor: "bg-[#7209b7]" },
+  r: { textColor: "text-[#ffffff]", bgColor: "bg-[#560bad]" },
+  s: { textColor: "text-[#000000]", bgColor: "bg-[#480ca8]" },
+  t: { textColor: "text-[#ffffff]", bgColor: "bg-[#3a0ca3]" },
+  u: { textColor: "text-[#000000]", bgColor: "bg-[#3f37c9]" },
+  v: { textColor: "text-[#ffffff]", bgColor: "bg-[#4361ee]" },
+  w: { textColor: "text-[#000000]", bgColor: "bg-[#4895ef]" },
+  x: { textColor: "text-[#ffffff]", bgColor: "bg-[#4cc9f0]" },
+  y: { textColor: "text-[#000000]", bgColor: "bg-[#00bcd4]" },
+  z: { textColor: "text-[#ffffff]", bgColor: "bg-[#009688]" },
+};
+
 export const CentersList = ({
   centersPromise: centersPromise,
 }: {
@@ -53,8 +82,14 @@ export const CentersList = ({
                       style={{ objectFit: "cover" }}
                     />
                   ) : (
-                    <div className="flex size-full items-center justify-center rounded-lg bg-primary/60 text-center">
-                      <div className="text-5xl">{center.name[0]}</div>
+                    <div
+                      className={`flex size-full items-center justify-center rounded-lg text-center ${colorMap[center.name[0]!.toLowerCase()]?.bgColor} bg-opacity-75`}
+                    >
+                      <div
+                        className={`text-7xl ${colorMap[center.name[0]!.toLowerCase()]?.textColor}`}
+                      >
+                        {center.name[0]}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -92,7 +127,7 @@ export const CentersList = ({
                   </span>
 
                   {/* Lowest Service Price */}
-                  <div className="mt-auto flex justify-between rounded-r-full  bg-gradient-to-r from-background to-primary/40 px-2 py-1">
+                  <div className="mt-auto flex justify-between rounded-r-full bg-gradient-to-r from-background to-primary/40 px-2 py-1">
                     <div className="flex flex-col ">
                       <span className="text-xs capitalize text-foreground/80 md:text-sm">
                         {lowestPriceService.serviceType}

@@ -51,7 +51,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const cities = await api.city.getAll();
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning={true}>
       <body
         className={cn(
           "min-h-screen bg-background font-sans text-foreground antialiased",
@@ -61,7 +61,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       >
         <ThemeProvider attribute="class" defaultTheme="light">
           <TRPCReactProvider>
-            <Header session={session} cities={cities}/>
+            <Header session={session} cities={cities} />
             <main className="h-screen px-3 py-14 md:py-14 lg:px-24 xl:px-48">
               {props.children}
             </main>
