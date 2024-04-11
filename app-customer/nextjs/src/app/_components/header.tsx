@@ -59,7 +59,7 @@ export default function Header({
       <nav className="bg-header flex items-center justify-between gap-4">
         <div className="flex flex-row items-center gap-4 md:flex-row">
           <Link href="/">
-            <div className="relative h-8 w-16 md:w-24">
+            <div className="md:w-38 relative h-10 w-28">
               {/* <div className="relative h-12 w-44"> */}
               <Image
                 src="/petzo-logo.svg"

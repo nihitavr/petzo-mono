@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { signal } from "@preact/signals-react";
 import { FaSearch } from "react-icons/fa";
 
 import { Input } from "@petzo/ui/components/input";
@@ -9,6 +10,12 @@ import { Input } from "@petzo/ui/components/input";
 import { filtersStore } from "~/lib/storage/global-storage";
 
 export const MIN_SEARCH_TEXT_LENGTH = 3;
+
+const PLACEHOLDERS = [
+  "Veterinary Center",
+  "Grooming Center",
+  "Boarding Center",
+];
 
 export default function GlobalSearchInput({
   focusOnLoad,
@@ -43,8 +50,47 @@ export default function GlobalSearchInput({
     return () => clearTimeout(getData);
   }, [input]);
 
+  const currentPlaceholderIndex = signal(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const updatePlaceholder = async () => {
+        // loop characters of a  string
+        const tempCurrentIndex =
+          (currentPlaceholderIndex.value + 1) % PLACEHOLDERS.length || 0;
+        const placeholder = PLACEHOLDERS[tempCurrentIndex]!;
+
+        const letterSleepTime = 1200 / placeholder.length;
+
+        if (ref.current) {
+          for (let i = 0; i < placeholder.length; i++) {
+            placeholder.charAt(i);
+
+            if (ref.current) {
+              ref.current.placeholder = `Search by ${placeholder.slice(0, i + 1)}`;
+            }
+
+            await new Promise((resolve) =>
+              setTimeout(resolve, letterSleepTime),
+            );
+          }
+          currentPlaceholderIndex.value = tempCurrentIndex;
+        }
+      };
+
+      void updatePlaceholder();
+    }, 3000);
+
+    return () => {
+      console.log("clearing interval");
+
+      clearInterval(interval);
+      setInput("");
+      filtersStore.search.value = "";
+    };
+  }, []);
+
   return (
-    <div className="relative w-full md:w-60">
+    <div className="relative w-full md:w-72">
       <Link href={"/search"}>
         <Input
           value={input}
@@ -52,8 +98,8 @@ export default function GlobalSearchInput({
             setInput(e.target.value);
           }}
           ref={ref}
-          placeholder="Search by Center"
-          className="h-11 w-full rounded-full px-5 caret-primary !shadow-sm focus-visible:ring-primary md:w-60"
+          placeholder="Search by Veterinary Center"
+          className="h-11 w-full rounded-full px-5 caret-primary !shadow-sm focus-visible:ring-primary md:w-72"
         />
       </Link>
       {input?.length ? (

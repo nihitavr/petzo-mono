@@ -16,7 +16,7 @@ export const CentersFilterSchema = z.object({
       val
         ?.trim()
         .split(" ")
-        .map((v) => `%${v.trim()}%`),
+        .map((v) => `${v.trim()}`),
     ),
   city: z.string(),
   serviceType: z
@@ -32,6 +32,13 @@ export const CentersFilterSchema = z.object({
     .object({
       latitude: z.number(),
       longitude: z.number(),
+    })
+    .optional(),
+
+  pagination: z
+    .object({
+      page: z.number().min(0).optional(),
+      limit: z.number().min(0).max(10).optional(),
     })
     .optional(),
 });
