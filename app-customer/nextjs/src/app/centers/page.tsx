@@ -82,7 +82,9 @@ export default async function Centers({
   return (
     <div className="flex flex-col gap-3">
       <div className="mt-3 flex items-end justify-between md:mt-4">
-        <GlobalSearchInput />
+        <div className="w-full md:hidden">
+          <GlobalSearchInput />
+        </div>
         <div className="hidden h-min rounded-full border px-3 py-1 text-sm md:inline">
           Sort (Top Rated)
         </div>

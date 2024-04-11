@@ -8,6 +8,7 @@ import type { Session } from "@petzo/auth-customer-app";
 import { cn } from "@petzo/ui/lib/utils";
 
 import CityDropdown from "./city-dropdown";
+import GlobalSearchInput from "./global-search-input";
 // import { CartSideSheet } from "./cart-side-sheet";
 import { SideNavSheet } from "./side-nav-sheet";
 
@@ -55,10 +56,10 @@ export default function Header({
           : "-translate-y-full transition-transform duration-300 ease-in-out",
       )}
     >
-      <nav className="bg-header flex items-center justify-between ">
+      <nav className="bg-header flex items-center justify-between gap-4">
         <div className="flex flex-row items-center gap-4 md:flex-row">
           <Link href="/">
-            <div className="relative h-8 w-20 md:w-24">
+            <div className="relative h-8 w-16 md:w-24">
               {/* <div className="relative h-12 w-44"> */}
               <Image
                 src="/petzo-logo.svg"
@@ -70,6 +71,10 @@ export default function Header({
             </div>
           </Link>
         </div>
+        <div className="hidden md:inline">
+          <GlobalSearchInput />
+        </div>
+
         <div className="flex items-center gap-2">
           {/* <CartSideSheet /> */}
           <CityDropdown cities={cities} />

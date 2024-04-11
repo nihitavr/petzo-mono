@@ -25,6 +25,8 @@ export const CentersList = ({
     <div className="flex w-full flex-col gap-6">
       {centers.length > 0 &&
         centers.map((center) => {
+          const thumbnail = center.images?.[0].url;
+
           const lowestPriceService = getLowertCostService(center);
 
           const serviceTypesProvided: string[] = [];
@@ -43,13 +45,17 @@ export const CentersList = ({
               <div className="flex h-44 w-full gap-2 md:h-60">
                 {/* Center Image */}
                 <div className="relative h-full w-2/5 cursor-pointer overflow-hidden rounded-lg">
-                  {center?.images?.[0].url && (
+                  {thumbnail ? (
                     <Image
-                      src={center?.images?.[0].url}
+                      src={thumbnail}
                       alt=""
                       fill
                       style={{ objectFit: "cover" }}
                     />
+                  ) : (
+                    <div className="flex size-full items-center justify-center rounded-lg bg-primary/60 text-center">
+                      <div className="text-5xl">{center.name[0]}</div>
+                    </div>
                   )}
                 </div>
 
