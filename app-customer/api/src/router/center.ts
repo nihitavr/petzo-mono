@@ -23,16 +23,6 @@ export const centerRouter = {
   findByFilters: publicProcedure
     .input(CentersFilterSchema)
     .query(async ({ ctx, input }) => {
-      // // Sleep 2 seconds
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      if (input.search) {
-        console.log(
-          "input.search",
-          `${schema.centers.name.name} ILIKE ALL(ARRAY[${input?.search.join(",")}])`,
-        );
-      }
-
       const searchConditions = input.search?.map(
         (value) => sql`${schema.centers.name} ILIKE ${"%" + value + "%"}`,
       );
