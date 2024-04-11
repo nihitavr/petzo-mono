@@ -64,7 +64,7 @@ export default function GlobalSearchInput({
         if (ref.current) {
           for (let i = 0; i < placeholder.length; i++) {
             placeholder.charAt(i);
-            
+
             if (ref.current) {
               ref.current.placeholder = `Search by ${placeholder.slice(0, i + 1)}`;
             }
@@ -80,17 +80,17 @@ export default function GlobalSearchInput({
       void updatePlaceholder();
     }, 3000);
 
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
     return () => {
+      console.log("clearing interval");
+
+      clearInterval(interval);
       setInput("");
+      filtersStore.search.value = "";
     };
   }, []);
 
   return (
-    <div className="relative w-full md:w-60">
+    <div className="relative w-full md:w-72">
       <Link href={"/search"}>
         <Input
           value={input}
@@ -99,7 +99,7 @@ export default function GlobalSearchInput({
           }}
           ref={ref}
           placeholder="Search by Veterinary Center"
-          className="h-11 w-full rounded-full px-5 caret-primary !shadow-sm focus-visible:ring-primary md:w-60"
+          className="h-11 w-full rounded-full px-5 caret-primary !shadow-sm focus-visible:ring-primary md:w-72"
         />
       </Link>
       {input?.length ? (

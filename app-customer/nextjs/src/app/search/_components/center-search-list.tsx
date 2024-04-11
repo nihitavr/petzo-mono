@@ -39,7 +39,7 @@ export default function CenterSearchList() {
       {isLoading ? (
         <CenterSearchListLoading />
       ) : (
-        <div className="flex h-screen flex-col gap-3 overflow-auto">
+        <div className="flex flex-col gap-3 overflow-auto">
           {!!filtersStore.city.value &&
             centers?.map((center) => {
               const thumbnail = center.images?.[0].url;
