@@ -18,24 +18,24 @@ import Header from "./_components/header";
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.VERCEL_ENV === "production"
-      ? "https://turbo.t3.gg"
+      ? "https://petzo.co"
       : "http://localhost:3000",
   ),
   title: "Petzo",
   icons: [{ rel: "icon", url: "/petzo-logo-icon.svg" }],
   description:
-    "Petzo is a pet care platform for pet owners and pet service providers",
+    "Petzo is a pet-care platform for pet owners and pet service providers.",
   openGraph: {
     title: "Petzo",
     description:
-      "Petzo is a pet care platform for pet owners and pet service providers",
-    url: "https://create-t3-turbo.vercel.app",
-    siteName: "Create T3 Turbo",
+      "Petzo is a pet-care platform for pet owners and pet service providers.",
+    url: "https://petzo.co",
+    siteName: "Petzo App",
   },
   twitter: {
     card: "summary_large_image",
-    site: "@jullerino",
-    creator: "@jullerino",
+    site: "@petzoapp",
+    creator: "@petzoapp",
   },
 };
 
