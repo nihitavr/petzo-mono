@@ -5,8 +5,9 @@ import { useSignals } from "@preact/signals-react/runtime";
 import { FaStar } from "react-icons/fa";
 import { GrLocation } from "react-icons/gr";
 
-import { Service } from "@petzo/db";
+import type { Service } from "@petzo/db";
 
+import { MIN_SEARCH_TEXT_LENGTH } from "~/app/_components/global-search-input";
 import { filtersStore } from "~/lib/storage/global-storage";
 import { api } from "~/trpc/react";
 import { CenterSearchListLoading } from "./center-search-list-loading";
@@ -21,7 +22,8 @@ export default function CenterSearchList() {
     },
     {
       enabled:
-        !!filtersStore.search.value && filtersStore.search.value.length >= 3,
+        !!filtersStore.search.value &&
+        filtersStore.search.value.length >= MIN_SEARCH_TEXT_LENGTH,
     },
   );
 
