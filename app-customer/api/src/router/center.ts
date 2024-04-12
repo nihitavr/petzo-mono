@@ -1,8 +1,8 @@
 import type { TRPCRouterRecord } from "@trpc/server";
-import { and, eq, gte, ilike, inArray, sql } from "drizzle-orm";
+import { and, eq, gte, inArray, sql } from "drizzle-orm";
 
 import { schema } from "@petzo/db";
-import { CentersFilterSchema } from "@petzo/validators";
+import { CenterByPublicIdSchema, CentersFilterSchema } from "@petzo/validators";
 
 import { publicProcedure } from "../trpc";
 
@@ -20,9 +20,30 @@ const areaMap: Record<string, number> = {
 };
 
 export const centerRouter = {
+  findByPublicId: publicProcedure
+    .input(CenterByPublicIdSchema)
+    .query(async ({ ctx, input }) => {
+      const center = await ctx.db.query.centers.findFirst({
+        where: eq(schema.centers.publicId, input.publicId),
+        with: {
+          centerAddress: {
+            with: {
+              area: true,
+              city: true,
+              state: true,
+            },
+          },
+          services: true,
+        },
+      });
+
+      return center;
+    }),
+
   findByFilters: publicProcedure
     .input(CentersFilterSchema)
     .query(async ({ ctx, input }) => {
+      // Search Conditions
       const searchConditions = input.search?.map(
         (value) => sql`${schema.centers.name} ILIKE ${"%" + value + "%"}`,
       );
@@ -30,6 +51,7 @@ export const centerRouter = {
         ? sql.join(searchConditions, sql` AND `)
         : undefined;
 
+      // Get city id from the input using the static cityMap.
       const cityId = citiyMap[input.city];
       if (!cityId) {
         return [];
@@ -38,6 +60,7 @@ export const centerRouter = {
       // Get area ids from the input using the static areaMap.
       const areaIds = input.area?.map((a) => areaMap[a]! || -1);
 
+      // Get service types from the input using the schema serviceTypeList.
       const serviceTypes = schema.serviceTypeList.filter((v) =>
         input.serviceType?.includes(v),
       );
@@ -90,6 +113,12 @@ export const centerRouter = {
                 : undefined,
             ),
           )
+          .offset(
+            input.pagination?.page && input.pagination.limit
+              ? input.pagination.page * input.pagination.limit
+              : 0,
+          )
+          .limit(input.pagination?.limit ? input.pagination.limit : 3)
       ).map((c) => c.id);
 
       if (!centerIds.length) {

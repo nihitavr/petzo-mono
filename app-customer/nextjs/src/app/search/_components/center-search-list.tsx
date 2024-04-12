@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useSignals } from "@preact/signals-react/runtime";
 import { FaStar } from "react-icons/fa";
 import { GrLocation } from "react-icons/gr";
@@ -9,6 +10,7 @@ import type { Service } from "@petzo/db";
 
 import { MIN_SEARCH_TEXT_LENGTH } from "~/app/_components/global-search-input";
 import { filtersStore } from "~/lib/storage/global-storage";
+import { getCenterRelativeUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
 import { CenterSearchListLoading } from "./center-search-list-loading";
 
@@ -53,7 +55,11 @@ export default function CenterSearchList() {
               });
 
               return (
-                <div key={center.publicId} className="flex gap-2">
+                <Link
+                  href={getCenterRelativeUrl(center)}
+                  key={center.publicId}
+                  className="flex gap-2 rounded-lg hover:bg-muted/80"
+                >
                   <div className="relative size-28 md:size-32">
                     {thumbnail ? (
                       <Image
@@ -80,7 +86,7 @@ export default function CenterSearchList() {
                       </div>
                       <div className="h-1.5 w-1.5 rounded-full bg-foreground/80"></div>
                       <div className="flex cursor-pointer items-center gap-1 hover:underline">
-                        <span>{center.averageRating} reviews</span>
+                        <span>{center.reviewCount} reviews</span>
                       </div>
                     </div>
                     <div className="flex items-center gap-1">
@@ -94,7 +100,7 @@ export default function CenterSearchList() {
                       {serviceTypesProvided.join(", ")}
                     </span>
                   </div>
-                </div>
+                </Link>
               );
             })}
         </div>

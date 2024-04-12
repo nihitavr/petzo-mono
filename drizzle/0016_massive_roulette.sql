@@ -1,0 +1,1 @@
+ALTER TABLE "center" ADD COLUMN "rating_count" integer DEFAULT 0 NOT NULL;

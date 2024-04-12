@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { signal } from "@preact/signals-react";
 import { FaSearch } from "react-icons/fa";
 
@@ -10,6 +11,7 @@ import { Input } from "@petzo/ui/components/input";
 import { filtersStore } from "~/lib/storage/global-storage";
 
 export const MIN_SEARCH_TEXT_LENGTH = 3;
+export const MAX_SEARCH_PLACEHOLDER_REPETITIONS = 9;
 
 const PLACEHOLDERS = [
   "Veterinary Center",
@@ -22,6 +24,7 @@ export default function GlobalSearchInput({
 }: {
   focusOnLoad?: boolean;
 }) {
+  const router = useRouter();
   const [input, setInput] = useState(filtersStore.search.value);
 
   const ref = useRef<HTMLInputElement>(null);
@@ -52,6 +55,9 @@ export default function GlobalSearchInput({
 
   const currentPlaceholderIndex = signal(0);
   useEffect(() => {
+    router.prefetch("/search");
+
+    let currentIntervalCount = 0;
     const interval = setInterval(() => {
       const updatePlaceholder = async () => {
         // loop characters of a  string
@@ -75,6 +81,10 @@ export default function GlobalSearchInput({
           }
           currentPlaceholderIndex.value = tempCurrentIndex;
         }
+
+        if (++currentIntervalCount === MAX_SEARCH_PLACEHOLDER_REPETITIONS) {
+          clearInterval(interval);
+        }
       };
 
       void updatePlaceholder();
@@ -83,9 +93,9 @@ export default function GlobalSearchInput({
     return () => {
       console.log("clearing interval");
 
-      clearInterval(interval);
       setInput("");
       filtersStore.search.value = "";
+      clearInterval(interval);
     };
   }, []);
 
@@ -99,7 +109,8 @@ export default function GlobalSearchInput({
           }}
           ref={ref}
           placeholder="Search by Veterinary Center"
-          className="h-11 w-full rounded-full px-5 caret-primary !shadow-sm focus-visible:ring-primary md:w-72"
+          className="h-11 w-full rounded-full px-5 caret-primary shadow-[0_0px_20px_rgba(0,0,0,0.25)]
+          shadow-primary/35 focus-visible:ring-primary md:w-72"
         />
       </Link>
       {input?.length ? (

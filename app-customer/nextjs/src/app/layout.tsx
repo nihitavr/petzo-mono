@@ -27,6 +27,7 @@ export const metadata: Metadata = {
     "Petzo is a pet-care platform for pet owners and pet service providers.",
   openGraph: {
     title: "Petzo",
+    images: [{ url: "/petzo-logo-icon.svg" }],
     description:
       "Petzo is a pet-care platform for pet owners and pet service providers.",
     url: "https://petzo.co",

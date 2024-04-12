@@ -78,6 +78,9 @@ export const centers = pgTable(
     description: text("description"),
     images: json("images").$type<[{ url: string }]>(),
     averageRating: integer("average_rating").default(0).notNull(),
+    ratingCount: integer("rating_count").default(0).notNull(),
+    reviewCount: integer("review_count").default(0).notNull(),
+    contactNumber: varchar("contact_number", { length: 15 }),
     centerAddressId: integer("center_address_id")
       .notNull()
       .references(() => centerAddresses.id),
