@@ -1,0 +1,1 @@
+ALTER TABLE "center" ADD COLUMN "contact_number" varchar(15);

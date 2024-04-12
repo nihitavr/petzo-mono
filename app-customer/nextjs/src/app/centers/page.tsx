@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 
+import { CENTERS_LIST_PAGE_LIMIT } from "~/lib/constants";
 import { api } from "~/trpc/server";
 import GlobalSearchInput from "../_components/global-search-input";
 import { CenterFilters } from "./_components/center-filters";
@@ -26,6 +27,10 @@ export default async function Centers({
     search,
     area,
     rating: +rating || 0,
+    pagination: {
+      page: 0,
+      limit: CENTERS_LIST_PAGE_LIMIT,
+    },
   });
 
   const areasFromDb = await api.city.getCityAreas({ city });
@@ -85,7 +90,7 @@ export default async function Centers({
         <div className="w-full md:hidden">
           <GlobalSearchInput />
         </div>
-        <div className="hidden h-min rounded-full border px-3 py-1 text-sm md:inline">
+        <div className="ml-auto hidden h-min rounded-full border px-3 py-1 text-sm md:inline">
           Sort (Top Rated)
         </div>
       </div>
@@ -110,7 +115,10 @@ export default async function Centers({
             key={JSON.stringify(searchParams)}
             fallback={<LoadingCentersList />}
           >
-            <CentersList centersPromise={centersPromise} />
+            <CentersList
+              searchParams={searchParams}
+              initialCentersPromise={centersPromise}
+            />
           </Suspense>
         </div>
       </div>

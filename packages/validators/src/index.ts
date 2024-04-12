@@ -8,6 +8,8 @@ export const CreatePostSchema = z.object({
   content: z.string().min(1),
 });
 
+export const CenterByPublicIdSchema = z.object({ publicId: z.string() });
+
 export const CentersFilterSchema = z.object({
   search: z
     .string()
@@ -38,7 +40,7 @@ export const CentersFilterSchema = z.object({
   pagination: z
     .object({
       page: z.number().min(0).optional(),
-      limit: z.number().min(0).max(10).optional(),
+      limit: z.number().min(0).max(20).optional(),
     })
     .optional(),
 });

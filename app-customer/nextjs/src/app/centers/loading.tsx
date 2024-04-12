@@ -1,3 +1,5 @@
+import { forwardRef } from "react";
+
 import { Skeleton } from "@petzo/ui/components/skeleton";
 
 export default function Loading() {
@@ -21,11 +23,16 @@ export default function Loading() {
   );
 }
 
-export function LoadingCentersList() {
-  const arr = Array.from({ length: 3 });
+export const LoadingCentersList = forwardRef<
+  HTMLDivElement,
+  {
+    noOfItems?: number;
+  }
+>(({ noOfItems = 3 }, ref) => {
+  const arr = Array.from({ length: noOfItems });
 
   return (
-    <div className="flex w-full flex-col gap-3">
+    <div ref={ref} className="flex w-full flex-col gap-3">
       {arr.map((_, index) => (
         <Skeleton
           key={`skeleton-${index}`}
@@ -43,7 +50,9 @@ export function LoadingCentersList() {
       ))}
     </div>
   );
-}
+});
+
+LoadingCentersList.displayName = "LoadingCentersList";
 
 export function LoadingCenterFilters() {
   return <Skeleton className="h-7 w-56 rounded-full md:h-96 md:rounded-lg " />;
