@@ -1,0 +1,1 @@
+ALTER TABLE "service" DROP CONSTRAINT "service_public_id_unique";

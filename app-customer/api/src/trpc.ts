@@ -7,11 +7,17 @@
  * The pieces you will need to use are documented accordingly near the end
  */
 import { initTRPC, TRPCError } from "@trpc/server";
+import NodeCache from "node-cache";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
 import type { Session } from "@petzo/auth-customer-app";
 import { db } from "@petzo/db";
+
+const DEFAULT_CACHE_TTL = 1800;
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+const cacheSingleton = new NodeCache();
 
 /**
  * 1. CONTEXT
@@ -40,22 +46,30 @@ export const createTRPCContext = (opts: {
   };
 };
 
+interface Meta {
+  cacheTTLInSeconds?: number;
+}
+
 /**
  * 2. INITIALIZATION
  *
  * This is where the trpc api is initialized, connecting the context and
  * transformer
  */
-const t = initTRPC.context<typeof createTRPCContext>().create({
-  transformer: superjson,
-  errorFormatter: ({ shape, error }) => ({
-    ...shape,
-    data: {
-      ...shape.data,
-      zodError: error.cause instanceof ZodError ? error.cause.flatten() : null,
-    },
-  }),
-});
+const t = initTRPC
+  .context<typeof createTRPCContext>()
+  .meta<Meta>()
+  .create({
+    transformer: superjson,
+    errorFormatter: ({ shape, error }) => ({
+      ...shape,
+      data: {
+        ...shape.data,
+        zodError:
+          error.cause instanceof ZodError ? error.cause.flatten() : null,
+      },
+    }),
+  });
 
 /**
  * Create a server-side caller
@@ -76,6 +90,10 @@ export const createCallerFactory = t.createCallerFactory;
  */
 export const createTRPCRouter = t.router;
 
+const middlewareMarker = "middlewareMarker" as "middlewareMarker" & {
+  __brand: "middlewareMarker";
+};
+
 /**
  * Public (unauthed) procedure
  *
@@ -84,6 +102,52 @@ export const createTRPCRouter = t.router;
  * can still access user session data if they are logged in
  */
 export const publicProcedure = t.procedure;
+
+/**
+ * Public (unauthed) procedure
+ *
+ * This is the base piece you use to build new queries and mutations on your
+ * tRPC API. It does not guarantee that a user querying is authorized, but you
+ * can still access user session data if they are logged in
+ */
+
+export const publicCachedProcedure = t.procedure.use(
+  async ({ ctx, next, path, type, getRawInput, meta }) => {
+    const rawInput = await getRawInput();
+
+    console.log(">>> Public Cached procedure", { path, type, rawInput });
+
+    if (type !== "query") {
+      return next();
+    }
+
+    let key = path;
+    if (rawInput) {
+      key += JSON.stringify(rawInput).replace(/"/g, "'");
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    const cachedData = cacheSingleton.get(key);
+    if (cachedData) {
+      console.log(">>> Cache hit", { key });
+      return { ok: true, data: cachedData, ctx, marker: middlewareMarker };
+    }
+
+    console.log(">>> Cache miss", { key });
+
+    const result = await next();
+    if ("data" in result) {
+      const dataCopy = structuredClone(result.data);
+      cacheSingleton.set(
+        key,
+        dataCopy,
+        meta?.cacheTTLInSeconds ? meta?.cacheTTLInSeconds : DEFAULT_CACHE_TTL,
+      );
+    }
+
+    return result;
+  },
+);
 
 /**
  * Protected (authenticated) procedure

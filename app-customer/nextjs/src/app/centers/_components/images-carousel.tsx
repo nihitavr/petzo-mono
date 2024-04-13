@@ -15,7 +15,7 @@ import {
 
 import { cn } from "~/lib/utils";
 
-export default function CenterImageCasousel({
+export default function ImagesCasousel({
   images,
   defaultImage = "",
   className,
@@ -116,7 +116,7 @@ export default function CenterImageCasousel({
             ))}
           </CarouselContent>
 
-          <>
+          <div className="">
             <CarouselPrevious
               canScrollPrev={carouselApi?.canScrollPrev()}
               scrollPrev={() => carouselApi?.scrollPrev()}
@@ -125,7 +125,7 @@ export default function CenterImageCasousel({
               canScrollNext={carouselApi?.canScrollNext()}
               scrollNext={() => carouselApi?.scrollNext()}
             />
-          </>
+          </div>
         </Carousel>
       )}
     </div>

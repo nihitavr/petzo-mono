@@ -4,7 +4,7 @@ import type { z } from "zod";
 import { useState } from "react";
 import { FaFilter } from "react-icons/fa";
 
-import type { CentersFilterFormSchema } from "@petzo/validators";
+import type { centerValidator } from "@petzo/validators";
 import {
   Drawer,
   DrawerContent,
@@ -13,7 +13,7 @@ import {
 
 import { CenterFilters } from "./center-filters";
 
-type CenterFilterFormSchemaType = z.infer<typeof CentersFilterFormSchema>;
+type CenterFilterFormSchemaType = z.infer<typeof centerValidator.FormFilters>;
 
 export function MobileCenterFilters({
   filters,

@@ -134,6 +134,41 @@
       "when": 1712943413131,
       "tag": "0018_gray_sandman",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "5",
+      "when": 1713011734533,
+      "tag": "0019_swift_warstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "5",
+      "when": 1713044290096,
+      "tag": "0020_wealthy_hiroim",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "5",
+      "when": 1713044412842,
+      "tag": "0021_brainy_iron_monger",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "5",
+      "when": 1713044464474,
+      "tag": "0022_clammy_tigra",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "5",
+      "when": 1713044864136,
+      "tag": "0023_powerful_franklin_storm",
+      "breakpoints": true
     }
   ]
 }

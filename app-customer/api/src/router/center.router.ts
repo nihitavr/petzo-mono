@@ -2,9 +2,9 @@ import type { TRPCRouterRecord } from "@trpc/server";
 import { and, eq, gte, inArray, sql } from "drizzle-orm";
 
 import { schema } from "@petzo/db";
-import { CenterByPublicIdSchema, CentersFilterSchema } from "@petzo/validators";
+import { centerValidator } from "@petzo/validators";
 
-import { publicProcedure } from "../trpc";
+import { publicCachedProcedure } from "../trpc";
 
 // Define a static map for cities to their ids(database ids).
 const citiyMap: Record<string, number> = {
@@ -20,8 +20,9 @@ const areaMap: Record<string, number> = {
 };
 
 export const centerRouter = {
-  findByPublicId: publicProcedure
-    .input(CenterByPublicIdSchema)
+  findByPublicId: publicCachedProcedure
+    .meta({ cacheTTLInSeconds: 1800 })
+    .input(centerValidator.FindByPublicId)
     .query(async ({ ctx, input }) => {
       const center = await ctx.db.query.centers.findFirst({
         where: eq(schema.centers.publicId, input.publicId),
@@ -40,8 +41,9 @@ export const centerRouter = {
       return center;
     }),
 
-  findByFilters: publicProcedure
-    .input(CentersFilterSchema)
+  findByFilters: publicCachedProcedure
+    .meta({ cacheTTLInSeconds: 1800 })
+    .input(centerValidator.FindByFilters)
     .query(async ({ ctx, input }) => {
       // Search Conditions
       const searchConditions = input.search?.map(

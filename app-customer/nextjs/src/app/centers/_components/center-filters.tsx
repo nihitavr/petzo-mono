@@ -16,11 +16,11 @@ import {
   useForm,
 } from "@petzo/ui/components/form";
 import { cn } from "@petzo/ui/lib/utils";
-import { CentersFilterFormSchema } from "@petzo/validators";
+import { centerValidator } from "@petzo/validators";
 
 import { filtersStore } from "~/lib/storage/global-storage";
 
-type CenterFilterFormSchemaType = z.infer<typeof CentersFilterFormSchema>;
+type CenterFilterFormSchemaType = z.infer<typeof centerValidator.FormFilters>;
 
 export function CenterFilters({
   className,
@@ -36,7 +36,7 @@ export function CenterFilters({
   const router = useRouter();
 
   const form = useForm({
-    schema: CentersFilterFormSchema,
+    schema: centerValidator.FormFilters,
     defaultValues: filters,
   });
 

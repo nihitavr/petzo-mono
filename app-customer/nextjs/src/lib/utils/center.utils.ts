@@ -16,6 +16,16 @@ export function getCenterRelativeUrl(center: Center): string {
   return `/centers/${nameParam}/${center.publicId}`;
 }
 
+export function getServiceRelativeUrl(
+  service: Service,
+  center: Center,
+): string {
+  const centerNameParam = convertToUrlFriendlyText(center.name);
+  const serviceNameParam = convertToUrlFriendlyText(service.name);
+
+  return `/centers/${centerNameParam}/${center.publicId}/${serviceNameParam}/${service.publicId}`;
+}
+
 export function getServicesProvidedByCenter(center: Center): string[] {
   const serviceTypesProvided: string[] = [];
 

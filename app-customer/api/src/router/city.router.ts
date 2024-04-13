@@ -1,4 +1,5 @@
 import { GetCityAreasSchema } from "@petzo/validators";
+
 import { publicProcedure } from "../trpc";
 
 export const cityRouter = {
