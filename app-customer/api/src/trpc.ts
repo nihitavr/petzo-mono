@@ -46,7 +46,7 @@ export const createTRPCContext = (opts: {
   };
 };
 
-interface Meta {
+export interface Meta {
   cacheTTLInSeconds?: number;
 }
 
