@@ -21,10 +21,6 @@ export default function Share({
   children,
   ...props
 }: Props) {
-  if (!shareInfo.url) {
-    shareInfo.url = document.location.href;
-  }
-
   const handleShare = async () => {
     if (navigator.share) {
       try {

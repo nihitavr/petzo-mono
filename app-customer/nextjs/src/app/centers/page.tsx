@@ -3,8 +3,8 @@ import { Suspense } from "react";
 import { CENTERS_LIST_PAGE_LIMIT } from "~/lib/constants";
 import { api } from "~/trpc/server";
 import GlobalSearchInput from "../_components/global-search-input";
+import { CenterFilterList } from "./_components/center-filter-list";
 import { CenterFilters } from "./_components/center-filters";
-import { CentersList } from "./_components/centers-list";
 import { MobileCenterFilters } from "./_components/mobile-center-filters";
 import { LoadingCentersList } from "./loading";
 
@@ -115,7 +115,7 @@ export default async function Centers({
             key={JSON.stringify(searchParams)}
             fallback={<LoadingCentersList />}
           >
-            <CentersList
+            <CenterFilterList
               searchParams={searchParams}
               initialCentersPromise={centersPromise}
             />

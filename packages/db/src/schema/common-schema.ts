@@ -73,7 +73,7 @@ export const centers = pgTable(
   "center",
   {
     id: serial("id").primaryKey(),
-    publicId: varchar("public_id", { length: 13 }).notNull().unique(),
+    publicId: varchar("public_id", { length: 15 }).notNull().unique(),
     name: varchar("name", { length: 256 }).notNull(),
     description: text("description"),
     images: json("images").$type<[{ url: string }]>(),
@@ -251,9 +251,11 @@ export const services = pgTable(
   "service",
   {
     id: serial("id").primaryKey(),
+    publicId: varchar("public_id", { length: 15 }).notNull().unique(),
     name: varchar("name", { length: 256 }).notNull(),
     serviceType: serviceTypeEnum("service_type").notNull(),
     price: integer("price").notNull(),
+    images: json("images").$type<[{ url: string }]>(),
     description: text("description"),
     centerId: integer("center_id")
       .notNull()

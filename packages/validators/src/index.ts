@@ -8,57 +8,7 @@ export const CreatePostSchema = z.object({
   content: z.string().min(1),
 });
 
-export const CenterByPublicIdSchema = z.object({ publicId: z.string() });
-
-export const CentersFilterSchema = z.object({
-  search: z
-    .string()
-    .optional()
-    .transform((val) =>
-      val
-        ?.trim()
-        .split(" ")
-        .map((v) => `${v.trim()}`),
-    ),
-  city: z.string(),
-  serviceType: z
-    .string()
-    .optional()
-    .transform((val) => val?.split(",")),
-  rating: z.number().optional(),
-  area: z
-    .string()
-    .optional()
-    .transform((val) => val?.split(",")),
-  geoCode: z
-    .object({
-      latitude: z.number(),
-      longitude: z.number(),
-    })
-    .optional(),
-
-  pagination: z
-    .object({
-      page: z.number().min(0).optional(),
-      limit: z.number().min(0).max(20).optional(),
-    })
-    .optional(),
-});
-
-export const CentersFilterFormSchema = z.object({
-  filters: z.array(
-    z.object({
-      publicId: z.string(),
-      label: z.string(),
-      items: z.array(
-        z.object({
-          label: z.string(),
-          publicId: z.string(),
-          selected: z.boolean(),
-        }),
-      ),
-    }),
-  ),
-});
+export * as centerValidator from "./center.validator";
+export * as serviceValidator from "./service.validator";
 
 export const GetCityAreasSchema = z.object({ city: z.string() });

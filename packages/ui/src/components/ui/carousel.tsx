@@ -283,7 +283,7 @@ const CarouselNext = React.forwardRef<
         size={size}
         disabled={!canScrollNext}
         className={cn(
-          "absolute right-0 mr-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border bg-muted p-2",
+          "absolute right-0 mr-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border bg-muted",
           orientation === "horizontal"
             ? "right-0 top-1/2 -translate-y-1/2 translate-x-1/2"
             : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",

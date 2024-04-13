@@ -14,7 +14,7 @@ import { getCenterRelativeUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
 import { LoadingCentersList } from "../loading";
 
-export const CentersList = ({
+export const CenterFilterList = ({
   initialCentersPromise: centersPromise,
   searchParams,
 }: {
