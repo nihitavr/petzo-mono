@@ -1,17 +1,29 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSignals } from "@preact/signals-react/runtime";
 
 import type { Session } from "@petzo/auth-customer-app";
 import { cn } from "@petzo/ui/lib/utils";
 
+import { filtersStore } from "~/lib/storage/global-storage";
 import CityDropdown from "./city-dropdown";
 import GlobalSearchInput from "./global-search-input";
 // import { CartSideSheet } from "./cart-side-sheet";
 import { SideNavSheet } from "./side-nav-sheet";
 
+const SEARCH_PATHNAMES = [
+  "/",
+  "/mumbai/explore",
+  "/bengaluru/explore",
+  "/bengaluru/centers",
+  "/mumbai/centers",
+  "/bengaluru/search",
+  "/mumbai/search",
+];
 export default function Header({
   session,
   cities,
@@ -22,22 +34,26 @@ export default function Header({
     publicId: string;
   }[];
 }) {
+  useSignals();
+
+  const pathname = usePathname();
+
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [headerVisible, setHeaderVisible] = useState(true);
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     const currentScrollPos = window.scrollY;
 
     if (currentScrollPos > lastScrollTop && currentScrollPos > 50) {
       // Scroll Up
       setHeaderVisible(false);
-    } else if (lastScrollTop - currentScrollPos > 5 || currentScrollPos < 100) {
+    } else if (lastScrollTop - currentScrollPos > 5 || currentScrollPos < 75) {
       // Scroll Down
       setHeaderVisible(true);
     }
 
     setLastScrollTop(currentScrollPos);
-  };
+  }, [pathname]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -50,15 +66,15 @@ export default function Header({
   return (
     <header
       className={cn(
-        "fixed left-0 top-0 z-50 w-full border-b bg-background px-3 py-2 shadow-sm md:py-2 lg:px-24 xl:px-48",
+        "fixed left-0 top-0 z-50 w-full bg-background",
         headerVisible
           ? "translate-y-0 transition-transform duration-300 ease-in-out"
           : "-translate-y-full transition-transform duration-300 ease-in-out",
       )}
     >
-      <nav className="bg-header flex items-center justify-between gap-4">
+      <nav className="flex items-center justify-between gap-4 border-b px-3 py-2 shadow-sm lg:px-24 xl:px-48">
         <div className="flex flex-row items-center gap-4 md:flex-row">
-          <Link href="/">
+          <Link href={`/${filtersStore.city.value}/explore`}>
             <div className="md:w-38 relative h-10 w-28">
               {/* <div className="relative h-12 w-44"> */}
               <Image
@@ -85,6 +101,12 @@ export default function Header({
           />
         </div>
       </nav>
+
+      {SEARCH_PATHNAMES.includes(pathname) && (
+        <div className="px-3 py-2 md:hidden md:pt-2">
+          <GlobalSearchInput />
+        </div>
+      )}
     </header>
   );
 }

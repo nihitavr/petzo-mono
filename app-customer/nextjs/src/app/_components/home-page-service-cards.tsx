@@ -14,17 +14,17 @@ export default function HomePageServicesCards() {
       <HomePageServicesCard
         name="Vet Cosultation"
         imageUrl="/vet-consultation-card-image.jpg"
-        link={`/centers?city=${filtersStore.city.value}&serviceType=veterinary`}
+        link={`/${filtersStore.city.value}/centers?serviceType=veterinary`}
       />
       <HomePageServicesCard
         name="Pet Grooming"
         imageUrl="/pet-grooming-card-image.jpg"
-        link={`/centers?city=${filtersStore.city.value}&serviceType=grooming`}
+        link={`/${filtersStore.city.value}/centers?serviceType=grooming`}
       />
       <HomePageServicesCard
         name="Pet Boarding"
         imageUrl="/pet-boarding-card-image.jpg"
-        link={`/centers?city=${filtersStore.city.value}&serviceType=boarding`}
+        link={`/${filtersStore.city.value}/centers?serviceType=boarding`}
       />
     </div>
   );

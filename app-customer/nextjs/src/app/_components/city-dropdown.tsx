@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { useSignals } from "@preact/signals-react/runtime";
 import { LuCheck, LuChevronDown } from "react-icons/lu";
 import { SlLocationPin } from "react-icons/sl";
@@ -33,13 +33,16 @@ export default function CityDropdown({
   defaultCityPublicId?: string;
 }) {
   useSignals();
-
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   const router = useRouter();
+  const params = useParams();
 
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!!params.city && params.city !== filtersStore.city.value) {
+      filtersStore.city.value = params.city as string;
+    }
+  }, [params.city]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -49,7 +52,7 @@ export default function CityDropdown({
           <LuChevronDown className="size-5 text-foreground/70" />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-[150px] p-0" align="end">
+      <PopoverContent className="w-[130px] p-0" align="end">
         <Command shouldFilter={false} value={defaultCityPublicId}>
           <CommandList>
             <CommandEmpty>No City found.</CommandEmpty>
@@ -62,14 +65,8 @@ export default function CityDropdown({
                   onSelect={(currentCityId) => {
                     if (filtersStore.city.value !== currentCityId) {
                       filtersStore.city.value = currentCityId;
-
-                      const params = new URLSearchParams(
-                        searchParams.toString(),
-                      );
-                      params.set("city", currentCityId);
-                      router.push(`${pathname}?${params.toString()}`);
+                      router.push(`/${currentCityId}/explore`);
                     }
-
                     setOpen(false);
                   }}
                 >

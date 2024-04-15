@@ -41,6 +41,15 @@ const config = {
 
     return config
   },
+  async redirects(){
+    return [
+      {
+        permanent: true,
+        source: '/',
+        destination: '/bengaluru/explore',
+      },
+    ]
+  },
 };
 
 export default config;

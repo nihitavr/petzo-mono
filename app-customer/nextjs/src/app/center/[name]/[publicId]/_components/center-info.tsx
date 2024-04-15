@@ -6,7 +6,7 @@ import { cn } from "@petzo/ui/lib/utils";
 
 import { getGoogleLocationLink } from "~/lib/utils";
 import { getServicesProvidedByCenter } from "~/lib/utils/center.utils";
-import CenterDescriptionAndButtons from "./center-description-and-buttons";
+import CenterDescriptionAndButtons from "../../../../[city]/centers/_components/center-description-and-buttons";
 
 export const CenterInfo = ({
   center,
