@@ -11,7 +11,13 @@ import {
 } from "~/lib/utils/center.utils";
 import ServiceCard from "./service-card";
 
-export default function CenterServiceList({ center }: { center: Center }) {
+export default function CenterServiceList({
+  center,
+  servicePublicId,
+}: {
+  center: Center;
+  servicePublicId: string;
+}) {
   const serviceTypesProvidedByCenter = useMemo(() => {
     return getServicesProvidedByCenter(center);
   }, [center]);
@@ -84,6 +90,7 @@ export default function CenterServiceList({ center }: { center: Center }) {
                         key={`services-${idx}-${service.id}`}
                         service={service}
                         center={center}
+                        isDialogOpen={servicePublicId === service.publicId}
                       />
                     );
                   })}

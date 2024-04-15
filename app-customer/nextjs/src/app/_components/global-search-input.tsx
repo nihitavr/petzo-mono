@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { signal } from "@preact/signals-react";
 import { FaSearch } from "react-icons/fa";
 
@@ -24,10 +24,27 @@ export default function GlobalSearchInput({
 }: {
   focusOnLoad?: boolean;
 }) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const q = searchParams.get("q");
+
   const router = useRouter();
   const [input, setInput] = useState(filtersStore.search.value);
 
   const ref = useRef<HTMLInputElement>(null);
+
+  // Set search input to the value of the query parameter from the url.
+  useEffect(() => {
+    if (q) setInput(q);
+  }, [q]);
+
+  // Set search input to empty when the user navigates to a different page.
+  useEffect(() => {
+    if (!pathname.endsWith("/search")) {
+      setInput("");
+      filtersStore.search.value = "";
+    }
+  }, [pathname]);
 
   // Focus on input field when the component is loaded.
   useEffect(() => {
@@ -48,6 +65,7 @@ export default function GlobalSearchInput({
 
     const getData = setTimeout(() => {
       filtersStore.search.value = input;
+      router.replace(`/${filtersStore.city.value}/search?q=${input}`);
     }, 300);
 
     return () => clearTimeout(getData);
@@ -91,17 +109,13 @@ export default function GlobalSearchInput({
     }, 3000);
 
     return () => {
-      console.log("clearing interval");
-
-      setInput("");
-      filtersStore.search.value = "";
       clearInterval(interval);
     };
   }, []);
 
   return (
     <div className="relative w-full md:w-72">
-      <Link href={"/search"}>
+      <Link href={`/${filtersStore.city.value}/search`}>
         <Input
           value={input}
           onChange={(e) => {

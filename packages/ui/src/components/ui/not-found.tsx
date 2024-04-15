@@ -10,11 +10,13 @@ const MESSAGES = [
 export default function NotFound() {
   return (
     <div className="flex h-[80vh] w-full flex-col items-center justify-center">
-      <span className="text-center text-[3rem] font-medium text-primary">
+      <span className="text-center text-3xl font-medium text-primary">
         Oops...
+        <br />
+        404: Page Not Found
       </span>
       {/* <NotFoundAnimation /> */}
-      <div className="px-3 text-center text-xl font-semibold">
+      <div className="px-3 text-center font-semibold">
         {MESSAGES[Math.floor(Math.random() * MESSAGES.length)]}
       </div>
     </div>

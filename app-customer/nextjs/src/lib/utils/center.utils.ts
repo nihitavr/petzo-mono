@@ -13,7 +13,7 @@ export function convertToUrlFriendlyText(text: string): string {
 export function getCenterRelativeUrl(center: Center): string {
   const nameParam = convertToUrlFriendlyText(center.name);
 
-  return `/centers/${nameParam}/${center.publicId}`;
+  return `/center/${nameParam}/${center.publicId}`;
 }
 
 export function getServiceRelativeUrl(
@@ -23,7 +23,7 @@ export function getServiceRelativeUrl(
   const centerNameParam = convertToUrlFriendlyText(center.name);
   const serviceNameParam = convertToUrlFriendlyText(service.name);
 
-  return `/centers/${centerNameParam}/${center.publicId}/${serviceNameParam}/${service.publicId}`;
+  return `/center/${centerNameParam}/${center.publicId}/${serviceNameParam}/${service.publicId}`;
 }
 
 export function getServicesProvidedByCenter(center: Center): string[] {

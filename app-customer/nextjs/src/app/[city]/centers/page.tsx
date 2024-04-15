@@ -2,7 +2,6 @@ import { Suspense } from "react";
 
 import { CENTERS_LIST_PAGE_LIMIT } from "~/lib/constants";
 import { api } from "~/trpc/server";
-import GlobalSearchInput from "../_components/global-search-input";
 import { CenterFilterList } from "./_components/center-filter-list";
 import { CenterFilters } from "./_components/center-filters";
 import { MobileCenterFilters } from "./_components/mobile-center-filters";
@@ -10,7 +9,11 @@ import { LoadingCentersList } from "./loading";
 
 export default async function Centers({
   searchParams,
+  params: { city },
 }: {
+  params: {
+    city: string;
+  };
   searchParams: {
     city: string;
     serviceType: string;
@@ -19,7 +22,7 @@ export default async function Centers({
     rating: string;
   };
 }) {
-  const { city, serviceType, search, area, rating } = searchParams;
+  const { serviceType, search, area, rating } = searchParams;
 
   const centersPromise = api.center.findByFilters({
     city,
@@ -85,11 +88,8 @@ export default async function Centers({
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="mt-12 flex flex-col gap-3 md:mt-0">
       <div className="mt-3 flex items-end justify-between md:mt-4">
-        <div className="w-full md:hidden">
-          <GlobalSearchInput />
-        </div>
         <div className="ml-auto hidden h-min rounded-full border px-3 py-1 text-sm md:inline">
           Sort (Top Rated)
         </div>
@@ -116,7 +116,7 @@ export default async function Centers({
             fallback={<LoadingCentersList />}
           >
             <CenterFilterList
-              searchParams={searchParams}
+              filterParams={{ ...searchParams, city }}
               initialCentersPromise={centersPromise}
             />
           </Suspense>

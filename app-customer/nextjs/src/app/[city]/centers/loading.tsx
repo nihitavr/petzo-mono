@@ -4,9 +4,9 @@ import { Skeleton } from "@petzo/ui/components/skeleton";
 
 export default function Loading() {
   return (
-    <div className="mt-3 flex flex-col gap-3 md:mt-4">
-      <div className="flex items-center gap-2">
-        <Skeleton className="h-11 w-full rounded-full md:w-60" />
+    <div className="mt-7 flex flex-col gap-3 md:mt-4">
+      <div className="flex items-center justify-end gap-2">
+        <Skeleton className="h-8 w-full rounded-full md:w-44" />
       </div>
       <div className="grid grid-cols-12 gap-3">
         {/* Filters */}

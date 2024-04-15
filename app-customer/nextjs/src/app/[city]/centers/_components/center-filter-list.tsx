@@ -13,13 +13,14 @@ import { useOnScreen } from "~/lib/hooks/screen.hooks";
 import { getCenterRelativeUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
 import { LoadingCentersList } from "../loading";
+import NoCentersFound from "./no-centers.found";
 
 export const CenterFilterList = ({
   initialCentersPromise: centersPromise,
-  searchParams,
+  filterParams: filterParams,
 }: {
   initialCentersPromise: Promise<Center[]>;
-  searchParams: {
+  filterParams: {
     city: string;
     serviceType: string;
     search: string;
@@ -39,7 +40,7 @@ export const CenterFilterList = ({
 
   const [centers, setCenters] = useState<Center[]>(initialCenters);
 
-  const { city, serviceType, search, area, rating } = searchParams;
+  const { city, serviceType, search, area, rating } = filterParams;
 
   const {
     data: newCenters,
@@ -88,6 +89,8 @@ export const CenterFilterList = ({
       return acc;
     }, center.services[0]!);
   };
+
+  if (initialCenters.length === 0) return <NoCentersFound />;
 
   return (
     <div className="flex w-full flex-col gap-6">

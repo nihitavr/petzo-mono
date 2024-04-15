@@ -1,4 +1,4 @@
-import HomePageServicesCards from "./_components/home-page-service-cards";
+import HomePageServicesCards from "~/app/_components/home-page-service-cards";
 
 export default async function HomePage() {
   // You can await this here if you don't want to show Suspense fallback below

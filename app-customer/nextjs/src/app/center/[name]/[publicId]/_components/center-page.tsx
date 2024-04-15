@@ -1,43 +1,16 @@
-import type { Metadata } from "next";
-
 import NotFound from "@petzo/ui/components/not-found";
 
 import { api } from "~/trpc/server";
-import { CenterInfo } from "../../_components/center-info";
-import CenterServiceList from "../../_components/center-service-list";
-import ImagesCasousel from "../../_components/images-carousel";
+import { CenterInfo } from "./center-info";
+import CenterServiceList from "./center-service-list";
+import ImagesCasousel from "./images-carousel";
 
-export async function generateMetadata({
-  params: { publicId },
+export default async function CenterPage({
+  publicId,
+  servicePublicId,
 }: {
-  params: { publicId: string };
-}): Promise<Metadata> {
-  // read route params
-  const center = await api.center.findByPublicId({
-    publicId,
-  });
-
-  if (!center) {
-    return {
-      title: "Center not found",
-      description: "Center not found",
-    };
-  }
-
-  return {
-    title: center.name,
-    description: center.description,
-    openGraph: {
-      title: center.name,
-      description: center.description!,
-    },
-  };
-}
-
-export default async function Page({
-  params: { publicId },
-}: {
-  params: { publicId: string };
+  publicId: string;
+  servicePublicId: string;
 }) {
   const center = await api.center.findByPublicId({
     publicId,
@@ -67,7 +40,7 @@ export default async function Page({
         />
       </div>
 
-      <CenterServiceList center={center} />
+      <CenterServiceList center={center} servicePublicId={servicePublicId} />
     </div>
   );
 }

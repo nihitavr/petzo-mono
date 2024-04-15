@@ -9,8 +9,8 @@ import {
 } from "@petzo/ui/components/breadcrumb";
 import NotFound from "@petzo/ui/components/not-found";
 
-import ImagesCasousel from "~/app/centers/_components/images-carousel";
-import { ServiceInfo } from "~/app/centers/_components/service-info";
+import ImagesCasousel from "~/app/center/[name]/[publicId]/_components/images-carousel";
+import { ServiceInfo } from "~/app/center/[name]/[publicId]/_components/service-info";
 import {
   getCenterRelativeUrl,
   getServiceRelativeUrl,
@@ -76,7 +76,7 @@ const ServiceBreadcrumb = ({
 }) => {
   return (
     <Breadcrumb className={className}>
-      <BreadcrumbList>
+      <BreadcrumbList className="leading-4">
         <BreadcrumbItem>
           <span>Centers</span>
         </BreadcrumbItem>

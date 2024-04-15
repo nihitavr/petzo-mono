@@ -2,8 +2,6 @@ import type { Center, Service } from "@petzo/db";
 import { Button } from "@petzo/ui/components/button";
 import { cn } from "@petzo/ui/lib/utils";
 
-import { getServicesProvidedByCenter } from "~/lib/utils/center.utils";
-
 export const ServiceInfo = ({
   service,
   center,

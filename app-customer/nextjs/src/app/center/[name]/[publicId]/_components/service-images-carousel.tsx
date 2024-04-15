@@ -8,6 +8,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@petzo/ui/components/carousel";
 
 import { cn } from "~/lib/utils";
@@ -25,26 +27,6 @@ export default function ServiceImagesCasousel({
   autoplay?: boolean;
   autoPlayDelay?: number;
 }) {
-  images = [
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-  ];
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -96,6 +78,19 @@ export default function ServiceImagesCasousel({
             );
           })}
       </div>
+
+      {!!images?.length && (
+        <div className="">
+          <CarouselPrevious
+            canScrollPrev={carouselApi?.canScrollPrev()}
+            scrollPrev={() => carouselApi?.scrollPrev()}
+          />
+          <CarouselNext
+            canScrollNext={carouselApi?.canScrollNext()}
+            scrollNext={() => carouselApi?.scrollNext()}
+          />
+        </div>
+      )}
     </Carousel>
   );
 }
