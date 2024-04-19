@@ -3,21 +3,15 @@
 import { useMemo, useState } from "react";
 
 import type { Center } from "@petzo/db";
+import { SERVICES_OFFERED } from "@petzo/constants";
 
-import { SERVICES_OFFERED } from "~/lib/constants";
 import {
-  geServiceTypeToServicesByCenterMap,
   getServicesProvidedByCenter,
+  getServiceTypeToServicesByCenterMap,
 } from "~/lib/utils/center.utils";
 import ServiceCard from "./service-card";
 
-export default function CenterServiceList({
-  center,
-  servicePublicId,
-}: {
-  center: Center;
-  servicePublicId: string;
-}) {
+export default function CenterServiceList({ center }: { center: Center }) {
   const serviceTypesProvidedByCenter = useMemo(() => {
     return getServicesProvidedByCenter(center);
   }, [center]);
@@ -27,7 +21,7 @@ export default function CenterServiceList({
   );
 
   const serviceMap = useMemo(() => {
-    return geServiceTypeToServicesByCenterMap(center);
+    return getServiceTypeToServicesByCenterMap(center);
   }, [center]);
 
   const onClickServicesFilter = (servicePublicId: string) => {
@@ -42,8 +36,6 @@ export default function CenterServiceList({
 
   return (
     <div className="flex flex-col gap-3">
-      {/* <h3 className="text-center text-3xl font-semibold">Our Services</h3> */}
-
       {/* Service Type Filters */}
       <div className="mt-4 flex flex-wrap gap-2">
         {serviceTypesProvidedByCenter.map((serviceType) => {
@@ -90,7 +82,6 @@ export default function CenterServiceList({
                         key={`services-${idx}-${service.id}`}
                         service={service}
                         center={center}
-                        isDialogOpen={servicePublicId === service.publicId}
                       />
                     );
                   })}

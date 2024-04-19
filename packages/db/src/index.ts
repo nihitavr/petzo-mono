@@ -1,11 +1,39 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-import * as centerAuth from "./schema/center-app-auth-schema";
-import * as common from "./schema/common-schema";
-import * as customerAuth from "./schema/customer-app-auth-schema";
+import * as area from "./schema/area.schema";
+import * as booking from "./schema/booking.schema";
+import * as centerAddress from "./schema/center-address.schema";
+import * as centerAuth from "./schema/center-app-auth.schema";
+import * as center from "./schema/center.schema";
+import * as city from "./schema/city.schema";
+import * as customerAuth from "./schema/customer-app-auth.schema";
+import * as pet from "./schema/pet.schema";
+import * as reviews from "./schema/reviews.schema";
+import * as service from "./schema/service.schema";
+import * as slotAvailabilities from "./schema/slot-availability.schema";
+import * as slot from "./schema/slot.schema";
+import * as staff from "./schema/staff.schema";
+import * as state from "./schema/state.schema";
+import * as vet from "./schema/vet.schema";
 
-export const schema = { ...centerAuth, ...customerAuth, ...common };
+export const schema = {
+  ...centerAuth,
+  ...customerAuth,
+  ...area,
+  ...booking,
+  ...center,
+  ...centerAddress,
+  ...city,
+  ...pet,
+  ...reviews,
+  ...service,
+  ...slot,
+  ...staff,
+  ...state,
+  ...vet,
+  ...slotAvailabilities,
+};
 
 export { pgTable, customerPgTable, centerPgTable } from "./schema/_table";
 

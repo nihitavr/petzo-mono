@@ -1,3 +1,7 @@
+import { SERVICES_OFFERED } from "@petzo/constants";
+
+export const DEFAULT_MAX_PET_PROFILE_IMAGES = 1;
+
 export const CENTERS_LIST_PAGE_LIMIT = 20;
 
 export const COLOR_MAP: Record<string, { textColor: string; bgColor: string }> =
@@ -30,20 +34,39 @@ export const COLOR_MAP: Record<string, { textColor: string; bgColor: string }> =
     z: { textColor: "text-[#ffffff]", bgColor: "bg-[#009688]" },
   };
 
-export const SERVICES_OFFERED: Record<
-  string,
-  { name: string; publicId: string }
-> = {
-  veterinary: {
-    name: "Veterinary",
-    publicId: "veterinary",
+export const DEFAULT_CENTER_FILTERS: {
+  publicId: string;
+  label: string;
+  type: string;
+  items: { publicId: string; label: string; selected: boolean }[];
+}[] = [
+  {
+    publicId: "serviceType",
+    label: "Service Type",
+    type: "multi-select",
+    items: Object.values(SERVICES_OFFERED).map((service) => ({
+      publicId: service.publicId,
+      label: service.name,
+      selected: false,
+    })),
   },
-  grooming: {
-    name: "Grooming",
-    publicId: "grooming",
+  {
+    publicId: "ratingGte",
+    label: "Rating",
+    type: "single-select",
+    items: [
+      {
+        publicId: "4",
+        label: ">= 4",
+        selected: false,
+      },
+    ],
   },
-  boarding: {
-    name: "Boarding",
-    publicId: "boarding",
+  {
+    publicId: "area",
+    label: "Area",
+    type: "multi-select",
+    shouldFetchData: true,
+    items: [],
   },
-};
+];

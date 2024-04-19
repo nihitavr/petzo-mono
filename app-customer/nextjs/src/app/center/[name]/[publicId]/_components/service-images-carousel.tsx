@@ -11,8 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@petzo/ui/components/carousel";
-
-import { cn } from "~/lib/utils";
+import { cn } from "@petzo/ui/lib/utils";
 
 export default function ServiceImagesCasousel({
   images,

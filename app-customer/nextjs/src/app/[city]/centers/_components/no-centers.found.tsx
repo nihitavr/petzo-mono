@@ -1,7 +1,13 @@
+"use client";
+
+import { useSignals } from "@preact/signals-react/runtime";
+
 export default function NoCentersFound() {
+  useSignals();
+
   return (
-    <div className="mt-5 h-32 text-center text-xl font-semibold opacity-70">
-      Oops... No Centers Found
+    <div className="flex h-[60vh] items-center justify-center text-xl font-semibold opacity-70">
+      <span>Oops... No Centers Found</span>
     </div>
   );
 }

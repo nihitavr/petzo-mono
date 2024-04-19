@@ -45,7 +45,8 @@ export function CenterFilters({
       onApply();
     }
 
-    let filterUrl = `/centers?city=${filtersStore.city.value}`;
+    let filterUrl = `/${filtersStore.city.value}/centers`;
+    const urlQueryParams = new URLSearchParams();
 
     const serviceType = values.filters
       .find((filter) => filter.publicId === "serviceType")
@@ -53,17 +54,13 @@ export function CenterFilters({
       .map((item) => item.publicId)
       .join(",");
 
-    if (serviceType) {
-      filterUrl = filterUrl.concat(`&serviceType=${serviceType}`);
-    }
+    if (serviceType) urlQueryParams.set("serviceType", serviceType);
 
     const rating = values.filters
       .find((filter) => filter.publicId === "rating")
       ?.items.find((item) => item.selected)?.publicId;
 
-    if (rating) {
-      filterUrl = filterUrl.concat(`&rating=${rating}`);
-    }
+    if (rating) urlQueryParams.set("rating", rating);
 
     const area = values.filters
       .find((filter) => filter.publicId === "area")
@@ -71,12 +68,13 @@ export function CenterFilters({
       .map((item) => item.publicId)
       .join(",");
 
-    if (area) {
-      filterUrl = filterUrl.concat(`&area=${area}`);
-    }
+    if (area) urlQueryParams.set("area", area);
+
+    const urlQueryParamsStr = urlQueryParams.toString();
+
+    if (urlQueryParamsStr) filterUrl += `?${urlQueryParamsStr}`;
 
     form.reset(values);
-
     router.push(filterUrl);
     router.refresh();
   };

@@ -4,6 +4,7 @@ import { integer, text, timestamp, varchar } from "drizzle-orm/pg-core";
 export const userSchema = {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   name: varchar("name", { length: 255 }),
+  phoneNumber: varchar("phone_number", { length: 15 }),
   email: varchar("email", { length: 255 }).notNull(),
   emailVerified: timestamp("emailVerified", {
     mode: "date",

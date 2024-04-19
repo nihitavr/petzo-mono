@@ -2,7 +2,7 @@
 
 import { cn } from "@petzo/ui/lib/utils";
 
-import { getDiscountedPrice } from "../../lib/utils";
+import { getDiscountedPrice } from "~/lib/utils/price.utils";
 
 export default function Price({
   className,

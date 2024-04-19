@@ -169,6 +169,55 @@
       "when": 1713044864136,
       "tag": "0023_powerful_franklin_storm",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "5",
+      "when": 1713213734496,
+      "tag": "0024_glamorous_magma",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "5",
+      "when": 1713275971685,
+      "tag": "0025_misty_doctor_octopus",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "5",
+      "when": 1713276430495,
+      "tag": "0026_sturdy_silver_samurai",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "5",
+      "when": 1713299625666,
+      "tag": "0027_dapper_plazm",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "5",
+      "when": 1713370498866,
+      "tag": "0028_shallow_epoch",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "5",
+      "when": 1713370736021,
+      "tag": "0029_old_junta",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "5",
+      "when": 1713466166252,
+      "tag": "0030_nervous_the_phantom",
+      "breakpoints": true
     }
   ]
 }

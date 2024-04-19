@@ -24,16 +24,20 @@ export const metadata: Metadata = {
   title: "Petzo",
   icons: [{ rel: "icon", url: "/petzo-logo-icon.svg" }],
   description:
-    "Petzo is a pet-care platform for pet owners and pet service providers.",
+    "Petzo | Book Vet Consultation, Pet Grooming and Pet boarding services online.",
   openGraph: {
     title: "Petzo",
     images: [{ url: "/petzo-logo-icon.svg" }],
     description:
-      "Petzo is a pet-care platform for pet owners and pet service providers.",
+      "Petzo is an online platform for booking Vet Consultation, Pet Grooming and Pet boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
     url: "https://petzo.co",
     siteName: "Petzo App",
   },
   twitter: {
+    title: "Petzo",
+    images: [{ url: "/petzo-logo-icon.svg" }],
+    description:
+      "Petzo is an online platform for booking Vet Consultation, Pet Grooming and Pet boarding services online. ",
     card: "summary_large_image",
     site: "@petzoapp",
     creator: "@petzoapp",
@@ -49,13 +53,13 @@ export const viewport: Viewport = {
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const session = await auth();
-  const cities = await api.city.getAll();
+  const cities = await api.city.getAllActiveCities();
 
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans text-foreground antialiased",
+          "min-h-screen w-[100vw] overflow-y-scroll bg-background font-sans text-foreground antialiased",
           GeistSans.variable,
           GeistMono.variable,
         )}
@@ -63,7 +67,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <ThemeProvider attribute="class" defaultTheme="light">
           <TRPCReactProvider>
             <Header session={session} cities={cities} />
-            <main className="h-screen px-3 py-14 md:py-14 lg:px-24 xl:px-48">
+            <main className="h-screen px-3 py-[4.4rem] md:py-[4.8rem] lg:px-24 xl:px-48">
               {props.children}
             </main>
           </TRPCReactProvider>

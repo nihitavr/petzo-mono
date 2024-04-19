@@ -1,29 +1,38 @@
+import { eq, schema } from "@petzo/db";
 import { GetCityAreasSchema } from "@petzo/validators";
 
-import { publicProcedure } from "../trpc";
+import { publicCachedProcedure } from "../trpc";
 
 export const cityRouter = {
-  getCityAreas: publicProcedure.input(GetCityAreasSchema).query(() => {
-    return [
-      {
-        publicId: "hsr-layout",
-        name: "HSR Layout",
-      },
-      {
-        publicId: "bommanahalli",
-        name: "Bommanahalli",
-      },
-      {
-        publicId: "koramangala",
-        name: "Koramangala",
-      },
-    ];
-  }),
+  getCityAreas: publicCachedProcedure
+    .meta({
+      cacheTTLInSeconds: 36000,
+    })
+    .input(GetCityAreasSchema)
+    .query(() => {
+      return [
+        {
+          publicId: "hsr-layout",
+          name: "HSR Layout",
+        },
+        {
+          publicId: "bommanahalli",
+          name: "Bommanahalli",
+        },
+        {
+          publicId: "koramangala",
+          name: "Koramangala",
+        },
+      ];
+    }),
 
-  getAll: publicProcedure.query(() => {
-    return [
-      { id: 1, name: "Bengaluru", publicId: "bengaluru" },
-      { id: 2, name: "Mumbai", publicId: "mumbai" },
-    ];
-  }),
+  getAllActiveCities: publicCachedProcedure
+    .meta({
+      cacheTTLInSeconds: 36000,
+    })
+    .query(async ({ ctx }) => {
+      return await ctx.db.query.cities.findMany({
+        where: eq(schema.cities.isActive, true),
+      });
+    }),
 };

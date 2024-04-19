@@ -14,7 +14,7 @@ import {
 
 import type { CartItem } from "~/lib/storage/cart-storage";
 import { useCart } from "~/lib/storage/cart-storage";
-import { getDiscountedPrice } from "~/lib/utils";
+import { getDiscountedPrice } from "~/lib/utils/price.utils";
 import Price from "./price";
 
 export function CartSideSheet() {

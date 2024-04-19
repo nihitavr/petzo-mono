@@ -3,10 +3,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useSignals } from "@preact/signals-react/runtime";
 
 import type { Session } from "@petzo/auth-customer-app";
+import type { City } from "@petzo/db";
 import { cn } from "@petzo/ui/lib/utils";
 
 import { filtersStore } from "~/lib/storage/global-storage";
@@ -29,10 +30,7 @@ export default function Header({
   cities,
 }: {
   session: Session | null;
-  cities: {
-    name: string;
-    publicId: string;
-  }[];
+  cities: City[];
 }) {
   useSignals();
 
@@ -44,7 +42,11 @@ export default function Header({
   const handleScroll = useCallback(() => {
     const currentScrollPos = window.scrollY;
 
-    if (currentScrollPos > lastScrollTop && currentScrollPos > 50) {
+    if (
+      currentScrollPos > lastScrollTop &&
+      currentScrollPos > 50 &&
+      !pathname.startsWith("/dashboard")
+    ) {
       // Scroll Up
       setHeaderVisible(false);
     } else if (lastScrollTop - currentScrollPos > 5 || currentScrollPos < 75) {
@@ -72,8 +74,8 @@ export default function Header({
           : "-translate-y-full transition-transform duration-300 ease-in-out",
       )}
     >
-      <nav className="flex items-center justify-between gap-4 border-b px-3 py-2 shadow-sm lg:px-24 xl:px-48">
-        <div className="flex flex-row items-center gap-4 md:flex-row">
+      <nav className="grid w-full grid-cols-2 gap-4 border-b px-3 py-2 shadow-sm md:grid-cols-3 lg:px-24 xl:px-48">
+        <div className="flex items-center justify-start gap-4">
           <Link href={`/${filtersStore.city.value}/explore`}>
             <div className="md:w-38 relative h-10 w-28">
               {/* <div className="relative h-12 w-44"> */}
@@ -87,17 +89,17 @@ export default function Header({
             </div>
           </Link>
         </div>
-        <div className="hidden md:inline">
+        <div className="hidden items-center justify-center md:flex">
           <GlobalSearchInput />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-end gap-2">
           {/* <CartSideSheet /> */}
           <CityDropdown cities={cities} />
           <SideNavSheet
             isSignedIn={!!session?.user}
             image={session?.user?.image}
-            fallbackLetter={session?.user?.name?.[0] ?? "A"}
+            fallbackLetter={session?.user?.name?.[0]}
           />
         </div>
       </nav>

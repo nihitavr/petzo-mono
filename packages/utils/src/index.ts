@@ -1,5 +1,6 @@
 import type { ClassValue } from "clsx";
 import { clsx } from "clsx";
+import { nanoid } from "nanoid";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
@@ -82,10 +83,6 @@ export function isValidCuid(cuid: string) {
   return true;
 }
 
-export function getDiscountedPrice(price: number, discount: number) {
-  return Math.round((price * (100 - discount)) / 100);
-}
-
 export function getNRandomCuteImage() {
   const images = ["/paw.svg", "/stars.svg", "/bowtie.svg"];
   const randomImages = [];
@@ -108,11 +105,15 @@ export function getNRandomCuteImage() {
 }
 
 export function getGoogleLocationLink(
-  geoCode: {
+  geoCode?: {
     latitude: number;
     longitude: number;
   } | null,
 ) {
   if (!geoCode) return "";
   return `https://www.google.com/maps/search/${geoCode?.latitude},${geoCode?.longitude}`;
+}
+
+export function generatePublicId(size = 15) {
+  return nanoid(size);
 }

@@ -13,29 +13,33 @@ export default function HomePageServicesCards() {
     <div className="grid grid-cols-2 gap-3">
       <HomePageServicesCard
         name="Vet Cosultation"
+        label="Vet Clinics near you"
         imageUrl="/vet-consultation-card-image.jpg"
         link={`/${filtersStore.city.value}/centers?serviceType=veterinary`}
       />
       <HomePageServicesCard
         name="Pet Grooming"
+        label="Grooming Centers near you"
         imageUrl="/pet-grooming-card-image.jpg"
         link={`/${filtersStore.city.value}/centers?serviceType=grooming`}
       />
-      <HomePageServicesCard
+      {/* <HomePageServicesCard
         name="Pet Boarding"
         imageUrl="/pet-boarding-card-image.jpg"
         link={`/${filtersStore.city.value}/centers?serviceType=boarding`}
-      />
+      /> */}
     </div>
   );
 }
 
 const HomePageServicesCard = ({
   name,
+  label,
   imageUrl,
   link,
 }: {
   name: string;
+  label: string;
   imageUrl: string;
   link: string;
 }) => {
@@ -48,9 +52,7 @@ const HomePageServicesCard = ({
       <span className="z-10 font-semibold text-slate-900 md:text-xl">
         {name}
       </span>
-      {/* <span className="z-10 -mt-1 text-xs opacity-60 md:text-sm">
-        Vet Clinics near you
-      </span> */}
+      <span className="z-10 -mt-1 text-xs opacity-60 md:text-sm">{label}</span>
     </Link>
   );
 };

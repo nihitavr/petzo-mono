@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useSignals } from "@preact/signals-react/runtime";
 import { LuCheck, LuChevronDown } from "react-icons/lu";
 import { SlLocationPin } from "react-icons/sl";
 
+import { City } from "@petzo/db";
 import {
   Command,
   CommandEmpty,
@@ -26,10 +27,7 @@ export default function CityDropdown({
   cities,
   defaultCityPublicId,
 }: {
-  cities: {
-    name: string;
-    publicId: string;
-  }[];
+  cities: City[];
   defaultCityPublicId?: string;
 }) {
   useSignals();
@@ -37,6 +35,10 @@ export default function CityDropdown({
   const params = useParams();
 
   const [open, setOpen] = useState(false);
+
+  const selectedCity = useMemo(() => {
+    return cities.find((city) => city.publicId === filtersStore.city.value);
+  }, [filtersStore.city.value, cities]);
 
   useEffect(() => {
     if (!!params.city && params.city !== filtersStore.city.value) {
@@ -47,9 +49,14 @@ export default function CityDropdown({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <div className="flex cursor-pointer items-center">
-          <SlLocationPin className="size-5 text-foreground/70" />
-          <LuChevronDown className="size-5 text-foreground/70" />
+        <div className="flex cursor-pointer flex-col items-center gap-0.5">
+          <span className="line-clamp-1 text-[0.7rem] font-semibold text-foreground/70">
+            {selectedCity?.name}
+          </span>
+          <div className="flex items-center">
+            <SlLocationPin className="size-5 text-foreground/70" />
+            <LuChevronDown className="size-5 text-foreground/70" />
+          </div>
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-[130px] p-0" align="end">

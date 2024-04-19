@@ -17,7 +17,7 @@ export const FindByFilters = z.object({
     .string()
     .optional()
     .transform((val) => val?.split(",")),
-  rating: z.number().optional(),
+  ratingGte: z.number().optional(),
   area: z
     .string()
     .optional()
