@@ -4,7 +4,8 @@ import type { UseEmblaCarouselType } from "embla-carousel-react";
 import * as React from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
-import { cn } from "src/lib/utils";
+
+import { cn } from "@petzo/ui/lib/utils";
 
 import { Button } from "./button";
 

@@ -28,6 +28,8 @@ const config = {
     "@petzo/auth-customer-app",
     "@petzo/db",
     "@petzo/ui",
+    "@petzo/constants",
+    "@petzo/utils",
     "@petzo/validators",
   ],
 

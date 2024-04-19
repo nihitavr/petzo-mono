@@ -11,12 +11,10 @@ export default function ServiceCard({
   service,
   center,
   className,
-  isDialogOpen,
 }: {
   service: Service;
   center: Center;
   className?: string;
-  isDialogOpen: boolean;
 }) {
   return (
     <div className={cn("flex justify-between", className)}>
@@ -32,21 +30,7 @@ export default function ServiceCard({
           {service.description}
         </span>
 
-        <ServiceDetailsDialog
-          service={service}
-          center={center}
-          defaultOpen={isDialogOpen}
-        />
-
-        {/* <Link href={`${getServiceRelativeUrl(service, center)}`}>
-          <Button
-            className="mt-2 h-min w-min px-2 py-1 text-xs text-foreground/80"
-            size="sm"
-            variant="outline"
-          >
-            View Details {">"}
-          </Button>
-        </Link> */}
+        <ServiceDetailsDialog service={service} center={center} />
       </div>
 
       {/* Service Image */}
@@ -66,9 +50,11 @@ export default function ServiceCard({
             {service.name[0]}
           </div>
         )}
-        <div className="absolute bottom-0 flex w-full translate-y-1/2 justify-center">
+
+        {/* TODO:  */}
+        {/* <div className="absolute bottom-0 flex w-full translate-y-1/2 justify-center">
           <Button variant="outline">Add</Button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

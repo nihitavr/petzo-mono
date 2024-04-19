@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 
 import { CENTERS_LIST_PAGE_LIMIT } from "~/lib/constants";
+import { getCenterFilters } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/server";
 import { CenterFilterList } from "./_components/center-filter-list";
 import { CenterFilters } from "./_components/center-filters";
@@ -9,94 +10,55 @@ import { LoadingCentersList } from "./loading";
 
 export default async function Centers({
   searchParams,
-  params: { city },
+  params,
 }: {
   params: {
     city: string;
   };
   searchParams: {
-    city: string;
     serviceType: string;
     search: string;
     area: string;
-    rating: string;
+    ratingGte: string;
   };
 }) {
-  const { serviceType, search, area, rating } = searchParams;
+  const { serviceType, search, area, ratingGte: ratingGte } = searchParams;
+  const { city } = params;
 
   const centersPromise = api.center.findByFilters({
     city,
     serviceType,
     search,
     area,
-    rating: +rating || 0,
+    ratingGte: +ratingGte || 0,
     pagination: {
       page: 0,
       limit: CENTERS_LIST_PAGE_LIMIT,
     },
   });
 
-  const areasFromDb = await api.city.getCityAreas({ city });
-
-  const serviceTypeQueryParamList = serviceType ? serviceType.split(",") : [];
-  const areaQueryParamList = area ? area.split(",") : [];
+  const areaFromDb = await api.city.getCityAreas({ city });
 
   const filtersObj = {
-    filters: [
+    filters: await getCenterFilters(
       {
-        publicId: "serviceType",
-        label: "Service Type",
-        items: [
-          {
-            publicId: "veterinary",
-            label: "Veterinary",
-            selected: serviceTypeQueryParamList.includes("veterinary"),
-          },
-          {
-            publicId: "grooming",
-            label: "Grooming",
-            selected: serviceTypeQueryParamList.includes("grooming"),
-          },
-          {
-            publicId: "boarding",
-            label: "Boarding",
-            selected: serviceTypeQueryParamList.includes("boarding"),
-          },
-        ],
+        serviceType,
+        area,
+        ratingGte,
       },
-      {
-        publicId: "rating",
-        label: "Rating",
-        items: [
-          {
-            publicId: "4",
-            label: ">= 4",
-            selected: rating === "4",
-          },
-        ],
-      },
-      {
-        publicId: "area",
-        label: "Area",
-        items: areasFromDb.map((area) => ({
-          publicId: area.publicId,
-          label: area.name,
-          selected: areaQueryParamList.includes(area.publicId),
-        })),
-      },
-    ],
+      { area: areaFromDb },
+    ),
   };
 
   return (
-    <div className="mt-12 flex flex-col gap-3 md:mt-0">
-      <div className="mt-3 flex items-end justify-between md:mt-4">
-        <div className="ml-auto hidden h-min rounded-full border px-3 py-1 text-sm md:inline">
+    <div className="mt-16 flex flex-col gap-3 md:mt-0">
+      <div className="hidden items-end justify-between md:flex">
+        <div className="ml-auto h-min rounded-full border px-3 py-1 text-sm">
           Sort (Top Rated)
         </div>
       </div>
 
       <div className="flex gap-2 md:hidden">
-        {/* <div className="h-min rounded-full border px-3 py-1">Filter By</div> */}
         <MobileCenterFilters filters={filtersObj} />
         <div className="h-min rounded-full border px-3 py-1 text-sm">
           Sort (Top Rated)

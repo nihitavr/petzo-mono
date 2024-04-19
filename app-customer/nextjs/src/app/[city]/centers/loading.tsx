@@ -3,6 +3,7 @@ import { forwardRef } from "react";
 import { Skeleton } from "@petzo/ui/components/skeleton";
 
 export default function Loading() {
+  return <div></div>;
   return (
     <div className="mt-7 flex flex-col gap-3 md:mt-4">
       <div className="flex items-center justify-end gap-2">

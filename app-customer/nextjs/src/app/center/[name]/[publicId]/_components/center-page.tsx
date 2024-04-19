@@ -1,17 +1,11 @@
-import NotFound from "@petzo/ui/components/not-found";
+import NotFound from "@petzo/ui/components/errors/not-found";
 
 import { api } from "~/trpc/server";
 import { CenterInfo } from "./center-info";
 import CenterServiceList from "./center-service-list";
 import ImagesCasousel from "./images-carousel";
 
-export default async function CenterPage({
-  publicId,
-  servicePublicId,
-}: {
-  publicId: string;
-  servicePublicId: string;
-}) {
+export default async function CenterPage({ publicId }: { publicId: string }) {
   const center = await api.center.findByPublicId({
     publicId,
   });
@@ -21,11 +15,11 @@ export default async function CenterPage({
   const imageUrls = center.images?.map((img) => img.url) ?? [];
 
   return (
-    <div className="flex flex-col gap-5 pt-0 md:gap-8 md:py-4">
+    <div className="flex flex-col gap-5 pb-24 pt-0 md:gap-8 md:py-4">
       {/* Center Image & Center Info */}
       <div className="flex grid-cols-10 flex-col gap-2 md:grid md:gap-5">
         {/* Center Images */}
-        <div className="col-span-4 w-full p-2 md:p-0">
+        <div className="col-span-4 w-full px-2 md:p-0">
           <ImagesCasousel
             images={imageUrls}
             className="aspect-square w-full"
@@ -40,7 +34,7 @@ export default async function CenterPage({
         />
       </div>
 
-      <CenterServiceList center={center} servicePublicId={servicePublicId} />
+      <CenterServiceList center={center} />
     </div>
   );
 }

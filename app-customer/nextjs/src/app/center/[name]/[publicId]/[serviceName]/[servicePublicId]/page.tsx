@@ -1,35 +1,56 @@
 import type { Metadata } from "next";
 
+import {
+  getMetadataDescription,
+  getMetadataKeywords,
+  getMetadataTitle,
+} from "~/lib/utils/service.utils";
 import { api } from "~/trpc/server";
 import CenterPage from "../../_components/center-page";
 
 export async function generateMetadata({
-  params: { publicId },
+  params: { publicId, servicePublicId },
 }: {
-  params: { publicId: string };
+  params: { publicId: string; servicePublicId: string };
 }): Promise<Metadata> {
   // read route params
   const center = await api.center.findByPublicId({
     publicId,
   });
 
-  if (!center) {
+  const service = await api.service.findByPublicId({
+    publicId: servicePublicId,
+  });
+
+  if (!service) {
     return {
-      title: "Center not found",
-      description: "Center not found",
+      title: "Petzo | Service not found",
+      description: "Service not found",
     };
   }
 
+  const title = getMetadataTitle(service, center!);
+  const description = getMetadataDescription(service, center!);
+  const keywords = getMetadataKeywords(service, center!);
+
+  const imageUrl = service.images?.[0]?.url;
+
   return {
-    title: center.name,
-    description: center.description,
+    title: title,
+    description: description,
+    keywords: keywords,
     openGraph: {
-      title: center.name,
-      description: center.description!,
+      title: title,
+      description: description,
+      images: imageUrl,
+    },
+    twitter: {
+      title: title,
+      description: description,
+      images: imageUrl,
     },
   };
 }
-
 export default async function Page({
   params: { publicId },
 }: {

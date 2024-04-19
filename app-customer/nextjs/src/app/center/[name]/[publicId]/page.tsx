@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 
+import {
+  getMetadataDescription,
+  getMetadataKeywords,
+  getMetadataTitle,
+} from "~/lib/utils/center.utils";
 import { api } from "~/trpc/server";
 import CenterPage from "./_components/center-page";
 
@@ -15,17 +20,29 @@ export async function generateMetadata({
 
   if (!center) {
     return {
-      title: "Center not found",
+      title: "Petzo | Center not found",
       description: "Center not found",
     };
   }
 
+  const title = getMetadataTitle(center);
+  const description = getMetadataDescription(center);
+  const keywords = getMetadataKeywords(center);
+  const imageUrl = center.images?.[0]?.url;
+
   return {
-    title: center.name,
-    description: center.description,
+    title: title,
+    description: description,
+    keywords: keywords,
     openGraph: {
-      title: center.name,
-      description: center.description!,
+      title: title,
+      description: description,
+      images: imageUrl,
+    },
+    twitter: {
+      title: title,
+      description: description,
+      images: imageUrl,
     },
   };
 }

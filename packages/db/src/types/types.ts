@@ -4,11 +4,7 @@ import type {
   ExtractTablesWithRelations,
 } from "drizzle-orm";
 
-import * as centerAuth from "../schema/center-app-auth-schema";
-import * as common from "../schema/common-schema";
-import * as customerAuth from "../schema/customer-app-auth-schema";
-
-const schema = { ...centerAuth, ...customerAuth, ...common };
+import type { schema } from "../index";
 
 type Schema = typeof schema;
 type TSchema = ExtractTablesWithRelations<Schema>;
@@ -30,21 +26,39 @@ type InferResultType<
     with: With;
   }
 >;
-
+// Area Type
 export type Area = InferResultType<"areas">;
+
+// City Type
 export type City = InferResultType<"cities">;
 
+// Center Type
 export type Center = InferResultType<"centers"> & {
   centerAddress: CenterAddress;
-  services: Service[];
+  services?: Service[];
 };
 
+// Center Address Type
 export type CenterAddress = InferResultType<"centerAddresses"> & {
   area: Area;
   city: City;
 };
 
-export type Service = InferResultType<"services">;
+// Service Type
+export type Service = InferResultType<"services"> & {
+  slots?: Slot[];
+};
 
-// This is to export all the default types from index.ts file
+// Slot Type
+export type Slot = InferResultType<"slots"> & {
+  slotAvailabilities: SlotAvailability[];
+};
+
+// Slot Availability Type
+export type SlotAvailability = InferResultType<"slotAvailabilities">;
+
+export type Pet = InferResultType<"pets">;
+
+// This is to export all the default types from index.ts file as when
+// you add type in package.json it will not be exported by default
 export * from "../index";

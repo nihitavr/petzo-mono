@@ -1,7 +1,8 @@
 import type { TRPCRouterRecord } from "@trpc/server";
-import { and, eq, gte, inArray, sql } from "drizzle-orm";
+import { and, eq, gte, inArray, lte, sql } from "drizzle-orm";
 
-import { schema } from "@petzo/db";
+import { schema, SlotAvailability } from "@petzo/db";
+import { getNthDate } from "@petzo/utils/time";
 import { centerValidator } from "@petzo/validators";
 
 import { publicCachedProcedure } from "../trpc";
@@ -34,7 +35,7 @@ export const centerRouter = {
               state: true,
             },
           },
-          services: true,
+          services: { with: { slots: true } },
         },
       });
 
@@ -110,8 +111,8 @@ export const centerRouter = {
               combinedConditions,
 
               // If rating is provided, filter centers by averageRating greater than or equal to the given rating.
-              input.rating
-                ? gte(schema.centers.averageRating, input.rating)
+              input.ratingGte
+                ? gte(schema.centers.averageRating, input.ratingGte)
                 : undefined,
             ),
           )

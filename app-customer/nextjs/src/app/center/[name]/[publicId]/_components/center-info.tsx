@@ -3,10 +3,11 @@ import { GrLocation } from "react-icons/gr";
 
 import type { Center } from "@petzo/db";
 import { cn } from "@petzo/ui/lib/utils";
+import { getGoogleLocationLink } from "@petzo/utils";
 
-import { getGoogleLocationLink } from "~/lib/utils";
 import { getServicesProvidedByCenter } from "~/lib/utils/center.utils";
-import CenterDescriptionAndButtons from "../../../../[city]/centers/_components/center-description-and-buttons";
+import CenterDescriptionAndButtons from "./center-description-and-buttons";
+import Rating from "./rating";
 
 export const CenterInfo = ({
   center,
@@ -27,13 +28,14 @@ export const CenterInfo = ({
       {/* Rating and Reviews */}
       <div className="md:text-md flex items-center gap-2 text-sm text-foreground/80">
         <div className="flex items-center gap-1">
-          <span className="">{center.averageRating}</span>
-          <FaStar className="h-3.5 w-3.5 text-yellow-600" />
+          <Rating rating={center.averageRating} />
         </div>
-        <div className="h-1.5 w-1.5 rounded-full bg-foreground/80"></div>
+
+        {/* Reviews */}
+        {/* <div className="h-1.5 w-1.5 rounded-full bg-foreground/80"></div>
         <div className="flex cursor-pointer items-center gap-1 hover:underline">
           <span>{center.reviewCount} reviews</span>
-        </div>
+        </div> */}
       </div>
 
       {/* Services Provided */}

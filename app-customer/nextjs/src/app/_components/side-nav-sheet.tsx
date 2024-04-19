@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { BsPersonFill } from "react-icons/bs";
 import { FaCalendarAlt, FaDog, FaUserCircle } from "react-icons/fa";
 
 import { Avatar, AvatarFallback } from "@petzo/ui/components/avatar";
@@ -22,26 +23,27 @@ export function SideNavSheet({
 }: {
   isSignedIn: boolean;
   image?: string | null;
-  fallbackLetter: string;
+  fallbackLetter?: string;
 }) {
   return (
     <Sheet>
-      {isSignedIn ? (
-        <SheetTrigger asChild>
-          <Avatar className="cursor-pointer hover:opacity-90">
-            {image ? (
-              <Image src={image} alt="Avatar" width={50} height={50} />
-            ) : (
-              <AvatarFallback>{fallbackLetter}</AvatarFallback>
-            )}
-          </Avatar>
-        </SheetTrigger>
-      ) : (
-        <SignIn />
-      )}
+      <SheetTrigger asChild>
+        <Avatar className="cursor-pointer hover:opacity-90">
+          {image ? (
+            <Image src={image} alt="Avatar" width={50} height={50} />
+          ) : (
+            <AvatarFallback className="">
+              {fallbackLetter ?? (
+                <BsPersonFill className="size-7 text-foreground/70" />
+              )}
+            </AvatarFallback>
+          )}
+        </Avatar>
+      </SheetTrigger>
+
       <SheetContent>
         <SheetHeader className="flex flex-row gap-2">
-          <div className="relative h-12 w-40">
+          <div className="relative h-12 w-36">
             <Image
               src="/petzo-logo.svg"
               alt="Logo"
@@ -51,13 +53,16 @@ export function SideNavSheet({
             />
           </div>
         </SheetHeader>
-        <div className="mt-8 flex flex-col gap-5">
+        <div className="mt-5 flex flex-col gap-5">
           <SheetClose asChild>
             <Link
               href="/dashboard/profile"
               className="flex items-center gap-3 rounded-md p-2 hover:bg-secondary"
             >
-              <FaUserCircle className="h-8 w-8" strokeWidth={1.3} />
+              <FaUserCircle
+                className="h-8 w-8 text-foreground/70"
+                strokeWidth={1.3}
+              />
               <span>Your Profile</span>
             </Link>
           </SheetClose>
@@ -66,7 +71,7 @@ export function SideNavSheet({
               href="/dashboard/pets"
               className="flex items-center gap-3 rounded-md p-2 hover:bg-secondary"
             >
-              <FaDog className="h-8 w-8" strokeWidth={1.3} />
+              <FaDog className="h-8 w-8 text-foreground/70" strokeWidth={1.3} />
               <span>Your Pets</span>
             </Link>
           </SheetClose>
@@ -76,15 +81,22 @@ export function SideNavSheet({
               href="/dashboard/bookings"
               className="flex items-center gap-3 rounded-md p-2 hover:bg-secondary"
             >
-              <FaCalendarAlt className="h-8 w-8" strokeWidth={1.3} />
+              <FaCalendarAlt
+                className="h-8 w-8 text-foreground/70"
+                strokeWidth={1.3}
+              />
               <span>Bookings</span>
             </Link>
           </SheetClose>
         </div>
         <SheetFooter className="mt-8">
-          <SheetClose asChild>
-            <SignOut />
-          </SheetClose>
+          {isSignedIn ? (
+            <SheetClose asChild>
+              <SignOut />
+            </SheetClose>
+          ) : (
+            <SignIn />
+          )}
         </SheetFooter>
       </SheetContent>
     </Sheet>

@@ -1,0 +1,43 @@
+{
+  "name": "@petzo/utils",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    },
+    "./time": {
+      "default": "./src/time.utils.ts"
+    }
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf .turbo node_modules dist",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@petzo/constants": "workspace:*",
+    "@petzo/db": "workspace:*",
+    "nanoid": "^5.0.7"
+  },
+  "devDependencies": {
+    "@petzo/eslint-config": "workspace:*",
+    "@petzo/prettier-config": "workspace:*",
+    "@petzo/tsconfig": "workspace:*",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.3"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@petzo/eslint-config/base"
+    ]
+  },
+  "prettier": "@petzo/prettier-config"
+}

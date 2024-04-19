@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useState } from "react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import type { Center, Service } from "@petzo/db";
 import { Button } from "@petzo/ui/components/button";
@@ -19,15 +21,13 @@ import ServiceImagesCasousel from "./service-images-carousel";
 export function ServiceDetailsDialog({
   service,
   center,
-  defaultOpen,
 }: {
   center: Center;
   service: Service;
-  defaultOpen?: boolean;
 }) {
   const pathname = usePathname();
 
-  const [isDialogOpen, setDialogOpen] = useState(defaultOpen);
+  const [isDialogOpen, setDialogOpen] = useState(false);
 
   const imageUrls = service.images?.map((img) => img.url) ?? [];
 
