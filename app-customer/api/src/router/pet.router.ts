@@ -41,7 +41,7 @@ export const petRouter = {
             breed: input.breed,
             dateOfBirth: input.dateOfBirth,
           })
-          .where(eq(schema.pets.id, input.id!))
+          .where(eq(schema.pets.publicId, input.publicId!))
           .returning()
       )?.[0];
     }),
@@ -56,14 +56,14 @@ export const petRouter = {
   getPetProfile: protectedProcedure
     .input(
       z.object({
-        id: z.number(),
+        publicId: z.string().length(15),
       }),
     )
     .query(({ ctx, input }) => {
       return ctx.db.query.pets.findFirst({
         where: and(
           eq(schema.pets.customerUserId, ctx.session.user.id),
-          eq(schema.pets.id, input.id),
+          eq(schema.pets.publicId, input.publicId),
         ),
         orderBy: [asc(schema.pets.name)],
       });

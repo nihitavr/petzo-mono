@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const ProfileSchema = z.object({
-  id: z.number().optional(),
+  publicId: z.string().length(15).optional(),
   name: z.string(),
   gender: z.enum(["male", "female"]),
   images: z.array(z.string().url()),

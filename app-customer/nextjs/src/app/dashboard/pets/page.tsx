@@ -1,10 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { LuPencil } from "react-icons/lu";
 import { PiPawPrintFill } from "react-icons/pi";
 
 import { auth } from "@petzo/auth-customer-app";
 import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
+import { Label } from "@petzo/ui/components/label";
+import { getTimePassed } from "@petzo/utils";
 
 import SignIn from "~/app/_components/sign-in";
 import { api } from "~/trpc/server";
@@ -48,17 +51,16 @@ export default async function PetsDasoboardPage() {
             </div>
           )}
         </div>
-        <div className="mt-4 grid grid-cols-2 gap-5 md:grid-cols-4">
+        <div className="mt-4 grid grid-cols-1 gap-5 md:grid-cols-2">
           {pets.length ? (
             pets.map((pet, idx) => {
               return (
-                <div key={idx} className="relative flex flex-col items-start">
-                  <div className="relative aspect-square w-full">
-                    <Link
-                      href={`/dashboard/pets/${pet.id}`}
-                      key={idx}
-                      className="cols-1"
-                    >
+                <div
+                  key={idx}
+                  className="relative flex w-full items-start gap-2 rounded-lg bg-primary/10"
+                >
+                  <div className="relative aspect-square h-28 md:h-40">
+                    <Link href={`/dashboard/pets/${pet.publicId}`} key={idx}>
                       <Image
                         fill
                         style={{ objectFit: "cover" }}
@@ -74,8 +76,58 @@ export default async function PetsDasoboardPage() {
                       />
                     </Link>
                   </div>
-                  <div className="font-semibold text-foreground">
-                    {pet.name}
+                  <div className="flex h-full w-full flex-col justify-between gap-1 p-1 font-semibold text-foreground md:p-2">
+                    <div className="flex justify-between">
+                      <div className="flex  flex-col gap-0 ">
+                        <Link
+                          href={`/dashboard/pets/${pet.publicId}`}
+                          className="cursor-pointer text-base hover:underline md:text-lg"
+                        >
+                          {pet.name}{" "}
+                          {pet?.dateOfBirth && (
+                            <span className="text-xs opacity-70 md:text-sm">
+                              ({getTimePassed(pet?.dateOfBirth)})
+                            </span>
+                          )}
+                        </Link>
+                        {pet.breed && (
+                          <span className="text-xs opacity-70 md:text-sm">
+                            {pet.breed}
+                          </span>
+                        )}
+                      </div>
+                      <Link
+                        className="mr-2 flex h-min cursor-pointer items-center gap-1 text-sm opacity-80 hover:underline md:text-base"
+                        href={`/dashboard/pets/${pet.publicId}`}
+                      >
+                        <span>Edit</span>
+                        <LuPencil
+                          strokeWidth={3}
+                          className="size-3 md:size-3.5"
+                        />
+                      </Link>
+                    </div>
+
+                    <div className="flex w-full flex-col">
+                      <Label className="text-xs opacity-60 md:text-sm">
+                        Medical Records
+                      </Label>
+                      <div className="flex gap-4">
+                        <Link
+                          className="cursor-pointer text-sm text-primary hover:underline md:text-base"
+                          href={`/dashboard/pets/${pet.publicId}/medical-records`}
+                        >
+                          View
+                        </Link>
+
+                        <Link
+                          className="cursor-pointer text-sm text-primary hover:underline md:text-base"
+                          href={`/dashboard/pets/${pet.publicId}/medical-records`}
+                        >
+                          Add New
+                        </Link>
+                      </div>
+                    </div>
                   </div>
                 </div>
               );

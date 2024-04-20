@@ -9,7 +9,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 // Get time passed in years and months(eg 2 Years 5 Months) given datetime.
-export function getTimePassed(startDate: Date) {
+export function getTimePassed(startDate?: Date | null) {
+  if (!startDate) return "";
   const currentDate = new Date();
 
   const start = new Date(startDate);
