@@ -2,12 +2,11 @@
 
 import type { z } from "zod";
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { useForm } from "react-hook-form";
-import { LuArrowUpRight, LuCalendar } from "react-icons/lu";
+import { LuCalendar } from "react-icons/lu";
 
 import type { Pet } from "@petzo/db";
 import { Button } from "@petzo/ui/components/button";
@@ -45,6 +44,7 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
   const form = useForm({
     resolver: zodResolver(petValidator.ProfileSchema),
     defaultValues: {
+      publicId: petProfile?.publicId ?? "",
       name: petProfile?.name ?? "",
       gender: petProfile?.gender ?? "",
       images: petProfile?.images?.map((image) => image.url) ?? [],
@@ -77,7 +77,6 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (values: any) => {
     const data = values as unknown as PetProfileSchema;
-    data.id = petProfile?.id;
 
     setIsSubmitting(true);
 
@@ -102,7 +101,7 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex h-[100vh] flex-col space-y-3 p-1"
+        className="flex min-h-[100vh] flex-col gap-3 p-1"
       >
         <div className="flex items-center justify-start gap-2">
           <h1 className="text-xl font-semibold">

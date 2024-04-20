@@ -31,8 +31,6 @@ export default function CenterDescriptionAndButtons({
 
       if (ctaButtonsTop < -50) setFixedATC(true);
       else setFixedATC(false);
-
-      console.log("ctaButtonsTop", ctaButtonsTop);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -78,9 +76,9 @@ export default function CenterDescriptionAndButtons({
         <Button ref={ctaButtonsRef} size="md" className="w-1/2">
           <a
             className="flex items-center gap-1"
-            href={`tel:${center.contactNumber}`}
+            href={`tel:${center.phoneNumber}`}
           >
-            <span>Call Center</span>
+            <span className="text-xs md:text-sm">Call Center</span>
             <FiPhoneOutgoing
               strokeWidth="2"
               className="size-4 cursor-pointer hover:text-foreground/80"
@@ -94,7 +92,7 @@ export default function CenterDescriptionAndButtons({
             target="_blank"
             rel="noreferrer"
           >
-            <span>Get Direction</span>
+            <span className="text-xs md:text-sm">Get Direction</span>
             <GrLocation className="size-4 cursor-pointer hover:text-foreground/80" />
           </a>
         </Button>
@@ -121,9 +119,9 @@ export default function CenterDescriptionAndButtons({
         >
           <a
             className="flex items-center gap-1"
-            href={`tel:${center.contactNumber}`}
+            href={`tel:${center.phoneNumber}`}
           >
-            <span>Call Center</span>
+            <span className="text-xs md:text-sm">Call Center</span>
             <FiPhoneOutgoing
               strokeWidth="2"
               className="size-4 cursor-pointer hover:text-foreground/80"
@@ -141,7 +139,7 @@ export default function CenterDescriptionAndButtons({
             target="_blank"
             rel="noreferrer"
           >
-            <span>Get Direction</span>
+            <span className="text-xs md:text-sm">Get Direction</span>
             <GrLocation className="size-4 cursor-pointer hover:text-foreground/80" />
           </a>
         </Button>

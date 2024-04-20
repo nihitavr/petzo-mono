@@ -6,9 +6,9 @@ import { api } from "~/trpc/server";
 import { PetProfileForm } from "../../_components/pet-profile-form";
 
 export default async function Pet({
-  params: { id },
+  params: { publicId },
 }: {
-  params: { id: string };
+  params: { publicId: string };
 }) {
   if (!(await auth())?.user) {
     return (
@@ -26,6 +26,6 @@ export default async function Pet({
     );
   }
 
-  const petProfile = await api.pet.getPetProfile({ id: +id });
+  const petProfile = await api.pet.getPetProfile({ publicId: publicId });
   return <PetProfileForm petProfile={petProfile} />;
 }
