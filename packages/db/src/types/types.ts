@@ -58,6 +58,7 @@ export type Slot = InferResultType<"slots"> & {
 export type SlotAvailability = InferResultType<"slotAvailabilities">;
 
 export type Pet = InferResultType<"pets">;
+export type PetMedicalRecord = InferResultType<"petMedicalRecords">;
 
 // This is to export all the default types from index.ts file as when
 // you add type in package.json it will not be exported by default
