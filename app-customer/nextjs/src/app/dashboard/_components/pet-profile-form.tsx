@@ -101,7 +101,7 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex min-h-[100vh] flex-col gap-3 p-1"
+        className="flex min-h-[100vh] flex-col gap-3 p-1 pb-16"
       >
         <div className="flex items-center justify-start gap-2">
           <h1 className="text-xl font-semibold">

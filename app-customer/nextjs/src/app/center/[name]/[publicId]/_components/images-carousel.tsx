@@ -68,6 +68,7 @@ export default function ImagesCasousel({
                 style={{ objectFit: "cover" }}
                 className={imageClassName}
                 loading="lazy"
+                sizes="(min-width: 1280px) calc(40vw - 166px), (min-width: 1040px) calc(40vw - 89px), (min-width: 780px) calc(40vw - 22px), calc(100vw - 40px)"
               />
             </CarouselItem>
           ))}
@@ -103,12 +104,13 @@ export default function ImagesCasousel({
                   } relative flex aspect-square cursor-pointer items-center justify-center`}
                 >
                   <Image
-                    fill
+                    width={100}
+                    height={100}
                     style={{ objectFit: "cover" }}
                     src={imageUrl ? imageUrl : defaultImage}
                     alt="Profile Image"
                     loading="lazy"
-                    className="rounded-md p-0.5"
+                    className="aspect-square rounded-md p-0.5"
                   />
                 </div>
               </CarouselItem>
