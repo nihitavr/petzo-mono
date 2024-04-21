@@ -27,6 +27,8 @@
   }
 
   .dark {
+    /* Google color */
+    /* --background: 225 6% 13%; */
     --background: 223 49% 8%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;

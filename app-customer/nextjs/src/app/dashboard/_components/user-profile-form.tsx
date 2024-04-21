@@ -97,7 +97,7 @@ export function UserProfileForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 pb-16">
         <div>
           <h1 className="text-xl font-semibold">Owner Profile</h1>
         </div>
@@ -148,7 +148,7 @@ export function UserProfileForm() {
           )}
         />
 
-        <div className="flex w-full justify-end pt-7">
+        {/* <div className="flex w-full justify-end pt-7">
           <Button
             className="flex gap-2"
             type="submit"
@@ -156,6 +156,23 @@ export function UserProfileForm() {
           >
             <span>Save</span>
             <Loader className="h-5 w-5 border-2" show={isSubmitting} />
+          </Button>
+        </div> */}
+        <div
+          className={`md:initial fixed bottom-0 left-0 z-50 flex w-full justify-end px-3 py-3 md:static`}
+        >
+          <Button
+            className="flex w-full items-center justify-center gap-2 md:w-32"
+            type="submit"
+            disabled={
+              Object.keys(form.formState.dirtyFields).length == 0 ||
+              isSubmitting
+            }
+          >
+            <span>Save</span>
+            <div>
+              <Loader className="h-5 w-5 border-2" show={isSubmitting} />
+            </div>
           </Button>
         </div>
       </form>

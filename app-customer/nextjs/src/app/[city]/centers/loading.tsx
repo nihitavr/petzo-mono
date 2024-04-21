@@ -4,14 +4,20 @@ import { Skeleton } from "@petzo/ui/components/skeleton";
 
 export default function Loading() {
   return (
-    <div className="mt-7 flex flex-col gap-3 md:mt-4">
-      <div className="flex items-center justify-end gap-2">
-        <Skeleton className="h-8 w-full rounded-full md:w-44" />
+    <div className="mt-16 flex flex-col gap-3 md:mt-0">
+      <div className="hidden items-center justify-end gap-2 md:flex">
+        <Skeleton className="h-8 w-full rounded-full md:w-36" />
       </div>
+
       <div className="grid grid-cols-12 gap-3">
         {/* Filters */}
-        <div className="col-span-12 h-min sm:col-span-3 sm:inline">
+        <div className="hidden h-min sm:col-span-3 sm:inline md:inline">
           <LoadingCenterFilters />
+        </div>
+
+        <div className="col-span-12 flex w-full gap-2 md:hidden">
+          <Skeleton className="h-7 w-28 rounded-full" />
+          <Skeleton className="h-7 w-32 rounded-full" />
         </div>
 
         {/* Centers List */}
@@ -55,5 +61,22 @@ export const LoadingCentersList = forwardRef<
 LoadingCentersList.displayName = "LoadingCentersList";
 
 export function LoadingCenterFilters() {
-  return <Skeleton className="h-7 w-56 rounded-full md:h-96 md:rounded-lg " />;
+  return (
+    <Skeleton className="flex w-full flex-col gap-3 rounded-full p-3 md:h-[50vh] md:rounded-lg">
+      <Skeleton className="h-6 w-1/2 rounded-md bg-muted-foreground/15" />
+      <Skeleton className="h-4 w-3/4 rounded-md bg-muted-foreground/15" />
+      <Skeleton className="h-4 w-1/2 rounded-md bg-muted-foreground/15" />
+      <Skeleton className="h-4 w-3/4 rounded-md bg-muted-foreground/15" />
+
+      <Skeleton className="mt-2 h-6 w-1/2 rounded-md bg-muted-foreground/15" />
+      <Skeleton className="h-4 w-3/4 rounded-md bg-muted-foreground/15" />
+      <Skeleton className="h-4 w-1/2 rounded-md bg-muted-foreground/15" />
+      <Skeleton className="h-4 w-3/4 rounded-md bg-muted-foreground/15" />
+
+      <Skeleton className="mt-2 h-6 w-1/2 rounded-md bg-muted-foreground/15" />
+      <Skeleton className="h-4 w-3/4 rounded-md bg-muted-foreground/15" />
+      <Skeleton className="h-4 w-1/2 rounded-md bg-muted-foreground/15" />
+      <Skeleton className="h-4 w-3/4 rounded-md bg-muted-foreground/15" />
+    </Skeleton>
+  );
 }

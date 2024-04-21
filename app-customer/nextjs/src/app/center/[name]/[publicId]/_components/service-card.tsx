@@ -42,6 +42,7 @@ export default function ServiceCard({
             style={{ objectFit: "cover" }}
             alt="Service Image"
             className="rounded-lg"
+            sizes="(min-width: 780px) 160px, 128px"
           />
         ) : (
           <div

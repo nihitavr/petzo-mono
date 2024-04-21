@@ -10,7 +10,7 @@ import { getCenterRelativeUrl } from "~/lib/utils/center.utils";
 import { getLowertCostService } from "~/lib/utils/service.utils";
 
 export default function CenterCard({ center }: { center: Center }) {
-  const thumbnail = center.images?.[0].url;
+  const thumbnail = center.images?.[0]?.url;
   const lowestPriceService = getLowertCostService(center);
   const serviceTypesProvided: string[] = [];
 

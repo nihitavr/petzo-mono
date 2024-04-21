@@ -26,6 +26,7 @@ export const petRouter = {
           .returning()
       )?.[0];
     }),
+
   updatePetProfile: protectedProcedure
     .input(petValidator.ProfileSchema)
     .mutation(async ({ ctx, input }) => {
@@ -34,17 +35,31 @@ export const petRouter = {
           .update(schema.pets)
           .set({
             name: input.name,
-            customerUserId: ctx.session.user.id,
             type: input.type,
             gender: input.gender,
             images: input.images?.map((url) => ({ url })),
             breed: input.breed,
             dateOfBirth: input.dateOfBirth,
           })
-          .where(eq(schema.pets.publicId, input.publicId!))
+          .where(
+            and(
+              eq(schema.pets.publicId, input.publicId!),
+              eq(schema.pets.customerUserId, ctx.session.user.id),
+            ),
+          )
           .returning()
       )?.[0];
     }),
+
+  getPetProfilePublicIds: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.query.pets.findMany({
+      where: eq(schema.pets.customerUserId, ctx.session.user.id),
+      columns: {
+        publicId: true,
+      },
+      orderBy: [asc(schema.pets.name)],
+    });
+  }),
 
   getPetProfiles: protectedProcedure.query(({ ctx }) => {
     return ctx.db.query.pets.findMany({

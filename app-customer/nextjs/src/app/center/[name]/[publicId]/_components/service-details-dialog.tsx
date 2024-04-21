@@ -77,8 +77,8 @@ export function ServiceDetailsDialog({
           View Details {">"}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[80vh] rounded-xl p-0 pb-[50px] sm:max-w-[425px] md:max-h-[90vh]">
-        <div className="max-h-[80vh] overflow-y-auto p-6 pb-16 md:max-h-[90vh]">
+      <DialogContent className="h-[80vh] rounded-xl p-0 pb-[50px] sm:max-w-[425px] md:h-[90vh]">
+        <div className="h-[80vh] overflow-y-auto p-6 pb-16 md:h-[90vh]">
           <div className="flex flex-col ">
             <ServiceImagesCasousel
               images={imageUrls}
@@ -97,9 +97,6 @@ export function ServiceDetailsDialog({
               <DialogDescription>{service.description}</DialogDescription>
             </div>
           </div>
-        </div>
-        <div className="fixed bottom-0 w-full rounded-xl bg-background px-3 py-2">
-          <Button className="w-full">Add</Button>
         </div>
       </DialogContent>
     </Dialog>

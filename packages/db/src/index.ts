@@ -8,6 +8,7 @@ import * as centerAuth from "./schema/center-app-auth.schema";
 import * as center from "./schema/center.schema";
 import * as city from "./schema/city.schema";
 import * as customerAuth from "./schema/customer-app-auth.schema";
+import * as petMedicalRecords from "./schema/pet-medical-records.schema";
 import * as pet from "./schema/pet.schema";
 import * as reviews from "./schema/reviews.schema";
 import * as service from "./schema/service.schema";
@@ -33,6 +34,7 @@ export const schema = {
   ...state,
   ...vet,
   ...slotAvailabilities,
+  ...petMedicalRecords,
 };
 
 export { pgTable, customerPgTable, centerPgTable } from "./schema/_table";

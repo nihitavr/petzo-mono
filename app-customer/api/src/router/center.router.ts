@@ -1,8 +1,7 @@
 import type { TRPCRouterRecord } from "@trpc/server";
-import { and, eq, gte, inArray, lte, sql } from "drizzle-orm";
+import { and, eq, gte, inArray, sql } from "drizzle-orm";
 
-import { schema, SlotAvailability } from "@petzo/db";
-import { getNthDate } from "@petzo/utils/time";
+import { schema } from "@petzo/db";
 import { centerValidator } from "@petzo/validators";
 
 import { publicCachedProcedure } from "../trpc";

@@ -62,7 +62,7 @@ export function SideNavSheet({
           <SheetClose asChild>
             <Link
               href="/dashboard/profile"
-              className={`flex items-center gap-3 rounded-md p-2 hover:bg-secondary ${pathname.startsWith("/dashboard/profile") ? "bg-secondary" : ""}`}
+              className={`flex items-center gap-3 rounded-md p-2 hover:bg-secondary ${pathname.startsWith("/dashboard/pets") && !pathname.includes("/medical-records") ? "bg-secondary" : ""}`}
             >
               <FaUserCircle
                 className="h-8 w-8 text-foreground/70"
@@ -74,7 +74,7 @@ export function SideNavSheet({
           <SheetClose asChild>
             <Link
               href="/dashboard/pets"
-              className={`flex items-center gap-3 rounded-md p-2 hover:bg-secondary ${pathname.startsWith("/dashboard/pets") ? "bg-secondary" : ""}`}
+              className={`flex items-center gap-3 rounded-md p-2 hover:bg-secondary ${pathname.startsWith("/dashboard/pets") && !pathname.includes("/medical-records") ? "bg-secondary" : ""}`}
             >
               <FaDog className="h-8 w-8 text-foreground/70" strokeWidth={1.3} />
               <span>Your Pets</span>
@@ -83,14 +83,14 @@ export function SideNavSheet({
 
           <SheetClose asChild>
             <Link
-              href="/dashboard/bookings"
-              className="flex items-center gap-3 rounded-md p-2 hover:bg-secondary"
+              href="/dashboard/medical-records"
+              className={`flex items-center gap-3 rounded-md p-2 hover:bg-secondary ${pathname.endsWith("/medical-records") ? "bg-secondary" : ""}`}
             >
               <FaCalendarAlt
                 className="h-8 w-8 text-foreground/70"
                 strokeWidth={1.3}
               />
-              <span>Bookings</span>
+              <span>Medical Records</span>
             </Link>
           </SheetClose>
         </div>
