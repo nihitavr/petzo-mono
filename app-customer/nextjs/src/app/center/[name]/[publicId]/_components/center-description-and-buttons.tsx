@@ -109,7 +109,7 @@ export default function CenterDescriptionAndButtons({
 
       {/*    */}
       <div
-        className={`fixed bottom-0 left-0 z-50 flex w-full items-center gap-2 px-3 py-4 transition-opacity duration-500 md:hidden ${
+        className={`fixed bottom-0 left-0 z-50 flex w-full items-center gap-2 px-3 py-3 transition-opacity duration-500 md:hidden ${
           fixedATC ? "opacity-100" : "opacity-0"
         }`}
       >

@@ -74,8 +74,9 @@ export default function MedicalRecordsSection({
                   <Image
                     src={image}
                     alt={pet.name}
-                    layout="fill"
-                    objectFit="cover"
+                    fill
+                    style={{ objectFit: "cover" }}
+                    sizes="(min-width: 780px) 112px, 80px"
                   />
                 </div>
                 <span className="font-semibold">{pet.name}</span>
@@ -88,7 +89,7 @@ export default function MedicalRecordsSection({
           <h2 className="line-clamp-1 text-lg font-semibold">{pet?.name}</h2>
           <Link href={`/dashboard/pets/${pet?.publicId}/medical-records/add`}>
             <Button size="sm">
-              Add New
+              New Medical Record
               <RiFileList3Line className="ml-1 size-3.5" />
             </Button>
           </Link>

@@ -55,6 +55,7 @@ export function SideNavSheet({
               className="rounded-lg"
               fill
               style={{ objectFit: "contain" }}
+              priority
             />
           </div>
         </SheetHeader>
@@ -62,7 +63,7 @@ export function SideNavSheet({
           <SheetClose asChild>
             <Link
               href="/dashboard/profile"
-              className={`flex items-center gap-3 rounded-md p-2 hover:bg-secondary ${pathname.startsWith("/dashboard/pets") && !pathname.includes("/medical-records") ? "bg-secondary" : ""}`}
+              className={`flex items-center gap-3 rounded-md p-2 hover:bg-secondary ${pathname.startsWith("/dashboard/profile") ? "bg-secondary" : ""}`}
             >
               <FaUserCircle
                 className="h-8 w-8 text-foreground/70"
