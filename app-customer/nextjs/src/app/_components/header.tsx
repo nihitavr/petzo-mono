@@ -85,6 +85,7 @@ export default function Header({
                 fill
                 style={{ objectFit: "contain" }}
                 className="w-min"
+                priority
               />
             </div>
           </Link>

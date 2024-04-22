@@ -117,7 +117,7 @@ export default function GlobalSearchInput({
     <div className="relative w-full md:w-72">
       <Link href={`/${filtersStore.city.value}/search`}>
         <Input
-          value={input}
+          value={input ?? ""}
           onChange={(e) => {
             setInput(e.target.value);
           }}

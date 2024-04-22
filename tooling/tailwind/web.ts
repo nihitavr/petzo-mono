@@ -15,6 +15,12 @@ export default {
       },
     },
     extend: {
+      boxShadow: {
+        "m-xl": "0 0px 13px -1px rgba(0, 0, 0, 0.5)",
+        "m-lg": "0 0px 10px -1px rgba(0, 0, 0, 0.5)",
+        "m-md": "0 0px 7px -1px rgba(0, 0, 0, 0.5)",
+        "m-sm": "0 0px 5px -1.5px rgba(0, 0, 0, 0.5)",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
