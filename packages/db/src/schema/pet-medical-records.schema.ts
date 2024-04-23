@@ -1,5 +1,12 @@
 import { relations, sql } from "drizzle-orm";
-import { index, integer, json, serial, timestamp } from "drizzle-orm/pg-core";
+import {
+  index,
+  integer,
+  json,
+  serial,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 
 import { pgTable } from "./_table";
 import { centers } from "./center.schema";
@@ -13,7 +20,8 @@ export const petMedicalRecords = pgTable(
       .notNull()
       .references(() => pets.id),
     centerId: integer("center_id").references(() => centers.id),
-    images: json("images").$type<{ url: string }[]>(),
+    description: text("description"),
+    images: json("images").$type<{ url: string }[]>().default([]).notNull(),
     appointmentDate: timestamp("appointment_date").notNull(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)

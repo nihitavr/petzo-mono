@@ -47,7 +47,7 @@ export const petMedicalRecordRouter = {
       });
 
       if (!pet) {
-        throw new TRPCError({ code: "NOT_FOUND" });
+        throw new TRPCError({ code: "NOT_FOUND", message: "Pet not found" });
       }
 
       return ctx.db.query.petMedicalRecords.findMany({
@@ -60,7 +60,7 @@ export const petMedicalRecordRouter = {
 
   insertPetMedicalRecord: protectedProcedure
     .input(petMedicalRecordsValidator.InsertSchema)
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const pet = await ctx.db.query.pets.findFirst({
         where: and(
           eq(schema.pets.customerUserId, ctx.session.user.id),
@@ -69,25 +69,34 @@ export const petMedicalRecordRouter = {
       });
 
       if (!pet) {
-        throw new TRPCError({ code: "NOT_FOUND" });
+        throw new TRPCError({ code: "NOT_FOUND", message: "Pet not found" });
       }
 
-      return ctx.db
-        .insert(schema.petMedicalRecords)
-        .values([
-          {
+      const medicalRecord = (
+        await ctx.db
+          .insert(schema.petMedicalRecords)
+          .values({
             petId: pet.id,
             centerId: input.centerId,
-            images: input.images.map((url) => ({ url })),
+            images: input.images,
             appointmentDate: input.appointmentDate,
-          },
-        ])
-        .returning();
+          })
+          .returning()
+      )?.[0];
+
+      if (!medicalRecord) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Medical record not found",
+        });
+      }
+
+      return medicalRecord;
     }),
 
   updatePetMedicalRecord: protectedProcedure
     .input(petMedicalRecordsValidator.UpdateSchema)
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const pet = await ctx.db.query.pets.findFirst({
         where: and(
           eq(schema.pets.customerUserId, ctx.session.user.id),
@@ -96,17 +105,33 @@ export const petMedicalRecordRouter = {
       });
 
       if (!pet) {
-        throw new TRPCError({ code: "NOT_FOUND" });
+        throw new TRPCError({ code: "NOT_FOUND", message: "Pet not found" });
       }
 
-      return ctx.db
-        .update(schema.petMedicalRecords)
-        .set({
-          centerId: input.centerId,
-          images: input.images.map((url) => ({ url })),
-          appointmentDate: input.appointmentDate,
-        })
-        .where(eq(schema.petMedicalRecords.id, input.id))
-        .returning();
+      const medicalRecord = (
+        await ctx.db
+          .update(schema.petMedicalRecords)
+          .set({
+            centerId: input.centerId,
+            images: input.images,
+            appointmentDate: input.appointmentDate,
+          })
+          .where(
+            and(
+              eq(schema.petMedicalRecords.id, input.id),
+              eq(schema.petMedicalRecords.petId, pet.id),
+            ),
+          )
+          .returning()
+      )?.[0];
+
+      if (!medicalRecord) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Medical record not found",
+        });
+      }
+
+      return medicalRecord;
     }),
 };

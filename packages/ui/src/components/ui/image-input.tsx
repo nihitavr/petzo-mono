@@ -1,11 +1,12 @@
 import type { PutBlobResult } from "@vercel/blob";
 import type { ErrorOption } from "react-hook-form";
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import Image from "next/image";
 import { upload } from "@vercel/blob/client";
 import { LuPlusCircle, LuX } from "react-icons/lu";
 
 import { cn } from "../../lib/utils";
+import { AspectRatio } from "./aspect-ratio";
 import { Input } from "./input";
 import Loader from "./loader";
 
@@ -69,7 +70,7 @@ const validateFiles = (files: File[], maxFiles: number) => {
   return { error: null };
 };
 
-export function ImageInput<T>({
+function ImageButton<T>({
   clearErrors,
   setError: setFieldError,
   name: fieldName,
@@ -89,20 +90,28 @@ export function ImageInput<T>({
       | undefined,
   ) => void;
   name: T;
-  onChange: (images: string[]) => void;
-  value?: string[] | null;
+  onChange: (images: { url: string }[]) => void;
+  value?: { url: string }[] | null;
   maxFiles: number;
   handleUploadUrl: string;
 }) {
   fieldValue = fieldValue ?? [];
+
+  if (!fieldName || fieldValue.length >= maxFiles) {
+    console.log("fieldName", fieldName);
+
+    return <Fragment />;
+  }
+
   return (
-    <Fragment>
-      {fieldValue && fieldValue.length < maxFiles && (
-        // eslint-disable-next-line jsx-a11y/label-has-associated-control
-        <label htmlFor="file-upload">
-          <LuPlusCircle className="brightness- h-14 w-14 cursor-pointer text-gray-300 hover:text-gray-400" />
-        </label>
-      )}
+    <div className="size-full">
+      <label
+        htmlFor="file-upload"
+        className="flex size-full flex-col items-center justify-center rounded-lg border"
+      >
+        <LuPlusCircle className="size-14 cursor-pointer text-gray-300 hover:text-gray-400" />
+        <span>Add Image</span>
+      </label>
       <Input
         id="file-upload"
         placeholder="Image"
@@ -126,13 +135,20 @@ export function ImageInput<T>({
             return;
           }
 
-          const emptyArray = Array.from(e.target.files).map(() => "");
+          const emptyArray = Array.from(e.target.files).map(() => {
+            return {
+              url: "",
+            };
+          });
 
           onFieldChange([...fieldValue, ...emptyArray]);
           const imageUrls = await onFilesUpload(e, handleUploadUrl);
+          const imageUrlObjs = imageUrls?.map((url) => {
+            return { url };
+          });
 
-          if (imageUrls) {
-            onFieldChange([...fieldValue, ...imageUrls]);
+          if (imageUrlObjs) {
+            onFieldChange([...fieldValue, ...imageUrlObjs]);
             clearErrors(fieldName);
             e.target.value = "";
           } else {
@@ -140,53 +156,89 @@ export function ImageInput<T>({
           }
         }}
       />
-    </Fragment>
+    </div>
   );
 }
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
-export function ImageDisplay({
-  onChange,
+export function ImageInput<T>({
+  name,
   value,
+  onChange,
+  objectFit = "cover",
+  clearErrors,
+  setError: setFieldError,
+  ratio = 1,
+  maxFiles,
+  handleUploadUrl,
   className,
 }: {
-  onChange: (images: string[]) => void;
-  value?: string[] | null;
+  name: T;
+  value?: { url: string }[] | null;
+  onChange: (images: { url: string }[]) => void;
   className?: string;
+  ratio?: number;
+  objectFit?: "contain" | "cover";
+  clearErrors: (name?: T) => void;
+  setError: (
+    name: T,
+    error: ErrorOption,
+    options?:
+      | {
+          shouldFocus: boolean;
+        }
+      | undefined,
+  ) => void;
+  maxFiles: number;
+  handleUploadUrl: string;
 }) {
-  return value && (value as unknown as string[]).length > 0 ? (
-    <div className="flex flex-row flex-wrap gap-2">
-      {(value as unknown as string[])?.map((image, idx) => (
-        <div key={idx} className={cn("relative h-20 w-20", className)}>
-          {image ? (
-            <div>
-              <Image
-                src={image}
-                fill
-                style={{ objectFit: "cover" }}
-                className="rounded-md"
-                alt={`image ${idx + 1}`}
-              />
-              <LuX
-                className="hover: absolute right-1 top-1 cursor-pointer rounded-full bg-slate-300 p-1 text-black opacity-70 hover:opacity-100"
-                onClick={() => {
-                  const newImages = (value as unknown as string[]).filter(
-                    (_, index) => index !== idx,
-                  );
-                  onChange(newImages);
-                }}
-              />
-            </div>
-          ) : (
-            <div className="flex h-full w-full items-center justify-center rounded-md bg-slate-200">
-              <Loader show={true} />
-            </div>
-          )}
-        </div>
-      ))}
+  return (
+    <div className="grid w-full grid-cols-3 gap-2 md:grid-cols-6">
+      {value && value?.length < maxFiles && (
+        <AspectRatio className="rounded-lg border" ratio={ratio}>
+          <ImageButton
+            name={name}
+            clearErrors={clearErrors}
+            setError={setFieldError}
+            onChange={onChange}
+            value={value}
+            maxFiles={maxFiles}
+            handleUploadUrl={handleUploadUrl}
+          />
+        </AspectRatio>
+      )}
+      {value &&
+        value.length > 0 &&
+        value?.map((image, idx) => (
+          <div key={idx} className={cn("col-span-1 w-full", className)}>
+            {image.url ? (
+              <AspectRatio className="rounded-lg border bg-black" ratio={ratio}>
+                <Image
+                  src={image.url}
+                  fill
+                  style={{ objectFit }}
+                  className="rounded-md"
+                  alt={`image ${idx + 1}`}
+                />
+                <LuX
+                  className="hover: absolute right-1 top-1 cursor-pointer rounded-full bg-slate-300 p-1 text-black opacity-70 hover:opacity-100"
+                  onClick={() => {
+                    const newImages = value.filter((_, index) => index !== idx);
+                    onChange(newImages);
+                  }}
+                />
+              </AspectRatio>
+            ) : (
+              <AspectRatio
+                className="flex items-center justify-center rounded-md bg-slate-200"
+                ratio={ratio}
+              >
+                <Loader show={true} />
+              </AspectRatio>
+            )}
+          </div>
+        ))}
     </div>
-  ) : (
-    <span></span>
   );
 }

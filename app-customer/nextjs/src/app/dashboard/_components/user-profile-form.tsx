@@ -147,17 +147,6 @@ export function UserProfileForm() {
             </FormItem>
           )}
         />
-
-        {/* <div className="flex w-full justify-end pt-7">
-          <Button
-            className="flex gap-2"
-            type="submit"
-            disabled={form.formState.isDirty && !isSubmitting ? false : true}
-          >
-            <span>Save</span>
-            <Loader className="h-5 w-5 border-2" show={isSubmitting} />
-          </Button>
-        </div> */}
         <div
           className={`md:initial fixed bottom-0 left-0 z-50 flex w-full justify-end px-3 py-3 md:static`}
         >

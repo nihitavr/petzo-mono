@@ -19,7 +19,7 @@ export const petRouter = {
             customerUserId: ctx.session.user.id,
             type: input.type,
             gender: input.gender,
-            images: input.images?.map((url) => ({ url })),
+            images: input.images,
             breed: input.breed,
             dateOfBirth: input.dateOfBirth,
           })
@@ -37,7 +37,7 @@ export const petRouter = {
             name: input.name,
             type: input.type,
             gender: input.gender,
-            images: input.images?.map((url) => ({ url })),
+            images: input.images,
             breed: input.breed,
             dateOfBirth: input.dateOfBirth,
           })

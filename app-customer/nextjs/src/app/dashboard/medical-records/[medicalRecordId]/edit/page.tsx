@@ -2,12 +2,15 @@ import { auth } from "@petzo/auth-customer-app";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 
 import SignIn from "~/app/_components/sign-in";
+import { MedicalRecordsForm } from "~/app/dashboard/_components/medical-records-form";
 import { api } from "~/trpc/server";
 
-export default async function AddPetMedicalRecordPage({
-  params: { publicId, medicalRecordId },
+export default async function Page({
+  params: { medicalRecordId },
+  searchParams: { petId: petPublicId },
 }: {
-  params: { publicId: string; medicalRecordId: string };
+  params: { medicalRecordId: string };
+  searchParams: { petId: string };
 }) {
   if (!(await auth())?.user) {
     return (
@@ -25,9 +28,20 @@ export default async function AddPetMedicalRecordPage({
     );
   }
 
+  const pets = await api.pet.getPetProfiles();
+
+  const petMedicalRecord = await api.petMedicalRecord.getPetMedicalRecord({
+    id: +medicalRecordId,
+  });
+
   return (
     <div>
-      <h1 className="text-xl font-semibold">Medical Record</h1>
+      <h1 className="text-xl font-semibold">Edit Medical Record </h1>
+      <MedicalRecordsForm
+        pets={pets}
+        defaultPetPublicId={petPublicId}
+        petMedicalRecord={petMedicalRecord}
+      />
     </div>
   );
 }
