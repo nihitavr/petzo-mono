@@ -6,10 +6,12 @@ import {
   serial,
   text,
   timestamp,
+  varchar,
 } from "drizzle-orm/pg-core";
 
 import { pgTable } from "./_table";
 import { centers } from "./center.schema";
+import { customerUsers } from "./customer-app-auth.schema";
 import { pets } from "./pet.schema";
 
 export const petMedicalRecords = pgTable(
@@ -20,6 +22,9 @@ export const petMedicalRecords = pgTable(
       .notNull()
       .references(() => pets.id),
     centerId: integer("center_id").references(() => centers.id),
+    customerUserId: varchar("customer_user_id", { length: 255 }).references(
+      () => customerUsers.id,
+    ),
     description: text("description"),
     images: json("images").$type<{ url: string }[]>().default([]).notNull(),
     appointmentDate: timestamp("appointment_date").notNull(),

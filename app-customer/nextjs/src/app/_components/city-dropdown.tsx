@@ -6,7 +6,7 @@ import { useSignals } from "@preact/signals-react/runtime";
 import { LuCheck, LuChevronDown } from "react-icons/lu";
 import { SlLocationPin } from "react-icons/sl";
 
-import { City } from "@petzo/db";
+import type { City } from "@petzo/db";
 import {
   Command,
   CommandEmpty,

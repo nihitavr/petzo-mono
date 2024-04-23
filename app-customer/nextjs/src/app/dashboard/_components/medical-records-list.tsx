@@ -13,6 +13,7 @@ import {
   AccordionTrigger,
 } from "@petzo/ui/components/accordion";
 import { Button } from "@petzo/ui/components/button";
+import { Label } from "@petzo/ui/components/label";
 
 import { MedicalRecordsListLoading } from "./medical-records-loading";
 
@@ -55,27 +56,43 @@ export default function MedicalRecordsList({
           <AccordionItem
             key={idx}
             value={`medical-record-${medicalRecord.id}`}
-            className="rounded-lg border-b-0 "
+            className="rounded-lg border"
           >
-            <AccordionTrigger className="smd:text-lg rounded-lg bg-primary/10 px-2 text-base shadow-m-sm">
-              <span>
-                Appointment:{" "}
-                <span className="font-semibold ">
-                  {format(medicalRecord.appointmentDate, "ccc do MMM yy")}
-                </span>
-              </span>
+            <AccordionTrigger className="z-20 flex justify-between rounded-lg bg-primary/10 px-2 text-sm shadow-m-sm md:text-lg">
+              <div className="flex w-full items-center justify-between">
+                <div className="flex flex-col items-start">
+                  <span className="text-xs text-foreground/70 md:text-sm">
+                    Appointment:{" "}
+                  </span>
+                  <span className="font-semibold">
+                    {format(medicalRecord.appointmentDate, "ccc do MMM yy")}
+                  </span>
+                </div>
+                <Button
+                  className="mr-2 h-7"
+                  size="sm"
+                  variant="outline"
+                  asChild={true}
+                >
+                  <Link
+                    href={`/dashboard/medical-records/${medicalRecord.id}/edit`}
+                  >
+                    Edit
+                  </Link>
+                </Button>
+              </div>
             </AccordionTrigger>
 
-            <AccordionContent className="pt-3">
-              <Link
-                href={`/dashboard/medical-records/${medicalRecord.id}/edit`}
-                className="flex w-full justify-end"
-              >
-                <Button className="w-20" size="sm" variant="outline">
-                  Edit
-                </Button>
-              </Link>
-              <div className="mt-3 grid grid-cols-1 gap-2 md:grid-cols-3">
+            <AccordionContent>
+              {medicalRecord.description && (
+                <div className="p-2">
+                  <Label>Description</Label>
+                  <div className="mt-1 whitespace-pre">
+                    {medicalRecord.description}
+                  </div>
+                </div>
+              )}
+              <div className="mt-3 grid grid-cols-1 gap-2 md:grid-cols-3 md:px-2">
                 <MedicalRecordImages
                   images={medicalRecord.images}
                   isSelected={selectedMedicalRecords.includes(value)}
@@ -96,16 +113,11 @@ function MedicalRecordImages({
   isSelected: boolean;
 }) {
   if (!images || images.length == 0) {
-    console.log("No images found");
-
     return null;
   }
 
   return images.map((image, idx) => (
-    <div
-      key={idx}
-      className="relative aspect-[1/1.41] w-full rounded-lg border"
-    >
+    <div key={idx} className="relative aspect-[1/1.41] w-full border">
       <Image
         fill
         style={{ objectFit: "contain" }}

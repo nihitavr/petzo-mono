@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const InsertSchema = z.object({
-  petPublicId: z.string().length(15),
-  centerId: z.number().int().positive().nullable(),
+  petPublicId: z.string().length(15, "Select pet from dropdown"),
+  centerId: z.number().int().positive().optional().nullable(),
   description: z.string(),
   images: z
     .array(z.object({ url: z.string() }))
@@ -13,8 +13,9 @@ export const InsertSchema = z.object({
 
 export const UpdateSchema = z.object({
   id: z.number().int().positive(),
-  petPublicId: z.string().length(15),
-  centerId: z.number().int().positive().optional(),
+  petPublicId: z.string().length(15, "Select pet from dropdown"),
+  centerId: z.number().int().positive().optional().nullable(),
+  description: z.string(),
   images: z
     .array(z.object({ url: z.string() }))
     .min(0)
