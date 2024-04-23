@@ -4,7 +4,7 @@ export const ProfileSchema = z.object({
   publicId: z.string().length(15).optional(),
   name: z.string(),
   gender: z.enum(["male", "female"]),
-  images: z.array(z.string().url()),
+  images: z.array(z.object({ url: z.string() })),
   type: z.enum(["cat", "small_dog", "big_dog"]),
   breed: z.string().optional(),
   dateOfBirth: z.coerce.date().min(new Date(1965, 1, 1)),

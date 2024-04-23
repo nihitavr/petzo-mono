@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+input[type="file"] {
+  display: none;
+}
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;

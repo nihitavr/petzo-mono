@@ -3,11 +3,12 @@ import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 
 import SignIn from "~/app/_components/sign-in";
 import { api } from "~/trpc/server";
+import { MedicalRecordsForm } from "../../_components/medical-records-form";
 
-export default async function AddPetMedicalRecordPage({
-  params: { publicId, medicalRecordId },
+export default async function Page({
+  searchParams: { petId: petPublicId },
 }: {
-  params: { publicId: string; medicalRecordId: string };
+  searchParams: { petId: string };
 }) {
   if (!(await auth())?.user) {
     return (
@@ -25,13 +26,12 @@ export default async function AddPetMedicalRecordPage({
     );
   }
 
-  const petMedicalRecord = await api.petMedicalRecord.getPetMedicalRecord({
-    id: +medicalRecordId,
-  });
+  const pets = await api.pet.getPetProfiles();
 
   return (
     <div>
-      <h1 className="text-xl font-semibold">Medical Record</h1>
+      <h1 className="text-xl font-semibold">New Medical Record </h1>
+      <MedicalRecordsForm pets={pets} defaultPetPublicId={petPublicId} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { SERVICES_OFFERED } from "@petzo/constants";
 
 export const DEFAULT_MAX_PET_PROFILE_IMAGES = 1;
+export const DEFAULT_MAX_MEDICAL_RECORD_IMAGES = 5;
 
 export const CENTERS_LIST_PAGE_LIMIT = 20;
 

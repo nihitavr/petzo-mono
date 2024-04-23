@@ -18,12 +18,10 @@ export default async function PetsList({ pets }: { pets: Pet[] }) {
               key={idx}
               className="relative flex w-full items-start gap-2 rounded-lg bg-primary/10"
             >
-              <div className="md:min-2-40 relative h-full min-w-28">
+              <div className="relative h-full min-w-28 ">
                 <Link href={`/dashboard/pets/${pet.publicId}`} key={idx}>
                   <Image
                     fill
-                    // width={100}
-                    // height={100}
                     style={{ objectFit: "cover" }}
                     src={
                       pet.images?.[0]
@@ -67,25 +65,13 @@ export default async function PetsList({ pets }: { pets: Pet[] }) {
                   </Link>
                 </div>
 
-                <div className="flex w-full flex-col">
-                  <Label className="text-xs opacity-60 md:text-sm">
+                <div className="mt-6 flex w-full flex-col">
+                  <Link
+                    className="cursor-pointer text-sm text-primary hover:underline md:text-base"
+                    href={`/dashboard/medical-records?petId=${pet.publicId}`}
+                  >
                     Medical Records
-                  </Label>
-                  <div className="flex gap-4">
-                    <Link
-                      className="cursor-pointer text-sm text-primary hover:underline md:text-base"
-                      href={`/dashboard/medical-records?petId=${pet.publicId}`}
-                    >
-                      View
-                    </Link>
-
-                    <Link
-                      className="cursor-pointer text-sm text-primary hover:underline md:text-base"
-                      href={`/dashboard/pets/${pet.publicId}/medical-records`}
-                    >
-                      Add New
-                    </Link>
-                  </div>
+                  </Link>
                 </div>
               </div>
             </div>

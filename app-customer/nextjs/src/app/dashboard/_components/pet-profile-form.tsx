@@ -19,7 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@petzo/ui/components/form";
-import { ImageDisplay, ImageInput } from "@petzo/ui/components/image-input";
+import { ImageInput } from "@petzo/ui/components/image-input";
 import { Input } from "@petzo/ui/components/input";
 import { Label } from "@petzo/ui/components/label";
 import Loader from "@petzo/ui/components/loader";
@@ -47,7 +47,7 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
       publicId: petProfile?.publicId ?? "",
       name: petProfile?.name ?? "",
       gender: petProfile?.gender ?? "",
-      images: petProfile?.images?.map((image) => image.url) ?? [],
+      images: petProfile?.images ?? [],
       breed: petProfile?.breed ?? "",
       type: petProfile?.type ?? "",
       dateOfBirth: petProfile?.dateOfBirth ?? new Date(),
@@ -121,13 +121,18 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
               <FormItem>
                 <FormLabel>Profile Photos</FormLabel>
                 <div className="flex items-center gap-2">
-                  <ImageDisplay {...field} className="h-28 w-28" />
                   <FormControl>
                     <ImageInput
-                      {...form}
-                      {...field}
+                      name={field.name}
+                      value={field.value}
+                      onChange={field.onChange}
+                      objectFit="contain"
+                      clearErrors={form.clearErrors}
+                      setError={form.setError}
+                      ratio={1}
                       maxFiles={DEFAULT_MAX_PET_PROFILE_IMAGES}
-                      handleUploadUrl="/api/profile-image/upload"
+                      // handleUploadUrl="/api/profile-image/upload"
+                      handleUploadUrl="/api/medical-record-image/upload"
                     />
                   </FormControl>
                 </div>
