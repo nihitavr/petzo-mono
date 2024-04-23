@@ -30,7 +30,7 @@ export default function CenterSearchList() {
   );
 
   return (
-    <div className="mx-auto mt-3 flex w-full flex-col gap-3 md:w-2/3 xl:w-1/2">
+    <div className="mx-auto mt-0 flex w-full flex-col gap-3 md:w-2/3 xl:w-1/2">
       <h3 className="text-center text-lg">
         {`${!isLoading && !centers?.length && !!filtersStore.search.value ? "No centers found in" : "Search center in"} `}
         <span className="font-semibold capitalize text-primary">

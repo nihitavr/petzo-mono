@@ -19,7 +19,7 @@ import Loader from "@petzo/ui/components/loader";
 import { toast } from "@petzo/ui/components/toast";
 
 import { api } from "~/trpc/react";
-import UserProfileLoading from "./user-profile-loading";
+import UserProfileLoading from "../loading/user-profile-loading";
 
 const userProfileFormSchema = z.object({
   name: z.string().min(1, {

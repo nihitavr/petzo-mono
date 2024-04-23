@@ -1,9 +1,14 @@
+import Link from "next/link";
+import { PiPawPrintFill } from "react-icons/pi";
+
 import { auth } from "@petzo/auth-customer-app";
+import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 
 import SignIn from "~/app/_components/sign-in";
 import { api } from "~/trpc/server";
 import AddNewPetButton from "../_components/add-new-pet-button";
+import NoPetsFallback from "../_components/no-pets-fallback";
 import PetsList from "../_components/pets-list";
 
 export default async function PetsDasoboardPage() {
@@ -26,20 +31,18 @@ export default async function PetsDasoboardPage() {
   const pets = await api.pet.getPetProfiles();
 
   return (
-    <div className="flex flex-col gap-5">
+    <div>
       {/* Your Pets */}
-      <div>
-        <div className="flex w-full items-center justify-start gap-4 font-semibold">
-          <h1 className="text-xl">Your Pets</h1>
-          {pets.length > 0 && (
-            <div className="flex-grow">
-              <AddNewPetButton className="float-right" />
-            </div>
-          )}
-        </div>
-        {/* Pets List */}
-        <PetsList pets={pets} />
+      <div className="flex w-full items-center justify-start gap-4 font-semibold">
+        <h1 className="text-xl">Your Pets</h1>
+        {pets.length > 0 && (
+          <div className="flex-grow">
+            <AddNewPetButton className="float-right" />
+          </div>
+        )}
       </div>
+      {/* Pets List */}
+      {pets?.length ? <PetsList pets={pets} /> : <NoPetsFallback />}
     </div>
   );
 }

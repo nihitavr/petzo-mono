@@ -1,4 +1,4 @@
-import PetProfileLoading from "../../_components/pet-profile-loading";
+import PetProfileLoading from "../../_components/loading/pet-profile-loading";
 
 export default function Loading() {
   // You can add any UI inside Loading, including a Skeleton.

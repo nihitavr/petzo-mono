@@ -51,7 +51,7 @@ export default async function Centers({
   };
 
   return (
-    <div className="mt-16 flex flex-col gap-3 md:mt-0">
+    <div className="container-2">
       <div className="hidden items-end justify-between md:flex">
         <div className="ml-auto h-min rounded-full border px-3 py-1 text-sm">
           Sort (Top Rated)

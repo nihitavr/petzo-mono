@@ -10,7 +10,8 @@ import { AspectRatio } from "./aspect-ratio";
 import { Input } from "./input";
 import Loader from "./loader";
 
-const MAX_FILE_SIZE = 5000000;
+const MAX_FILE_SIZE = 1000000;
+// const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
   "image/jpg",
@@ -107,7 +108,7 @@ function ImageButton<T>({
         htmlFor="file-upload"
         className="flex size-full flex-col items-center justify-center rounded-lg border"
       >
-        <LuPlusCircle className="size-14 cursor-pointer text-gray-300 hover:text-gray-400" />
+        <LuPlusCircle className="size-12 cursor-pointer text-gray-300 hover:text-gray-400 md:size-14" />
         <span className="text-sm font-semibold text-foreground/50">
           Add Image
         </span>
@@ -116,8 +117,7 @@ function ImageButton<T>({
         id="file-upload"
         placeholder="Image"
         type="file"
-        accept="image/*"
-        capture="environment"
+        accept="capture=camera,image/*"
         className="file:cursor-pointer file:rounded-md file:hover:bg-slate-200"
         multiple
         onChange={async (e) => {

@@ -3,7 +3,7 @@ import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 
 import SignIn from "~/app/_components/sign-in";
 import { api } from "~/trpc/server";
-import { MedicalRecordsForm } from "../../_components/medical-records-form";
+import { MedicalRecordsForm } from "../../_components/form/medical-records-form";
 
 export default async function Page({
   searchParams: { petId: petPublicId },

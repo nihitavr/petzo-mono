@@ -42,6 +42,7 @@ import { petMedicalRecordsValidator } from "@petzo/validators";
 
 import { DEFAULT_MAX_MEDICAL_RECORD_IMAGES } from "~/lib/constants";
 import { api } from "~/trpc/react";
+import FormSaveButton from "../form-save-button";
 
 type PetMedicalRecordInsertSchema = z.infer<
   typeof petMedicalRecordsValidator.InsertSchema
@@ -149,7 +150,7 @@ export function MedicalRecordsForm({
           name="petPublicId"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Pet</FormLabel>
+              <FormLabel>Pet*</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -211,7 +212,7 @@ export function MedicalRecordsForm({
           name="appointmentDate"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <Label>Appointment Date</Label>
+              <Label>Appointment Date*</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -283,11 +284,11 @@ export function MedicalRecordsForm({
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>Details</FormLabel>
               <FormControl>
                 <Textarea
                   className="min-h-32"
-                  placeholder="Describe medical record"
+                  placeholder="Details of medical record"
                   {...field}
                 />
               </FormControl>
@@ -296,23 +297,10 @@ export function MedicalRecordsForm({
           )}
         />
 
-        <div
-          className={`md:initial fixed bottom-0 left-0 z-50 flex w-full justify-end px-3 py-3 md:static`}
-        >
-          <Button
-            className="flex w-full items-center justify-center gap-2 md:w-32"
-            type="submit"
-            disabled={
-              Object.keys(form.formState.dirtyFields).length == 0 ||
-              isSubmitting
-            }
-          >
-            <span>Save</span>
-            <div>
-              <Loader className="h-5 w-5 border-2" show={isSubmitting} />
-            </div>
-          </Button>
-        </div>
+        <FormSaveButton
+          disabled={Object.keys(form.formState.dirtyFields).length == 0}
+          isSubmitting={isSubmitting}
+        />
       </form>
     </Form>
   );

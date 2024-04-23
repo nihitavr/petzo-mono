@@ -22,7 +22,6 @@ import {
 import { ImageInput } from "@petzo/ui/components/image-input";
 import { Input } from "@petzo/ui/components/input";
 import { Label } from "@petzo/ui/components/label";
-import Loader from "@petzo/ui/components/loader";
 import {
   Popover,
   PopoverContent,
@@ -35,6 +34,7 @@ import { petValidator } from "@petzo/validators";
 
 import { DEFAULT_MAX_PET_PROFILE_IMAGES } from "~/lib/constants";
 import { api } from "~/trpc/react";
+import FormSaveButton from "../form-save-button";
 
 type PetProfileSchema = z.infer<typeof petValidator.ProfileSchema>;
 
@@ -147,7 +147,7 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Name*</FormLabel>
                 <FormControl>
                   <Input placeholder="Pet Name" {...field} />
                 </FormControl>
@@ -162,7 +162,7 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
             name="type"
             render={({ field }) => (
               <FormItem className="space-y-2 py-1">
-                <FormLabel>Type</FormLabel>
+                <FormLabel>Type*</FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -200,7 +200,7 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
             name="gender"
             render={({ field }) => (
               <FormItem className="space-y-2 py-1">
-                <FormLabel>Gender</FormLabel>
+                <FormLabel>Gender*</FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -251,7 +251,7 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
             name="dateOfBirth"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <Label>Date of birth</Label>
+                <Label>Date of birth*</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -289,23 +289,10 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
           />
         </div>
 
-        <div
-          className={`md:initial fixed bottom-0 left-0 z-50 flex w-full justify-end px-3 py-3 md:static`}
-        >
-          <Button
-            className="flex w-full items-center justify-center gap-2 md:w-32"
-            type="submit"
-            disabled={
-              Object.keys(form.formState.dirtyFields).length == 0 ||
-              isSubmitting
-            }
-          >
-            <span>Save</span>
-            <div>
-              <Loader className="h-5 w-5 border-2" show={isSubmitting} />
-            </div>
-          </Button>
-        </div>
+        <FormSaveButton
+          disabled={Object.keys(form.formState.dirtyFields).length == 0}
+          isSubmitting={isSubmitting}
+        />
       </form>
     </Form>
   );
