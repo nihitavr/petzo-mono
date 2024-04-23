@@ -49,10 +49,7 @@ export default function MedicalRecordsSection({
   };
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex items-center justify-start gap-2">
-        <h1 className="text-xl font-semibold">Medical Records</h1>
-      </div>
+    <div className="mt-2 flex flex-col gap-3">
       <div className="flex gap-2 overflow-scroll pb-2">
         {pets.length > 0 &&
           pets.map((pet, idx) => {
@@ -68,7 +65,7 @@ export default function MedicalRecordsSection({
                 onClick={() => onPetSelect(pet.publicId)}
                 aria-hidden="true"
                 key={idx}
-                className={`flex w-min cursor-pointer flex-col items-center rounded-lg p-1.5 ${isSelected ? "border bg-primary/30 shadow-md" : "hover:bg-primary/10"}`}
+                className={`flex w-min cursor-pointer flex-col items-center rounded-lg p-1.5 ${isSelected ? "border bg-primary/30" : "hover:bg-primary/10"}`}
               >
                 <div className="relative aspect-square w-20 overflow-hidden rounded-full md:w-28">
                   <Image

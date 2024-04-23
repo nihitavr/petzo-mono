@@ -41,15 +41,23 @@ export default function Header({
 
   const handleScroll = useCallback(() => {
     const currentScrollPos = window.scrollY;
+    const scrollUpThreshold =
+      pathname.endsWith("/explore") || pathname.endsWith("/centers") ? 100 : 50;
+
+    const scrollDownThreshold =
+      pathname.endsWith("/explore") || pathname.endsWith("/centers") ? 100 : 50;
 
     if (
       currentScrollPos > lastScrollTop &&
-      currentScrollPos > 50 &&
+      currentScrollPos > scrollUpThreshold &&
       !pathname.startsWith("/dashboard")
     ) {
       // Scroll Up
       setHeaderVisible(false);
-    } else if (lastScrollTop - currentScrollPos > 5 || currentScrollPos < 75) {
+    } else if (
+      lastScrollTop - currentScrollPos > 5 ||
+      currentScrollPos < scrollDownThreshold
+    ) {
       // Scroll Down
       setHeaderVisible(true);
     }

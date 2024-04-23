@@ -4,7 +4,7 @@ import { Skeleton } from "@petzo/ui/components/skeleton";
 
 export default function Loading() {
   return (
-    <div className="mt-16 flex flex-col gap-3 md:mt-0">
+    <div className="container-2">
       <div className="hidden items-center justify-end gap-2 md:flex">
         <Skeleton className="h-8 w-full rounded-full md:w-36" />
       </div>

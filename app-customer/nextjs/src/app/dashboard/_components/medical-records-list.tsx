@@ -15,7 +15,7 @@ import {
 import { Button } from "@petzo/ui/components/button";
 import { Label } from "@petzo/ui/components/label";
 
-import { MedicalRecordsListLoading } from "./medical-records-loading";
+import { MedicalRecordsListLoading } from "./loading/medical-records-loading";
 
 export default function MedicalRecordsList({
   petName,
@@ -58,7 +58,7 @@ export default function MedicalRecordsList({
             value={`medical-record-${medicalRecord.id}`}
             className="rounded-lg border"
           >
-            <AccordionTrigger className="z-20 flex justify-between rounded-lg bg-primary/10 px-2 text-sm shadow-m-sm md:text-lg">
+            <AccordionTrigger className="z-20 flex justify-between rounded-lg bg-primary/10 px-2 text-sm md:text-lg">
               <div className="flex w-full items-center justify-between">
                 <div className="flex flex-col items-start">
                   <span className="text-xs text-foreground/70 md:text-sm">
@@ -69,7 +69,7 @@ export default function MedicalRecordsList({
                   </span>
                 </div>
                 <Button
-                  className="mr-2 h-7"
+                  className="mr-2.5 h-7"
                   size="sm"
                   variant="outline"
                   asChild={true}
@@ -86,7 +86,7 @@ export default function MedicalRecordsList({
             <AccordionContent>
               {medicalRecord.description && (
                 <div className="p-2">
-                  <Label>Description</Label>
+                  <Label>Details</Label>
                   <div className="mt-1 whitespace-pre">
                     {medicalRecord.description}
                   </div>

@@ -2,7 +2,7 @@ import { auth } from "@petzo/auth-customer-app";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 
 import SignIn from "~/app/_components/sign-in";
-import { UserProfileForm } from "../_components/user-profile-form";
+import { UserProfileForm } from "../_components/form/user-profile-form";
 
 export default async function UserProfile() {
   if (!(await auth())?.user) {

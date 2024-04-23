@@ -2,7 +2,7 @@ import { auth } from "@petzo/auth-customer-app";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 
 import SignIn from "~/app/_components/sign-in";
-import { MedicalRecordsForm } from "~/app/dashboard/_components/medical-records-form";
+import { MedicalRecordsForm } from "~/app/dashboard/_components/form/medical-records-form";
 import { api } from "~/trpc/server";
 
 export default async function Page({
