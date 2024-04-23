@@ -98,8 +98,6 @@ function ImageButton<T>({
   fieldValue = fieldValue ?? [];
 
   if (!fieldName || fieldValue.length >= maxFiles) {
-    console.log("fieldName", fieldName);
-
     return <Fragment />;
   }
 
@@ -110,13 +108,16 @@ function ImageButton<T>({
         className="flex size-full flex-col items-center justify-center rounded-lg border"
       >
         <LuPlusCircle className="size-14 cursor-pointer text-gray-300 hover:text-gray-400" />
-        <span>Add Image</span>
+        <span className="text-sm font-semibold text-foreground/50">
+          Add Image
+        </span>
       </label>
       <Input
         id="file-upload"
         placeholder="Image"
         type="file"
         accept="image/*"
+        capture="environment"
         className="file:cursor-pointer file:rounded-md file:hover:bg-slate-200"
         multiple
         onChange={async (e) => {

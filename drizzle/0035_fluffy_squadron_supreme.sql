@@ -1,0 +1,1 @@
+ALTER TABLE "pet_medical_record" ALTER COLUMN "customer_user_id" SET DATA TYPE varchar(255);

@@ -76,7 +76,9 @@ export const petMedicalRecordRouter = {
         await ctx.db
           .insert(schema.petMedicalRecords)
           .values({
+            customerUserId: ctx.session.user.id,
             petId: pet.id,
+            description: input.description,
             centerId: input.centerId,
             images: input.images,
             appointmentDate: input.appointmentDate,
@@ -112,14 +114,16 @@ export const petMedicalRecordRouter = {
         await ctx.db
           .update(schema.petMedicalRecords)
           .set({
+            petId: pet.id,
             centerId: input.centerId,
+            description: input.description,
             images: input.images,
             appointmentDate: input.appointmentDate,
           })
           .where(
             and(
               eq(schema.petMedicalRecords.id, input.id),
-              eq(schema.petMedicalRecords.petId, pet.id),
+              eq(schema.petMedicalRecords.customerUserId, ctx.session.user.id),
             ),
           )
           .returning()

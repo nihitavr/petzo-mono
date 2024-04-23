@@ -87,7 +87,7 @@ export default function MedicalRecordsSection({
       <div className="mt-3 flex flex-col gap-3">
         <div className="flex items-center justify-between gap-2">
           <h2 className="line-clamp-1 text-lg font-semibold">{pet?.name}</h2>
-          <Link href={`/dashboard/medical-records/add`}>
+          <Link href={`/dashboard/medical-records/add?petId=${pet?.publicId}`}>
             <Button size="sm">
               New Medical Record
               <RiFileList3Line className="ml-1 size-3.5" />
