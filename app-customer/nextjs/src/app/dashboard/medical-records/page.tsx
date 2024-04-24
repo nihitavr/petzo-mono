@@ -1,14 +1,9 @@
-import Link from "next/link";
-import { PiPawPrintFill } from "react-icons/pi";
-
 import { auth } from "@petzo/auth-customer-app";
-import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 
 import SignIn from "~/app/_components/sign-in";
 import MedicalRecordsSection from "~/app/dashboard/_components/medical-records-section";
 import { api } from "~/trpc/server";
-import AddNewPetButton from "../_components/add-new-pet-button";
 import NoPetsFallback from "../_components/no-pets-fallback";
 
 export default async function MedicalRecordsPage({
@@ -41,7 +36,13 @@ export default async function MedicalRecordsPage({
       {pets?.length ? (
         <MedicalRecordsSection pets={pets} petId={petId} />
       ) : (
-        <NoPetsFallback />
+        <NoPetsFallback>
+          <span>
+            No pets added yet. Click{" "}
+            <span className="font-semibold">Add Pet </span> to create a new pet
+            profile and view medical records.
+          </span>
+        </NoPetsFallback>
       )}
     </div>
   );

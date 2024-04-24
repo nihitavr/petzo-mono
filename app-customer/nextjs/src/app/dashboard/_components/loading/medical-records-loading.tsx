@@ -15,7 +15,7 @@ export const MedicalRecordsListLoading = forwardRef<
       {arr.map((_, index) => (
         <Skeleton
           key={`skeleton-${index}`}
-          className="flex h-14 w-full items-center justify-between rounded-lg p-2 md:h-[3.8rem]"
+          className="flex h-[4.3rem] w-full items-center justify-between rounded-lg p-2 md:h-[5rem]"
         >
           <Skeleton className="h-5 w-2/5 rounded-lg bg-muted-foreground/15 md:w-1/5" />
           <Skeleton className="size-3 rounded-full bg-muted-foreground/15" />
