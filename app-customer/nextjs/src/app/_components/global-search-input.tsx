@@ -73,6 +73,8 @@ export default function GlobalSearchInput({
 
   const currentPlaceholderIndex = signal(0);
   useEffect(() => {
+    console.log("prefetching search");
+
     router.prefetch("/search");
 
     let currentIntervalCount = 0;

@@ -3,13 +3,22 @@ import { PiPawPrintFill } from "react-icons/pi";
 
 import { Button } from "@petzo/ui/components/button";
 
-export default function NoPetsFallback() {
+export default function NoPetsFallback({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   return (
     <div className="flex h-[40vh] flex-col items-center justify-center gap-2 text-center text-foreground/80 md:col-span-4">
-      <span>
-        No pets added yet. Click <span className="font-semibold">Add Pet </span>{" "}
-        to create a new pet profile.
-      </span>
+      {children ? (
+        children
+      ) : (
+        <span>
+          No pets added yet. Click{" "}
+          <span className="font-semibold">Add Pet </span> to create a new pet
+          profile.
+        </span>
+      )}
 
       <Link href={"/dashboard/pets/add"}>
         <Button
