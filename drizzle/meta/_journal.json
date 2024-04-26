@@ -253,6 +253,34 @@
       "when": 1713882350060,
       "tag": "0035_fluffy_squadron_supreme",
       "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "5",
+      "when": 1714052283121,
+      "tag": "0036_certain_hellcat",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "5",
+      "when": 1714054252540,
+      "tag": "0037_fast_scrambler",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "5",
+      "when": 1714054308201,
+      "tag": "0038_concerned_professor_monster",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "5",
+      "when": 1714055256933,
+      "tag": "0039_wild_frank_castle",
+      "breakpoints": true
     }
   ]
 }

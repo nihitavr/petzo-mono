@@ -16,6 +16,7 @@ export const reviews = pgTable(
   "review",
   {
     id: serial("id").primaryKey(),
+    parentReviewId: integer("parent_review_id"),
     customerUserId: varchar("customer_user_id", { length: 255 })
       .notNull()
       .references(() => customerUsers.id),
@@ -31,9 +32,12 @@ export const reviews = pgTable(
       .notNull(),
   },
   (review) => ({
-    reviewsUserCenterIdx: index("reviews_user_center_idx").on(
+    reviewsUserCenterIdx: index(
+      "reviews_center_id_user_id_index",
+    ).on(review.centerId, review.customerUserId),
+    reviewsParentReviewId: index("reviews_center_id_parent_review_id_index").on(
       review.centerId,
-      review.customerUserId,
+      review.parentReviewId,
     ),
   }),
 );

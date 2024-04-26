@@ -119,10 +119,12 @@ export default function ImagesCasousel({
 
           <div className="">
             <CarouselPrevious
+              className="ml-3"
               canScrollPrev={carouselApi?.canScrollPrev()}
               scrollPrev={() => carouselApi?.scrollPrev()}
             />
             <CarouselNext
+              className="mr-3"
               canScrollNext={carouselApi?.canScrollNext()}
               scrollNext={() => carouselApi?.scrollNext()}
             />

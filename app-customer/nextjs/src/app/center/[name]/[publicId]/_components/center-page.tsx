@@ -1,16 +1,37 @@
+import { auth } from "@petzo/auth-customer-app";
+import { CustomerUser, Review } from "@petzo/db";
 import NotFound from "@petzo/ui/components/errors/not-found";
 
 import { api } from "~/trpc/server";
 import { CenterInfo } from "./center-info";
+import CenterReviews from "./center-reviews";
 import CenterServiceList from "./center-service-list";
 import ImagesCasousel from "./images-carousel";
 
 export default async function CenterPage({ publicId }: { publicId: string }) {
+  const session = await auth();
+
   const center = await api.center.findByPublicId({
     publicId,
   });
 
   if (!center) return <NotFound />;
+
+  let reviews = await api.reviews.getReviews({
+    centerId: center.id,
+  });
+
+  let currentUserReview: Review | undefined;
+
+  if (session?.user) {
+    currentUserReview = await api.reviews.getCurrentUserReview({
+      centerId: center.id,
+    });
+
+    if (currentUserReview) {
+      reviews = reviews.filter((review) => review.id !== currentUserReview?.id);
+    }
+  }
 
   const imageUrls = center.images?.map((img) => img.url) ?? [];
 
@@ -19,7 +40,7 @@ export default async function CenterPage({ publicId }: { publicId: string }) {
       {/* Center Image & Center Info */}
       <div className="flex grid-cols-10 flex-col gap-2 md:grid md:gap-5">
         {/* Center Images */}
-        <div className="col-span-4 w-full px-2 md:p-0">
+        <div className="col-span-4 w-full">
           <ImagesCasousel
             images={imageUrls}
             className="aspect-square w-full"
@@ -35,6 +56,13 @@ export default async function CenterPage({ publicId }: { publicId: string }) {
       </div>
 
       <CenterServiceList center={center} />
+
+      <CenterReviews
+        currentUserReview={currentUserReview}
+        reviews={reviews}
+        user={session?.user as CustomerUser}
+        center={center}
+      />
     </div>
   );
 }

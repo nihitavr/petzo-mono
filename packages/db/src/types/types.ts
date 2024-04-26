@@ -62,6 +62,15 @@ export type PetMedicalRecord = InferResultType<"petMedicalRecords"> & {
   pet?: Pet;
 };
 
+export type Rating = InferResultType<"ratings">;
+
+export type CustomerUser = InferResultType<"customerUsers">;
+
+export type Review = InferResultType<"reviews"> & {
+  rating?: Rating;
+  user?: CustomerUser;
+};
+
 // This is to export all the default types from index.ts file as when
 // you add type in package.json it will not be exported by default
 export * from "../index";

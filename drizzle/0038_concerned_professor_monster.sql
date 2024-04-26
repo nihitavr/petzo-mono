@@ -1,0 +1,2 @@
+DROP INDEX IF EXISTS "reviews_center_id_user_id_parent_review_id_index";--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "reviews_center_id_user_id_index" ON "review" ("center_id","customer_user_id");
