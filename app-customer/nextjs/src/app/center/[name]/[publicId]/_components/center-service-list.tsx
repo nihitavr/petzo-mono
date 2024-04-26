@@ -6,14 +6,14 @@ import type { Center } from "@petzo/db";
 import { SERVICES_OFFERED } from "@petzo/constants";
 
 import {
-  getServicesProvidedByCenter,
+  getServicesTypesList,
   getServiceTypeToServicesByCenterMap,
 } from "~/lib/utils/center.utils";
 import ServiceCard from "./service-card";
 
 export default function CenterServiceList({ center }: { center: Center }) {
   const serviceTypesProvidedByCenter = useMemo(() => {
-    return getServicesProvidedByCenter(center);
+    return getServicesTypesList(center);
   }, [center]);
 
   const [selectedServices, setSelectedServices] = useState<string[]>(
@@ -62,33 +62,59 @@ export default function CenterServiceList({ center }: { center: Center }) {
       <div className="flex flex-col gap-10">
         {serviceTypesProvidedByCenter.map((serviceType, idx) => {
           const services = serviceMap[serviceType];
+          const isServiceTypeSelected = selectedServices.includes(serviceType);
 
           return (
-            selectedServices.includes(serviceType) && (
-              <div
-                className="flex w-full flex-col gap-3"
-                key={`services-${idx}`}
-              >
-                <h4 className="text-center text-2xl font-semibold md:text-3xl">
-                  {SERVICES_OFFERED[serviceType]?.name}
-                </h4>
+            <div
+              className={`flex w-full flex-col gap-3 overflow-hidden ${isServiceTypeSelected ? "animate-fade-in" : "animate-fade-out"}`}
+              key={`services-${idx}`}
+            >
+              <h4 className="text-center text-2xl font-semibold md:text-3xl">
+                {SERVICES_OFFERED[serviceType]?.name}
+              </h4>
 
-                <div className={`grid grid-cols-1 gap-10 md:grid-cols-2`}>
-                  {services?.map((service) => {
-                    return (
-                      // Service Card Container
-                      <ServiceCard
-                        className={`${services.length == 1 ? "col-span-2" : "col-span-1"} rounded-lg bg-primary/[7%]`}
-                        key={`services-${idx}-${service.id}`}
-                        service={service}
-                        center={center}
-                      />
-                    );
-                  })}
-                </div>
+              <div className={`grid grid-cols-1 gap-10 md:grid-cols-2`}>
+                {services?.map((service) => {
+                  return (
+                    // Service Card Container
+                    <ServiceCard
+                      className={`${services.length == 1 ? "col-span-2" : "col-span-1"} rounded-lg bg-primary/[7%]`}
+                      key={`services-${idx}-${service.id}`}
+                      service={service}
+                      center={center}
+                    />
+                  );
+                })}
               </div>
-            )
+            </div>
           );
+
+          // return (
+          //   selectedServices.includes(serviceType) && (
+          //     <div
+          //       className="flex w-full flex-col gap-3"
+          //       key={`services-${idx}`}
+          //     >
+          //       <h4 className="text-center text-2xl font-semibold md:text-3xl">
+          //         {SERVICES_OFFERED[serviceType]?.name}
+          //       </h4>
+
+          //       <div className={`grid grid-cols-1 gap-10 md:grid-cols-2`}>
+          //         {services?.map((service) => {
+          //           return (
+          //             // Service Card Container
+          //             <ServiceCard
+          //               className={`${services.length == 1 ? "col-span-2" : "col-span-1"} rounded-lg bg-primary/[7%]`}
+          //               key={`services-${idx}-${service.id}`}
+          //               service={service}
+          //               center={center}
+          //             />
+          //           );
+          //         })}
+          //       </div>
+          //     </div>
+          //   )
+          // );
         })}
       </div>
 

@@ -67,7 +67,6 @@ export const DEFAULT_CENTER_FILTERS: {
     publicId: "area",
     label: "Area",
     type: "multi-select",
-    shouldFetchData: true,
     items: [],
   },
 ];

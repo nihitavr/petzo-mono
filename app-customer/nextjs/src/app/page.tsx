@@ -1,4 +1,4 @@
-import HomePageServicesCards from "./_components/home-page-service-cards";
+import HeroSection from "./_components/landing-page/hero-section";
 
 export default async function HomePage() {
   // You can await this here if you don't want to show Suspense fallback below
@@ -7,9 +7,7 @@ export default async function HomePage() {
     <div className="mt-16 flex flex-col gap-4 md:mt-0">
       {/* <AuthShowcase /> */}
 
-      <div className="md:w-[50%]">
-        <HomePageServicesCards />
-      </div>
+      <HeroSection />
     </div>
   );
 }

@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "exports": {
+    "./components/animation/*": "./src/components/ui/animation/*.tsx",
     "./components/icons/*": "./src/components/ui/icons/*.tsx",
     "./components/errors/*": "./src/components/ui/errors/*.tsx",
     "./components/*": "./src/components/ui/*.tsx",

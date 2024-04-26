@@ -1,11 +1,10 @@
-import { FaStar } from "react-icons/fa";
 import { GrLocation } from "react-icons/gr";
 
 import type { Center } from "@petzo/db";
 import { cn } from "@petzo/ui/lib/utils";
 import { getGoogleLocationLink } from "@petzo/utils";
 
-import { getServicesProvidedByCenter } from "~/lib/utils/center.utils";
+import { getServicesNamesStr } from "~/lib/utils/center.utils";
 import CenterDescriptionAndButtons from "./center-description-and-buttons";
 import Rating from "./rating-display";
 
@@ -16,8 +15,6 @@ export const CenterInfo = ({
   center: Center;
   className?: string;
 }) => {
-  const serviceTypesProvided = getServicesProvidedByCenter(center);
-
   return (
     <div className={cn("flex flex-col gap-2 overflow-y-auto pt-0", className)}>
       {/* Center name */}
@@ -33,17 +30,11 @@ export const CenterInfo = ({
             (Google Rating)
           </span>
         </div>
-
-        {/* Reviews */}
-        {/* <div className="h-1.5 w-1.5 rounded-full bg-foreground/80"></div>
-        <div className="flex cursor-pointer items-center gap-1 hover:underline">
-          <span>{center.reviewCount} reviews</span>
-        </div> */}
       </div>
 
       {/* Services Provided */}
-      <span className="line-clamp-1 break-all text-sm font-semibold capitalize text-primary md:text-base">
-        {serviceTypesProvided.join(", ")}
+      <span className="line-clamp-2 text-sm font-semibold capitalize text-primary md:text-base">
+        {getServicesNamesStr(center)}
       </span>
 
       {/* address */}
