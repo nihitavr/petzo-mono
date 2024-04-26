@@ -8,6 +8,7 @@ import { GrLocation } from "react-icons/gr";
 
 import type { Service } from "@petzo/db";
 
+import DogGroomingAnimation from "~/app/_components/dog-grooming-animation";
 import { MIN_SEARCH_TEXT_LENGTH } from "~/app/_components/global-search-input";
 import { filtersStore } from "~/lib/storage/global-storage";
 import { getCenterRelativeUrl } from "~/lib/utils/center.utils";
@@ -44,7 +45,7 @@ export default function CenterSearchList() {
         <div className="flex flex-col gap-3 overflow-auto">
           {!!filtersStore.city.value &&
             centers?.map((center) => {
-              const thumbnail = center.images?.[0].url;
+              const thumbnail = center?.images?.[0]?.url;
 
               const serviceTypesProvided: string[] = [];
 
