@@ -10,8 +10,8 @@ import { AspectRatio } from "./aspect-ratio";
 import { Input } from "./input";
 import Loader from "./loader";
 
-const MAX_FILE_SIZE = 1000000;
-// const MAX_FILE_SIZE = 5000000;
+const MAX_FILE_SIZE = 10000000;
+
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
   "image/jpg",

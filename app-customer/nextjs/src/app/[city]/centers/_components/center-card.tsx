@@ -4,7 +4,7 @@ import { GrLocation } from "react-icons/gr";
 
 import type { Center, Service } from "@petzo/db";
 
-import Rating from "~/app/center/[name]/[publicId]/_components/rating";
+import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
 import { getCenterRelativeUrl } from "~/lib/utils/center.utils";
 import { getLowertCostService } from "~/lib/utils/service.utils";
@@ -55,16 +55,10 @@ export default function CenterCard({ center }: { center: Center }) {
 
           {/* Rating and Reviews */}
           <div className="md:text-md flex items-center gap-2 text-sm text-foreground/80">
-            {/* <div className="flex items-center gap-1">
-              <span className="">{center.averageRating}</span>
-              <FaStar className="h-3.5 w-3.5 text-yellow-600" />
-            </div> */}
             <Rating rating={center.averageRating} />
-
-            {/* <div className="h-1.5 w-1.5 rounded-full bg-foreground/80"></div>
-            <div className="flex cursor-pointer items-center gap-1 hover:underline">
-              <span>{center.reviewCount} reviews</span>
-            </div> */}
+            <span className="line-clamp-1 text-xs font-semibold">
+              (Google Rating)
+            </span>
           </div>
 
           {/* Area */}

@@ -12,5 +12,6 @@ export * as centerValidator from "./center.validator";
 export * as serviceValidator from "./service.validator";
 export * as petValidator from "./pet.validator";
 export * as petMedicalRecordsValidator from "./pet-medical-records.validator";
+export * as reviewValidator from "./review.validator";
 
 export const GetCityAreasSchema = z.object({ city: z.string() });

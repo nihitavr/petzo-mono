@@ -10,7 +10,8 @@ import * as city from "./schema/city.schema";
 import * as customerAuth from "./schema/customer-app-auth.schema";
 import * as petMedicalRecords from "./schema/pet-medical-records.schema";
 import * as pet from "./schema/pet.schema";
-import * as reviews from "./schema/reviews.schema";
+import * as ratings from "./schema/rating.schema";
+import * as reviews from "./schema/review.schema";
 import * as service from "./schema/service.schema";
 import * as slotAvailabilities from "./schema/slot-availability.schema";
 import * as slot from "./schema/slot.schema";
@@ -28,6 +29,7 @@ export const schema = {
   ...city,
   ...pet,
   ...reviews,
+  ...ratings,
   ...service,
   ...slot,
   ...staff,
