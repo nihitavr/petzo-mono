@@ -2,23 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { GrLocation } from "react-icons/gr";
 
-import type { Center, Service } from "@petzo/db";
+import type { Center } from "@petzo/db";
+import { SERVICES_OFFERED } from "@petzo/constants";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
-import { getCenterRelativeUrl } from "~/lib/utils/center.utils";
+import {
+  getCenterRelativeUrl,
+  getServicesNamesStr,
+} from "~/lib/utils/center.utils";
 import { getLowertCostService } from "~/lib/utils/service.utils";
 
 export default function CenterCard({ center }: { center: Center }) {
   const thumbnail = center.images?.[0]?.url;
   const lowestPriceService = getLowertCostService(center);
-  const serviceTypesProvided: string[] = [];
-
-  center.services?.forEach((service: Service) => {
-    if (!serviceTypesProvided.includes(service.serviceType)) {
-      serviceTypesProvided.push(service.serviceType);
-    }
-  });
 
   return (
     <div className="flex flex-row rounded-lg bg-primary/[7%] md:border md:shadow-sm">
@@ -71,7 +68,7 @@ export default function CenterCard({ center }: { center: Center }) {
 
           {/* Services Provided */}
           <span className="md:text-md line-clamp-1 break-all text-xs font-semibold capitalize text-primary">
-            {serviceTypesProvided.join(", ")}
+            {getServicesNamesStr(center)}
           </span>
 
           {/* Lowest Service Price */}
@@ -79,7 +76,7 @@ export default function CenterCard({ center }: { center: Center }) {
             <div className="mt-auto flex justify-between rounded-r-full bg-gradient-to-r from-background to-primary/40 px-2 py-1">
               <div className="flex flex-col ">
                 <span className="text-xs capitalize text-foreground/80 md:text-sm">
-                  {lowestPriceService.serviceType}
+                  {SERVICES_OFFERED[lowestPriceService.serviceType]?.name}
                 </span>
                 <span>Starting at </span>
               </div>

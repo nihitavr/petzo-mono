@@ -30,7 +30,21 @@ export function getServiceRelativeUrl(
   return `/center/${centerNameParam}/${center.publicId}/${serviceNameParam}/${service.publicId}`;
 }
 
-export function getServicesProvidedByCenter(center: Center): string[] {
+export function getServicesNamesStr(center: Center): string {
+  const serviceTypesProvided: string[] = [];
+
+  center.services?.forEach((service) => {
+    const serviceName = SERVICES_OFFERED[service.serviceType]!.name;
+
+    if (!serviceTypesProvided.includes(serviceName)) {
+      serviceTypesProvided.push(serviceName);
+    }
+  });
+
+  return serviceTypesProvided.join(", ");
+}
+
+export function getServicesTypesList(center: Center): string[] {
   const serviceTypesProvided: string[] = [];
 
   center.services?.forEach((service) => {
@@ -56,7 +70,7 @@ export function getServiceTypeToServicesByCenterMap(
 }
 
 export function getMetadataTitle(center: Center) {
-  const servicesProvided = getServicesProvidedByCenter(center);
+  const servicesProvided = getServicesTypesList(center);
   const servicesProvidedStr = servicesProvided
     .map((serviceName) => `${SERVICES_OFFERED[serviceName]?.name}`)
     .join(", ");
@@ -69,7 +83,7 @@ export function getMetadataDescription(center: Center) {
 
   const servicesMap = getServiceTypeToServicesByCenterMap(center);
 
-  const servicesProvided = getServicesProvidedByCenter(center);
+  const servicesProvided = getServicesTypesList(center);
   const servicesProvidedStr = servicesProvided
     .map(
       (serviceName) =>
@@ -84,7 +98,7 @@ export function getMetadataDescription(center: Center) {
 }
 
 export function getMetadataKeywords(center: Center) {
-  const servicesProvided = getServicesProvidedByCenter(center);
+  const servicesProvided = getServicesTypesList(center);
   const serviceNames = center.services?.map((service) => service.name) ?? [];
 
   const keywords = [

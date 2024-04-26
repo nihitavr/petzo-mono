@@ -21,7 +21,12 @@ export default function CenterReviews({
     <div className="flex flex-col gap-4">
       <h2 className="text-xl font-semibold">
         User Rating and Reviews
-        <Rating rating={center.averageRating} />
+        <div className="flex items-center gap-1">
+          <Rating rating={center.averageRating} />
+          <span className="line-clamp-1 text-sm font-semibold">
+            (Google Rating)
+          </span>
+        </div>
       </h2>
 
       <h3 className="text-lg font-semibold">Reviews</h3>

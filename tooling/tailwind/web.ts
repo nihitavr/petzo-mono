@@ -29,7 +29,15 @@ export default {
       keyframes: {
         "fade-out": {
           "0%": { opacity: "1" },
-          "100%": { opacity: "0" },
+          "100%": { opacity: "0", display: "none" },
+        },
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "wipe-left-right": {
+          "0%": { width: "0", opacity: "100%" },
+          "100%": { width: "100%", opacity: "100%" },
         },
         "accordion-down": {
           from: { height: "0" },
@@ -49,7 +57,10 @@ export default {
         },
       },
       animation: {
-        "fade-out": "fade-out 0.3s 0.3s ease-out forwards",
+        "wipe-left-right": "wipe-left-right 1s linear",
+        "wipe-show-down": "wipe-show-down 3s ease-out infinite",
+        "fade-out": "fade-out 0.3s ease-out forwards",
+        "fade-in": "fade-in 0.3s ease-out forwards",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         border: "border 4s ease infinite",

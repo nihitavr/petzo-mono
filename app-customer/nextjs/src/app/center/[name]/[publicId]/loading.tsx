@@ -2,20 +2,20 @@ import { Skeleton } from "@petzo/ui/components/skeleton";
 
 export default function Loading() {
   return (
-    <div className="flex flex-col gap-2 p-3 md:animate-none md:flex-row md:px-6 md:py-10">
-      <div className="flex h-full w-full flex-col gap-2 md:w-1/2">
-        <Skeleton className="aspect-square w-full rounded-md" />
-        <div className="flex gap-2">
+    <div className="grid grid-cols-10 gap-2 md:animate-none">
+      <div className="col-span-10 flex h-full w-full flex-col gap-2 md:col-span-4 ">
+        <Skeleton className="aspect-square w-full rounded-md bg-foreground/10" />
+        <div className="flex gap-2 ">
           <Skeleton className="hidden aspect-square basis-1/4 rounded-md md:inline md:basis-1/5" />
-          <Skeleton className="aspect-square basis-1/6 rounded-md" />
-          <Skeleton className="aspect-square basis-1/6 rounded-md" />
-          <Skeleton className="aspect-square basis-1/6 rounded-md" />
-          <Skeleton className="aspect-square basis-1/6 rounded-md" />
-          <Skeleton className="aspect-square basis-1/6 rounded-md" />
-          <Skeleton className="aspect-square basis-1/6 rounded-md" />
+          <Skeleton className="aspect-square basis-1/6 rounded-md bg-foreground/10" />
+          <Skeleton className="aspect-square basis-1/6 rounded-md bg-foreground/10" />
+          <Skeleton className="aspect-square basis-1/6 rounded-md bg-foreground/10" />
+          <Skeleton className="aspect-square basis-1/6 rounded-md bg-foreground/10" />
+          <Skeleton className="aspect-square basis-1/6 rounded-md bg-foreground/10" />
+          <Skeleton className="aspect-square basis-1/6 rounded-md bg-foreground/10" />
         </div>
       </div>
-      <Skeleton className="flex h-full w-full flex-col gap-2 bg-primary/5 p-2">
+      <Skeleton className="col-span-10 flex h-full w-full flex-col gap-2 bg-foreground/10 p-2 md:col-span-6">
         <Skeleton className="mt-2 h-8 w-2/3 rounded-md" />
         <Skeleton className="h-4 w-1/3 rounded-md" />
         <Skeleton className="h-5 w-full rounded-md" />

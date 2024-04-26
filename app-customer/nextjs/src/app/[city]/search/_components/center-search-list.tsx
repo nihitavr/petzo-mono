@@ -6,12 +6,13 @@ import { useSignals } from "@preact/signals-react/runtime";
 import { FaStar } from "react-icons/fa";
 import { GrLocation } from "react-icons/gr";
 
-import type { Service } from "@petzo/db";
-
 import DogGroomingAnimation from "~/app/_components/dog-grooming-animation";
 import { MIN_SEARCH_TEXT_LENGTH } from "~/app/_components/global-search-input";
 import { filtersStore } from "~/lib/storage/global-storage";
-import { getCenterRelativeUrl } from "~/lib/utils/center.utils";
+import {
+  getCenterRelativeUrl,
+  getServicesNamesStr,
+} from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
 import { CenterSearchListLoading } from "./center-search-list-loading";
 
@@ -37,6 +38,10 @@ export default function CenterSearchList() {
         <span className="font-semibold capitalize text-primary">
           {filtersStore.city.value}
         </span>
+
+        {!isLoading && !centers?.length && !filtersStore.search.value && (
+          <DogGroomingAnimation withPlaceholder={true} />
+        )}
       </h3>
 
       {isLoading ? (
@@ -46,22 +51,15 @@ export default function CenterSearchList() {
           {!!filtersStore.city.value &&
             centers?.map((center) => {
               const thumbnail = center?.images?.[0]?.url;
-
-              const serviceTypesProvided: string[] = [];
-
-              center.services.forEach((service: Service) => {
-                if (!serviceTypesProvided.includes(service.serviceType)) {
-                  serviceTypesProvided.push(service.serviceType);
-                }
-              });
+              const serviceNames = getServicesNamesStr(center);
 
               return (
                 <Link
                   href={getCenterRelativeUrl(center)}
                   key={center.publicId}
-                  className="flex gap-2 rounded-lg hover:bg-muted/80"
+                  className="grid grid-cols-6 gap-2 rounded-lg hover:bg-muted/80"
                 >
-                  <div className="relative size-28 md:size-32">
+                  <div className="relative col-span-2 h-full min-h-28 md:min-h-32">
                     {thumbnail ? (
                       <Image
                         fill
@@ -76,14 +74,16 @@ export default function CenterSearchList() {
                       </div>
                     )}
                   </div>
-                  <div className="space-y-1">
+                  <div className="col-span-4 space-y-1">
                     <h3 className="text-sm font-semibold md:text-base">
                       {center.name}
                     </h3>
                     <div className="flex items-center gap-2 text-xs text-foreground/80 md:text-sm">
                       <div className="flex items-center gap-1">
-                        <span className="">{center.averageRating}</span>
                         <FaStar className="size-3 text-yellow-600" />
+                        <span className="">
+                          {center.averageRating?.toFixed(1)}
+                        </span>
                       </div>
                       <div className="h-1.5 w-1.5 rounded-full bg-foreground/80"></div>
                       <div className="flex cursor-pointer items-center gap-1 hover:underline">
@@ -98,7 +98,7 @@ export default function CenterSearchList() {
                     </div>
                     {/* Services Provided */}
                     <span className="line-clamp-1 break-all text-xs font-semibold capitalize text-primary md:text-sm">
-                      {serviceTypesProvided.join(", ")}
+                      {serviceNames}
                     </span>
                   </div>
                 </Link>

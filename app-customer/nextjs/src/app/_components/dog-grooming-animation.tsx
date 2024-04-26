@@ -12,13 +12,12 @@ export default function DogGroomingAnimation({ withPlaceholder = true }) {
   }, []);
 
   return (
-    <div className="flex items-center justify-center px-10">
-      <div className="container-2 relative !mt-32 w-full ">
+    <div className="flex h-full min-h-72 items-center justify-center">
+      <div className="relative size-44 md:size-56 ">
         {withPlaceholder && (
           <Image
-            width={500}
-            height={500}
-            className={`absolute left-0 top-0 w-full ${componentLoaded ? "animate-fade-out" : "opacity-100"}`}
+            fill
+            className={`absolute left-0 top-0 w-full object-contain ${componentLoaded ? "animate-fade-out" : "opacity-100"}`}
             src="/dog-grooming-animation.min.svg"
             alt="dog grooming animation"
             priority
