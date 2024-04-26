@@ -77,8 +77,8 @@ export function ServiceDetailsDialog({
           View Details {">"}
         </Button>
       </DialogTrigger>
-      <DialogContent className="h-[80vh] rounded-xl p-0 pb-[50px] sm:max-w-[425px] md:h-[90vh]">
-        <div className="h-[80vh] overflow-y-auto p-6 pb-16 md:h-[90vh]">
+      <DialogContent className="max-h-[90vh] rounded-xl p-0 pb-[50px] sm:max-w-[425px] md:max-h-[90vh]">
+        <div className="max-h-[90vh] overflow-y-auto p-6 pb-16 md:max-h-[90vh]">
           <div className="flex flex-col ">
             <ServiceImagesCasousel
               images={imageUrls}
@@ -94,7 +94,9 @@ export function ServiceDetailsDialog({
                   at {center?.name}
                 </div>
               </div>
-              <DialogDescription>{service.description}</DialogDescription>
+              <DialogDescription className="whitespace-pre-wrap">
+                {service.description}
+              </DialogDescription>
             </div>
           </div>
         </div>

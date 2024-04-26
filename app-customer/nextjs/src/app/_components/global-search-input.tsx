@@ -16,6 +16,7 @@ export const MAX_SEARCH_PLACEHOLDER_REPETITIONS = 9;
 const PLACEHOLDERS = [
   "Veterinary Center",
   "Grooming Center",
+  "Home Grooming Center",
   "Boarding Center",
 ];
 

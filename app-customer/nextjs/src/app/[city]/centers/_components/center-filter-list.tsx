@@ -79,7 +79,7 @@ export const CenterFilterList = ({
   if (initialCenters.length === 0) return <NoCentersFound />;
 
   return (
-    <div className="flex w-full flex-col gap-6">
+    <div className="flex w-full flex-col gap-4">
       {centers.length > 0 &&
         centers.map((center) => {
           return <CenterCard key={`center-${center.id}`} center={center} />;
