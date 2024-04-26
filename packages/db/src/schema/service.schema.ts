@@ -18,6 +18,7 @@ export const serviceTypeEnum = pgEnum("center_service_type", [
   "veterinary",
   "grooming",
   "boarding",
+  "home_grooming",
 ]);
 
 export const serviceTypeList = serviceTypeEnum.enumValues;

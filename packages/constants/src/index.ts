@@ -10,6 +10,10 @@ export const SERVICES_OFFERED: Record<
     name: "Pet Grooming",
     publicId: "grooming",
   },
+  home_grooming: {
+    name: "Home Grooming",
+    publicId: "home_grooming",
+  },
   boarding: {
     name: "Pet Boarding",
     publicId: "boarding",

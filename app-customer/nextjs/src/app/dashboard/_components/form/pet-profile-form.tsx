@@ -72,6 +72,7 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
 
     toast.success(message);
     router.push("/dashboard/pets");
+    router.refresh();
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -21,7 +21,7 @@ export default function CenterCard({ center }: { center: Center }) {
   });
 
   return (
-    <div className="flex flex-row rounded-lg md:border md:shadow-sm">
+    <div className="flex flex-row rounded-lg bg-primary/[7%] md:border md:shadow-sm">
       <div className="flex h-44 w-full gap-2 md:h-60">
         {/* Center Image */}
         <Link
@@ -44,7 +44,7 @@ export default function CenterCard({ center }: { center: Center }) {
         </Link>
 
         {/* Center Details */}
-        <div className="flex w-3/5 flex-col gap-1 px-1 md:gap-1.5 md:p-2.5">
+        <div className="flex w-3/5 flex-col gap-1 px-1 py-1 md:gap-1.5 md:p-2.5">
           {/* Center Name */}
           <Link
             href={getCenterRelativeUrl(center)}
