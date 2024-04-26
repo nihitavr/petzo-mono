@@ -131,7 +131,7 @@ export default function ReviewInput({
           </AvatarFallback>
         )}
       </Avatar>
-      <div className="flex w-full flex-col gap-1">
+      <div className="flex w-full flex-col gap-2">
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold">{user.name}</span>
           <div className="flex items-center">
