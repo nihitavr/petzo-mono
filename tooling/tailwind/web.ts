@@ -27,6 +27,14 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        meteor: {
+          "0%": { transform: "rotate(215deg) translateX(0)", opacity: "1" },
+          "70%": { opacity: "1" },
+          "100%": {
+            transform: "rotate(215deg) translateX(-500px)",
+            opacity: "0",
+          },
+        },
         "fade-out": {
           "0%": { opacity: "1" },
           "100%": { opacity: "0", display: "none" },
@@ -38,6 +46,13 @@ export default {
         "wipe-left-right": {
           "0%": { width: "0", opacity: "100%" },
           "100%": { width: "100%", opacity: "100%" },
+        },
+        "wipe-bottom-up": {
+          "0%": { transform: "translateY(100%)" },
+          "25%": { transform: "translateY(0%)" },
+          "50%": { transform: "translateY(0%)" },
+          "75%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(-100%)" },
         },
         "accordion-down": {
           from: { height: "0" },
@@ -57,6 +72,8 @@ export default {
         },
       },
       animation: {
+        "meteor-effect": "meteor 5s linear infinite",
+        "wipe-bottom-up": "wipe-bottom-up 1s linear",
         "wipe-left-right": "wipe-left-right 1s linear",
         "wipe-show-down": "wipe-show-down 3s ease-out infinite",
         "fade-out": "fade-out 0.3s ease-out forwards",
