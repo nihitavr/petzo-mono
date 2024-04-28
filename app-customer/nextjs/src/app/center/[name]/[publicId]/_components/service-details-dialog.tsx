@@ -11,6 +11,7 @@ import {
   DialogDescription,
   DialogTrigger,
 } from "@petzo/ui/components/dialog";
+import { Label } from "@petzo/ui/components/label";
 
 import {
   getCenterRelativeUrl,
@@ -95,7 +96,10 @@ export function ServiceDetailsDialog({
                 </div>
               </div>
               <DialogDescription className="whitespace-pre-wrap">
-                {service.description}
+                <Label>Details</Label>
+                <div className="mt-2 text-foreground/90">
+                  {service.description}
+                </div>
               </DialogDescription>
             </div>
           </div>
