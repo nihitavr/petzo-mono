@@ -6,7 +6,7 @@ export const MagicBorder = ({
   delay?: number;
 }) => {
   return (
-    <div className="relative inline-flex overflow-hidden rounded-2xl p-[1.2px] shadow-md focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:p-[1.5px]">
+    <div className="relative inline-flex overflow-hidden rounded-2xl p-[1.2px1] shadow-md focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 md:p-[0px]">
       <span
         style={{
           animationDelay: `${delay}s`,
