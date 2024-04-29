@@ -6,14 +6,16 @@ import { centerValidator } from "@petzo/validators";
 
 import { publicCachedProcedure } from "../trpc";
 
+const NEARBY_DISTANCE_IN_METERS = 5000;
+
 // Define a static map for cities to their ids(database ids).
-const citiyMap: Record<string, number> = {
+const CitiyMap: Record<string, number> = {
   bengaluru: 1,
   mumbai: 2,
 };
 
 // Define a static map for areas to their ids(database ids).
-const areaMap: Record<string, number> = {
+const AreaMap: Record<string, number> = {
   bommanahalli: 1,
   "hsr-layout": 2,
   koramangala: 3,
@@ -54,13 +56,13 @@ export const centerRouter = {
         : undefined;
 
       // Get city id from the input using the static cityMap.
-      const cityId = citiyMap[input.city];
+      const cityId = CitiyMap[input.city];
       if (!cityId) {
         return [];
       }
 
       // Get area ids from the input using the static areaMap.
-      const areaIds = input.area?.map((a) => areaMap[a]! || -1);
+      const areaIds = input.area?.map((a) => AreaMap[a]! || -1);
 
       // Get service types from the input using the schema serviceTypeList.
       const serviceTypes = schema.serviceTypeList.filter((v) =>
@@ -83,13 +85,21 @@ export const centerRouter = {
               eq(schema.centers.centerAddressId, schema.centerAddresses.id),
 
               // If city is provided, filter by it.
-              citiyMap[input.city]
-                ? eq(schema.centerAddresses.cityId, citiyMap[input.city]!)
+              CitiyMap[input.city]
+                ? eq(schema.centerAddresses.cityId, CitiyMap[input.city]!)
                 : undefined,
 
               // If areas are provided, filter by it.
               areaIds?.length
                 ? inArray(schema.centerAddresses.areaId, areaIds)
+                : undefined,
+
+              // If geoCode is provided, filter by it.
+              input.geoCode
+                ? sql`ST_DWithin(
+                geocode,
+                ST_SetSRID(ST_Point(${input.geoCode.longitude}, ${input.geoCode.latitude}), 4326)::geography,
+                ${NEARBY_DISTANCE_IN_METERS})`
                 : undefined,
             ),
           )

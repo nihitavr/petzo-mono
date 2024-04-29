@@ -13,6 +13,7 @@ import "~/app/globals.css";
 import { auth } from "@petzo/auth-customer-app";
 
 import { api } from "~/trpc/server";
+import Footer from "./_components/footer";
 import Header from "./_components/header";
 
 export const metadata: Metadata = {
@@ -67,9 +68,10 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <ThemeProvider attribute="class" defaultTheme="light">
           <TRPCReactProvider>
             <Header session={session} cities={cities} />
-            <main className="h-screen px-3 py-[4.4rem] md:py-[4.8rem] lg:px-24 xl:px-48">
+            <main className="h-screen1 px-3 py-[4.4rem] md:py-[4.8rem] lg:px-24 xl:px-48">
               {props.children}
             </main>
+            <Footer />
           </TRPCReactProvider>
           <div className="absolute bottom-4 right-4">
             <ThemeToggle />

@@ -13,7 +13,7 @@ export default function Rating({
         {withValue && (
           <span className="font-semibold">{rating.toFixed(1)}</span>
         )}
-        <div className="flex items-center">
+        <div className="-mt-0.5 flex items-center">
           {[1, 2, 3, 4, 5].map((star) => {
             if (rating - star >= 0)
               return (

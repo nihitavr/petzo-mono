@@ -55,7 +55,7 @@ export default function Header({
       // Scroll Up
       setHeaderVisible(false);
     } else if (
-      lastScrollTop - currentScrollPos > 5 ||
+      lastScrollTop - currentScrollPos > 1 ||
       currentScrollPos < scrollDownThreshold
     ) {
       // Scroll Down

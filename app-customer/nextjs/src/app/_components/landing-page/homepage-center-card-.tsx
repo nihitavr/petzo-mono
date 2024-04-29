@@ -9,16 +9,17 @@ import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
 import {
   getCenterRelativeUrl,
+  getServicesNamesList,
   getServicesNamesStr,
 } from "~/lib/utils/center.utils";
 import { getLowertCostService } from "~/lib/utils/service.utils";
 
-export default function CenterCard({ center }: { center: Center }) {
+export default function HomePageCenterCard({ center }: { center: Center }) {
   const thumbnail = center.images?.[0]?.url;
   const lowestPriceService = getLowertCostService(center);
 
   return (
-    <div className="flex flex-row rounded-xl bg-primary/[7%]1 bg-muted md:border md:shadow-sm">
+    <div className="bg-primary/[7%]1 flex flex-row rounded-xl bg-muted md:border md:shadow-sm">
       <div className="flex h-44 w-full gap-2 md:h-60">
         {/* Center Image */}
         <Link
@@ -29,29 +30,26 @@ export default function CenterCard({ center }: { center: Center }) {
             <Image src={thumbnail} alt="" fill style={{ objectFit: "cover" }} />
           ) : (
             <div
-              className={`flex size-full items-center justify-center rounded-lg text-center ${COLOR_MAP[center.name[0]!.toLowerCase()]?.bgColor} bg-opacity-75`}
+              className={`flex size-full items-center justify-center rounded-lg bg-primary/60 text-center`}
+              // className={`flex size-full items-center justify-center rounded-lg text-center ${COLOR_MAP[center.name[0]!.toLowerCase()]?.bgColor} bg-opacity-75`}
             >
-              <div
-                className={`text-7xl ${COLOR_MAP[center.name[0]!.toLowerCase()]?.textColor}`}
-              >
-                {center.name[0]}
-              </div>
+              <div className={`text-7xl text-white`}>{center.name[0]}</div>
             </div>
           )}
         </Link>
 
         {/* Center Details */}
-        <div className="flex w-3/5 flex-col gap-1 px-1 py-1 md:gap-1.5 md:p-2.5">
+        <div className="flex w-3/5 flex-col gap-1 py-1.5 pr-2 md:gap-1.5 md:p-2.5">
           {/* Center Name */}
           <Link
             href={getCenterRelativeUrl(center)}
-            className="line-clamp-2 cursor-pointer text-base font-semibold hover:underline md:text-xl"
+            className="line-clamp-2 cursor-pointer text-sm font-semibold hover:underline md:text-base"
           >
             {center.name}
           </Link>
 
           {/* Rating and Reviews */}
-          <div className="md:text-md flex items-center gap-2 text-sm text-foreground/80">
+          <div className="flex items-center gap-2 text-sm text-foreground/80 md:text-base">
             <Rating rating={center.averageRating} />
             <span className="line-clamp-1 text-xs font-semibold">
               (Google Rating)
@@ -71,6 +69,19 @@ export default function CenterCard({ center }: { center: Center }) {
             {getServicesNamesStr(center)}
           </span>
 
+          {/* <div className="md:text-md overflow-hidden text-xs font-semibold capitalize text-primary">
+            <div className="no-scrollbar flex items-center gap-1 overflow-x-auto">
+              {getServicesNamesList(center).map((service, index) => (
+                <span
+                  key={index}
+                  className="whitespace-nowrap rounded-full border p-1 px-2"
+                >
+                  {service}
+                </span>
+              ))}
+            </div>
+          </div> */}
+
           {/* Lowest Service Price */}
           {lowestPriceService && (
             <div className="mt-auto flex justify-between rounded-r-full bg-gradient-to-r from-background to-primary/40 px-2 py-1">
@@ -78,10 +89,10 @@ export default function CenterCard({ center }: { center: Center }) {
                 <span className="text-xs capitalize text-foreground/80 md:text-sm">
                   {SERVICES_OFFERED[lowestPriceService.serviceType]?.name}
                 </span>
-                <span>Starting at </span>
+                <span className="text-sm md:text-base">Starting at </span>
               </div>
-              <div className="text-md flex items-center justify-between md:text-lg">
-                <span className="text-lg font-semibold md:text-xl">
+              <div className="flex items-center justify-between">
+                <span className="text-base font-semibold md:text-lg">
                   &#8377; {lowestPriceService.price}
                 </span>
               </div>

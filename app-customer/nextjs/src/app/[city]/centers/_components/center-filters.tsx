@@ -57,10 +57,10 @@ export function CenterFilters({
     if (serviceType) urlQueryParams.set("serviceType", serviceType);
 
     const rating = values.filters
-      .find((filter) => filter.publicId === "rating")
+      .find((filter) => filter.publicId === "ratingGte")
       ?.items.find((item) => item.selected)?.publicId;
 
-    if (rating) urlQueryParams.set("rating", rating);
+    if (rating) urlQueryParams.set("ratingGte", rating);
 
     const area = values.filters
       .find((filter) => filter.publicId === "area")
