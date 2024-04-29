@@ -44,6 +44,20 @@ export function getServicesNamesStr(center: Center): string {
   return serviceTypesProvided.join(", ");
 }
 
+export function getServicesNamesList(center: Center): string[] {
+  const serviceTypesProvided: string[] = [];
+
+  center.services?.forEach((service) => {
+    const serviceName = SERVICES_OFFERED[service.serviceType]!.name;
+
+    if (!serviceTypesProvided.includes(serviceName)) {
+      serviceTypesProvided.push(serviceName);
+    }
+  });
+
+  return serviceTypesProvided;
+}
+
 export function getServicesTypesList(center: Center): string[] {
   const serviceTypesProvided: string[] = [];
 

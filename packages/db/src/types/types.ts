@@ -71,6 +71,11 @@ export type Review = InferResultType<"reviews"> & {
   user?: CustomerUser;
 };
 
+export interface Point {
+  latitude: number;
+  longitude: number;
+}
+
 // This is to export all the default types from index.ts file as when
 // you add type in package.json it will not be exported by default
 export * from "../index";

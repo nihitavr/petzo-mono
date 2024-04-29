@@ -6,7 +6,7 @@ export default function HeroSectionText({ city }: { city: string }) {
     { text: "the" },
     { text: "best" },
     {
-      text: "pet care centers",
+      text: "pet centers",
       className:
         "bg-gradient-to-r from-foreground via-primary to-primary bg-clip-text text-transparent font-semibold",
     },
@@ -19,7 +19,7 @@ export default function HeroSectionText({ city }: { city: string }) {
     [{ text: "Discover" }, { text: "the" }, { text: "best" }],
     [
       {
-        text: "pet care centers",
+        text: "pet centers",
         className:
           "bg-gradient-to-r from-foreground via-primary to-primary bg-clip-text text-transparent font-semibold",
       },
@@ -28,10 +28,10 @@ export default function HeroSectionText({ city }: { city: string }) {
   ];
 
   return (
-    <div>
+    <div className="py-3">
       <div className="flex w-full flex-col items-center md:hidden">
         <TypewriterEffectSmooth
-          className="text-xl"
+          className="text-2xl"
           duration={0.8}
           startDelay={0}
           words={
@@ -41,7 +41,7 @@ export default function HeroSectionText({ city }: { city: string }) {
         />
 
         <TypewriterEffectSmooth
-          className="text-xl"
+          className="text-2xl"
           cursorClassName="w-0"
           duration={1}
           startDelay={0.8}
@@ -54,8 +54,9 @@ export default function HeroSectionText({ city }: { city: string }) {
       <div className="hidden w-full items-center justify-center gap-1 md:flex">
         <TypewriterEffectSmooth
           duration={1.5}
-          className="py-0 text-2xl"
+          className="py-0 text-3xl"
           words={wordsDesktop}
+          cursorClassName="w-0"
         />
       </div>
     </div>

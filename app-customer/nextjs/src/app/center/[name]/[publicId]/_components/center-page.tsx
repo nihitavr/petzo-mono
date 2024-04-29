@@ -1,5 +1,5 @@
+import type { CustomerUser, Review } from "@petzo/db";
 import { auth } from "@petzo/auth-customer-app";
-import { CustomerUser, Review } from "@petzo/db";
 import NotFound from "@petzo/ui/components/errors/not-found";
 
 import { api } from "~/trpc/server";

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { signal } from "@preact/signals-react";
@@ -11,7 +12,7 @@ import { Input } from "@petzo/ui/components/input";
 import { filtersStore } from "~/lib/storage/global-storage";
 
 export const MIN_SEARCH_TEXT_LENGTH = 3;
-export const MAX_SEARCH_PLACEHOLDER_REPETITIONS = 9;
+export const MAX_SEARCH_PLACEHOLDER_REPETITIONS = 12;
 
 const PLACEHOLDERS = [
   "Veterinary Center",
@@ -139,7 +140,15 @@ export default function GlobalSearchInput({
           X
         </button>
       ) : (
-        <FaSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-foreground/50" />
+        <Image
+          className="absolute right-4 top-1/2 -translate-y-1/2"
+          width={23}
+          height={23}
+          src={"/icons/pet-search-icon.svg"}
+          alt="search"
+          unoptimized={true}
+        />
+        // <FaSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-foreground/50" />
       )}
     </div>
   );

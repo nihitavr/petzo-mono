@@ -23,7 +23,8 @@
   },
   "dependencies": {
     "drizzle-orm": "^0.30.4",
-    "postgres": "~3.3"
+    "postgres": "~3.3",
+    "wkx": "^0.5.0"
   },
   "devDependencies": {
     "@petzo/eslint-config": "workspace:*",
