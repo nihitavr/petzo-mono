@@ -1,11 +1,15 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+
+import { SERVICES_OFFERED } from "@petzo/constants";
 
 import { LoadingCentersList } from "~/app/[city]/centers/loading";
 import { api } from "~/trpc/react";
 import HomePageCenterCard from "./homepage-center-card-";
+import ServiceFilter from "./service-filter";
 
 export default function BestCentersInCity({
   cityPublicId,
@@ -14,12 +18,23 @@ export default function BestCentersInCity({
   cityPublicId?: string;
   cityName: string;
 }) {
+  const allServiceTypes = useMemo(() => {
+    return Object.values(SERVICES_OFFERED).map((service) => service.publicId);
+  }, []);
+
+  const [selectedServices, setSelectedServices] =
+    useState<string[]>(allServiceTypes);
+
   const {
     data: centers,
     isLoading,
     isPending,
   } = api.center.findByFilters.useQuery(
-    { city: cityPublicId!, ratingGte: 4.5 },
+    {
+      city: cityPublicId!,
+      ratingGte: 4,
+      serviceType: selectedServices.join(","),
+    },
     { enabled: !!cityPublicId },
   );
 
@@ -38,6 +53,11 @@ export default function BestCentersInCity({
             Top rated in {cityName}
           </h1>
         </div>
+
+        <ServiceFilter
+          selectedServices={selectedServices}
+          setSelectedServices={setSelectedServices}
+        />
         {/* <span className="text-center text-sm text-foreground/70 md:text-base">
           Explore list of veterinary, pet grooming, home pet grooming and pet
           boarding centers near you.

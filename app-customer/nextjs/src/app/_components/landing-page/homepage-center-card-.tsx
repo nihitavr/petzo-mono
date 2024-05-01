@@ -6,10 +6,8 @@ import type { Center } from "@petzo/db";
 import { SERVICES_OFFERED } from "@petzo/constants";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
-import { COLOR_MAP } from "~/lib/constants";
 import {
   getCenterRelativeUrl,
-  getServicesNamesList,
   getServicesNamesStr,
 } from "~/lib/utils/center.utils";
 import { getLowertCostService } from "~/lib/utils/service.utils";
@@ -68,19 +66,6 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
           <span className="md:text-md line-clamp-1 break-all text-xs font-semibold capitalize text-primary">
             {getServicesNamesStr(center)}
           </span>
-
-          {/* <div className="md:text-md overflow-hidden text-xs font-semibold capitalize text-primary">
-            <div className="no-scrollbar flex items-center gap-1 overflow-x-auto">
-              {getServicesNamesList(center).map((service, index) => (
-                <span
-                  key={index}
-                  className="whitespace-nowrap rounded-full border p-1 px-2"
-                >
-                  {service}
-                </span>
-              ))}
-            </div>
-          </div> */}
 
           {/* Lowest Service Price */}
           {lowestPriceService && (

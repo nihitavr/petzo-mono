@@ -8,6 +8,8 @@ import { publicCachedProcedure } from "../trpc";
 
 const NEARBY_DISTANCE_IN_METERS = 5000;
 
+const DEFAULT_PAGE_SIZE = 10;
+
 // Define a static map for cities to their ids(database ids).
 const CitiyMap: Record<string, number> = {
   bengaluru: 1,
@@ -130,7 +132,11 @@ export const centerRouter = {
               ? input.pagination.page * input.pagination.limit
               : 0,
           )
-          .limit(input.pagination?.limit ? input.pagination.limit : 3)
+          .limit(
+            input.pagination?.limit
+              ? input.pagination.limit
+              : DEFAULT_PAGE_SIZE,
+          )
       ).map((c) => c.id);
 
       if (!centerIds.length) {

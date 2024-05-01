@@ -4,9 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BsPersonFill } from "react-icons/bs";
-import { FaCalendarAlt, FaDog, FaUserCircle } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaDog,
+  FaMoon,
+  FaSun,
+  FaUserCircle,
+} from "react-icons/fa";
 
 import { Avatar, AvatarFallback } from "@petzo/ui/components/avatar";
+import { Label } from "@petzo/ui/components/label";
 import {
   Sheet,
   SheetClose,
@@ -15,6 +22,8 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "@petzo/ui/components/sheet";
+import { Switch } from "@petzo/ui/components/switch";
+import { ThemeToggle } from "@petzo/ui/components/theme";
 
 import SignIn from "./sign-in";
 import SignOut from "./sign-out";
@@ -104,6 +113,10 @@ export function SideNavSheet({
             <SignIn />
           )}
         </SheetFooter>
+
+        <div className="absolute bottom-8 right-5">
+          <ThemeToggle />
+        </div>
       </SheetContent>
     </Sheet>
   );

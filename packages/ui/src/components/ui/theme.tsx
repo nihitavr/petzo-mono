@@ -1,41 +1,34 @@
 "use client";
 
 import * as React from "react";
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { ThemeProvider, useTheme } from "next-themes";
+import { FaMoon, FaSun } from "react-icons/fa6";
 
-import { Button } from "./button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./dropdown-menu";
+import { Label } from "./label";
 
 function ThemeToggle() {
-  const { setTheme } = useTheme();
+  const { setTheme, theme } = useTheme();
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <SunIcon className="size-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <MoonIcon className="absolute size-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div>
+      {theme == "dark" ? (
+        <div className="flex items-center gap-2">
+          <Label className="font-semibold">{"Dark Mode"}</Label>
+          <FaSun
+            onClick={() => setTheme("light")}
+            className="size-9 cursor-pointer rounded-md border-2 p-1.5 text-foreground/70"
+          />
+        </div>
+      ) : (
+        <div className="flex items-center gap-2">
+          <Label className="font-semibold">{"Light Mode"}</Label>
+          <FaMoon
+            onClick={() => setTheme("dark")}
+            className="size-9 cursor-pointer rounded-md border p-1.5 text-foreground/70"
+          />
+        </div>
+      )}
+    </div>
   );
 }
 
