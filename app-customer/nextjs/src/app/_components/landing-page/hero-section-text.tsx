@@ -10,9 +10,7 @@ export default function HeroSectionText({ city }: { city: string }) {
       className:
         "bg-gradient-to-r from-foreground via-primary to-primary bg-clip-text text-transparent font-semibold",
     },
-    { text: "in" },
-    { text: "your" },
-    { text: "city." },
+    { text: `in ${city}` },
   ];
 
   const wordsMobile = [

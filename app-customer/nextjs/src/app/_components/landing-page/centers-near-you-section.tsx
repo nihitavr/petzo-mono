@@ -1,13 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 
 import type { Point } from "@petzo/db";
+import { SERVICES_OFFERED } from "@petzo/constants";
+import { toast } from "@petzo/ui/components/toast";
 
 import { LoadingCentersList } from "~/app/[city]/centers/loading";
+import { COLOR_MAP } from "~/lib/constants";
 import { api } from "~/trpc/react";
 import HomePageCenterCard from "./homepage-center-card-";
+import ServiceFilter from "./service-filter";
 
 const GEOLOCATION_TIMEOUT_IN_MS = 10000;
 const GEOLOCATION_MAX_AGE_IN_MS = 600000;
@@ -17,9 +21,16 @@ export default function CentersNearYouSection({
 }: {
   cityPublicId?: string;
 }) {
+  const allServiceTypes = useMemo(() => {
+    return Object.values(SERVICES_OFFERED).map((service) => service.publicId);
+  }, []);
+
   const [geoCode, setGeoCode] = useState<Point>();
   const [isGeoCodeFetchError, setIsGeoCodeFetchError] =
     useState<boolean>(false);
+
+  const [selectedServices, setSelectedServices] =
+    useState<string[]>(allServiceTypes);
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -45,7 +56,11 @@ export default function CentersNearYouSection({
     isLoading,
     isPending,
   } = api.center.findByFilters.useQuery(
-    { city: cityPublicId!, geoCode: geoCode },
+    {
+      city: cityPublicId!,
+      geoCode: geoCode,
+      serviceType: selectedServices.join(","),
+    },
     { enabled: (isGeoCodeFetchError || !!geoCode) && !!cityPublicId },
   );
 
@@ -63,6 +78,11 @@ export default function CentersNearYouSection({
             Pet centers near you
           </h1>
         </div>
+
+        <ServiceFilter
+          selectedServices={selectedServices}
+          setSelectedServices={setSelectedServices}
+        />
         {/* <span className="text-center text-sm text-foreground/70 md:text-base">
           Explore list of veterinary, pet grooming, home pet grooming and pet
           boarding centers near you.
