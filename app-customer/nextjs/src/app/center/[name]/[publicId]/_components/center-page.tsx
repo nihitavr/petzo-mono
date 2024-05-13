@@ -36,7 +36,7 @@ export default async function CenterPage({ publicId }: { publicId: string }) {
   const imageUrls = center.images?.map((img) => img.url) ?? [];
 
   return (
-    <div className="flex flex-col gap-5 pb-24 md:gap-8">
+    <div className="flex flex-col gap-5 md:gap-8">
       {/* Center Image & Center Info */}
       <div className="flex grid-cols-10 flex-col gap-2 md:grid md:gap-5">
         {/* Center Images */}
@@ -50,7 +50,7 @@ export default async function CenterPage({ publicId }: { publicId: string }) {
 
         {/* Center Info */}
         <CenterInfo
-          className={`${!imageUrls.length ? "col-span-10" : "col-span-6"} h-min rounded-lg bg-primary/[7%] p-3`}
+          className={`${!imageUrls.length ? "col-span-10" : "col-span-6"} h-min rounded-lg bg-muted p-3`}
           center={center}
         />
       </div>

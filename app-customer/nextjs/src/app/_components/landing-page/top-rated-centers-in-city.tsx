@@ -18,12 +18,7 @@ export default function BestCentersInCity({
   cityPublicId?: string;
   cityName: string;
 }) {
-  const allServiceTypes = useMemo(() => {
-    return Object.values(SERVICES_OFFERED).map((service) => service.publicId);
-  }, []);
-
-  const [selectedServices, setSelectedServices] =
-    useState<string[]>(allServiceTypes);
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
 
   const {
     data: centers,
@@ -80,7 +75,7 @@ export default function BestCentersInCity({
           <div className="no-scrollbar flex w-full gap-2 overflow-x-auto md:gap-4">
             {centers?.map((center) => (
               <div
-                className="flex-shrink-0 basis-[95%] py-4 md:basis-[40%]"
+                className="flex-shrink-0 basis-[95%] py-3 md:basis-[40%]"
                 key={center.id}
               >
                 <HomePageCenterCard center={center} />

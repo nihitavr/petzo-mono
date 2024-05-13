@@ -31,7 +31,7 @@ export default function CenterReviews({
 
       <h3 className="text-lg font-semibold">Reviews</h3>
 
-      <div className="gap- flex flex-col gap-5">
+      <div className="flex flex-col gap-5">
         {user && (
           <ReviewInput
             centerId={center.id}

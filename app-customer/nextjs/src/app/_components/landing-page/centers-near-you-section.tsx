@@ -21,16 +21,11 @@ export default function CentersNearYouSection({
 }: {
   cityPublicId?: string;
 }) {
-  const allServiceTypes = useMemo(() => {
-    return Object.values(SERVICES_OFFERED).map((service) => service.publicId);
-  }, []);
-
   const [geoCode, setGeoCode] = useState<Point>();
   const [isGeoCodeFetchError, setIsGeoCodeFetchError] =
     useState<boolean>(false);
 
-  const [selectedServices, setSelectedServices] =
-    useState<string[]>(allServiceTypes);
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -105,7 +100,7 @@ export default function CentersNearYouSection({
           <div className="no-scrollbar flex w-full gap-2 overflow-x-auto md:gap-4">
             {centers?.map((center) => (
               <div
-                className="flex-shrink-0 basis-[95%] py-4 md:basis-[40%]"
+                className="flex-shrink-0 basis-[95%] py-3 md:basis-[40%]"
                 key={center.id}
               >
                 <HomePageCenterCard center={center} />

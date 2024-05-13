@@ -79,8 +79,8 @@ export function ServiceDetailsDialog({
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] rounded-xl p-0 pb-[50px] sm:max-w-[425px] md:max-h-[90vh]">
-        <div className="max-h-[90vh] overflow-y-auto p-6 pb-16 md:max-h-[90vh]">
-          <div className="flex flex-col ">
+        <div className="max-h-[90vh] overflow-y-auto p-3 pb-16 md:max-h-[90vh] md:p-4">
+          <div className="flex flex-col">
             <ServiceImagesCasousel
               images={imageUrls}
               className="aspect-square w-full"

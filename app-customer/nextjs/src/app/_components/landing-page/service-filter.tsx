@@ -16,11 +16,6 @@ export default function ServiceFilter({
 
   const onClickServicesFilter = (servicePublicId: string) => {
     if (selectedServices.includes(servicePublicId)) {
-      if (selectedServices.length === 1) {
-        toast.error("At least one service type must be selected.");
-        return;
-      }
-
       setSelectedServices(
         selectedServices.filter((service) => service !== servicePublicId),
       );
@@ -35,25 +30,9 @@ export default function ServiceFilter({
         {allServiceTypes.map((serviceType) => {
           const isFilterSelected = selectedServices.includes(serviceType);
 
-          // let bgColor = "text-boreground";
-          // switch (serviceType) {
-          //   case "veterinary":
-          //     bgColor = "bg-green-100";
-          //     break;
-          //   case "grooming":
-          //     bgColor = "bg-red-100";
-          //     break;
-          //   case "home_grooming":
-          //     bgColor = "bg-yellow-100";
-          //     break;
-          //   case "boarding":
-          //     bgColor = "bg-blue-100";
-          //     break;
-          // }
-
           return (
             <button
-              className={`flex items-center gap-2 rounded-full border px-2 py-0.5 text-sm font-semibold md:py-1 ${isFilterSelected ? "bg-muted" : ""}`}
+              className={`flex items-center gap-2 rounded-full border px-2 py-0.5 text-sm font-semibold md:py-1 ${isFilterSelected ? "bg-primary/20" : ""}`}
               key={serviceType}
               onClick={() => onClickServicesFilter(serviceType)}
             >

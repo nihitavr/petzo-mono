@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 import type { Center, Service } from "@petzo/db";
-import { Button } from "@petzo/ui/components/button";
 import { cn } from "@petzo/ui/lib/utils";
 
 import { COLOR_MAP } from "~/lib/constants";
@@ -26,7 +25,7 @@ export default function ServiceCard({
         <span className="text-lg font-semibold text-primary">
           &#8377; {service.price}
         </span>
-        <span className="line-clamp-2 text-sm md:line-clamp-3">
+        <span className="line-clamp-2 whitespace-pre text-sm md:line-clamp-3">
           {service.description}
         </span>
 

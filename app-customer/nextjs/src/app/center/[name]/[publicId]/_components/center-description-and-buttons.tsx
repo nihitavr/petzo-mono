@@ -15,7 +15,7 @@ export default function CenterDescriptionAndButtons({
 }: {
   center: Center;
 }) {
-  const ctaButtonsRef = useRef<HTMLButtonElement>(null);
+  const ctaButtonsContainerRef = useRef<HTMLDivElement>(null);
   const [showMoreDetails, setShowMoreDetails] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
   const [fixedATC, setFixedATC] = useState(false);
@@ -26,7 +26,7 @@ export default function CenterDescriptionAndButtons({
 
     const handleScroll = () => {
       const ctaButtonsTop =
-        ctaButtonsRef?.current?.getBoundingClientRect()?.top;
+        ctaButtonsContainerRef?.current?.getBoundingClientRect()?.top;
       if (!ctaButtonsTop) return;
 
       if (ctaButtonsTop < -50) setFixedATC(true);
@@ -59,91 +59,84 @@ export default function CenterDescriptionAndButtons({
           >
             {showMoreDetails ? "Show Less" : "More Details >"}
           </span>
-
-          {/* <Button
-            onClick={() => setShowMoreDetails(!showMoreDetails)}
-            className="h-min w-min px-2 py-1 text-xs text-foreground/80"
-            size="sm"
-            variant="outline"
-          >
-            {showMoreDetails ? "Show Less" : "More Details >"}
-          </Button> */}
         </div>
       </div>
 
       {/* Center Call and location Buttons */}
-      <div className="mt-2 flex items-center justify-end gap-2">
-        <Button ref={ctaButtonsRef} size="md" className="w-1/2">
-          <a
-            className="flex items-center gap-1"
-            href={`tel:${center.phoneNumber}`}
-          >
-            <span className="text-xs md:text-sm">Call Center</span>
-            <FiPhoneOutgoing
-              strokeWidth="2"
-              className="size-4 cursor-pointer hover:text-foreground/80"
-            />
-          </a>
-        </Button>
-        <Button size="md" variant="outline" className="w-1/2">
-          <a
-            className="flex items-center gap-1"
-            href={getGoogleLocationLink(center.centerAddress?.geocode)}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span className="text-xs md:text-sm">Get Direction</span>
-            <GrLocation className="size-4 cursor-pointer hover:text-foreground/80" />
-          </a>
-        </Button>
-
-        <Share
-          shareInfo={{
-            title: `${center.name}`,
-            url: shareUrl,
-          }}
-        >
-          <LuShare className="size-6 cursor-pointer hover:text-foreground/80" />
-        </Share>
+      <div
+        ref={ctaButtonsContainerRef}
+        className="mt-2 flex items-center justify-end gap-2"
+      >
+        <AtcButtons
+          centerName={center.name}
+          shareUrl={shareUrl}
+          phoneNumber={center.phoneNumber}
+          geocode={center.centerAddress?.geocode}
+        />
       </div>
 
-      {/*    */}
+      {/*  Floating buttons  */}
       <div
         className={`fixed bottom-0 left-0 z-50 flex w-full items-center gap-2 px-3 py-3 transition-opacity duration-500 md:hidden ${
           fixedATC ? "opacity-100" : "opacity-0"
         }`}
       >
-        <Button
-          size="lg"
-          className="w-1/2 shadow-[0_0px_20px_rgba(0,0,0,0.5)] shadow-primary/50"
-        >
-          <a
-            className="flex items-center gap-1"
-            href={`tel:${center.phoneNumber}`}
-          >
-            <span className="text-xs md:text-sm">Call Center</span>
+        <AtcButtons
+          centerName={center.name}
+          shareUrl={shareUrl}
+          phoneNumber={center.phoneNumber}
+          geocode={center.centerAddress?.geocode}
+        />
+      </div>
+    </div>
+  );
+}
+
+function AtcButtons({
+  centerName,
+  shareUrl,
+  phoneNumber,
+  geocode,
+}: {
+  centerName: string;
+  shareUrl: string;
+  phoneNumber?: string | null;
+  geocode?: { latitude: number; longitude: number } | null;
+}) {
+  return (
+    <>
+      {phoneNumber && (
+        <Button size="md" className="flex-1">
+          <a className="flex items-center gap-1" href={`tel:${phoneNumber}`}>
+            <span className="text-sm md:text-sm">Call</span>
             <FiPhoneOutgoing
               strokeWidth="2"
               className="size-4 cursor-pointer hover:text-foreground/80"
             />
           </a>
         </Button>
-        <Button
-          size="lg"
-          variant="outline"
-          className="w-1/2 shadow-[0_0px_20px_rgba(0,0,0,0.5)] shadow-primary/50"
-        >
+      )}
+      {geocode && (
+        <Button size="md" variant="outline" className="flex-1">
           <a
             className="flex items-center gap-1"
-            href={getGoogleLocationLink(center.centerAddress?.geocode)}
+            href={getGoogleLocationLink(geocode)}
             target="_blank"
             rel="noreferrer"
           >
-            <span className="text-xs md:text-sm">Get Direction</span>
+            <span className="text-sm md:text-sm">Get Direction</span>
             <GrLocation className="size-4 cursor-pointer hover:text-foreground/80" />
           </a>
         </Button>
-      </div>
-    </div>
+      )}
+      <Share
+        shareInfo={{
+          title: centerName,
+          url: shareUrl,
+        }}
+      >
+        <LuShare className="size-6 cursor-pointer hover:text-foreground/80" />
+      </Share>
+    </>
   );
 }

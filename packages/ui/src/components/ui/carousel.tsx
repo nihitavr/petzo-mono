@@ -236,7 +236,6 @@ const CarouselPrevious = React.forwardRef<
           orientation === "horizontal"
             ? "top-1/2 -translate-x-1/2 -translate-y-1/2"
             : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
-          // canScrollPrev ? "" : "hidden",
           className,
         )}
         onClick={scrollPrev}
