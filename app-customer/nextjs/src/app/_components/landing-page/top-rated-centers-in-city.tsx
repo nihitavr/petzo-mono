@@ -1,10 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-import { SERVICES_OFFERED } from "@petzo/constants";
 
 import { LoadingCentersList } from "~/app/[city]/centers/loading";
 import { api } from "~/trpc/react";
@@ -18,12 +16,7 @@ export default function BestCentersInCity({
   cityPublicId?: string;
   cityName: string;
 }) {
-  const allServiceTypes = useMemo(() => {
-    return Object.values(SERVICES_OFFERED).map((service) => service.publicId);
-  }, []);
-
-  const [selectedServices, setSelectedServices] =
-    useState<string[]>(allServiceTypes);
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
 
   const {
     data: centers,
@@ -41,7 +34,6 @@ export default function BestCentersInCity({
   return (
     <div className="space-y-2">
       <div className="flex flex-col items-center justify-center">
-        {/* <h1 className="w-fit bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-center text-2xl text-transparent md:text-3xl"> */}
         <div className="flex items-center gap-1">
           <Image
             src="/icons/top-rated-in-city-icon.svg"
@@ -80,7 +72,7 @@ export default function BestCentersInCity({
           <div className="no-scrollbar flex w-full gap-2 overflow-x-auto md:gap-4">
             {centers?.map((center) => (
               <div
-                className="flex-shrink-0 basis-[95%] py-4 md:basis-[40%]"
+                className="flex-shrink-0 basis-[95%] py-3 md:basis-[40%]"
                 key={center.id}
               >
                 <HomePageCenterCard center={center} />

@@ -43,7 +43,7 @@ export default function CenterServiceList({ center }: { center: Center }) {
 
           return (
             <button
-              className={`flex items-center gap-2 rounded-full border px-4 py-1 md:py-2 ${isFilterSelected ? "bg-primary/20" : ""}`}
+              className={`flex items-center gap-2 rounded-full border px-3 py-1 md:py-2 ${isFilterSelected ? "bg-primary/20" : ""}`}
               key={serviceType}
               onClick={() => onClickServicesFilter(serviceType)}
             >
@@ -78,7 +78,7 @@ export default function CenterServiceList({ center }: { center: Center }) {
                   return (
                     // Service Card Container
                     <ServiceCard
-                      className={`${services.length == 1 ? "col-span-2" : "col-span-1"} rounded-lg bg-primary/[7%]`}
+                      className={`${services.length == 1 ? "col-span-2" : "col-span-1"} rounded-lg  bg-muted`}
                       key={`services-${idx}-${service.id}`}
                       service={service}
                       center={center}
@@ -88,33 +88,6 @@ export default function CenterServiceList({ center }: { center: Center }) {
               </div>
             </div>
           );
-
-          // return (
-          //   selectedServices.includes(serviceType) && (
-          //     <div
-          //       className="flex w-full flex-col gap-3"
-          //       key={`services-${idx}`}
-          //     >
-          //       <h4 className="text-center text-2xl font-semibold md:text-3xl">
-          //         {SERVICES_OFFERED[serviceType]?.name}
-          //       </h4>
-
-          //       <div className={`grid grid-cols-1 gap-10 md:grid-cols-2`}>
-          //         {services?.map((service) => {
-          //           return (
-          //             // Service Card Container
-          //             <ServiceCard
-          //               className={`${services.length == 1 ? "col-span-2" : "col-span-1"} rounded-lg bg-primary/[7%]`}
-          //               key={`services-${idx}-${service.id}`}
-          //               service={service}
-          //               center={center}
-          //             />
-          //           );
-          //         })}
-          //       </div>
-          //     </div>
-          //   )
-          // );
         })}
       </div>
 
