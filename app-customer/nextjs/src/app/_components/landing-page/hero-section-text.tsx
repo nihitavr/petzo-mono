@@ -6,7 +6,7 @@ export default function HeroSectionText({ city }: { city: string }) {
     { text: "the" },
     { text: "best" },
     {
-      text: "pet centers",
+      text: "pet care",
       className:
         "bg-gradient-to-r from-foreground via-primary to-primary bg-clip-text text-transparent font-semibold",
     },
@@ -17,7 +17,7 @@ export default function HeroSectionText({ city }: { city: string }) {
     [{ text: "Discover" }, { text: "the" }, { text: "best" }],
     [
       {
-        text: "pet centers",
+        text: "pet care",
         className:
           "bg-gradient-to-r from-foreground via-primary to-primary bg-clip-text text-transparent font-semibold",
       },
