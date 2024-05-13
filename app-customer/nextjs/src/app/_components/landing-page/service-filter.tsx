@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 
 import { SERVICES_OFFERED } from "@petzo/constants";
-import { toast } from "@petzo/ui/components/toast";
 
 export default function ServiceFilter({
   selectedServices,

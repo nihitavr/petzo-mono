@@ -1,10 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-import { SERVICES_OFFERED } from "@petzo/constants";
 
 import { LoadingCentersList } from "~/app/[city]/centers/loading";
 import { api } from "~/trpc/react";
@@ -36,7 +34,6 @@ export default function BestCentersInCity({
   return (
     <div className="space-y-2">
       <div className="flex flex-col items-center justify-center">
-        {/* <h1 className="w-fit bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-center text-2xl text-transparent md:text-3xl"> */}
         <div className="flex items-center gap-1">
           <Image
             src="/icons/top-rated-in-city-icon.svg"

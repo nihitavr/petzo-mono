@@ -1,14 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import type { Point } from "@petzo/db";
-import { SERVICES_OFFERED } from "@petzo/constants";
-import { toast } from "@petzo/ui/components/toast";
 
 import { LoadingCentersList } from "~/app/[city]/centers/loading";
-import { COLOR_MAP } from "~/lib/constants";
 import { api } from "~/trpc/react";
 import HomePageCenterCard from "./homepage-center-card-";
 import ServiceFilter from "./service-filter";
