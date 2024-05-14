@@ -14,11 +14,11 @@ export default function WhyUsePetzoSection() {
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <Card
           icon="/icons/discover-pet-centers-icon.svg"
-          title="Discover pet centers"
+          title="Discover best Pet Care"
           buttonName="Explore"
           buttonLink={`/${filtersStore.city.value}/centers`}
           descriptions={[
-            "Find top pet centers for vet care, grooming, home grooming, and boarding.",
+            "Find top pet centers for vet consultation, grooming, home grooming, and boarding.",
             "Discover a variety of packages tailored to your pet's needs.",
             "Easily call or get directions to centers with one click.",
           ]}
@@ -30,13 +30,13 @@ export default function WhyUsePetzoSection() {
           buttonLink={`/dashboard/medical-records`}
           descriptions={[
             "Keep track of your pet's medical records and prescriptions.",
-            "Easily share medical records with your vet.",
+            "Easily show past medical records to your vet.",
             "Never worry about losing your pet's medical records again.",
           ]}
         />
         <Card
           icon="/icons/pet-appointment-booking.svg"
-          title="Book appointments"
+          title="Book Appointments"
           descriptions={["Coming soon."]}
         />
         <Card

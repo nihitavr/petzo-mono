@@ -58,7 +58,7 @@ export default function MedicalRecordsList({
             value={`medical-record-${medicalRecord.id}`}
             className="rounded-lg border"
           >
-            <AccordionTrigger className="z-20 flex justify-between rounded-lg bg-primary/10 px-2 text-sm md:text-lg">
+            <AccordionTrigger className="z-20 flex justify-between rounded-lg bg-muted px-2 text-sm md:text-lg">
               <div className="flex w-full items-center justify-between">
                 <div className="flex flex-col items-start">
                   <span className="text-xs text-foreground/70 md:text-sm">
