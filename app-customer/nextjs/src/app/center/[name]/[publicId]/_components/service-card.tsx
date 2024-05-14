@@ -25,7 +25,7 @@ export default function ServiceCard({
         <span className="text-lg font-semibold text-primary">
           &#8377; {service.price}
         </span>
-        <span className="line-clamp-2 whitespace-pre text-sm md:line-clamp-3">
+        <span className="line-clamp-2 whitespace-pre-wrap text-sm md:line-clamp-3">
           {service.description}
         </span>
 

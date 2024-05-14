@@ -126,7 +126,7 @@ export default function GlobalSearchInput({
           ref={ref}
           placeholder="Search by Veterinary Center"
           className="h-11 w-full rounded-full px-5 caret-primary shadow-[0_0px_20px_rgba(0,0,0,0.25)]
-          shadow-primary/35 focus-visible:ring-primary md:w-72"
+          shadow-primary/30 focus-visible:ring-primary dark:shadow-foreground/10 md:w-72"
         />
       </Link>
       {input?.length ? (

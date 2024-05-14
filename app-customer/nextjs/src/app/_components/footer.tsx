@@ -1,7 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { LuInstagram, LuMail, LuPhone } from "react-icons/lu";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  if (pathname !== "/" && !pathname.includes("explore")) return null;
+
   return (
     <footer className="relative flex flex-col-reverse items-start justify-start gap-5 px-3 pb-8  md:flex-row md:justify-between md:pb-[4.8rem] lg:px-24 xl:px-48">
       <div className="flex flex-col gap-2">

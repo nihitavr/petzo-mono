@@ -1,7 +1,6 @@
 import type { Center, Service } from "@petzo/db";
 import { SERVICES_OFFERED } from "@petzo/constants";
 
-import { api } from "~/trpc/server";
 import { DEFAULT_CENTER_FILTERS } from "../constants";
 
 export function convertToUrlFriendlyText(text: string): string {
@@ -34,9 +33,9 @@ export function getServicesNamesStr(center: Center): string {
   const serviceTypesProvided: string[] = [];
 
   center.services?.forEach((service) => {
-    const serviceName = SERVICES_OFFERED[service.serviceType]!.name;
+    const serviceName = SERVICES_OFFERED[service.serviceType]?.name;
 
-    if (!serviceTypesProvided.includes(serviceName)) {
+    if (serviceName && !serviceTypesProvided.includes(serviceName)) {
       serviceTypesProvided.push(serviceName);
     }
   });
