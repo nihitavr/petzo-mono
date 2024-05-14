@@ -1,22 +1,26 @@
 export const SERVICES_OFFERED: Record<
   string,
-  { name: string; publicId: string }
+  { name: string; publicId: string; icon?: string }
 > = {
+  home_grooming: {
+    name: "Home Grooming",
+    publicId: "home_grooming",
+    icon: "/icons/home-grooming-icon.svg",
+  },
   veterinary: {
     name: "Veterinary",
     publicId: "veterinary",
+    icon: "/icons/vet-consultation-icon.svg",
   },
   grooming: {
     name: "Pet Grooming",
     publicId: "grooming",
-  },
-  home_grooming: {
-    name: "Home Grooming",
-    publicId: "home_grooming",
+    icon: "/icons/pet-grooming-icon.svg",
   },
   boarding: {
     name: "Pet Boarding",
     publicId: "boarding",
+    icon: "/icons/pet-boarding-icon.svg",
   },
 };
 

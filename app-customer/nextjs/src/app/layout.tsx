@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
+import { headers } from "next/headers";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
-import { ThemeProvider, ThemeToggle } from "@petzo/ui/components/theme";
+import { ThemeProvider } from "@petzo/ui/components/theme";
 import { Toaster } from "@petzo/ui/components/toast";
 import { cn } from "@petzo/ui/lib/utils";
 
@@ -55,7 +56,6 @@ export const viewport: Viewport = {
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const session = await auth();
   const cities = await api.city.getAllActiveCities();
-
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body
