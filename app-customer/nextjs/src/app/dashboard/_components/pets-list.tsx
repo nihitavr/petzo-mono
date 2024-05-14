@@ -13,7 +13,7 @@ export default async function PetsList({ pets }: { pets: Pet[] }) {
         return (
           <div
             key={idx}
-            className="relative flex w-full items-start gap-2 rounded-lg bg-primary/10"
+            className="relative flex w-full items-start gap-2 rounded-lg bg-muted"
           >
             <div className="relative h-full min-h-28 min-w-28">
               <Link href={`/dashboard/pets/${pet.publicId}`} key={idx}>

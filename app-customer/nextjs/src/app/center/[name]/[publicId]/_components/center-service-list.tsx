@@ -38,7 +38,7 @@ export default function CenterServiceList({ center }: { center: Center }) {
   return (
     <div className="flex flex-col gap-3">
       {/* Service Type Filters */}
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-4 flex flex-wrap justify-center gap-2">
         {serviceTypesProvidedByCenter.map((serviceType) => {
           const isFilterSelected = selectedServices.includes(serviceType);
 
@@ -47,7 +47,7 @@ export default function CenterServiceList({ center }: { center: Center }) {
 
           return (
             <button
-              className={`flex items-center gap-2 rounded-full border px-3 py-1 md:py-2 ${isFilterSelected ? "bg-primary/20" : ""}`}
+              className={`flex items-center gap-2 rounded-full border px-3 py-1 text-sm md:py-2 ${isFilterSelected ? "bg-muted" : ""}`}
               key={serviceType}
               onClick={() => onClickServicesFilter(serviceType)}
             >
@@ -71,7 +71,7 @@ export default function CenterServiceList({ center }: { center: Center }) {
       </div>
 
       {/* Services List */}
-      <div className="flex flex-col gap-10 pb-5">
+      <div className="flex flex-col gap-10 py-5">
         {serviceTypesProvidedByCenter.map((serviceType, idx) => {
           const services = serviceMap[serviceType];
           const isServiceTypeSelected = selectedServices.includes(serviceType);
