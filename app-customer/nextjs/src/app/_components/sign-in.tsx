@@ -20,7 +20,7 @@ export default function SignIn({
   const handleSignIn = async () => {
     setIsSigningIn(true);
     await signIn("google", {
-      callbackUrl: callbackUrl ? callbackUrl : "/",
+      callbackUrl: callbackUrl,
     });
     setIsSigningIn(false);
   };

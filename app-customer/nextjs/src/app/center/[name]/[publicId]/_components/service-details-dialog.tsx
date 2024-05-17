@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
-import type { Center, Service } from "@petzo/db";
+import type { Center, CustomerUser, Service } from "@petzo/db";
 import { Button } from "@petzo/ui/components/button";
 import {
   Dialog,
@@ -28,30 +28,30 @@ export function ServiceDetailsDialog({
 }) {
   const pathname = usePathname();
 
-  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const imageUrls = service.images?.map((img) => img.url) ?? [];
 
-  const closeDialog = (open: boolean) => {
+  const onOpenChange = (open: boolean) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (!open && window.history.state.dialogOpen) window.history.back();
-    setDialogOpen(open);
+    setOpen(open);
   };
 
   // This is to open the
   useEffect(() => {
-    if (pathname == getServiceRelativeUrl(service, center)) setDialogOpen(true);
+    if (pathname == getServiceRelativeUrl(service, center)) setOpen(true);
   }, [pathname, service, center]);
 
   useEffect(() => {
     const handleBackButton = (event: PopStateEvent) => {
-      if (isDialogOpen) {
+      if (open) {
         event.preventDefault();
-        closeDialog(false);
+        onOpenChange(false);
       }
     };
 
-    if (isDialogOpen) {
+    if (open) {
       const centerPushUrl = `${getCenterRelativeUrl(center)}`;
       const servicePushUrl = `${getServiceRelativeUrl(service, center)}`;
 
@@ -65,21 +65,21 @@ export function ServiceDetailsDialog({
     return () => {
       window.removeEventListener("popstate", handleBackButton);
     };
-  }, [isDialogOpen, center, service]);
+  }, [open, center, service]);
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={closeDialog}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button
-          className="mt-2 h-min w-min px-2 py-1 text-xs text-foreground/80"
+          className="mt-2 h-min w-min px-2 py-0.5 text-xs text-foreground/80"
           size="sm"
           variant="outline"
         >
           View Details {">"}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] rounded-xl p-0 pb-[50px] sm:max-w-[425px] md:max-h-[90vh]">
-        <div className="max-h-[90vh] overflow-y-auto p-3 pb-16 md:max-h-[90vh] md:p-4">
+      <DialogContent className="rounded- max-h-[90vh] rounded-lg p-0 pb-[50px] sm:max-w-[425px] md:max-h-[90vh]">
+        <div className="max-h-[90vh] overflow-y-auto p-3 md:max-h-[90vh] md:p-4">
           <div className="flex flex-col">
             <ServiceImagesCasousel
               images={imageUrls}
@@ -97,9 +97,9 @@ export function ServiceDetailsDialog({
               </div>
               <DialogDescription className="whitespace-pre-wrap">
                 <Label>Details</Label>
-                <div className="mt-2 text-foreground/90">
+                <span className="mt-2 block text-foreground/90">
                   {service.description}
-                </div>
+                </span>
               </DialogDescription>
             </div>
           </div>

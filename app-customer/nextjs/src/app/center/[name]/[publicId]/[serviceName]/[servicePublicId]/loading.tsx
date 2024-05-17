@@ -1,9 +1,8 @@
 import { Skeleton } from "@petzo/ui/components/skeleton";
 
 export default function Loading() {
-  return <div></div>;
   return (
-    <div className="animate-slide-up flex flex-col gap-2 p-3 md:flex-row md:px-6 md:py-10">
+    <div className="flex animate-slide-up flex-col gap-2 p-3 md:flex-row md:px-6 md:py-10">
       <div className="flex h-full w-full flex-col gap-2 md:w-1/2">
         <Skeleton className="aspect-square w-full rounded-md" />
         <div className="flex gap-2">

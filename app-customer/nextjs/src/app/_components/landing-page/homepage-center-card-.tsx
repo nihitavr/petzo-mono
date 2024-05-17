@@ -17,7 +17,7 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
   const lowestPriceService = getLowertCostService(center);
 
   return (
-    <div className="bg-primary/[7%]1 flex flex-row rounded-xl bg-muted md:border md:shadow-sm">
+    <div className="flex flex-row rounded-xl bg-muted md:border md:shadow-sm">
       <div className="flex h-44 w-full gap-2 md:h-60">
         {/* Center Image */}
         <Link
@@ -47,7 +47,7 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
           </Link>
 
           {/* Rating and Reviews */}
-          <div className="flex items-center gap-2 text-sm text-foreground/80 md:text-base">
+          <div className="flex items-center gap-2 text-sm text-foreground/80">
             <Rating rating={center.averageRating} />
             <span className="line-clamp-1 text-xs font-semibold">
               (Google Rating)
@@ -57,7 +57,7 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
           {/* Area */}
           <div className="flex items-center gap-1">
             <GrLocation />
-            <span className="line-clamp-1 text-sm font-medium capitalize md:text-base">
+            <span className="line-clamp-1 text-sm font-medium capitalize">
               {center.centerAddress.area.name}
             </span>
           </div>
@@ -71,10 +71,10 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
           {lowestPriceService && (
             <div className="mt-auto flex justify-between rounded-r-full bg-gradient-to-r from-background to-primary/40 px-2 py-1">
               <div className="flex flex-col ">
-                <span className="text-xs capitalize text-foreground/80 md:text-sm">
+                <span className="text-xs capitalize text-foreground/80">
                   {SERVICES_OFFERED[lowestPriceService.serviceType]?.name}
                 </span>
-                <span className="text-sm md:text-base">Starting at </span>
+                <span className="text-sm">Starting at </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-base font-semibold md:text-lg">
