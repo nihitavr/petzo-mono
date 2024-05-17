@@ -42,6 +42,18 @@ export const DEFAULT_CENTER_FILTERS: {
   items: { publicId: string; label: string; selected: boolean }[];
 }[] = [
   {
+    publicId: "distance",
+    label: "Distance",
+    type: "single-select",
+    items: [
+      {
+        publicId: "nearby",
+        label: "Near By",
+        selected: false,
+      },
+    ],
+  },
+  {
     publicId: "serviceType",
     label: "Service Type",
     type: "multi-select",

@@ -7,7 +7,6 @@ import Link from "next/link";
 import { LoadingCentersList } from "~/app/[city]/centers/loading";
 import { api } from "~/trpc/react";
 import HomePageCenterCard from "./homepage-center-card-";
-import ServiceFilter from "./service-filter";
 
 export default function BestCentersInCity({
   cityPublicId,
@@ -16,7 +15,10 @@ export default function BestCentersInCity({
   cityPublicId?: string;
   cityName: string;
 }) {
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selectedServices, setSelectedServices] = useState<string[]>([
+    "home_grooming",
+  ]);
 
   const {
     data: centers,
@@ -46,10 +48,10 @@ export default function BestCentersInCity({
           </h1>
         </div>
 
-        <ServiceFilter
+        {/* <ServiceFilter
           selectedServices={selectedServices}
           setSelectedServices={setSelectedServices}
-        />
+        /> */}
         {/* <span className="text-center text-sm text-foreground/70 md:text-base">
           Explore list of veterinary, pet grooming, home pet grooming and pet
           boarding centers near you.
@@ -80,7 +82,7 @@ export default function BestCentersInCity({
             ))}
             <div className="flex items-center justify-center whitespace-nowrap py-4">
               <Link
-                href={`/${cityPublicId}/centers?ratingGte=${4}`}
+                href={`/${cityPublicId}/centers?ratingGte=${4}&serviceType=${selectedServices.join(",")}`}
                 className="flex h-full items-center justify-center rounded-xl border px-3 text-center text-sm font-semibold text-foreground/80 hover:bg-muted"
               >
                 Explore {">"}

@@ -14,9 +14,23 @@ export function convertToUrlFriendlyText(text: string): string {
 }
 
 export function getCenterRelativeUrl(center: Center): string {
+  if (!center) return "";
+
   const nameParam = convertToUrlFriendlyText(center.name);
 
   return `/center/${nameParam}/${center.publicId}`;
+}
+
+export function getServiceBookingRelativeUrl(
+  service: Service,
+  center: Center,
+): string {
+  if (!center || !service) return "";
+
+  const centerNameParam = convertToUrlFriendlyText(center.name);
+  const serviceNameParam = convertToUrlFriendlyText(service.name);
+
+  return `/center/${centerNameParam}/${center.publicId}/${serviceNameParam}/${service.publicId}/book`;
 }
 
 export function getServiceRelativeUrl(
@@ -129,10 +143,12 @@ export async function getCenterFilters(
     serviceType,
     area,
     ratingGte,
+    nearby,
   }: {
     serviceType: string;
     area: string;
     ratingGte: string;
+    nearby: boolean;
   },
   data: Record<
     string,
@@ -150,6 +166,11 @@ export async function getCenterFilters(
 
   filters.map((filter) => {
     switch (filter.publicId) {
+      case "distance":
+        filter.items.map((item) => {
+          item.selected = nearby ? item.publicId === "nearby" : false;
+        });
+        break;
       case "serviceType":
         filter.items.map((item) => {
           item.selected = serviceTypeQueryParamList.includes(item.publicId);

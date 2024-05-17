@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 import type { Point } from "@petzo/db";
 
 import { LoadingCentersList } from "~/app/[city]/centers/loading";
 import { api } from "~/trpc/react";
 import HomePageCenterCard from "./homepage-center-card-";
-import ServiceFilter from "./service-filter";
 
 const GEOLOCATION_TIMEOUT_IN_MS = 10000;
 const GEOLOCATION_MAX_AGE_IN_MS = 600000;
@@ -22,7 +22,10 @@ export default function CentersNearYouSection({
   const [isGeoCodeFetchError, setIsGeoCodeFetchError] =
     useState<boolean>(false);
 
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selectedServices, setSelectedServices] = useState<string[]>([
+    "home_grooming",
+  ]);
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -67,14 +70,15 @@ export default function CentersNearYouSection({
             height={25}
           />
           <h1 className="flex-shrink-0 text-center text-2xl md:text-3xl">
-            Pet centers near you
+            Home groomers near you
+            {/* Pet care near you */}
           </h1>
         </div>
 
-        <ServiceFilter
+        {/* <ServiceFilter
           selectedServices={selectedServices}
           setSelectedServices={setSelectedServices}
-        />
+        /> */}
         {/* <span className="text-center text-sm text-foreground/70 md:text-base">
           Explore list of veterinary, pet grooming, home pet grooming and pet
           boarding centers near you.
@@ -103,6 +107,14 @@ export default function CentersNearYouSection({
                 <HomePageCenterCard center={center} />
               </div>
             ))}
+            <div className="flex items-center justify-center whitespace-nowrap py-4">
+              <Link
+                href={`/${cityPublicId}/centers?serviceType=${selectedServices.join(",")}${geoCode ? "&latitude=" + geoCode.latitude + "&longitude=" + geoCode.longitude : ""}`}
+                className="flex h-full items-center justify-center rounded-xl border px-3 text-center text-sm font-semibold text-foreground/80 hover:bg-muted"
+              >
+                Explore {">"}
+              </Link>
+            </div>
           </div>
         </div>
       )}

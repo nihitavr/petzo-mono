@@ -1,4 +1,5 @@
 import type { Center, Service } from "@petzo/db";
+import { SERVICES_OFFERED } from "@petzo/constants";
 
 export function getMetadataTitle(service: Service, center: Center) {
   return `${service.name} service at ${center.name}, ${center.centerAddress.area.name}, ${center.centerAddress.city.name} | Petzo`;
@@ -22,10 +23,17 @@ export function getMetadataKeywords(service: Service, center: Center) {
 }
 
 export const getLowertCostService = (center: Center) => {
-  return center.services?.reduce((acc, service) => {
-    if (service.price < acc?.price) {
-      return service;
-    }
-    return acc;
-  }, center.services[0]!);
+  return center.services?.reduce(
+    (acc, service) => {
+      if (
+        (!acc || service.price < acc?.price) &&
+        SERVICES_OFFERED[service.serviceType]
+      ) {
+        return service;
+      }
+
+      return acc;
+    },
+    undefined as Service | undefined,
+  );
 };

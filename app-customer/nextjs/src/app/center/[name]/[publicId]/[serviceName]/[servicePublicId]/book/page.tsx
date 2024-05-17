@@ -8,7 +8,7 @@ import {
   getMetadataTitle,
 } from "~/lib/utils/service.utils";
 import { api } from "~/trpc/server";
-import CenterPage from "../../_components/center-page";
+import CenterPage from "../../../_components/center-page";
 
 export async function generateMetadata({
   params: { publicId, servicePublicId },

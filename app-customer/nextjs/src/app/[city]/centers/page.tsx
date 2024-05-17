@@ -20,9 +20,18 @@ export default async function Centers({
     search: string;
     area: string;
     ratingGte: string;
+    latitude: string;
+    longitude: string;
   };
 }) {
-  const { serviceType, search, area, ratingGte: ratingGte } = searchParams;
+  const {
+    serviceType,
+    search,
+    area,
+    ratingGte: ratingGte,
+    latitude,
+    longitude,
+  } = searchParams;
   const { city } = params;
 
   const centersPromise = api.center.findByFilters({
@@ -30,6 +39,10 @@ export default async function Centers({
     serviceType,
     search,
     area,
+    geoCode:
+      latitude && longitude
+        ? { latitude: +latitude, longitude: +longitude }
+        : undefined,
     ratingGte: +ratingGte || 0,
     pagination: {
       page: 0,
@@ -45,6 +58,7 @@ export default async function Centers({
         serviceType,
         area,
         ratingGte,
+        nearby: latitude && longitude ? true : false,
       },
       { area: areaFromDb },
     ),

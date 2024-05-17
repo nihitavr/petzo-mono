@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 input[type="file"] {
   display: none;
 }
@@ -17,7 +21,7 @@ input[type="file"] {
     --popover-foreground: 240 10% 3.9%;
     --primary: 192 85% 44%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 4.8% 95.9%;
+    --secondary: 240 4.8% 85.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
@@ -42,7 +46,7 @@ input[type="file"] {
     --popover-foreground: 0 0% 98%;
     --primary: 192 70% 43%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 240 3.7% 15.9%;
+    --secondary: 0 0% 23%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 16%;
     --muted-foreground: 240 5% 64.9%;
@@ -51,7 +55,7 @@ input[type="file"] {
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 85.7% 97.3%;
     --border: 0 0% 23%;
-    --input: 240 3.7% 15.9%;
+    --input: 0 0% 23%;
     --ring: 240 4.9% 83.9%;
   }
 }

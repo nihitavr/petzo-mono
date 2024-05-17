@@ -7,21 +7,21 @@ export const SERVICES_OFFERED: Record<
     publicId: "home_grooming",
     icon: "/icons/home-grooming-icon.svg",
   },
-  veterinary: {
-    name: "Veterinary",
-    publicId: "veterinary",
-    icon: "/icons/vet-consultation-icon.svg",
-  },
-  grooming: {
-    name: "Pet Grooming",
-    publicId: "grooming",
-    icon: "/icons/pet-grooming-icon.svg",
-  },
-  boarding: {
-    name: "Pet Boarding",
-    publicId: "boarding",
-    icon: "/icons/pet-boarding-icon.svg",
-  },
+  // veterinary: {
+  //   name: "Veterinary",
+  //   publicId: "veterinary",
+  //   icon: "/icons/vet-consultation-icon.svg",
+  // },
+  // grooming: {
+  //   name: "Pet Grooming",
+  //   publicId: "grooming",
+  //   icon: "/icons/pet-grooming-icon.svg",
+  // },
+  // boarding: {
+  //   name: "Pet Boarding",
+  //   publicId: "boarding",
+  //   icon: "/icons/pet-boarding-icon.svg",
+  // },
 };
 
 export const REGEX = {

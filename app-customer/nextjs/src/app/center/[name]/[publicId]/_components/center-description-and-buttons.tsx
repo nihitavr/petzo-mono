@@ -71,12 +71,12 @@ export default function CenterDescriptionAndButtons({
           centerName={center.name}
           shareUrl={shareUrl}
           phoneNumber={center.phoneNumber}
-          geocode={center.centerAddress?.geocode}
+          // geocode={center.centerAddress?.geocode}
         />
       </div>
 
       {/*  Floating buttons  */}
-      <div
+      {/* <div
         className={`fixed bottom-0 left-0 z-50 flex w-full items-center gap-2 px-3 py-3 transition-opacity duration-500 md:hidden ${
           fixedATC ? "opacity-100" : "opacity-0"
         }`}
@@ -85,9 +85,9 @@ export default function CenterDescriptionAndButtons({
           centerName={center.name}
           shareUrl={shareUrl}
           phoneNumber={center.phoneNumber}
-          geocode={center.centerAddress?.geocode}
+          // geocode={center.centerAddress?.geocode}
         />
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -106,7 +106,7 @@ function AtcButtons({
   return (
     <>
       {phoneNumber && (
-        <Button size="md" className="flex-1">
+        <Button size="md" variant="secondary" className="flex-1">
           <a className="flex items-center gap-1" href={`tel:${phoneNumber}`}>
             <span className="text-sm md:text-sm">Call</span>
             <FiPhoneOutgoing

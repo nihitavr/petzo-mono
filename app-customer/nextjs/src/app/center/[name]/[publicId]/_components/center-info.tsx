@@ -25,7 +25,9 @@ export const CenterInfo = ({
       {/* Rating and Reviews */}
       <div className="md:text-md flex items-center gap-2 text-sm text-foreground/80">
         <div className="flex items-center gap-1">
-          <Rating rating={center.averageRating} />
+          <a href="#reviews">
+            <Rating rating={center.averageRating} />
+          </a>
           <span className="line-clamp-1 text-xs font-semibold">
             (Google Rating)
           </span>

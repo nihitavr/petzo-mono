@@ -55,7 +55,7 @@ export default async function CenterPage({ publicId }: { publicId: string }) {
         />
       </div>
 
-      <CenterServiceList center={center} />
+      <CenterServiceList center={center} user={session?.user as CustomerUser} />
 
       <CenterReviews
         currentUserReview={currentUserReview}

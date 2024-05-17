@@ -70,13 +70,32 @@ export function CenterFilters({
 
     if (area) urlQueryParams.set("area", area);
 
-    const urlQueryParamsStr = urlQueryParams.toString();
+    const nearby = values.filters
+      .find((filter) => filter.publicId === "distance")
+      ?.items.find((item) => item.selected);
 
-    if (urlQueryParamsStr) filterUrl += `?${urlQueryParamsStr}`;
+    if (nearby) {
+      if (!navigator.geolocation) return;
 
-    form.reset(values);
-    router.push(filterUrl);
-    router.refresh();
+      navigator.geolocation.getCurrentPosition((position) => {
+        urlQueryParams.set("latitude", `${position.coords.latitude}`);
+        urlQueryParams.set("longitude", `${position.coords.longitude}`);
+
+        const urlQueryParamsStr = urlQueryParams.toString();
+        if (urlQueryParamsStr) filterUrl += `?${urlQueryParamsStr}`;
+
+        form.reset(values);
+        router.push(filterUrl);
+        router.refresh();
+      });
+    } else {
+      const urlQueryParamsStr = urlQueryParams.toString();
+      if (urlQueryParamsStr) filterUrl += `?${urlQueryParamsStr}`;
+
+      form.reset(values);
+      router.push(filterUrl);
+      router.refresh();
+    }
   };
 
   return (

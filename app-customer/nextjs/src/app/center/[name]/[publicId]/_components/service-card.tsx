@@ -1,31 +1,46 @@
-import Image from "next/image";
+"use client";
 
-import type { Center, Service } from "@petzo/db";
+import Image from "next/image";
+import Link from "next/link";
+
+import type { Center, CustomerUser, Service } from "@petzo/db";
+import { Button } from "@petzo/ui/components/button";
 import { cn } from "@petzo/ui/lib/utils";
 
 import { COLOR_MAP } from "~/lib/constants";
+import { getServiceRelativeUrl } from "~/lib/utils/center.utils";
+import { getCommaPrice } from "~/lib/utils/price.utils";
+import { AddServiceDialog } from "./add-service-dialog";
 import { ServiceDetailsDialog } from "./service-details-dialog";
 
 export default function ServiceCard({
   service,
   center,
   className,
+  user,
 }: {
   service: Service;
   center: Center;
   className?: string;
+  user?: CustomerUser;
 }) {
   return (
     <div className={cn("flex justify-between", className)}>
       {/* Service Info */}
-      <div className="flex flex-col p-3">
-        <h2 className="line-clamp-2 font-semibold md:text-lg">
+      <div className="flex flex-col gap-1 p-3">
+        <h2 className="line-clamp-2 text-base font-semibold md:text-lg">
           {service.name}
         </h2>
-        <span className="text-lg font-semibold text-primary">
-          &#8377; {service.price}
-        </span>
-        <span className="line-clamp-2 whitespace-pre-wrap text-sm md:line-clamp-3">
+
+        <div className="flex items-center gap-1.5">
+          <span className="font-semibold text-primary md:text-lg">
+            &#8377; {getCommaPrice(service.price)}
+          </span>
+          <div className="size-1 rounded-full bg-foreground/80"></div>
+          <span className="text-sm">2 hrs 30 mins</span>
+        </div>
+
+        <span className="mt-1 line-clamp-2 whitespace-pre-wrap text-sm md:line-clamp-3">
           {service.description}
         </span>
 
@@ -52,9 +67,13 @@ export default function ServiceCard({
         )}
 
         {/* TODO:  */}
-        {/* <div className="absolute bottom-0 flex w-full translate-y-1/2 justify-center">
-          <Button variant="outline">Add</Button>
-        </div> */}
+        <AddServiceDialog service={service} center={center} user={user} />
+        {/* <Link
+          href={`${getServiceRelativeUrl(service, center)}/book`}
+          className="absolute bottom-0 flex w-full translate-y-1/2 justify-center"
+        >
+          <Button variant="primary">Add</Button>
+        </Link> */}
       </div>
     </div>
   );
