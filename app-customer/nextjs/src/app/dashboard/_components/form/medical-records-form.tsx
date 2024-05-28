@@ -1,7 +1,7 @@
 "use client";
 
 import type * as z from "zod";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
@@ -29,7 +29,6 @@ import {
 } from "@petzo/ui/components/form";
 import { ImageInput } from "@petzo/ui/components/image-input";
 import { Label } from "@petzo/ui/components/label";
-import Loader from "@petzo/ui/components/loader";
 import {
   Popover,
   PopoverContent,

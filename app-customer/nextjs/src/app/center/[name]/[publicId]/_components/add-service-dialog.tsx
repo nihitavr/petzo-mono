@@ -199,7 +199,7 @@ function ServiceBookingForm({
         {/* Booking For */}
         <AccordionItem value="pet-details" className="rounded-lg border">
           <div
-            className={`flex w-full items-center justify-between px-2 ${accordianValue == "pet-details" ? "rounded-lg bg-muted" : ""}`}
+            className={`flex w-full items-center justify-between px-2 ${accordianValue == "pet-details" ? "rounded-t-lg bg-primary/10" : ""}`}
           >
             <span className="text-sm font-semibold">
               Booking For:{" "}
@@ -288,7 +288,7 @@ function ServiceBookingForm({
         {/* Address */}
         <AccordionItem value="booking-address" className="rounded-lg border">
           <div
-            className={`flex w-full items-center justify-between px-2 ${accordianValue == "booking-address" ? "rounded-lg bg-muted" : ""}`}
+            className={`flex w-full items-center justify-between px-2 ${accordianValue == "booking-address" ? "rounded-t-lg bg-primary/10" : ""}`}
           >
             <span className="text-sm font-semibold">
               Address: <span className="text-primary">Home</span>
@@ -318,11 +318,13 @@ function ServiceBookingForm({
           className="rounded-lg border"
         >
           <div
-            className={`flex w-full items-center justify-between px-2 ${accordianValue == "slot-starttime-selection" ? "rounded-lg bg-muted" : ""}`}
+            className={`flex w-full items-center justify-between px-2 ${accordianValue == "slot-starttime-selection" ? "rounded-t-lg bg-primary/10" : ""}`}
           >
             <span className="text-sm font-semibold">
               Start Time:{" "}
-              <span className="text-primary">25th May 10:30 PM</span>
+              <span className="whitespace-nowrap text-primary">
+                Tue 25th May 10:30 PM
+              </span>
             </span>
             <div className="w-min">
               <AccordionTrigger className="w-min py-3" noIcon>
@@ -344,5 +346,102 @@ function ServiceBookingForm({
         </AccordionItem>
       </Accordion>
     </form>
+  );
+}
+
+function BookingItem({
+  isSelected,
+  name,
+  value,
+  content,
+}: {
+  isSelected: boolean;
+  name: string;
+  value: string;
+  content: React.ReactNode;
+}) {
+  return (
+    <AccordionItem value="pet-details" className="rounded-lg border">
+      <div
+        className={`flex w-full items-center justify-between px-2 ${isSelected ? "rounded-t-lg bg-primary/10" : ""}`}
+      >
+        <span className="text-sm font-semibold">
+          {name}:{" "}
+          {isSelected ? (
+            <span className="text-primary">{value}</span>
+          ) : (
+            <span className="text-foreground/70">Not Selected</span>
+          )}
+        </span>
+        <div className="w-min">
+          <AccordionTrigger className="w-min py-3" noIcon>
+            <Button type="button" variant="outline" size="sm" className="h-6">
+              {isSelected ? "Close" : "Edit"}
+            </Button>
+          </AccordionTrigger>
+        </div>
+      </div>
+
+      <AccordionContent className="border-t px-2 pt-3">
+        {user ? (
+          <div className="grid gap-4">
+            <div className="flex items-center justify-between">
+              <Label className="text-sm font-semibold text-foreground/80">
+                Pet Details*
+              </Label>
+              <Button
+                type="button"
+                onClick={() => {
+                  setIsAddNewPet((isAddNewPet) => !isAddNewPet);
+                }}
+                variant="outline"
+                size="sm"
+                className="h-7"
+              >
+                {isAddNewPet ? "Select Existing Pet" : "Add New Pet"}
+              </Button>
+            </div>
+            {!isAddNewPet ? (
+              <div className="no-scrollbar flex items-center gap-2 overflow-x-auto">
+                {pets?.map((pet, idx) => (
+                  <div
+                    key={idx}
+                    className={`flex flex-col gap-1 rounded-lg p-2 ${pet.publicId == selectedPet?.publicId ? "border bg-primary/30" : "hover:bg-primary/10"}`}
+                    onClick={() => setSelectedPet(pet)}
+                    aria-hidden="true"
+                  >
+                    <div className="relative size-12 overflow-hidden rounded-full bg-foreground/50">
+                      {pet.images?.[0] ? (
+                        <Image
+                          src={pet.images?.[0].url}
+                          fill
+                          className="object-cover"
+                          alt=""
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                    <span className="w-full text-center text-sm font-semibold">
+                      {pet.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div>
+                <Label>Pet Name</Label>
+                <Input id="pet-name" placeholder="Pet Name" />
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center gap-1">
+            <span>Login to select pet</span>
+            <SignIn />
+          </div>
+        )}
+      </AccordionContent>
+    </AccordionItem>
   );
 }

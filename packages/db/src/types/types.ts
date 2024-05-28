@@ -32,6 +32,8 @@ export type Area = InferResultType<"areas">;
 // City Type
 export type City = InferResultType<"cities">;
 
+export type State = InferResultType<"states">;
+
 // Center Type
 export type Center = InferResultType<"centers"> & {
   centerAddress: CenterAddress;
@@ -75,6 +77,12 @@ export interface Point {
   latitude: number;
   longitude: number;
 }
+
+export type CustomerAddresses = InferResultType<"customerAddresses"> & {
+  area?: Area;
+  city?: City;
+  state?: State;
+};
 
 // This is to export all the default types from index.ts file as when
 // you add type in package.json it will not be exported by default

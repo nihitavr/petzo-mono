@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 import { and, asc, eq, schema } from "@petzo/db";
-import { generatePublicId } from "@petzo/utils";
 import { petValidator } from "@petzo/validators";
 
+import { generateRandomPublicId } from "../../../../packages/utils/src/string.utils";
 import { protectedProcedure } from "../trpc";
 
 export const petRouter = {
@@ -15,7 +15,7 @@ export const petRouter = {
           .insert(schema.pets)
           .values({
             name: input.name,
-            publicId: generatePublicId(),
+            publicId: generateRandomPublicId(),
             customerUserId: ctx.session.user.id,
             type: input.type,
             gender: input.gender,

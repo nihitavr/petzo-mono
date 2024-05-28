@@ -19,6 +19,7 @@ import Loader from "@petzo/ui/components/loader";
 import { toast } from "@petzo/ui/components/toast";
 
 import { api } from "~/trpc/react";
+import FormSaveButton from "../form-save-button";
 import UserProfileLoading from "../loading/user-profile-loading";
 
 const userProfileFormSchema = z.object({
@@ -147,23 +148,11 @@ export function UserProfileForm() {
             </FormItem>
           )}
         />
-        <div
-          className={`md:initial fixed bottom-0 left-0 z-50 flex w-full justify-end px-3 py-3 md:static`}
-        >
-          <Button
-            className="flex w-full items-center justify-center gap-2 md:w-32"
-            type="submit"
-            disabled={
-              Object.keys(form.formState.dirtyFields).length == 0 ||
-              isSubmitting
-            }
-          >
-            <span>Save</span>
-            <div>
-              <Loader className="h-5 w-5 border-2" show={isSubmitting} />
-            </div>
-          </Button>
-        </div>
+
+        <FormSaveButton
+          disabled={Object.keys(form.formState.dirtyFields).length == 0}
+          isSubmitting={isSubmitting}
+        />
       </form>
     </Form>
   );

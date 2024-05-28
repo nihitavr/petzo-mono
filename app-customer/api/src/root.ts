@@ -1,6 +1,8 @@
 import { authRouter } from "./router/auth.router";
 import { centerRouter } from "./router/center.router";
-import { cityRouter } from "./router/city.router";
+import { customerAddressRouter } from "./router/customer-address.router";
+import { geographyRouter } from "./router/geography.router";
+import { mapRouter } from "./router/map.router";
 import { petMedicalRecordRouter } from "./router/pet-medical-record.router";
 import { petRouter } from "./router/pet.router";
 import { ratingsRouter } from "./router/rating.router";
@@ -13,12 +15,14 @@ export const appRouter = createTRPCRouter({
   auth: authRouter,
   center: centerRouter,
   service: serviceRouter,
-  city: cityRouter,
+  geography: geographyRouter,
+  map: mapRouter,
   user: userRouter,
   pet: petRouter,
   petMedicalRecord: petMedicalRecordRouter,
   reviews: reviewsRouter,
   ratings: ratingsRouter,
+  customerAddress: customerAddressRouter,
 });
 
 // export type definition of API

@@ -20,7 +20,7 @@ export default function UserProfileLoading() {
       </div>
 
       <div
-        className={`md:initial fixed bottom-0 left-0 z-50 flex w-full justify-end px-3 py-3 md:static`}
+        className={`md:initial fixed bottom-0 left-0 z-50 flex w-full justify-end px-3 md:px-0 py-3 md:static`}
       >
         {" "}
         <Skeleton className="h-10 w-full rounded-full bg-foreground/20 md:w-32" />

@@ -185,3 +185,8 @@ Deploying your Expo application works slightly differently compared to Next.js o
 The stack originates from [create-t3-app](https://github.com/t3-oss/create-t3-app).
 
 A [blog post](https://jumr.dev/blog/t3-turbo) where I wrote how to migrate a T3 app into this.
+
+
+
+## TODOS
+1. Currently migration is broken because we had to add postgis in the migration file `0041_massive_mercury_manual.sql`. Postgis was added for geospatial queries. When you add postgis, it adds `spatial-ref-sys` table and `geography_columns` view to the database. This breaks migration because drizzle is not able to recognise these tables and views. We can add `spatial-ref-sys` table using drizzle orm with the required schema, but for some reason the `geography_columns` view is recognised as a table.

@@ -118,3 +118,6 @@ export function getGoogleLocationLink(
 export function generatePublicId(size = 15) {
   return nanoid(size);
 }
+
+export * as stringUtils from "./string.utils";
+export * as mapUtils from "./addresses.utils";

@@ -10,7 +10,7 @@ export default function FormSaveButton({
 }) {
   return (
     <div
-      className={`md:initial fixed bottom-0 left-0 z-50 flex w-full justify-end px-3 py-3 md:static`}
+      className={`md:initial fixed bottom-0 left-0 z-50 flex w-full justify-end px-3 py-3 md:static md:px-0`}
     >
       <Button
         className="flex w-full items-center justify-center gap-2 md:w-32"

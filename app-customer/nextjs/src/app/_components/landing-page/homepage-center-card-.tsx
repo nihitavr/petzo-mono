@@ -17,7 +17,7 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
   const lowestPriceService = getLowertCostService(center);
 
   return (
-    <div className="flex flex-row rounded-xl bg-muted md:border md:shadow-sm">
+    <div className="flex flex-row rounded-xl bg-muted shadow-sm md:border">
       <div className="flex h-44 w-full gap-2 md:h-60">
         {/* Center Image */}
         <Link

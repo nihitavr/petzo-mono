@@ -5,6 +5,7 @@ import { schema } from "@petzo/db";
 import { centerValidator } from "@petzo/validators";
 
 import { publicCachedProcedure } from "../trpc";
+import { geographyRouterUtils } from "./geography.router";
 
 const NEARBY_DISTANCE_IN_METERS = 5000;
 
@@ -14,13 +15,6 @@ const DEFAULT_PAGE_SIZE = 10;
 const CitiyMap: Record<string, number> = {
   bengaluru: 1,
   mumbai: 2,
-};
-
-// Define a static map for areas to their ids(database ids).
-const AreaMap: Record<string, number> = {
-  bommanahalli: 1,
-  "hsr-layout": 2,
-  koramangala: 3,
 };
 
 export const centerRouter = {
@@ -59,12 +53,14 @@ export const centerRouter = {
 
       // Get city id from the input using the static cityMap.
       const cityId = CitiyMap[input.city];
-      if (!cityId) {
-        return [];
-      }
+      if (!cityId) return [];
 
       // Get area ids from the input using the static areaMap.
-      const areaIds = input.area?.map((a) => AreaMap[a]! || -1);
+      // const areaIds = input.area?.map((a) => AreaMap[a]! || -1);
+      const areaIds = await geographyRouterUtils.getAreaIdsByPublicIds(
+        ctx,
+        input.area,
+      );
 
       // Get service types from the input using the schema serviceTypeList.
       const serviceTypes = schema.serviceTypeList.filter((v) =>

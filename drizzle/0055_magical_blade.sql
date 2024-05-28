@@ -1,0 +1,1 @@
+ALTER TABLE "city" ADD CONSTRAINT "city_public_id_unique" UNIQUE("public_id");

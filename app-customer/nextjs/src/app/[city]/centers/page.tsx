@@ -50,7 +50,7 @@ export default async function Centers({
     },
   });
 
-  const areaFromDb = await api.city.getCityAreas({ city });
+  const areaData = await api.geography.getAreasByCity({ city });
 
   const filtersObj = {
     filters: await getCenterFilters(
@@ -60,7 +60,7 @@ export default async function Centers({
         ratingGte,
         nearby: latitude && longitude ? true : false,
       },
-      { area: areaFromDb },
+      { area: areaData },
     ),
   };
 
