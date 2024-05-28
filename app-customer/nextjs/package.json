@@ -41,11 +41,11 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/mapbox-gl": "^3.1.0",
     "@petzo/eslint-config": "workspace:*",
     "@petzo/prettier-config": "workspace:*",
     "@petzo/tailwind-config": "workspace:*",
     "@petzo/tsconfig": "workspace:*",
+    "@types/mapbox-gl": "^3.1.0",
     "@types/node": "^20.11.30",
     "@types/react": "^18.2.69",
     "@types/react-dom": "^18.2.22",
