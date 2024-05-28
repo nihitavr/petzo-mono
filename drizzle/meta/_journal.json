@@ -295,6 +295,125 @@
       "when": 1714399300115,
       "tag": "0041_massive_mercury",
       "breakpoints": true
+    },
+    {
+      "idx": 42,
+      "version": "5",
+      "when": 1716118797975,
+      "tag": "0042_light_mephisto",
+      "breakpoints": true
+    },
+    {
+      "idx": 43,
+      "version": "5",
+      "when": 1716122421905,
+      "tag": "0043_right_speedball",
+      "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "5",
+      "when": 1716278401232,
+      "tag": "0044_mighty_praxagora",
+      "breakpoints": true
+    },
+    {
+      "idx": 45,
+      "version": "5",
+      "when": 1716279375595,
+      "tag": "0045_nasty_bug",
+      "breakpoints": true
+    },
+    {
+      "idx": 46,
+      "version": "5",
+      "when": 1716292478883,
+      "tag": "0046_strong_blazing_skull",
+      "breakpoints": true
+    },
+    {
+      "idx": 47,
+      "version": "5",
+      "when": 1716292889261,
+      "tag": "0047_overjoyed_blink",
+      "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "5",
+      "when": 1716296974046,
+      "tag": "0048_black_deadpool",
+      "breakpoints": true
+    },
+    {
+      "idx": 49,
+      "version": "5",
+      "when": 1716303917078,
+      "tag": "0049_normal_black_panther",
+      "breakpoints": true
+    },
+    {
+      "idx": 50,
+      "version": "5",
+      "when": 1716304913401,
+      "tag": "0050_useful_ogun",
+      "breakpoints": true
+    },
+    {
+      "idx": 51,
+      "version": "5",
+      "when": 1716463419962,
+      "tag": "0051_moaning_famine",
+      "breakpoints": true
+    },
+    {
+      "idx": 52,
+      "version": "5",
+      "when": 1716463536028,
+      "tag": "0052_bored_nextwave",
+      "breakpoints": true
+    },
+    {
+      "idx": 53,
+      "version": "5",
+      "when": 1716844246764,
+      "tag": "0053_dusty_patriot",
+      "breakpoints": true
+    },
+    {
+      "idx": 54,
+      "version": "5",
+      "when": 1716844821929,
+      "tag": "0054_harsh_dreadnoughts",
+      "breakpoints": true
+    },
+    {
+      "idx": 55,
+      "version": "5",
+      "when": 1716897837293,
+      "tag": "0055_magical_blade",
+      "breakpoints": true
+    },
+    {
+      "idx": 56,
+      "version": "5",
+      "when": 1716906511121,
+      "tag": "0056_zippy_blue_blade",
+      "breakpoints": true
+    },
+    {
+      "idx": 57,
+      "version": "5",
+      "when": 1716906970948,
+      "tag": "0057_gigantic_arachne",
+      "breakpoints": true
+    },
+    {
+      "idx": 58,
+      "version": "5",
+      "when": 1716906992801,
+      "tag": "0058_clean_forge",
+      "breakpoints": true
     }
   ]
 }

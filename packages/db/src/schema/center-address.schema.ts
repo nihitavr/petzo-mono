@@ -1,56 +1,10 @@
 import { relations, sql } from "drizzle-orm";
-import {
-  customType,
-  integer,
-  serial,
-  timestamp,
-  varchar,
-} from "drizzle-orm/pg-core";
-import wkx from "wkx";
+import { integer, serial, timestamp, varchar } from "drizzle-orm/pg-core";
 
-import type { Point } from "../types/types";
-import { pgTable } from "./_table";
+import { pgTable, point } from "./_table";
 import { areas } from "./area.schema";
 import { cities } from "./city.schema";
 import { states } from "./state.schema";
-
-function parseEWKB(wkb: string): Point | null {
-  const buffer = Buffer.from(wkb, "hex");
-
-  const geometry = wkx.Geometry.parse(buffer) as unknown as {
-    x: number;
-    y: number;
-  };
-
-  if (geometry.x === undefined || geometry.y === undefined) {
-    return null;
-  }
-
-  return {
-    latitude: geometry.y,
-    longitude: geometry.x,
-  };
-}
-
-export const point = customType<{
-  data: Point | null;
-  driverData: string;
-}>({
-  toDriver(point: Point | null) {
-    if (point?.latitude === undefined || point?.longitude === undefined) {
-      return "";
-    }
-
-    return sql`ST_SetSRID(ST_MakePoint(${point.longitude}, ${point.latitude}), 4326)`;
-  },
-
-  fromDriver(value: string): Point | null {
-    return parseEWKB(value);
-  },
-  dataType() {
-    return "geography(Point)";
-  },
-});
 
 export const centerAddresses = pgTable(
   "center_address",

@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { headers } from "next/headers";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
@@ -10,6 +9,7 @@ import { cn } from "@petzo/ui/lib/utils";
 import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 import { auth } from "@petzo/auth-customer-app";
 
@@ -55,7 +55,7 @@ export const viewport: Viewport = {
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const session = await auth();
-  const cities = await api.city.getAllActiveCities();
+  const cities = await api.geography.getActiveCities();
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body

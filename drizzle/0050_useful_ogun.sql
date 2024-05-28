@@ -1,0 +1,1 @@
+ALTER TABLE "area" ALTER COLUMN "public_id" SET NOT NULL;

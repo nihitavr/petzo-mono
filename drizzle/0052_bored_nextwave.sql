@@ -1,0 +1,1 @@
+ALTER TABLE "area" ADD CONSTRAINT "city_id_area_idx_idx" UNIQUE("city_id","public_id");

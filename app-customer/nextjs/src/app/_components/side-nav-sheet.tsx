@@ -5,15 +5,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BsPersonFill } from "react-icons/bs";
 import {
+  FaAddressCard,
   FaCalendarAlt,
   FaDog,
-  FaMoon,
-  FaSun,
   FaUserCircle,
 } from "react-icons/fa";
+import { HiDocumentText } from "react-icons/hi";
 
 import { Avatar, AvatarFallback } from "@petzo/ui/components/avatar";
-import { Label } from "@petzo/ui/components/label";
 import {
   Sheet,
   SheetClose,
@@ -22,7 +21,6 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "@petzo/ui/components/sheet";
-import { Switch } from "@petzo/ui/components/switch";
 import { ThemeToggle } from "@petzo/ui/components/theme";
 
 import SignIn from "./sign-in";
@@ -68,40 +66,52 @@ export function SideNavSheet({
             />
           </div>
         </SheetHeader>
-        <div className="mt-5 flex flex-col gap-5">
+        <div className="mt-5 flex flex-col gap-2">
           <SheetClose asChild>
-            <Link
+            <NavItem
               href="/dashboard/profile"
-              className={`flex items-center gap-3 rounded-md p-2 hover:bg-secondary ${pathname.startsWith("/dashboard/profile") ? "bg-secondary" : ""}`}
-            >
-              <FaUserCircle
-                className="h-8 w-8 text-foreground/70"
-                strokeWidth={1.3}
-              />
-              <span>Your Profile</span>
-            </Link>
+              text="Your Profile"
+              Icon={FaUserCircle}
+              isSelected={pathname == "/dashboard/profile"}
+            />
           </SheetClose>
           <SheetClose asChild>
-            <Link
-              href="/dashboard/pets"
-              className={`flex items-center gap-3 rounded-md p-2 hover:bg-secondary ${pathname.startsWith("/dashboard/pets") && !pathname.includes("/medical-records") ? "bg-secondary" : ""}`}
-            >
-              <FaDog className="h-8 w-8 text-foreground/70" strokeWidth={1.3} />
-              <span>Your Pets</span>
-            </Link>
+            <NavItem
+              href="/dashboard/addresses"
+              text="Addresses"
+              Icon={FaAddressCard}
+              isSelected={pathname == "/dashboard/addresses"}
+            />
           </SheetClose>
+          <hr />
+          <SheetClose asChild>
+            <NavItem
+              href="/dashboard/bookings"
+              text="Bookings"
+              Icon={FaCalendarAlt}
+              isSelected={pathname == "/dashboard/bookings"}
+            />
+          </SheetClose>
+          <hr />
 
           <SheetClose asChild>
-            <Link
+            <NavItem
+              href="/dashboard/pets"
+              text="Your Pets"
+              Icon={FaDog}
+              isSelected={
+                pathname.startsWith("/dashboard/pets") &&
+                !pathname.includes("/medical-records")
+              }
+            />
+          </SheetClose>
+          <SheetClose asChild>
+            <NavItem
               href="/dashboard/medical-records"
-              className={`flex items-center gap-3 rounded-md p-2 hover:bg-secondary ${pathname.endsWith("/medical-records") ? "bg-secondary" : ""}`}
-            >
-              <FaCalendarAlt
-                className="h-8 w-8 text-foreground/70"
-                strokeWidth={1.3}
-              />
-              <span>Medical Records</span>
-            </Link>
+              text="Medical Records"
+              Icon={HiDocumentText}
+              isSelected={pathname.startsWith("/medical-records")}
+            />
           </SheetClose>
         </div>
         <SheetFooter className="mt-8">
@@ -121,3 +131,25 @@ export function SideNavSheet({
     </Sheet>
   );
 }
+
+const NavItem = ({
+  href,
+  text,
+  Icon,
+  isSelected,
+}: {
+  href: string;
+  text: string;
+  Icon: React.ComponentType<React.SVGAttributes<SVGElement>>;
+  isSelected: boolean;
+}) => {
+  return (
+    <Link
+      href={href}
+      className={`flex items-center gap-3 rounded-md p-2 hover:bg-secondary ${isSelected ? "bg-secondary" : ""}`}
+    >
+      <Icon className="size-6 text-foreground/70" />
+      <span>{text}</span>
+    </Link>
+  );
+};

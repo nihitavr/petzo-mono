@@ -16,6 +16,7 @@ export const env = createEnv({
    */
   server: {
     DATABASE_URL: z.string(),
+    MAPBOX_ACCESS_TOKEN: z.string(),
   },
 
   /**
@@ -23,6 +24,7 @@ export const env = createEnv({
    * For them to be exposed to the client, prefix them with `NEXT_PUBLIC_`.
    */
   client: {
+    NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN: z.string(),
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
   },
   /**
@@ -30,7 +32,8 @@ export const env = createEnv({
    */
   experimental__runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
-
+    NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN:
+      process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   skipValidation:
