@@ -71,7 +71,7 @@ const NavItem = ({
   return (
     <Link
       href={href}
-      className={`flex items-center gap-3 rounded-md p-2 hover:bg-secondary ${isSelected ? "bg-secondary" : ""}`}
+      className={`flex items-center gap-3 rounded-md px-2 py-2.5 hover:bg-secondary ${isSelected ? "bg-secondary" : ""}`}
     >
       <Icon className="size-6 text-foreground/70" />
       <span>{text}</span>

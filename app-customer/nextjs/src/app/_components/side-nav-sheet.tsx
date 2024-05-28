@@ -67,52 +67,41 @@ export function SideNavSheet({
           </div>
         </SheetHeader>
         <div className="mt-5 flex flex-col gap-2">
-          <SheetClose asChild>
-            <NavItem
-              href="/dashboard/profile"
-              text="Your Profile"
-              Icon={FaUserCircle}
-              isSelected={pathname == "/dashboard/profile"}
-            />
-          </SheetClose>
-          <SheetClose asChild>
-            <NavItem
-              href="/dashboard/addresses"
-              text="Addresses"
-              Icon={FaAddressCard}
-              isSelected={pathname == "/dashboard/addresses"}
-            />
-          </SheetClose>
+          <NavItem
+            href="/dashboard/profile"
+            text="Your Profile"
+            Icon={FaUserCircle}
+            isSelected={pathname == "/dashboard/profile"}
+          />
+          <NavItem
+            href="/dashboard/addresses"
+            text="Addresses"
+            Icon={FaAddressCard}
+            isSelected={pathname == "/dashboard/addresses"}
+          />
           <hr />
-          <SheetClose asChild>
-            <NavItem
-              href="/dashboard/bookings"
-              text="Bookings"
-              Icon={FaCalendarAlt}
-              isSelected={pathname == "/dashboard/bookings"}
-            />
-          </SheetClose>
+          <NavItem
+            href="/dashboard/bookings"
+            text="Bookings"
+            Icon={FaCalendarAlt}
+            isSelected={pathname == "/dashboard/bookings"}
+          />
           <hr />
-
-          <SheetClose asChild>
-            <NavItem
-              href="/dashboard/pets"
-              text="Your Pets"
-              Icon={FaDog}
-              isSelected={
-                pathname.startsWith("/dashboard/pets") &&
-                !pathname.includes("/medical-records")
-              }
-            />
-          </SheetClose>
-          <SheetClose asChild>
-            <NavItem
-              href="/dashboard/medical-records"
-              text="Medical Records"
-              Icon={HiDocumentText}
-              isSelected={pathname.startsWith("/medical-records")}
-            />
-          </SheetClose>
+          <NavItem
+            href="/dashboard/pets"
+            text="Your Pets"
+            Icon={FaDog}
+            isSelected={
+              pathname.startsWith("/dashboard/pets") &&
+              !pathname.includes("/medical-records")
+            }
+          />
+          <NavItem
+            href="/dashboard/medical-records"
+            text="Medical Records"
+            Icon={HiDocumentText}
+            isSelected={pathname.startsWith("/medical-records")}
+          />
         </div>
         <SheetFooter className="mt-8">
           {isSignedIn ? (
@@ -144,12 +133,14 @@ const NavItem = ({
   isSelected: boolean;
 }) => {
   return (
-    <Link
-      href={href}
-      className={`flex items-center gap-3 rounded-md p-2 hover:bg-secondary ${isSelected ? "bg-secondary" : ""}`}
-    >
-      <Icon className="size-6 text-foreground/70" />
-      <span>{text}</span>
-    </Link>
+    <SheetClose asChild>
+      <Link
+        href={href}
+        className={`flex items-center gap-3 rounded-md px-2 py-2.5 hover:bg-secondary ${isSelected ? "bg-secondary" : ""}`}
+      >
+        <Icon className="size-6 text-foreground/70" />
+        <span>{text}</span>
+      </Link>
+    </SheetClose>
   );
 };
