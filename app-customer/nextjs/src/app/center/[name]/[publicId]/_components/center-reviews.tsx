@@ -20,7 +20,7 @@ export default function CenterReviews({
 }) {
   return (
     <div id={"reviews"} className="flex flex-col gap-4">
-      <h2 className="text-lg font-semibold">
+      <h2 className="text-base font-semibold md:text-lg">
         User Rating and Reviews
         <div className="flex items-center gap-1 text-base">
           <Rating rating={center.averageRating} />

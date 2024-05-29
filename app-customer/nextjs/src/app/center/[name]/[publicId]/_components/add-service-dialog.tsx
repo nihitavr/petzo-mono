@@ -26,6 +26,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -41,6 +42,7 @@ import {
 } from "@petzo/ui/components/drawer";
 import { Input } from "@petzo/ui/components/input";
 import { Label } from "@petzo/ui/components/label";
+import { Skeleton } from "@petzo/ui/components/skeleton";
 import { cn } from "@petzo/ui/lib/utils";
 
 import SignIn from "~/app/_components/sign-in";
@@ -106,6 +108,8 @@ export function AddServiceDialog({
     };
   }, [open, center, service]);
 
+  const serviceImage = service.images?.[0]?.url;
+
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
@@ -116,18 +120,44 @@ export function AddServiceDialog({
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Book Service</DialogTitle>
+            {/* <DialogTitle>Book Service</DialogTitle>
             <DialogDescription>
               Select pet, address and slot start time to book service.
-            </DialogDescription>
+            </DialogDescription> */}
+
+            <p className="text-xs">Booking</p>
+            <div className="flex items-center justify-between">
+              <div>
+                <DrawerTitle>{service.name}</DrawerTitle>
+                <span className="-mt-1 text-sm font-semibold text-primary">
+                  at {center.name}
+                </span>
+              </div>
+              {serviceImage && (
+                <div className="relative aspect-square h-full overflow-hidden rounded-md">
+                  <Image
+                    src={serviceImage}
+                    fill
+                    className="object-cover"
+                    alt=""
+                  />
+                </div>
+              )}
+            </div>
           </DialogHeader>
-          <ServiceBookingForm service={service} user={user} className="px-4" />
+          <ServiceBookingForm service={service} user={user} />
+          <DialogFooter className="flex w-full flex-row items-center gap-1 pt-2">
+            <Button variant="outline" className="w-1/2">
+              Add to Cart
+            </Button>
+            <Button variant="primary" className="w-1/2">
+              Checkout
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     );
   }
-
-  const serviceImage = service.images?.[0]?.url;
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
@@ -205,6 +235,16 @@ function ServiceBookingForm({
       enabled: !!user,
     });
 
+  if (isPetsLoading || isAddressesLoading) {
+    return (
+      <div className="flex flex-col gap-2 px-4 md:px-0">
+        <Skeleton className="h-36 w-full" />
+        <Skeleton className="h-12 w-full" />
+        <Skeleton className="h-12 w-full" />
+      </div>
+    );
+  }
+
   return (
     <form className={cn("grid items-start gap-4 overflow-y-auto", className)}>
       <Accordion
@@ -224,7 +264,7 @@ function ServiceBookingForm({
               {selectedPet ? (
                 <span className="text-primary">{selectedPet.name}</span>
               ) : (
-                <span className="text-foreground/70">Not Selected</span>
+                <span className="text-destructive">Not Selected</span>
               )}
             </span>
             <div className="w-min">
@@ -265,7 +305,7 @@ function ServiceBookingForm({
                     {pets?.map((pet, idx) => (
                       <div
                         key={idx}
-                        className={`flex flex-col gap-1 rounded-lg p-2 ${pet.publicId == selectedPet?.publicId ? "border bg-primary/30" : "hover:bg-primary/10"}`}
+                        className={`flex cursor-pointer flex-col gap-1 rounded-lg p-2 ${pet.publicId == selectedPet?.publicId ? "border bg-primary/30" : "hover:bg-primary/10"}`}
                         onClick={() => {
                           setTimeout(() => {
                             setAccordianValue("booking-address");
@@ -318,7 +358,7 @@ function ServiceBookingForm({
               {selectedAddress ? (
                 <span className="text-primary">{selectedAddress.name}</span>
               ) : (
-                <span className="text-foreground/70">Not Selected</span>
+                <span className="text-destructive">Not Selected</span>
               )}
             </span>
             <div className="w-min">
@@ -329,50 +369,57 @@ function ServiceBookingForm({
                   size="sm"
                   className="h-6"
                 >
-                  Edit
+                  {accordianValue == "booking-address" ? "Close" : "Edit"}
                 </Button>
               </AccordionTrigger>
             </div>
           </div>
 
           <AccordionContent className="border-t px-2 pt-3">
-            <div>
-              <div className="flex items-center justify-between">
-                <Label className="text-sm font-semibold text-foreground/80">
-                  Addresses*
-                </Label>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-6"
-                >
-                  Add Address
-                </Button>
-              </div>
-              <div className="mt-4 flex flex-col gap-2">
-                {addresses?.map((address, idx) => (
-                  <div
-                    key={idx}
-                    className={`flex flex-col gap-1 rounded-lg px-1 py-2 ${selectedAddress?.id == address.id ? "bg-primary/10" : ""}`}
-                    onClick={() => {
-                      setTimeout(() => {
-                        setAccordianValue("slot-starttime-selection");
-                      }, 200);
-                      setSelectedAddress(address);
-                    }}
-                    aria-hidden="true"
+            {user ? (
+              <div>
+                <div className="flex items-center justify-between">
+                  <Label className="text-sm font-semibold text-foreground/80">
+                    Addresses*
+                  </Label>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-6"
                   >
-                    <span className="text-sm font-semibold">
-                      {address.name}
-                    </span>
-                    <span className="line-clamp-1 whitespace-pre-line text-foreground/70">
-                      {getFullFormattedAddresses(address)}
-                    </span>
-                  </div>
-                ))}
+                    Add Address
+                  </Button>
+                </div>
+                <div className="mt-4 flex flex-col gap-2">
+                  {addresses?.map((address, idx) => (
+                    <div
+                      key={idx}
+                      className={`flex cursor-pointer flex-col gap-0.5 rounded-lg p-1.5 ${selectedAddress?.id == address.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                      onClick={() => {
+                        setTimeout(() => {
+                          setAccordianValue("slot-starttime-selection");
+                        }, 200);
+                        setSelectedAddress(address);
+                      }}
+                      aria-hidden="true"
+                    >
+                      <span className="text-sm font-semibold">
+                        {address.name}
+                      </span>
+                      <span className="line-clamp-2 text-xs text-foreground/70">
+                        {getFullFormattedAddresses(address)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="flex flex-col items-center gap-1">
+                <span>Login to select address</span>
+                <SignIn />
+              </div>
+            )}
           </AccordionContent>
         </AccordionItem>
 
@@ -398,7 +445,9 @@ function ServiceBookingForm({
                   size="sm"
                   className="h-6"
                 >
-                  Edit
+                  {accordianValue == "slot-starttime-selection"
+                    ? "Close"
+                    : "Edit"}
                 </Button>
               </AccordionTrigger>
             </div>
@@ -410,102 +459,5 @@ function ServiceBookingForm({
         </AccordionItem>
       </Accordion>
     </form>
-  );
-}
-
-function BookingItem({
-  isSelected,
-  name,
-  value,
-  content,
-}: {
-  isSelected: boolean;
-  name: string;
-  value: string;
-  content: React.ReactNode;
-}) {
-  return (
-    <AccordionItem value="pet-details" className="rounded-lg border">
-      <div
-        className={`flex w-full items-center justify-between px-2 ${isSelected ? "rounded-t-lg bg-primary/10" : ""}`}
-      >
-        <span className="text-sm font-semibold">
-          {name}:{" "}
-          {isSelected ? (
-            <span className="text-primary">{value}</span>
-          ) : (
-            <span className="text-foreground/70">Not Selected</span>
-          )}
-        </span>
-        <div className="w-min">
-          <AccordionTrigger className="w-min py-3" noIcon>
-            <Button type="button" variant="outline" size="sm" className="h-6">
-              {isSelected ? "Close" : "Edit"}
-            </Button>
-          </AccordionTrigger>
-        </div>
-      </div>
-
-      <AccordionContent className="border-t px-2 pt-3">
-        {user ? (
-          <div className="grid gap-4">
-            <div className="flex items-center justify-between">
-              <Label className="text-sm font-semibold text-foreground/80">
-                Pet Details*
-              </Label>
-              <Button
-                type="button"
-                onClick={() => {
-                  setIsAddNewPet((isAddNewPet) => !isAddNewPet);
-                }}
-                variant="outline"
-                size="sm"
-                className="h-7"
-              >
-                {isAddNewPet ? "Select Existing Pet" : "Add New Pet"}
-              </Button>
-            </div>
-            {!isAddNewPet ? (
-              <div className="no-scrollbar flex items-center gap-2 overflow-x-auto">
-                {pets?.map((pet, idx) => (
-                  <div
-                    key={idx}
-                    className={`flex flex-col gap-1 rounded-lg p-2 ${pet.publicId == selectedPet?.publicId ? "border bg-primary/30" : "hover:bg-primary/10"}`}
-                    onClick={() => setSelectedPet(pet)}
-                    aria-hidden="true"
-                  >
-                    <div className="relative size-12 overflow-hidden rounded-full bg-foreground/50">
-                      {pet.images?.[0] ? (
-                        <Image
-                          src={pet.images?.[0].url}
-                          fill
-                          className="object-cover"
-                          alt=""
-                        />
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                    <span className="w-full text-center text-sm font-semibold">
-                      {pet.name}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div>
-                <Label>Pet Name</Label>
-                <Input id="pet-name" placeholder="Pet Name" />
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="flex flex-col items-center gap-1">
-            <span>Login to select pet</span>
-            <SignIn />
-          </div>
-        )}
-      </AccordionContent>
-    </AccordionItem>
   );
 }
