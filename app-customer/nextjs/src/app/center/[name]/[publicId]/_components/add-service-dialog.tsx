@@ -3,8 +3,18 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import {
+  getFullFormattedAddresses,
+  getPlaceFormattedAddresses,
+} from "node_modules/@petzo/utils/src/addresses.utils";
 
-import type { Center, CustomerUser, Pet, Service } from "@petzo/db";
+import type {
+  Center,
+  CustomerAddresses,
+  CustomerUser,
+  Pet,
+  Service,
+} from "@petzo/db";
 import {
   Accordion,
   AccordionContent,
@@ -111,7 +121,7 @@ export function AddServiceDialog({
               Select pet, address and slot start time to book service.
             </DialogDescription>
           </DialogHeader>
-          <ServiceBookingForm />
+          <ServiceBookingForm service={service} user={user} className="px-4" />
         </DialogContent>
       </Dialog>
     );
@@ -180,12 +190,20 @@ function ServiceBookingForm({
   const [accordianValue, setAccordianValue] = useState("pet-details");
 
   const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
-  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [selectedAddress, setSelectedAddress] =
+    useState<CustomerAddresses>(null);
+
   const [selectedSlot, setSelectedSlot] = useState(null);
 
-  const { data: pets, isLoading } = api.pet.getPetProfiles.useQuery(undefined, {
-    enabled: !!user,
-  });
+  const { data: pets, isLoading: isPetsLoading } =
+    api.pet.getPetProfiles.useQuery(undefined, {
+      enabled: !!user,
+    });
+
+  const { data: addresses, isLoading: isAddressesLoading } =
+    api.customerAddress.getAddresses.useQuery(undefined, {
+      enabled: !!user,
+    });
 
   return (
     <form className={cn("grid items-start gap-4 overflow-y-auto", className)}>
@@ -237,7 +255,7 @@ function ServiceBookingForm({
                     }}
                     variant="outline"
                     size="sm"
-                    className="h-7"
+                    className="h-6"
                   >
                     {isAddNewPet ? "Select Existing Pet" : "Add New Pet"}
                   </Button>
@@ -248,7 +266,12 @@ function ServiceBookingForm({
                       <div
                         key={idx}
                         className={`flex flex-col gap-1 rounded-lg p-2 ${pet.publicId == selectedPet?.publicId ? "border bg-primary/30" : "hover:bg-primary/10"}`}
-                        onClick={() => setSelectedPet(pet)}
+                        onClick={() => {
+                          setTimeout(() => {
+                            setAccordianValue("booking-address");
+                          }, 200);
+                          setSelectedPet(pet);
+                        }}
                         aria-hidden="true"
                       >
                         <div className="relative size-12 overflow-hidden rounded-full bg-foreground/50">
@@ -291,7 +314,12 @@ function ServiceBookingForm({
             className={`flex w-full items-center justify-between px-2 ${accordianValue == "booking-address" ? "rounded-t-lg bg-primary/10" : ""}`}
           >
             <span className="text-sm font-semibold">
-              Address: <span className="text-primary">Home</span>
+              Address:{" "}
+              {selectedAddress ? (
+                <span className="text-primary">{selectedAddress.name}</span>
+              ) : (
+                <span className="text-foreground/70">Not Selected</span>
+              )}
             </span>
             <div className="w-min">
               <AccordionTrigger className="w-min py-3" noIcon>
@@ -308,7 +336,43 @@ function ServiceBookingForm({
           </div>
 
           <AccordionContent className="border-t px-2 pt-3">
-            <div className="h-32">This is address content</div>
+            <div>
+              <div className="flex items-center justify-between">
+                <Label className="text-sm font-semibold text-foreground/80">
+                  Addresses*
+                </Label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-6"
+                >
+                  Add Address
+                </Button>
+              </div>
+              <div className="mt-4 flex flex-col gap-2">
+                {addresses?.map((address, idx) => (
+                  <div
+                    key={idx}
+                    className={`flex flex-col gap-1 rounded-lg px-1 py-2 ${selectedAddress?.id == address.id ? "bg-primary/10" : ""}`}
+                    onClick={() => {
+                      setTimeout(() => {
+                        setAccordianValue("slot-starttime-selection");
+                      }, 200);
+                      setSelectedAddress(address);
+                    }}
+                    aria-hidden="true"
+                  >
+                    <span className="text-sm font-semibold">
+                      {address.name}
+                    </span>
+                    <span className="line-clamp-1 whitespace-pre-line text-foreground/70">
+                      {getFullFormattedAddresses(address)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </AccordionContent>
         </AccordionItem>
 

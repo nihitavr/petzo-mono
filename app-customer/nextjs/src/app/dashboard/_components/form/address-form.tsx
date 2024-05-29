@@ -30,7 +30,13 @@ import { env } from "~/env";
 import { api } from "~/trpc/react";
 import FormSaveButton from "../form-save-button";
 
-const zoom = 16.5;
+const MAP_ZOOM = 16.5;
+
+const GEOLOCATION_CONFIG = {
+  enableHighAccuracy: true,
+  maximumAge: 600000,
+  timeout: 10000,
+};
 
 type CustomerAddressSchema = z.infer<
   typeof customerAddressValidator.CustomerAddressForm
@@ -83,7 +89,7 @@ export function AddressForm({
       container: mapContainer.current!,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [lng.value, lat.value],
-      zoom: zoom,
+      zoom: MAP_ZOOM,
       scrollZoom: true,
     });
 
@@ -128,6 +134,7 @@ export function AddressForm({
         setIsFetchingLocation(false);
         toast.warning("Unable to retrieve your location");
       },
+      GEOLOCATION_CONFIG,
     );
   };
 
@@ -163,7 +170,8 @@ export function AddressForm({
     if (scrollSmooth) {
       map.current?.flyTo({
         center: [longitude, latitude],
-        zoom: map.current?.getZoom() < zoom ? zoom : map.current?.getZoom(),
+        zoom:
+          map.current?.getZoom() < MAP_ZOOM ? MAP_ZOOM : map.current?.getZoom(),
         speed: 2,
         curve: 1,
         easing: (t) => t,
