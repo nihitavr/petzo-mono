@@ -7,7 +7,7 @@ import AddNewAddressesButton from "../_components/add-new-addresses-button";
 import AddressesList from "../_components/address-list";
 import NoAddressesFallback from "../_components/no-addresses-fallback";
 
-export default async function UserProfile() {
+export default async function AddressessPage() {
   if (!(await auth())?.user) {
     return (
       <Unauthorised
