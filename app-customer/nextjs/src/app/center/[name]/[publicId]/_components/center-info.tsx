@@ -18,7 +18,7 @@ export const CenterInfo = ({
   return (
     <div className={cn("flex flex-col gap-2 overflow-y-auto pt-0", className)}>
       {/* Center name */}
-      <h1 className="line-clamp-2 text-lg font-semibold md:text-xl">
+      <h1 className="line-clamp-2 text-base font-semibold md:text-lg">
         {center?.name}
       </h1>
 
