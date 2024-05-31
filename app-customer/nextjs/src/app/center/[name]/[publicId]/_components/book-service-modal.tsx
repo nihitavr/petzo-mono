@@ -247,8 +247,6 @@ function ServiceBookingForm({
     },
   );
 
-  console.log("slots: ", slots);
-
   // const {
   //   data: addresses,
   //   isLoading: isAddressesLoading,
@@ -487,7 +485,7 @@ function ServiceBookingForm({
           </div>
 
           <AccordionContent className="max-h-54 grid grid-cols-1 border-t py-3">
-            <div className="no-scrollbar overflow-x-auto px-3">
+            <div className="no-scrollbar overflow-x-auto px-3 pb-3">
               <div className="flex w-max items-center gap-2">
                 {slots &&
                   Array.from(slots.entries()).map(([date, dateSlots], idx) => {
@@ -515,7 +513,7 @@ function ServiceBookingForm({
               </div>
             </div>
 
-            <div className="overflow-y-auto">
+            <div className="max-h-72 overflow-y-auto">
               {(() => {
                 const morningSlots = slots
                   ?.get(selectedSlotDate)
@@ -530,7 +528,7 @@ function ServiceBookingForm({
                   ?.filter((slot) => isEvening(slot.startTime));
 
                 return (
-                  <div className="flex flex-col pt-2">
+                  <div className="flex flex-col">
                     {morningSlots?.length && (
                       <div className="space-y-2 p-3">
                         <div className="flex items-center gap-0.5 font-semibold">
@@ -561,7 +559,9 @@ function ServiceBookingForm({
                           {afternoonSlots.map((slot, idx) => (
                             <span
                               key={idx}
-                              className={`cursor-pointer rounded-md border p-1.5 text-xs font-semibold hover:bg-primary/10`}
+                              onClick={() => setSelectedSlot(slot)}
+                              aria-hidden="true"
+                              className={`cursor-pointer rounded-md border p-1.5 text-xs font-semibold ${selectedSlot?.id == slot.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
                             >
                               {convertTime24To12(slot.startTime)}
                             </span>
@@ -579,7 +579,9 @@ function ServiceBookingForm({
                           {eveningSlots.map((slot, idx) => (
                             <span
                               key={idx}
-                              className={`cursor-pointer rounded-md border p-1.5 text-xs font-semibold hover:bg-primary/10`}
+                              onClick={() => setSelectedSlot(slot)}
+                              aria-hidden="true"
+                              className={`cursor-pointer rounded-md border p-1.5 text-xs font-semibold ${selectedSlot?.id == slot.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
                             >
                               {convertTime24To12(slot.startTime)}
                             </span>
