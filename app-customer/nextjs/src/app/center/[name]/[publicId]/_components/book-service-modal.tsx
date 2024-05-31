@@ -123,10 +123,10 @@ export function BookServiceDialog({
               Select pet, address and slot start time to book service.
             </DialogDescription> */}
 
-            <p className="text-xs">Booking</p>
+            <span className="text-xs">Booking</span>
             <div className="flex items-center justify-between">
               <div>
-                <DrawerTitle>{service.name}</DrawerTitle>
+                <DialogTitle>{service.name}</DialogTitle>
                 <span className="-mt-1 text-sm font-semibold text-primary">
                   at {center.name}
                 </span>
@@ -269,7 +269,7 @@ function ServiceBookingForm({
               )}
             </span>
             <div className="w-min">
-              <AccordionTrigger className="w-min py-3" noIcon>
+              <AccordionTrigger className="w-min py-2.5" noIcon>
                 <Button
                   type="button"
                   variant="outline"
@@ -303,35 +303,44 @@ function ServiceBookingForm({
                 </div>
                 {!isAddNewPet ? (
                   <div className="no-scrollbar flex items-center gap-2 overflow-x-auto">
-                    {pets?.map((pet, idx) => (
-                      <div
-                        key={idx}
-                        className={`flex cursor-pointer flex-col gap-1 rounded-lg p-2 ${pet.publicId == selectedPet?.publicId ? "border bg-primary/30" : "hover:bg-primary/10"}`}
-                        onClick={() => {
-                          setTimeout(() => {
-                            setAccordianValue("booking-address");
-                          }, 200);
-                          setSelectedPet(pet);
-                        }}
-                        aria-hidden="true"
-                      >
-                        <div className="relative size-12 overflow-hidden rounded-full bg-foreground/50">
-                          {pet.images?.[0] ? (
-                            <Image
-                              src={pet.images?.[0].url}
-                              fill
-                              className="object-cover"
-                              alt=""
-                            />
-                          ) : (
-                            ""
-                          )}
+                    {pets?.length ? (
+                      pets.map((pet, idx) => (
+                        <div
+                          key={idx}
+                          className={`flex cursor-pointer flex-col gap-1 rounded-lg p-2 ${pet.publicId == selectedPet?.publicId ? "border bg-primary/30" : "hover:bg-primary/10"}`}
+                          onClick={() => {
+                            setTimeout(() => {
+                              setAccordianValue("booking-address");
+                            }, 200);
+                            setSelectedPet(pet);
+                          }}
+                          aria-hidden="true"
+                        >
+                          <div className="relative size-12 overflow-hidden rounded-full bg-foreground/50">
+                            {pet.images?.[0] ? (
+                              <Image
+                                src={pet.images?.[0].url}
+                                fill
+                                className="object-cover"
+                                alt=""
+                              />
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                          <span className="w-full text-center text-sm font-semibold">
+                            {pet.name}
+                          </span>
                         </div>
-                        <span className="w-full text-center text-sm font-semibold">
-                          {pet.name}
-                        </span>
+                      ))
+                    ) : (
+                      <div className="w-full text-center text-sm">
+                        No pets found!
+                        <br /> Click{" "}
+                        <span className="font-semibold">Add New Pet</span> to
+                        create a new pet.
                       </div>
-                    ))}
+                    )}
                   </div>
                 ) : (
                   <div>
@@ -363,7 +372,7 @@ function ServiceBookingForm({
               )}
             </span>
             <div className="w-min">
-              <AccordionTrigger className="w-min py-3" noIcon>
+              <AccordionTrigger className="w-min py-2.5" noIcon>
                 <Button
                   type="button"
                   variant="outline"
@@ -385,9 +394,9 @@ function ServiceBookingForm({
                   </Label>
                   <NewAddessModal onAddNewAddress={() => refetchAddresses()} />
                 </div>
-                <div className="mt-4 flex h-60 flex-col gap-2 overflow-y-auto">
-                  {addresses ? (
-                    addresses?.map((address, idx) => (
+                <div className="mt-4 flex max-h-60 flex-col gap-2 overflow-y-auto">
+                  {addresses?.length ? (
+                    addresses.map((address, idx) => (
                       <div
                         key={idx}
                         className={`flex cursor-pointer flex-col gap-0.5 rounded-lg p-1.5 ${selectedAddress?.id == address.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
@@ -408,10 +417,12 @@ function ServiceBookingForm({
                       </div>
                     ))
                   ) : (
-                    <span className="text-sm">
-                      No address found. Click{" "}
-                      <span className="font-semibold">Add New Address</span>
-                    </span>
+                    <div className="w-full text-center text-sm">
+                      No address found!
+                      <br /> Click{" "}
+                      <span className="font-semibold">Add New Address</span> to
+                      create new address.
+                    </div>
                   )}
                 </div>
               </div>
@@ -439,7 +450,7 @@ function ServiceBookingForm({
               </span>
             </span>
             <div className="w-min">
-              <AccordionTrigger className="w-min py-3" noIcon>
+              <AccordionTrigger className="w-min py-2.5" noIcon>
                 <Button
                   type="button"
                   variant="outline"
