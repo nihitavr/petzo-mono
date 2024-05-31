@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
 import { WiDaySunny, WiSunrise } from "react-icons/wi";
 
@@ -464,9 +464,20 @@ function ServiceBookingForm({
           >
             <span className="text-sm font-semibold">
               Start Time:{" "}
-              <span className="whitespace-nowrap text-primary">
-                Tue 25th May 10:30 PM
-              </span>
+              {selectedSlot ? (
+                <span className="text-primary">
+                  {format(
+                    parse(
+                      selectedSlot.startTime,
+                      "HH:mm:ss",
+                      new Date(selectedSlot.date),
+                    ),
+                    "EEE do MMM, h:mm a",
+                  )}
+                </span>
+              ) : (
+                <span className="text-destructive">Not Selected</span>
+              )}
             </span>
             <div className="w-min">
               <AccordionTrigger className="w-min py-2.5" noIcon>
@@ -539,7 +550,12 @@ function ServiceBookingForm({
                           {morningSlots.map((slot, idx) => (
                             <span
                               key={idx}
-                              onClick={() => setSelectedSlot(slot)}
+                              onClick={() => {
+                                setSelectedSlot(slot);
+                                setTimeout(() => {
+                                  setAccordianValue("");
+                                }, 200);
+                              }}
                               aria-hidden="true"
                               className={`cursor-pointer rounded-md border p-1.5 text-xs font-semibold ${selectedSlot?.id == slot.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
                             >
@@ -559,7 +575,12 @@ function ServiceBookingForm({
                           {afternoonSlots.map((slot, idx) => (
                             <span
                               key={idx}
-                              onClick={() => setSelectedSlot(slot)}
+                              onClick={() => {
+                                setSelectedSlot(slot);
+                                setTimeout(() => {
+                                  setAccordianValue("");
+                                }, 200);
+                              }}
                               aria-hidden="true"
                               className={`cursor-pointer rounded-md border p-1.5 text-xs font-semibold ${selectedSlot?.id == slot.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
                             >
@@ -579,7 +600,12 @@ function ServiceBookingForm({
                           {eveningSlots.map((slot, idx) => (
                             <span
                               key={idx}
-                              onClick={() => setSelectedSlot(slot)}
+                              onClick={() => {
+                                setSelectedSlot(slot);
+                                setTimeout(() => {
+                                  setAccordianValue("");
+                                }, 200);
+                              }}
                               aria-hidden="true"
                               className={`cursor-pointer rounded-md border p-1.5 text-xs font-semibold ${selectedSlot?.id == slot.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
                             >
