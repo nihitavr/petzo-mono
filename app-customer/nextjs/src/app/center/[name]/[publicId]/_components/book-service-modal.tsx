@@ -3,10 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import {
-  getFullFormattedAddresses,
-  getPlaceFormattedAddresses,
-} from "node_modules/@petzo/utils/src/addresses.utils";
+import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
 
 import type {
   Center,
@@ -52,9 +49,9 @@ import {
   getServiceBookingRelativeUrl,
 } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
-import NewAddessModal from "./new-address-dialog";
+import NewAddessModal from "./add-address-modal";
 
-export function AddServiceDialog({
+export function BookServiceDialog({
   defaultopen = false,
   service,
   center,

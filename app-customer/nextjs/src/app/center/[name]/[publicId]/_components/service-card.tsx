@@ -7,8 +7,8 @@ import { cn } from "@petzo/ui/lib/utils";
 
 import { COLOR_MAP } from "~/lib/constants";
 import { getCommaPrice } from "~/lib/utils/price.utils";
-import { AddServiceDialog } from "./add-service-dialog";
-import { ServiceDetailsDialog } from "./service-details-dialog";
+import { BookServiceDialog } from "./book-service-modal";
+import { ServiceDetailsDialog } from "./service-details-modal";
 
 export default function ServiceCard({
   service,
@@ -64,7 +64,7 @@ export default function ServiceCard({
         )}
 
         {/* TODO:  */}
-        <AddServiceDialog service={service} center={center} user={user} />
+        <BookServiceDialog service={service} center={center} user={user} />
       </div>
     </div>
   );
