@@ -57,7 +57,7 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
           {/* Area */}
           <div className="flex items-center gap-1">
             <GrLocation />
-            <span className="line-clamp-1 text-sm font-medium capitalize">
+            <span className="line-clamp-1 text-xs font-medium capitalize md:text-sm">
               {center.centerAddress.area.name}
             </span>
           </div>

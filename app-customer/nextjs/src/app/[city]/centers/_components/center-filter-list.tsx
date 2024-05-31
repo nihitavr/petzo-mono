@@ -1,11 +1,11 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 
 import type { Center } from "@petzo/db";
+import { useInView } from "@petzo/ui/components/in-view";
 
 import { CENTERS_LIST_PAGE_LIMIT } from "~/lib/constants";
-import { useOnScreen } from "~/lib/hooks/screen.hooks";
 import { api } from "~/trpc/react";
 import { LoadingCentersList } from "../loading";
 import CenterCard from "./center-card";
@@ -32,9 +32,9 @@ export const CenterFilterList = ({
   const [isLastPage, setIsLastPage] = useState(false);
   const [centers, setCenters] = useState<Center[]>(initialCenters);
 
-  const [loadingRef, visible] = useOnScreen({
-    threshold: 0,
-    rootMargin: "300px",
+  const loadingRef = useRef<HTMLDivElement>(null);
+  const visible = useInView(loadingRef, {
+    margin: "200px",
   });
 
   const {
@@ -64,10 +64,14 @@ export const CenterFilterList = ({
     }
 
     // If the number of centers fetched is less than the limit, it means it's the last page.
-    if (newCenters && newCenters.length < CENTERS_LIST_PAGE_LIMIT) {
+    if (
+      pageNumber > 0 &&
+      newCenters &&
+      newCenters.length < CENTERS_LIST_PAGE_LIMIT
+    ) {
       setIsLastPage(true);
     }
-  }, [isLoading]);
+  }, [isLoading, pageNumber]);
 
   // When the loadingRef is visible, increment the page number to fetch the next page.
   useEffect(() => {

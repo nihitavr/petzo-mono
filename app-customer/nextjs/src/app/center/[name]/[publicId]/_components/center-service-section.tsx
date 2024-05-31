@@ -29,7 +29,7 @@ const ServicesSection = ({
             alt=""
           />
         )}
-        <h4 className="text-center text-xl font-semibold md:text-2xl">
+        <h4 className="text-center text-lg font-semibold md:text-xl">
           {serviceTypeInfo.name}
         </h4>
       </div>
@@ -39,7 +39,7 @@ const ServicesSection = ({
           return (
             // Service Card Container
             <ServiceCard
-              className={`${services.length == 1 ? "col-span-2" : "col-span-1"} rounded-xl bg-muted shadow-md`}
+              className={`${services.length == 1 ? "col-span-2" : "col-span-1"} rounded-md bg-muted shadow-m-sm`}
               key={`services-${serviceTypeInfo.publicId}-${service.id}`}
               service={service}
               center={center}

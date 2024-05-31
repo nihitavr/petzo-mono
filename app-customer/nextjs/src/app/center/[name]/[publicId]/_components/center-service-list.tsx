@@ -1,9 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
 
-import type { Center, CustomerUser, Service } from "@petzo/db";
+import type { Center, CustomerUser } from "@petzo/db";
 import { SERVICES_OFFERED } from "@petzo/constants";
 
 import {
@@ -11,7 +10,6 @@ import {
   getServiceTypeToServicesByCenterMap,
 } from "~/lib/utils/center.utils";
 import ServicesSection from "./center-service-section";
-import ServiceCard from "./service-card";
 
 export default function CenterServiceList({
   center,

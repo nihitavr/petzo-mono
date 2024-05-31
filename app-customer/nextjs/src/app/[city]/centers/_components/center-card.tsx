@@ -18,18 +18,18 @@ export default function CenterCard({ center }: { center: Center }) {
   const lowestPriceService = getLowertCostService(center);
 
   return (
-    <div className="flex flex-row rounded-xl bg-primary/[7%]1 bg-muted md:border md:shadow-sm">
+    <div className="flex flex-row rounded-lg bg-muted md:border md:shadow-sm">
       <div className="flex h-44 w-full gap-2 md:h-60">
         {/* Center Image */}
         <Link
           href={getCenterRelativeUrl(center)}
-          className="relative h-full w-2/5 cursor-pointer overflow-hidden rounded-xl"
+          className="relative h-full w-2/5 cursor-pointer overflow-hidden rounded-md"
         >
           {thumbnail ? (
             <Image src={thumbnail} alt="" fill style={{ objectFit: "cover" }} />
           ) : (
             <div
-              className={`flex size-full items-center justify-center rounded-lg text-center ${COLOR_MAP[center.name[0]!.toLowerCase()]?.bgColor} bg-opacity-75`}
+              className={`flex size-full items-center justify-center rounded-md text-center ${COLOR_MAP[center.name[0]!.toLowerCase()]?.bgColor} bg-opacity-75`}
             >
               <div
                 className={`text-7xl ${COLOR_MAP[center.name[0]!.toLowerCase()]?.textColor}`}
@@ -45,13 +45,13 @@ export default function CenterCard({ center }: { center: Center }) {
           {/* Center Name */}
           <Link
             href={getCenterRelativeUrl(center)}
-            className="line-clamp-2 cursor-pointer text-base font-semibold hover:underline md:text-xl"
+            className="line-clamp-2 cursor-pointer text-sm font-semibold hover:underline md:text-base"
           >
             {center.name}
           </Link>
 
           {/* Rating and Reviews */}
-          <div className="md:text-md flex items-center gap-2 text-sm text-foreground/80">
+          <div className="flex items-center gap-2 text-sm text-foreground/80 md:text-base">
             <Rating rating={center.averageRating} />
             <span className="line-clamp-1 text-xs font-semibold">
               (Google Rating)
@@ -61,7 +61,7 @@ export default function CenterCard({ center }: { center: Center }) {
           {/* Area */}
           <div className="flex items-center gap-1">
             <GrLocation />
-            <span className="line-clamp-1 text-sm font-medium capitalize md:text-base">
+            <span className="line-clamp-1 text-xs font-medium capitalize md:text-sm">
               {center.centerAddress.area.name}
             </span>
           </div>
@@ -78,10 +78,10 @@ export default function CenterCard({ center }: { center: Center }) {
                 <span className="text-xs capitalize text-foreground/80 md:text-sm">
                   {SERVICES_OFFERED[lowestPriceService.serviceType]?.name}
                 </span>
-                <span>Starting at </span>
+                <span className="text-sm md:text-base">Starting at </span>
               </div>
               <div className="text-md flex items-center justify-between md:text-lg">
-                <span className="text-lg font-semibold md:text-xl">
+                <span className="text-base font-semibold md:text-lg">
                   &#8377; {lowestPriceService.price}
                 </span>
               </div>

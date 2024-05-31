@@ -172,7 +172,9 @@ export function BookServiceDialog({
           <p className="text-xs">Booking</p>
           <div className="flex items-center justify-between">
             <div>
-              <DrawerTitle>{service.name}</DrawerTitle>
+              <DrawerTitle className="text-base leading-none">
+                {service.name}
+              </DrawerTitle>
               <span className="-mt-1 text-sm font-semibold text-primary">
                 at {center.name}
               </span>
@@ -188,9 +190,6 @@ export function BookServiceDialog({
               </div>
             )}
           </div>
-          {/* <DrawerDescription>
-            Select pet, address and slot start time to book service.
-          </DrawerDescription> */}
         </DrawerHeader>
         <ServiceBookingForm service={service} user={user} className="px-4" />
         <DrawerFooter className="flex w-full flex-row items-center gap-1 pt-2">
@@ -310,7 +309,7 @@ function ServiceBookingForm({
                           className={`flex cursor-pointer flex-col gap-1 rounded-lg p-2 ${pet.publicId == selectedPet?.publicId ? "border bg-primary/30" : "hover:bg-primary/10"}`}
                           onClick={() => {
                             setTimeout(() => {
-                              setAccordianValue("booking-address");
+                              setAccordianValue("slot-starttime-selection");
                             }, 200);
                             setSelectedPet(pet);
                           }}
@@ -359,7 +358,7 @@ function ServiceBookingForm({
         </AccordionItem>
 
         {/* Address */}
-        <AccordionItem value="booking-address" className="rounded-lg border">
+        {/* <AccordionItem value="booking-address" className="rounded-lg border">
           <div
             className={`flex w-full items-center justify-between px-2 ${accordianValue == "booking-address" ? "rounded-t-lg bg-primary/10" : ""}`}
           >
@@ -433,7 +432,7 @@ function ServiceBookingForm({
               </div>
             )}
           </AccordionContent>
-        </AccordionItem>
+        </AccordionItem> */}
 
         {/* Start Time */}
         <AccordionItem
