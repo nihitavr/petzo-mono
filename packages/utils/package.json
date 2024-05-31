@@ -24,6 +24,7 @@
   "dependencies": {
     "@petzo/constants": "workspace:*",
     "@petzo/db": "workspace:*",
+    "date-fns": "^3.6.0",
     "nanoid": "^5.0.7"
   },
   "devDependencies": {

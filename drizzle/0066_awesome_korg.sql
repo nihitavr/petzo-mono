@@ -1,0 +1,1 @@
+ALTER TABLE "slot" ADD COLUMN "date" date NOT NULL;

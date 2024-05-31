@@ -37,7 +37,7 @@ export const schema = {
   ...staff,
   ...state,
   ...vet,
-  ...slotAvailabilities,
+  // ...slotAvailabilities,
   ...petMedicalRecords,
 };
 

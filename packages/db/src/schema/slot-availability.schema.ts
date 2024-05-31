@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { index, integer, serial, timestamp } from "drizzle-orm/pg-core";
+import { date, index, integer, serial, timestamp } from "drizzle-orm/pg-core";
 
 import { pgTable } from "./_table";
 import { slots } from "./slot.schema";
@@ -11,7 +11,7 @@ export const slotAvailabilities = pgTable(
     slotId: integer("slot_id")
       .notNull()
       .references(() => slots.id),
-    date: timestamp("date").notNull(),
+    date: date("date").notNull(),
     totalSlots: integer("total_slots").notNull(),
     availableSlots: integer("available_slots").notNull(),
     createdAt: timestamp("created_at")

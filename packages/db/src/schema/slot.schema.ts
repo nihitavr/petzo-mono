@@ -1,5 +1,13 @@
 import { relations, sql } from "drizzle-orm";
-import { index, integer, serial, time, timestamp } from "drizzle-orm/pg-core";
+import {
+  date,
+  index,
+  integer,
+  serial,
+  time,
+  timestamp,
+  unique,
+} from "drizzle-orm/pg-core";
 
 import { pgTable } from "./_table";
 import { centers } from "./center.schema";
@@ -16,8 +24,8 @@ export const slots = pgTable(
     centerId: integer("center_id")
       .notNull()
       .references(() => centers.id),
+    date: date("date").notNull(),
     startTime: time("start_time").notNull(),
-    endTime: time("end_time").notNull(),
     totalSlots: integer("total_slots").notNull(),
     availableSlots: integer("available_slots").notNull(),
     createdAt: timestamp("created_at")
@@ -31,6 +39,11 @@ export const slots = pgTable(
     serviceCenterIdx: index("slots_service_center_idx").on(
       slot.serviceId,
       slot.centerId,
+    ),
+    serviceIdDateStarttimeIdx: unique("slots_service_id_date_starttime_idx").on(
+      slot.serviceId,
+      slot.date,
+      slot.startTime,
     ),
   }),
 );

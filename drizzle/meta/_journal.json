@@ -414,6 +414,69 @@
       "when": 1716906992801,
       "tag": "0058_clean_forge",
       "breakpoints": true
+    },
+    {
+      "idx": 59,
+      "version": "5",
+      "when": 1717166572781,
+      "tag": "0059_hesitant_betty_brant",
+      "breakpoints": true
+    },
+    {
+      "idx": 60,
+      "version": "5",
+      "when": 1717169393236,
+      "tag": "0060_dark_alice",
+      "breakpoints": true
+    },
+    {
+      "idx": 61,
+      "version": "5",
+      "when": 1717169475405,
+      "tag": "0061_outgoing_black_widow",
+      "breakpoints": true
+    },
+    {
+      "idx": 62,
+      "version": "5",
+      "when": 1717169921166,
+      "tag": "0062_equal_killer_shrike",
+      "breakpoints": true
+    },
+    {
+      "idx": 63,
+      "version": "5",
+      "when": 1717169974105,
+      "tag": "0063_aromatic_molecule_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 64,
+      "version": "5",
+      "when": 1717170100628,
+      "tag": "0064_soft_living_tribunal",
+      "breakpoints": true
+    },
+    {
+      "idx": 65,
+      "version": "5",
+      "when": 1717170286493,
+      "tag": "0065_elite_landau",
+      "breakpoints": true
+    },
+    {
+      "idx": 66,
+      "version": "5",
+      "when": 1717170336532,
+      "tag": "0066_awesome_korg",
+      "breakpoints": true
+    },
+    {
+      "idx": 67,
+      "version": "5",
+      "when": 1717171788397,
+      "tag": "0067_smart_squadron_supreme",
+      "breakpoints": true
     }
   ]
 }

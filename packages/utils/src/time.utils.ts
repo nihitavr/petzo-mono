@@ -1,3 +1,5 @@
+import { isAfter, isBefore, parse } from "date-fns";
+
 export function convertTime24To12(time24: string): string {
   const [hours, minutes] = time24.split(":").map(Number);
 
@@ -26,6 +28,22 @@ export function getNextNDays(n: number): Date[] {
   return dates;
 }
 
+export function getNextNDaysString(n: number): string[] {
+  const dates = [];
+
+  for (let i = 0; i < n; i++) {
+    const date = new Date();
+    date.setDate(date.getDate() + i);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+
+    dates.push(`${year}-${month}-${day}`);
+  }
+
+  return dates;
+}
+
 export function getNthDate(n: number, type?: "start" | "end"): Date {
   const date = new Date();
 
@@ -42,4 +60,26 @@ export function getNthDate(n: number, type?: "start" | "end"): Date {
   }
 
   return date;
+}
+
+export function isMorning(timeString: string) {
+  const time = parse(timeString, "HH:mm:ss", new Date());
+
+  const twelvePM = new Date();
+  twelvePM.setHours(12, 0, 0, 0);
+
+  return isBefore(time, twelvePM);
+}
+
+export function isEvening(timeString: string) {
+  const time = parse(timeString, "HH:mm:ss", new Date());
+
+  const fourPM = new Date();
+  fourPM.setHours(16, 0, 0, 0);
+
+  return isAfter(time, fourPM);
+}
+
+export function isAfternoon(timeString: string) {
+  return !isMorning(timeString) && !isEvening(timeString);
 }
