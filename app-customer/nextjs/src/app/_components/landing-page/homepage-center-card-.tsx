@@ -17,12 +17,12 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
   const lowestPriceService = getLowertCostService(center);
 
   return (
-    <div className="flex flex-row rounded-xl bg-muted shadow-sm md:border">
+    <div className="flex flex-row rounded-md bg-muted shadow-sm md:border">
       <div className="flex h-44 w-full gap-2 md:h-60">
         {/* Center Image */}
         <Link
           href={getCenterRelativeUrl(center)}
-          className="relative h-full w-2/5 cursor-pointer overflow-hidden rounded-xl"
+          className="relative h-full w-2/5 cursor-pointer overflow-hidden rounded-md"
         >
           {thumbnail ? (
             <Image src={thumbnail} alt="" fill style={{ objectFit: "cover" }} />

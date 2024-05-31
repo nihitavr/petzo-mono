@@ -52,6 +52,7 @@ import {
   getServiceBookingRelativeUrl,
 } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
+import NewAddessModal from "./new-address-dialog";
 
 export function AddServiceDialog({
   defaultopen = false,
@@ -71,9 +72,9 @@ export function AddServiceDialog({
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const onOpenChange = (open: boolean) => {
+    setOpen(open);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (!open && window.history.state.dialogOpen) window.history.back();
-    setOpen(open);
   };
 
   useEffect(() => {
@@ -166,7 +167,7 @@ export function AddServiceDialog({
           <Button variant="primary">Add</Button>
         </div>
       </DrawerTrigger>
-      <DrawerContent className="h-[90vh]">
+      <DrawerContent className="h-[90vh] rounded-t-md">
         <DrawerClose className="absolute right-4 top-2" asChild>
           <span className="text-xl font-semibold">X</span>
         </DrawerClose>
@@ -230,10 +231,13 @@ function ServiceBookingForm({
       enabled: !!user,
     });
 
-  const { data: addresses, isLoading: isAddressesLoading } =
-    api.customerAddress.getAddresses.useQuery(undefined, {
-      enabled: !!user,
-    });
+  const {
+    data: addresses,
+    isLoading: isAddressesLoading,
+    refetch: refetchAddresses,
+  } = api.customerAddress.getAddresses.useQuery(undefined, {
+    enabled: !!user,
+  });
 
   if (isPetsLoading || isAddressesLoading) {
     return (
@@ -293,7 +297,7 @@ function ServiceBookingForm({
                     onClick={() => {
                       setIsAddNewPet((isAddNewPet) => !isAddNewPet);
                     }}
-                    variant="outline"
+                    variant="secondary"
                     size="sm"
                     className="h-6"
                   >
@@ -382,16 +386,9 @@ function ServiceBookingForm({
                   <Label className="text-sm font-semibold text-foreground/80">
                     Addresses*
                   </Label>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-6"
-                  >
-                    Add Address
-                  </Button>
+                  <NewAddessModal onAddNewAddress={() => refetchAddresses()} />
                 </div>
-                <div className="mt-4 flex flex-col gap-2">
+                <div className="mt-4 flex h-60 flex-col gap-2 overflow-y-auto">
                   {addresses?.map((address, idx) => (
                     <div
                       key={idx}

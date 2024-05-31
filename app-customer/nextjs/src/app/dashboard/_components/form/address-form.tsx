@@ -46,8 +46,10 @@ mapboxgl.accessToken = env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
 export function AddressForm({
   customerAddresses,
+  onFormSubmit,
 }: {
   customerAddresses?: CustomerAddresses;
+  onFormSubmit?: () => void;
 }) {
   const router = useRouter();
 
@@ -227,7 +229,10 @@ export function AddressForm({
     }
 
     toast.success(message);
-    router.push("/dashboard/addresses");
+
+    if (!onFormSubmit) {
+      router.push("/dashboard/addresses");
+    }
     router.refresh();
   };
 
@@ -247,6 +252,8 @@ export function AddressForm({
         );
       },
     });
+
+    if (onFormSubmit) onFormSubmit();
 
     setIsSubmitting(false);
   };

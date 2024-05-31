@@ -89,7 +89,7 @@ export function ServiceDetailsDialog({
             View Details {">"}
           </Button>
         </DialogTrigger>
-        <DialogContent className="rounded- max-h-[90vh] rounded-lg p-0 pb-[50px] sm:max-w-[425px] md:max-h-[90vh]">
+        <DialogContent className="max-h-[90vh] rounded-md p-0 pb-[50px] sm:max-w-[425px] md:max-h-[90vh]">
           <div className="max-h-[90vh] overflow-y-auto p-3 md:max-h-[90vh] md:p-4">
             <div className="flex flex-col">
               <ServiceImagesCasousel
@@ -131,7 +131,7 @@ export function ServiceDetailsDialog({
           View Details {">"}
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="max-h-[90vh] rounded-lg p-0 sm:max-w-[425px] md:max-h-[90vh]">
+      <DrawerContent className="max-h-[90vh] rounded-t-md p-0 sm:max-w-[425px] md:max-h-[90vh]">
         <DrawerClose className="absolute right-4 top-2 z-10" asChild>
           <span className="text-xl font-semibold">X</span>
         </DrawerClose>
