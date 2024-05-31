@@ -27,6 +27,9 @@ export const centers = pgTable(
     ratingCount: integer("rating_count").default(0).notNull(),
     reviewCount: integer("review_count").default(0).notNull(),
     phoneNumber: varchar("phone_number", { length: 15 }),
+    servicesConfig: json("service_config").$type<{
+      homeGrooming: { all: { noOfParallelServices: number } };
+    }>(),
     centerAddressId: integer("center_address_id")
       .notNull()
       .references(() => centerAddresses.id),

@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { format } from "date-fns";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
+import { WiDaySunny, WiSunrise } from "react-icons/wi";
 
 import type {
   Center,
@@ -11,6 +13,7 @@ import type {
   CustomerUser,
   Pet,
   Service,
+  Slot,
 } from "@petzo/db";
 import {
   Accordion,
@@ -41,6 +44,12 @@ import { Input } from "@petzo/ui/components/input";
 import { Label } from "@petzo/ui/components/label";
 import { Skeleton } from "@petzo/ui/components/skeleton";
 import { cn } from "@petzo/ui/lib/utils";
+import {
+  convertTime24To12,
+  isAfternoon,
+  isEvening,
+  isMorning,
+} from "@petzo/utils/time";
 
 import SignIn from "~/app/_components/sign-in";
 import { useMediaQuery } from "~/lib/hooks/screen.hooks";
@@ -215,27 +224,40 @@ function ServiceBookingForm({
 }) {
   const [isAddNewPet, setIsAddNewPet] = useState(false);
   const [accordianValue, setAccordianValue] = useState("pet-details");
+  // const [accordianValue, setAccordianValue] = useState("pet-details");
 
   const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
-  const [selectedAddress, setSelectedAddress] =
-    useState<CustomerAddresses>(null);
+  // const [selectedAddress, setSelectedAddress] =
+  //   useState<CustomerAddresses>(null);
 
-  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
+  const [selectedSlotDate, setSelectedSlotDate] = useState<string>(
+    format(new Date(), "yyyy-MM-dd"),
+  );
 
   const { data: pets, isLoading: isPetsLoading } =
     api.pet.getPetProfiles.useQuery(undefined, {
       enabled: !!user,
     });
 
-  const {
-    data: addresses,
-    isLoading: isAddressesLoading,
-    refetch: refetchAddresses,
-  } = api.customerAddress.getAddresses.useQuery(undefined, {
-    enabled: !!user,
-  });
+  const { data: slots, isLoading: isSlotsLoading } = api.slot.getSlots.useQuery(
+    { serviceId: service.id },
+    {
+      enabled: !!user,
+    },
+  );
 
-  if (isPetsLoading || isAddressesLoading) {
+  console.log("slots: ", slots);
+
+  // const {
+  //   data: addresses,
+  //   isLoading: isAddressesLoading,
+  //   refetch: refetchAddresses,
+  // } = api.customerAddress.getAddresses.useQuery(undefined, {
+  //   enabled: !!user,
+  // });
+
+  if (isPetsLoading || isSlotsLoading) {
     return (
       <div className="flex flex-col gap-2 px-4 md:px-0">
         <Skeleton className="h-36 w-full" />
@@ -464,8 +486,111 @@ function ServiceBookingForm({
             </div>
           </div>
 
-          <AccordionContent className="border-t px-2 pt-3">
-            <div className="h-32">This is slot content</div>
+          <AccordionContent className="max-h-54 grid grid-cols-1 border-t py-3">
+            <div className="no-scrollbar overflow-x-auto px-3">
+              <div className="flex w-max items-center gap-2">
+                {slots &&
+                  Array.from(slots.entries()).map(([date, dateSlots], idx) => {
+                    const availableSlots = dateSlots.filter(
+                      (slot) => slot.availableSlots,
+                    );
+
+                    return (
+                      <div
+                        onClick={() => setSelectedSlotDate(date)}
+                        aria-hidden="true"
+                        className={`flex flex-shrink-0 cursor-pointer flex-col items-center gap-0.5 rounded-md border px-2 py-1 text-xs ${selectedSlotDate == date ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                        key={idx}
+                      >
+                        <span className="font-semibold">
+                          {format(date, "EEE, d MMM")}
+                        </span>
+                        <span className="font-medium text-green-600">
+                          {availableSlots.length} available
+                        </span>
+                      </div>
+                    );
+                  })}
+                {/* <div>This is slot content</div> */}
+              </div>
+            </div>
+
+            <div className="overflow-y-auto">
+              {(() => {
+                const morningSlots = slots
+                  ?.get(selectedSlotDate)
+                  ?.filter((slot) => isMorning(slot.startTime));
+
+                const afternoonSlots = slots
+                  ?.get(selectedSlotDate)
+                  ?.filter((slot) => isAfternoon(slot.startTime));
+
+                const eveningSlots = slots
+                  ?.get(selectedSlotDate)
+                  ?.filter((slot) => isEvening(slot.startTime));
+
+                return (
+                  <div className="flex flex-col pt-2">
+                    {morningSlots?.length && (
+                      <div className="space-y-2 p-3">
+                        <div className="flex items-center gap-0.5 font-semibold">
+                          <WiSunrise size={25} />
+                          <span>Morning</span>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {morningSlots.map((slot, idx) => (
+                            <span
+                              key={idx}
+                              onClick={() => setSelectedSlot(slot)}
+                              aria-hidden="true"
+                              className={`cursor-pointer rounded-md border p-1.5 text-xs font-semibold ${selectedSlot?.id == slot.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                            >
+                              {convertTime24To12(slot.startTime)}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {afternoonSlots?.length && (
+                      <div className="space-y-2 p-3">
+                        <div className="flex items-center gap-0.5 font-semibold">
+                          <WiDaySunny size={25} />
+                          <span>Afternoon</span>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {afternoonSlots.map((slot, idx) => (
+                            <span
+                              key={idx}
+                              className={`cursor-pointer rounded-md border p-1.5 text-xs font-semibold hover:bg-primary/10`}
+                            >
+                              {convertTime24To12(slot.startTime)}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {eveningSlots?.length && (
+                      <div className="space-y-2 p-3">
+                        <div className="flex items-center gap-0.5 font-semibold">
+                          <WiDaySunny size={25} />
+                          <span>Evening</span>
+                        </div>{" "}
+                        <div className="flex flex-wrap gap-2">
+                          {eveningSlots.map((slot, idx) => (
+                            <span
+                              key={idx}
+                              className={`cursor-pointer rounded-md border p-1.5 text-xs font-semibold hover:bg-primary/10`}
+                            >
+                              {convertTime24To12(slot.startTime)}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+            </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>

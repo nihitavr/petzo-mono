@@ -8,6 +8,7 @@ import { petRouter } from "./router/pet.router";
 import { ratingsRouter } from "./router/rating.router";
 import { reviewsRouter } from "./router/reviews.router";
 import { serviceRouter } from "./router/service.router";
+import { slotRouter } from "./router/slot.router";
 import { userRouter } from "./router/user.router";
 import { createTRPCRouter } from "./trpc";
 
@@ -23,6 +24,7 @@ export const appRouter = createTRPCRouter({
   reviews: reviewsRouter,
   ratings: ratingsRouter,
   customerAddress: customerAddressRouter,
+  slot: slotRouter,
 });
 
 // export type definition of API

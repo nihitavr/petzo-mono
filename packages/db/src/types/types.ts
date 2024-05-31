@@ -49,6 +49,7 @@ export type CenterAddress = InferResultType<"centerAddresses"> & {
 // Service Type
 export type Service = InferResultType<"services"> & {
   slots?: Slot[];
+  center?: InferResultType<"centers">;
 };
 
 // Slot Type

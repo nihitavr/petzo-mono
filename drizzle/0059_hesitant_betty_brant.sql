@@ -1,0 +1,1 @@
+ALTER TABLE "center" ADD COLUMN "service_config" json;

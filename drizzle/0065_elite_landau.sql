@@ -1,0 +1,1 @@
+ALTER TABLE "slot_availability" ALTER COLUMN "date" SET DATA TYPE date;

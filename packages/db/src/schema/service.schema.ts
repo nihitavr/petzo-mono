@@ -6,6 +6,7 @@ import {
   pgEnum,
   serial,
   text,
+  time,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
@@ -32,6 +33,8 @@ export const services = pgTable(
     serviceType: serviceTypeEnum("service_type").notNull(),
     price: integer("price").notNull(),
     images: json("images").$type<{ url: string }[]>(),
+    startTime: time("start_time").default("09:00").notNull(),
+    startTimeEnd: time("start_time_end").default("17:00").notNull(),
     description: text("description"),
     centerId: integer("center_id")
       .notNull()

@@ -1,0 +1,1 @@
+ALTER TABLE "slot" ADD CONSTRAINT "slots_service_id_date_starttime_idx" UNIQUE("service_id","date","start_time");

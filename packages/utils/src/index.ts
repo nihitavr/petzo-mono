@@ -119,5 +119,6 @@ export function generatePublicId(size = 15) {
   return nanoid(size);
 }
 
+export * as timeUtils from "./time.utils";
 export * as stringUtils from "./string.utils";
 export * as mapUtils from "./addresses.utils";
