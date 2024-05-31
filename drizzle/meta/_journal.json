@@ -477,6 +477,13 @@
       "when": 1717171788397,
       "tag": "0067_smart_squadron_supreme",
       "breakpoints": true
+    },
+    {
+      "idx": 68,
+      "version": "5",
+      "when": 1717181438738,
+      "tag": "0068_nosy_blazing_skull",
+      "breakpoints": true
     }
   ]
 }

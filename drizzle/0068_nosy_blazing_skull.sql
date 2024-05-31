@@ -1,0 +1,1 @@
+DROP TABLE "slot_availability";

@@ -12,7 +12,6 @@ import {
 import { pgTable } from "./_table";
 import { centers } from "./center.schema";
 import { services } from "./service.schema";
-import { slotAvailabilities } from "./slot-availability.schema";
 
 export const slots = pgTable(
   "slot",
@@ -53,5 +52,4 @@ export const slotRelations = relations(slots, ({ one, many }) => ({
     fields: [slots.serviceId],
     references: [services.id],
   }),
-  slotAvailabilities: many(slotAvailabilities),
 }));
