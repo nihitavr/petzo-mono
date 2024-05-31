@@ -1,6 +1,17 @@
+"use client";
+
 import { useState } from "react";
 
 import { Button } from "@petzo/ui/components/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@petzo/ui/components/dialog";
 import {
   Drawer,
   DrawerClose,
@@ -10,13 +21,38 @@ import {
 } from "@petzo/ui/components/drawer";
 
 import { AddressForm } from "~/app/dashboard/_components/form/address-form";
+import { useMediaQuery } from "~/lib/hooks/screen.hooks";
 
 export default function NewAddessModal({
   onAddNewAddress,
 }: {
   onAddNewAddress: () => void;
 }) {
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
   const [open, setOpen] = useState(false);
+
+  if (isDesktop)
+    return (
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button variant="secondary" className="h-6" size="sm">
+            Add New Address
+          </Button>
+        </DialogTrigger>
+        <DialogContent
+          shouldOverlay={false}
+          className="no-scrollbar mb-5 h-[90vh] overflow-y-auto rounded-t-md px-3 pb-0"
+        >
+          <AddressForm
+            onFormSubmit={() => {
+              onAddNewAddress();
+              setOpen(false);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
+    );
 
   return (
     <Drawer open={open} onOpenChange={setOpen} shouldScaleBackground={false}>
@@ -25,11 +61,14 @@ export default function NewAddessModal({
           Add New Address
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-[90vh] rounded-t-md px-2">
+      <DrawerContent
+        shouldOverlay={false}
+        className="h-[90vh] rounded-t-md px-2"
+      >
         <DrawerClose className="absolute right-4 top-2" asChild>
           <span className="text-xl font-semibold">X</span>
         </DrawerClose>
-        <div className="no-scrollbar overflow-y-auto pb-10">
+        <div className="no-scrollbar relative overflow-y-auto pb-10">
           <AddressForm
             onFormSubmit={() => {
               onAddNewAddress();

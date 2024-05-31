@@ -232,8 +232,8 @@ export function AddressForm({
 
     if (!onFormSubmit) {
       router.push("/dashboard/addresses");
+      router.refresh();
     }
-    router.refresh();
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
