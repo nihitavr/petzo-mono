@@ -6,6 +6,19 @@ import { customerAddressValidator } from "@petzo/validators";
 import { protectedProcedure } from "../trpc";
 
 export const customerAddressRouter = {
+  deleteAddress: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.db
+        .delete(schema.customerAddresses)
+        .where(
+          and(
+            eq(schema.customerAddresses.id, input.id),
+            eq(schema.customerAddresses.customerUserId, ctx.session.user.id),
+          ),
+        );
+    }),
+
   upsertAddress: protectedProcedure
     .input(customerAddressValidator.CustomerAddressForm)
     .mutation(({ ctx, input }) => {

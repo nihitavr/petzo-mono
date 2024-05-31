@@ -4,6 +4,8 @@ import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/address
 import type { CustomerAddresses } from "@petzo/db";
 import { Button } from "@petzo/ui/components/button";
 
+import DeleteAddressButton from "./delete-address-button";
+
 export default async function AddressesList({
   addresses: addresses,
 }: {
@@ -16,9 +18,10 @@ export default async function AddressesList({
           <div key={idx} className="flex w-full flex-col gap-1 border-b py-6">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold">{address.name}</h3>
-              <div>
+              <div className="flex items-center gap-2">
+                <DeleteAddressButton addressId={address.id} />
                 <Link href={`/dashboard/addresses/${address.id}`}>
-                  <Button variant="outline" size="sm" className="h-6">
+                  <Button variant="outline" size="sm" className="h-6 ">
                     Edit
                   </Button>
                 </Link>

@@ -16,7 +16,7 @@ export default function NoAddressesFallback({
         <span>
           No addresses added yet. Click{" "}
           <span className="font-semibold">Add Address </span> to create a new
-          addresses profile.
+          address.
         </span>
       )}
 
