@@ -53,12 +53,7 @@ export type Service = InferResultType<"services"> & {
 };
 
 // Slot Type
-export type Slot = InferResultType<"slots"> & {
-  slotAvailabilities: SlotAvailability[];
-};
-
-// Slot Availability Type
-export type SlotAvailability = InferResultType<"slotAvailabilities">;
+export type Slot = InferResultType<"slots">;
 
 export type Pet = InferResultType<"pets">;
 export type PetMedicalRecord = InferResultType<"petMedicalRecords"> & {

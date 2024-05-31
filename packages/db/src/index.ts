@@ -14,7 +14,6 @@ import * as pet from "./schema/pet.schema";
 import * as ratings from "./schema/rating.schema";
 import * as reviews from "./schema/review.schema";
 import * as service from "./schema/service.schema";
-import * as slotAvailabilities from "./schema/slot-availability.schema";
 import * as slot from "./schema/slot.schema";
 import * as staff from "./schema/staff.schema";
 import * as state from "./schema/state.schema";
@@ -37,7 +36,6 @@ export const schema = {
   ...staff,
   ...state,
   ...vet,
-  // ...slotAvailabilities,
   ...petMedicalRecords,
 };
 
