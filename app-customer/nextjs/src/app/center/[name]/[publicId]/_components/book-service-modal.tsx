@@ -386,26 +386,33 @@ function ServiceBookingForm({
                   <NewAddessModal onAddNewAddress={() => refetchAddresses()} />
                 </div>
                 <div className="mt-4 flex h-60 flex-col gap-2 overflow-y-auto">
-                  {addresses?.map((address, idx) => (
-                    <div
-                      key={idx}
-                      className={`flex cursor-pointer flex-col gap-0.5 rounded-lg p-1.5 ${selectedAddress?.id == address.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
-                      onClick={() => {
-                        setTimeout(() => {
-                          setAccordianValue("slot-starttime-selection");
-                        }, 200);
-                        setSelectedAddress(address);
-                      }}
-                      aria-hidden="true"
-                    >
-                      <span className="text-sm font-semibold">
-                        {address.name}
-                      </span>
-                      <span className="line-clamp-2 text-xs text-foreground/70">
-                        {getFullFormattedAddresses(address)}
-                      </span>
-                    </div>
-                  ))}
+                  {addresses ? (
+                    addresses?.map((address, idx) => (
+                      <div
+                        key={idx}
+                        className={`flex cursor-pointer flex-col gap-0.5 rounded-lg p-1.5 ${selectedAddress?.id == address.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                        onClick={() => {
+                          setTimeout(() => {
+                            setAccordianValue("slot-starttime-selection");
+                          }, 200);
+                          setSelectedAddress(address);
+                        }}
+                        aria-hidden="true"
+                      >
+                        <span className="text-sm font-semibold">
+                          {address.name}
+                        </span>
+                        <span className="line-clamp-2 text-xs text-foreground/70">
+                          {getFullFormattedAddresses(address)}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <span className="text-sm">
+                      No address found. Click{" "}
+                      <span className="font-semibold">Add New Address</span>
+                    </span>
+                  )}
                 </div>
               </div>
             ) : (
