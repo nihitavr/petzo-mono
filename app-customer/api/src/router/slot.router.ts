@@ -64,8 +64,6 @@ export const slotRouter = {
         }
       }
 
-      console.log("dateToSlotsMap: ", dateToSlotsMap);
-
       return dateToSlotsMap;
     }),
 };
