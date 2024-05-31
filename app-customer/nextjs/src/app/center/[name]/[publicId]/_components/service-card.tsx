@@ -45,7 +45,7 @@ export default function ServiceCard({
       </div>
 
       {/* Service Image */}
-      <div className="relative min-h-32 w-32 flex-shrink-0 rounded-lg md:min-h-40 md:w-40">
+      <div className="relative min-h-32 w-32 flex-shrink-0 md:min-h-40 md:w-40">
         {service.images?.[0]?.url ? (
           <Image
             src={service.images?.[0]?.url}

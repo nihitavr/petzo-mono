@@ -64,7 +64,7 @@ export const useOnScreen = (
     return () => {
       observer.disconnect();
     };
-  }, [options]); // Dependency array includes options to re-initialize observer if options change
+  }, [options?.rootMargin, options?.threshold]); // Dependency array includes options to re-initialize observer if options change
 
   return [ref, isIntersecting] as const;
 };
