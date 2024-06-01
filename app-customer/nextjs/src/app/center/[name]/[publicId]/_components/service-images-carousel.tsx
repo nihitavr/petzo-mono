@@ -81,8 +81,8 @@ export default function ServiceImagesCasousel({
           })}
       </div>
 
-      {/* {!!images?.length && (
-        <div className="">
+      {!!images?.length && (
+        <div className="hidden md:inline">
           <CarouselPrevious
             className="ml-2"
             canScrollPrev={carouselApi?.canScrollPrev()}
@@ -94,7 +94,7 @@ export default function ServiceImagesCasousel({
             scrollNext={() => carouselApi?.scrollNext()}
           />
         </div>
-      )} */}
+      )}
     </Carousel>
   );
 }
