@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { format, parse } from "date-fns";
@@ -73,6 +73,11 @@ export function BookServiceDialog({
   service: Service;
   user?: CustomerUser;
 }) {
+  const serviceUrl = useMemo(
+    () => getServiceBookingRelativeUrl(service, center),
+    [],
+  );
+
   const pathname = usePathname();
 
   const [open, setOpen] = useState(defaultopen);
@@ -80,42 +85,30 @@ export function BookServiceDialog({
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const onOpenChange = (open: boolean) => {
-    setOpen(open);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (!open && window.history.state.dialogOpen) window.history.back();
+    if (!open && pathname == serviceUrl) window.history.back();
+    setOpen(open);
   };
 
   useEffect(() => {
-    if (pathname == getServiceBookingRelativeUrl(service, center))
-      setOpen(true);
-  }, [pathname, service, center]);
+    if (pathname == serviceUrl) setOpen(true);
+  }, [pathname]);
 
   useEffect(() => {
     const handleBackButton = (event: PopStateEvent) => {
       event.preventDefault();
-
-      if (open) {
-        event.preventDefault();
-        onOpenChange(false);
-      }
+      if (open) onOpenChange(false);
     };
 
     if (open) {
-      const centerPushUrl = `${getCenterRelativeUrl(center)}`;
-      const servicePushUrl = `${getServiceBookingRelativeUrl(service, center)}`;
-
-      if (pathname === servicePushUrl) {
-        window.history.pushState({}, "", centerPushUrl);
-      }
-
-      window.history.pushState({ dialogOpen: true }, "", servicePushUrl);
+      window.history.pushState({}, "", serviceUrl);
       window.addEventListener("popstate", handleBackButton);
     }
 
     return () => {
       window.removeEventListener("popstate", handleBackButton);
     };
-  }, [open, center, service]);
+  }, [open, center?.id, service?.id]);
 
   const serviceImage = service.images?.[0]?.url;
 
