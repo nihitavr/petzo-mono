@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 
 import type { Center, CustomerUser, Service } from "@petzo/db";
@@ -8,7 +9,7 @@ import { cn } from "@petzo/ui/lib/utils";
 import { COLOR_MAP } from "~/lib/constants";
 import { getCommaPrice } from "~/lib/utils/price.utils";
 import { BookServiceDialog } from "./book-service-modal";
-import { ServiceDetailsDialog } from "./service-details-modal";
+import { ServiceDetailsModal } from "./service-details-modal";
 
 export default function ServiceCard({
   service,
@@ -21,10 +22,12 @@ export default function ServiceCard({
   className?: string;
   user?: CustomerUser;
 }) {
+  const [openDetails, setOpenDetails] = useState(false);
+
   return (
     <div className={cn("flex justify-between", className)}>
       {/* Service Info */}
-      <div className="flex flex-col gap-1 p-3">
+      <div className="flex flex-col gap-1 p-2.5">
         <h2 className="line-clamp-2 text-sm font-semibold md:text-base">
           {service.name}
         </h2>
@@ -41,7 +44,12 @@ export default function ServiceCard({
           {service.description}
         </span>
 
-        <ServiceDetailsDialog service={service} center={center} />
+        <ServiceDetailsModal
+          service={service}
+          center={center}
+          open={openDetails}
+          setOpen={setOpenDetails}
+        />
       </div>
 
       {/* Service Image */}
@@ -49,10 +57,11 @@ export default function ServiceCard({
         {service.images?.[0]?.url ? (
           <Image
             src={service.images?.[0]?.url}
+            onClick={() => setOpenDetails(true)}
             fill
             style={{ objectFit: "cover" }}
             alt="Service Image"
-            className="rounded-lg"
+            className="rounded-xl"
             sizes="(min-width: 780px) 160px, 128px"
           />
         ) : (

@@ -56,7 +56,7 @@ export default function ImagesCasousel({
   }, [carouselApi]);
 
   return (
-    <div className="flex w-full flex-col gap-3">
+    <div className="flex w-full flex-col gap-1">
       <Carousel setApi={setCarouselApi}>
         <CarouselContent>
           {images.map((imageUrl, index) => (

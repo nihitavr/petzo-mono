@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { LuX } from "react-icons/lu";
 import { Drawer as DrawerPrimitive } from "vaul";
 
 import { cn } from "@petzo/ui/lib/utils";
@@ -31,7 +32,7 @@ const DrawerOverlay = React.forwardRef<
   <DrawerPrimitive.Overlay
     ref={ref}
     className={cn(
-      `fixed inset-0 z-50  ${shouldOverlay ? "bg-black/80" : ""}`,
+      `fixed inset-0 z-50  ${shouldOverlay ? "bg-black/60" : ""}`,
       className,
     )}
     {...props}
@@ -55,7 +56,14 @@ const DrawerContent = React.forwardRef<
       )}
       {...props}
     >
-      <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
+      {/* Drawer Drag */}
+      {/* <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" /> */}
+      <DrawerClose
+        className="absolute -top-3 right-2 size-10 -translate-y-full rounded-full bg-background p-1"
+        asChild
+      >
+        <LuX className="h-7 w-7" strokeWidth={2.5} />
+      </DrawerClose>
       {children}
     </DrawerPrimitive.Content>
   </DrawerPortal>

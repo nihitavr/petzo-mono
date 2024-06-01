@@ -17,12 +17,12 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
   const lowestPriceService = getLowertCostService(center);
 
   return (
-    <div className="flex flex-row rounded-md bg-muted shadow-sm md:border">
-      <div className="flex h-44 w-full gap-2 md:h-60">
+    <div className="flex flex-row rounded-xl bg-muted md:border">
+      <div className="flex h-44 w-full gap-1 md:h-60">
         {/* Center Image */}
         <Link
           href={getCenterRelativeUrl(center)}
-          className="relative h-full w-2/5 cursor-pointer overflow-hidden rounded-md"
+          className="relative h-full w-2/5 cursor-pointer overflow-hidden rounded-xl"
         >
           {thumbnail ? (
             <Image src={thumbnail} alt="" fill style={{ objectFit: "cover" }} />
@@ -37,7 +37,7 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
         </Link>
 
         {/* Center Details */}
-        <div className="flex w-3/5 flex-col gap-1 py-1.5 pr-2 md:gap-1.5 md:p-2.5">
+        <div className="flex w-3/5 flex-col gap-1 p-1 md:gap-1.5 md:p-2.5">
           {/* Center Name */}
           <Link
             href={getCenterRelativeUrl(center)}
@@ -56,7 +56,7 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
 
           {/* Area */}
           <div className="flex items-center gap-1">
-            <GrLocation />
+            <GrLocation className="size-3.5" />
             <span className="line-clamp-1 text-xs font-medium capitalize md:text-sm">
               {center.centerAddress.area.name}
             </span>

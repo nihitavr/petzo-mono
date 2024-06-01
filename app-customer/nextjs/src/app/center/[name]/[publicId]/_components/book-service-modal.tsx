@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { format, parse } from "date-fns";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
+import { LuX } from "react-icons/lu";
 import { WiDaySunny, WiSunrise } from "react-icons/wi";
 
 import type {
@@ -173,10 +174,14 @@ export function BookServiceDialog({
           <Button variant="primary">Add</Button>
         </div>
       </DrawerTrigger>
-      <DrawerContent className="h-[90vh] rounded-t-md">
-        <DrawerClose className="absolute right-4 top-2" asChild>
-          <span className="text-xl font-semibold">X</span>
+      <DrawerContent className="h-[85vh] rounded-t-2xl">
+        <DrawerClose
+          className="absolute -top-3 right-2 size-10 -translate-y-full rounded-full bg-background bg-white p-1"
+          asChild
+        >
+          <LuX className="h-7 w-7" strokeWidth={2.5} />
         </DrawerClose>
+
         <DrawerHeader className="text-left">
           <p className="text-xs">Booking</p>
           <div className="flex items-center justify-between">
@@ -260,7 +265,7 @@ function ServiceBookingForm({
       <div className="flex flex-col gap-2 px-4 md:px-0">
         <Skeleton className="h-36 w-full" />
         <Skeleton className="h-12 w-full" />
-        <Skeleton className="h-12 w-full" />
+        {/* <Skeleton className="h-12 w-full" /> */}
       </div>
     );
   }
@@ -306,7 +311,7 @@ function ServiceBookingForm({
               <div className="grid gap-4">
                 <div className="flex items-center justify-between">
                   <Label className="text-sm font-semibold text-foreground/80">
-                    Pet Details*
+                    Select Pet*
                   </Label>
                   <Button
                     type="button"

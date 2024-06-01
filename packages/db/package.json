@@ -22,16 +22,16 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "drizzle-orm": "^0.30.4",
     "postgres": "~3.3",
-    "wkx": "^0.5.0"
+    "wkx": "^0.5.0",
+    "drizzle-orm": "^0.31.0"
   },
   "devDependencies": {
     "@petzo/eslint-config": "workspace:*",
     "@petzo/prettier-config": "workspace:*",
     "@petzo/tsconfig": "workspace:*",
     "dotenv-cli": "^7.4.1",
-    "drizzle-kit": "^0.20.14",
+    "drizzle-kit": "^0.22.1",
     "eslint": "^8.57.0",
     "pg": "~8.10",
     "prettier": "^3.2.5",
