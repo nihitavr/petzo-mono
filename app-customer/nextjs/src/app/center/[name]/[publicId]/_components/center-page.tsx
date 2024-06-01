@@ -44,7 +44,7 @@ export default async function CenterPage({ publicId }: { publicId: string }) {
           <ImagesCasousel
             images={imageUrls}
             className="aspect-square w-full"
-            imageClassName="rounded-md border-none"
+            imageClassName="rounded-xl border-none"
           />
         </div>
 

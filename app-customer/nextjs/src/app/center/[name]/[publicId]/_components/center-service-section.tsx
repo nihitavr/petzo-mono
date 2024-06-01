@@ -39,7 +39,7 @@ const ServicesSection = ({
           return (
             // Service Card Container
             <ServiceCard
-              className={`${services.length == 1 ? "col-span-2" : "col-span-1"} rounded-md bg-muted`}
+              className={`${services.length == 1 ? "col-span-2" : "col-span-1"} rounded-xl bg-muted`}
               key={`services-${serviceTypeInfo.publicId}-${service.id}`}
               service={service}
               center={center}

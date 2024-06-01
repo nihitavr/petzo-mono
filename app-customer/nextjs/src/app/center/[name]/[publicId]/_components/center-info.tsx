@@ -16,7 +16,9 @@ export const CenterInfo = ({
   className?: string;
 }) => {
   return (
-    <div className={cn("flex flex-col gap-2 overflow-y-auto pt-0", className)}>
+    <div
+      className={cn("flex flex-col gap-1.5 overflow-y-auto pt-0", className)}
+    >
       {/* Center name */}
       <h1 className="line-clamp-2 text-base font-semibold md:text-lg">
         {center?.name}
@@ -35,8 +37,11 @@ export const CenterInfo = ({
       </div>
 
       {/* Services Provided */}
-      <span className="line-clamp-2 text-sm font-semibold capitalize text-primary md:text-base">
-        {getServicesNamesStr(center)}
+      <span className="space-x-1 text-sm md:text-base">
+        <span>Services:</span>
+        <span className="line-clamp-2 inline text-sm font-semibold capitalize text-primary md:text-base">
+          {getServicesNamesStr(center)}
+        </span>
       </span>
 
       {/* address */}

@@ -81,7 +81,7 @@ export default function ServiceImagesCasousel({
           })}
       </div>
 
-      {!!images?.length && (
+      {/* {!!images?.length && (
         <div className="">
           <CarouselPrevious
             className="ml-2"
@@ -94,7 +94,7 @@ export default function ServiceImagesCasousel({
             scrollNext={() => carouselApi?.scrollNext()}
           />
         </div>
-      )}
+      )} */}
     </Carousel>
   );
 }
