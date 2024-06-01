@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
-import { LuX } from "react-icons/lu";
 
 import type { Center, Service } from "@petzo/db";
 import { Button } from "@petzo/ui/components/button";
@@ -14,7 +13,6 @@ import {
 } from "@petzo/ui/components/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerTrigger,
@@ -39,48 +37,40 @@ export function ServiceDetailsModal({
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
+  const serviceUrl = useMemo(() => getServiceRelativeUrl(service, center), []);
+
   const pathname = usePathname();
   const isDesktop = useMediaQuery("(min-width: 768px)");
-
-  // const [open, setOpen] = useState(false);
 
   const imageUrls = service.images?.map((img) => img.url) ?? [];
 
   const onOpenChange = (open: boolean) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (!open && window.history.state.dialogOpen) window.history.back();
+    if (!open && pathname == serviceUrl) window.history.back();
 
     setOpen(open);
   };
 
   // This is to open the
   useEffect(() => {
-    if (pathname == getServiceRelativeUrl(service, center)) setOpen(true);
-  }, [pathname, service, center]);
+    if (pathname == serviceUrl) setOpen(true);
+  }, [pathname]);
 
   useEffect(() => {
     const handleBackButton = (event: PopStateEvent) => {
-      if (open) {
-        event.preventDefault();
-        onOpenChange(false);
-      }
+      event.preventDefault();
+      if (open) onOpenChange(false);
     };
 
     if (open) {
-      const centerPushUrl = `${getCenterRelativeUrl(center)}`;
-      const servicePushUrl = `${getServiceRelativeUrl(service, center)}`;
-
-      if (pathname === servicePushUrl)
-        window.history.replaceState({}, "", centerPushUrl);
-
-      window.history.pushState({ dialogOpen: true }, "", servicePushUrl);
+      window.history.pushState({}, "", serviceUrl);
       window.addEventListener("popstate", handleBackButton);
     }
 
     return () => {
       window.removeEventListener("popstate", handleBackButton);
     };
-  }, [open, center, service]);
+  }, [open, center?.id, service?.id]);
 
   if (isDesktop) {
     return (
