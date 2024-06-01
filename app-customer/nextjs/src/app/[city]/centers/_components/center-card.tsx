@@ -41,7 +41,7 @@ export default function CenterCard({ center }: { center: Center }) {
         </Link>
 
         {/* Center Details */}
-        <div className="flex w-3/5 flex-col gap-1 p-1 md:gap-1.5 md:p-2.5">
+        <div className="flex w-3/5 flex-col gap-1 p-1 pr-1.5 md:gap-1.5 md:p-2.5">
           {/* Center Name */}
           <Link
             href={getCenterRelativeUrl(center)}

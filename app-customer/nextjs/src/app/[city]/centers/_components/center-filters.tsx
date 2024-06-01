@@ -1,6 +1,7 @@
 "use client";
 
 import type { z } from "zod";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSignals } from "@preact/signals-react/runtime";
 
@@ -15,6 +16,7 @@ import {
   FormMessage,
   useForm,
 } from "@petzo/ui/components/form";
+import Loader from "@petzo/ui/components/loader";
 import { cn } from "@petzo/ui/lib/utils";
 import { centerValidator } from "@petzo/validators";
 
@@ -40,11 +42,9 @@ export function CenterFilters({
     defaultValues: filters,
   });
 
-  const onSubmit = (values: CenterFilterFormSchemaType) => {
-    if (onApply) {
-      onApply();
-    }
+  const [fetchingLocation, setFetchingLocation] = useState(false);
 
+  const onSubmit = (values: CenterFilterFormSchemaType) => {
     let filterUrl = `/${filtersStore.city.value}/centers`;
     const urlQueryParams = new URLSearchParams();
 
@@ -76,19 +76,30 @@ export function CenterFilters({
 
     if (nearby) {
       if (!navigator.geolocation) return;
+      setFetchingLocation(true);
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          urlQueryParams.set("latitude", `${position.coords.latitude}`);
+          urlQueryParams.set("longitude", `${position.coords.longitude}`);
 
-      navigator.geolocation.getCurrentPosition((position) => {
-        urlQueryParams.set("latitude", `${position.coords.latitude}`);
-        urlQueryParams.set("longitude", `${position.coords.longitude}`);
+          const urlQueryParamsStr = urlQueryParams.toString();
+          if (urlQueryParamsStr) filterUrl += `?${urlQueryParamsStr}`;
 
-        const urlQueryParamsStr = urlQueryParams.toString();
-        if (urlQueryParamsStr) filterUrl += `?${urlQueryParamsStr}`;
+          if (onApply) onApply();
 
-        form.reset(values);
-        router.push(filterUrl);
-        router.refresh();
-      });
+          setFetchingLocation(false);
+          form.reset(values);
+          router.push(filterUrl);
+          router.refresh();
+        },
+        () => {
+          if (onApply) onApply();
+          setFetchingLocation(false);
+        },
+      );
     } else {
+      if (onApply) onApply();
+
       const urlQueryParamsStr = urlQueryParams.toString();
       if (urlQueryParamsStr) filterUrl += `?${urlQueryParamsStr}`;
 
@@ -107,8 +118,17 @@ export function CenterFilters({
         <div className="flex h-8 items-center justify-between px-4 py-6">
           <h3 className="text-lg font-semibold">Filters</h3>
           {form.formState.isDirty && (
-            <Button size="sm" type="submit" className="rounded-full">
-              Apply
+            <Button
+              size="sm"
+              type="submit"
+              className="rounded-full"
+              disabled={fetchingLocation}
+            >
+              <span>Apply</span>
+              <Loader
+                className="ml-1 size-4 border-2"
+                show={fetchingLocation}
+              />
             </Button>
           )}
         </div>
