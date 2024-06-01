@@ -38,7 +38,7 @@ export const CenterInfo = ({
 
       {/* Services Provided */}
       <span className="space-x-1 text-sm md:text-base">
-        <span>Services:</span>
+        <span className="font-medium text-foreground/80">Services:</span>
         <span className="line-clamp-2 inline text-sm font-semibold capitalize text-primary md:text-base">
           {getServicesNamesStr(center)}
         </span>
