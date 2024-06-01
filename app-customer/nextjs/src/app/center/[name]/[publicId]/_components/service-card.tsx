@@ -40,7 +40,7 @@ export default function ServiceCard({
           <span className="text-sm">2 hrs 30 mins</span>
         </div>
 
-        <span className="mt-1 line-clamp-2 whitespace-pre-wrap text-sm md:line-clamp-3">
+        <span className="mt-1 line-clamp-2 whitespace-pre-wrap text-xs md:line-clamp-3 md:text-sm">
           {service.description}
         </span>
 
@@ -61,7 +61,7 @@ export default function ServiceCard({
             fill
             style={{ objectFit: "cover" }}
             alt="Service Image"
-            className="rounded-xl"
+            className="cursor-pointer rounded-xl"
             sizes="(min-width: 780px) 160px, 128px"
           />
         ) : (

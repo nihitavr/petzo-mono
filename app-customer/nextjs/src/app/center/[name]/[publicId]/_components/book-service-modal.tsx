@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { format, parse } from "date-fns";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
+import { HiOutlineMoon } from "react-icons/hi";
 import { LuX } from "react-icons/lu";
 import { WiDaySunny, WiSunrise } from "react-icons/wi";
 
@@ -175,13 +176,6 @@ export function BookServiceDialog({
         </div>
       </DrawerTrigger>
       <DrawerContent className="h-[85vh] rounded-t-2xl">
-        <DrawerClose
-          className="absolute -top-3 right-2 size-10 -translate-y-full rounded-full bg-background bg-white p-1"
-          asChild
-        >
-          <LuX className="h-7 w-7" strokeWidth={2.5} />
-        </DrawerClose>
-
         <DrawerHeader className="text-left">
           <p className="text-xs">Booking</p>
           <div className="flex items-center justify-between">
@@ -229,7 +223,6 @@ function ServiceBookingForm({
 }) {
   const [isAddNewPet, setIsAddNewPet] = useState(false);
   const [accordianValue, setAccordianValue] = useState("pet-details");
-  // const [accordianValue, setAccordianValue] = useState("pet-details");
 
   const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
   // const [selectedAddress, setSelectedAddress] =
@@ -265,7 +258,6 @@ function ServiceBookingForm({
       <div className="flex flex-col gap-2 px-4 md:px-0">
         <Skeleton className="h-36 w-full" />
         <Skeleton className="h-12 w-full" />
-        {/* <Skeleton className="h-12 w-full" /> */}
       </div>
     );
   }
@@ -281,30 +273,12 @@ function ServiceBookingForm({
       >
         {/* Booking For */}
         <AccordionItem value="pet-details" className="rounded-lg border">
-          <div
-            className={`flex w-full items-center justify-between px-2 ${accordianValue == "pet-details" ? "rounded-t-lg bg-primary/10" : ""}`}
-          >
-            <span className="text-sm font-semibold">
-              Booking For:{" "}
-              {selectedPet ? (
-                <span className="text-primary">{selectedPet.name}</span>
-              ) : (
-                <span className="text-destructive">Not Selected</span>
-              )}
-            </span>
-            <div className="w-min">
-              <AccordionTrigger className="w-min py-2.5" noIcon>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-6"
-                >
-                  {accordianValue == "pet-details" ? "Close" : "Edit"}
-                </Button>
-              </AccordionTrigger>
-            </div>
-          </div>
+          <AccordianPreview
+            label="Booking For"
+            labelValue={selectedPet?.name}
+            selectedAccordianValue={accordianValue}
+            accordianValue="pet-details"
+          />
 
           <AccordionContent className="border-t px-2 pt-3">
             {user ? (
@@ -318,7 +292,7 @@ function ServiceBookingForm({
                     onClick={() => {
                       setIsAddNewPet((isAddNewPet) => !isAddNewPet);
                     }}
-                    variant="secondary"
+                    variant={pets?.length ? "secondary" : "primary"}
                     size="sm"
                     className="h-6"
                   >
@@ -334,7 +308,9 @@ function ServiceBookingForm({
                           className={`flex cursor-pointer flex-col gap-1 rounded-lg p-2 ${pet.publicId == selectedPet?.publicId ? "border bg-primary/30" : "hover:bg-primary/10"}`}
                           onClick={() => {
                             setTimeout(() => {
-                              setAccordianValue("slot-starttime-selection");
+                              setAccordianValue(
+                                selectedSlot ? "" : "slot-starttime-selection",
+                              );
                             }, 200);
                             setSelectedPet(pet);
                           }}
@@ -464,41 +440,23 @@ function ServiceBookingForm({
           value="slot-starttime-selection"
           className="rounded-lg border"
         >
-          <div
-            className={`flex w-full items-center justify-between px-2 ${accordianValue == "slot-starttime-selection" ? "rounded-t-lg bg-primary/10" : ""}`}
-          >
-            <span className="text-sm font-semibold">
-              Start Time:{" "}
-              {selectedSlot ? (
-                <span className="text-primary">
-                  {format(
+          <AccordianPreview
+            label="Start Time"
+            labelValue={
+              selectedSlot
+                ? format(
                     parse(
                       selectedSlot.startTime,
                       "HH:mm:ss",
                       new Date(selectedSlot.date),
                     ),
                     "EEE do MMM, h:mm a",
-                  )}
-                </span>
-              ) : (
-                <span className="text-destructive">Not Selected</span>
-              )}
-            </span>
-            <div className="w-min">
-              <AccordionTrigger className="w-min py-2.5" noIcon>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-6"
-                >
-                  {accordianValue == "slot-starttime-selection"
-                    ? "Close"
-                    : "Edit"}
-                </Button>
-              </AccordionTrigger>
-            </div>
-          </div>
+                  )
+                : ""
+            }
+            selectedAccordianValue={accordianValue}
+            accordianValue="slot-starttime-selection"
+          />
 
           <AccordionContent className="max-h-54 grid grid-cols-1 border-t py-3">
             <div className="no-scrollbar overflow-x-auto px-3 pb-3">
@@ -529,7 +487,7 @@ function ServiceBookingForm({
               </div>
             </div>
 
-            <div className="max-h-72 overflow-y-auto">
+            <div className="max-h-72 overflow-y-scroll">
               {(() => {
                 const morningSlots = slots
                   ?.get(selectedSlotDate)
@@ -548,7 +506,11 @@ function ServiceBookingForm({
                     {morningSlots?.length && (
                       <div className="space-y-2 p-3">
                         <div className="flex items-center gap-0.5 font-semibold">
-                          <WiSunrise size={25} />
+                          <WiSunrise
+                            size={25}
+                            strokeWidth={0.3}
+                            className="text-yellow-600"
+                          />
                           <span>Morning</span>
                         </div>
                         <div className="flex flex-wrap gap-2">
@@ -573,7 +535,11 @@ function ServiceBookingForm({
                     {afternoonSlots?.length && (
                       <div className="space-y-2 p-3">
                         <div className="flex items-center gap-0.5 font-semibold">
-                          <WiDaySunny size={25} />
+                          <WiDaySunny
+                            size={25}
+                            strokeWidth={0.3}
+                            className="text-orange-600"
+                          />
                           <span>Afternoon</span>
                         </div>
                         <div className="flex flex-wrap gap-2">
@@ -598,7 +564,11 @@ function ServiceBookingForm({
                     {eveningSlots?.length && (
                       <div className="space-y-2 p-3">
                         <div className="flex items-center gap-0.5 font-semibold">
-                          <WiDaySunny size={25} />
+                          <HiOutlineMoon
+                            size={17}
+                            strokeWidth={2.2}
+                            className="text-slate-500"
+                          />
                           <span>Evening</span>
                         </div>{" "}
                         <div className="flex flex-wrap gap-2">
@@ -630,3 +600,37 @@ function ServiceBookingForm({
     </form>
   );
 }
+
+const AccordianPreview = ({
+  label,
+  labelValue,
+  accordianValue,
+  selectedAccordianValue,
+}: {
+  label: string;
+  labelValue?: string;
+  accordianValue: string;
+  selectedAccordianValue?: string;
+}) => {
+  return (
+    <div
+      className={`flex w-full items-center justify-between px-2 ${selectedAccordianValue == accordianValue ? "rounded-t-lg bg-primary/10" : ""}`}
+    >
+      <span className="text-sm font-semibold">
+        {label}:{" "}
+        {labelValue ? (
+          <span className="whitespace-nowrap text-primary">{labelValue}</span>
+        ) : (
+          <span className="text-destructive">Not Selected</span>
+        )}
+      </span>
+      <div className="w-min">
+        <AccordionTrigger className="w-min py-2" noIcon>
+          <Button type="button" variant="outline" size="sm" className="h-6">
+            {selectedAccordianValue == accordianValue ? "Close" : "Edit"}
+          </Button>
+        </AccordionTrigger>
+      </div>
+    </div>
+  );
+};

@@ -99,7 +99,7 @@ export function ServiceDetailsModal({
             <div className="flex flex-col">
               <ServiceImagesCasousel
                 images={imageUrls}
-                className="aspect-square w-full"
+                className="aspect-[5/4] w-full"
                 imageClassName="rounded-md border-none"
               />
               <div>
@@ -136,13 +136,13 @@ export function ServiceDetailsModal({
           View Details {">"}
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="max-h-[85vh] min-h-[50vh] rounded-t-2xl border-none p-0">
-        <div className=" overflow-y-auto rounded-t-2xl md:p-4">
+      <DrawerContent className="max-h-[85vh] min-h-[50vh] rounded-t-3xl border-none p-0">
+        <div className=" overflow-y-auto rounded-t-3xl md:p-4">
           <div className="flex flex-col">
             <ServiceImagesCasousel
               images={imageUrls}
-              className="aspect-square w-full "
-              imageClassName="border-none rounded-t-2xl"
+              className="aspect-[5/4] w-full "
+              imageClassName="border-none rounded-t-3xl"
             />
             <div className="p-2 px-2.5">
               <div className="pb-2">
