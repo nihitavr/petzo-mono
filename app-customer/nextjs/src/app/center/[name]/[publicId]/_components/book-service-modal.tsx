@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { format, parse } from "date-fns";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
 import { HiOutlineMoon } from "react-icons/hi";
-import { LuX } from "react-icons/lu";
 import { WiDaySunny, WiSunrise } from "react-icons/wi";
 
 import type {
@@ -55,10 +54,7 @@ import {
 
 import SignIn from "~/app/_components/sign-in";
 import { useMediaQuery } from "~/lib/hooks/screen.hooks";
-import {
-  getCenterRelativeUrl,
-  getServiceBookingRelativeUrl,
-} from "~/lib/utils/center.utils";
+import { getCenterUrl, getServiceBookingUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
 import NewAddessModal from "./add-address-modal";
 
@@ -73,10 +69,8 @@ export function BookServiceDialog({
   service: Service;
   user?: CustomerUser;
 }) {
-  const serviceUrl = useMemo(
-    () => getServiceBookingRelativeUrl(service, center),
-    [],
-  );
+  const serviceUrl = useMemo(() => getServiceBookingUrl(service, center), []);
+  const centerUrl = useMemo(() => getCenterUrl(center), []);
 
   const pathname = usePathname();
 
@@ -87,6 +81,7 @@ export function BookServiceDialog({
   const onOpenChange = (open: boolean) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (!open && pathname == serviceUrl) window.history.back();
+
     setOpen(open);
   };
 
@@ -95,10 +90,11 @@ export function BookServiceDialog({
   }, [pathname]);
 
   useEffect(() => {
-    const handleBackButton = (event: PopStateEvent) => {
-      event.preventDefault();
-      if (open) onOpenChange(false);
+    const handleBackButton = () => {
+      if (open) setOpen(false);
     };
+
+    if (pathname == serviceUrl) window.history.replaceState({}, "", centerUrl);
 
     if (open) {
       window.history.pushState({}, "", serviceUrl);
@@ -116,17 +112,10 @@ export function BookServiceDialog({
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogTrigger asChild>
-          <div className="absolute bottom-0 flex w-full translate-y-1/2 justify-center">
-            <Button variant="primary">Add</Button>
-          </div>
+          <Button variant="primary">Add</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            {/* <DialogTitle>Book Service</DialogTitle>
-            <DialogDescription>
-              Select pet, address and slot start time to book service.
-            </DialogDescription> */}
-
             <span className="text-xs">Booking</span>
             <div className="flex items-center justify-between">
               <div>
@@ -164,11 +153,9 @@ export function BookServiceDialog({
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild>
-        <div className="absolute bottom-0 flex w-full translate-y-1/2 justify-center">
-          <Button variant="primary">Add</Button>
-        </div>
+        <Button variant="primary">Add</Button>
       </DrawerTrigger>
-      <DrawerContent className="h-[85vh] rounded-t-2xl">
+      <DrawerContent className="h-[83vh] rounded-t-2xl">
         <DrawerHeader className="text-left">
           <p className="text-xs">Booking</p>
           <div className="flex items-center justify-between">
@@ -619,9 +606,9 @@ const AccordianPreview = ({
       </span>
       <div className="w-min">
         <AccordionTrigger className="w-min py-2" noIcon>
-          <Button type="button" variant="outline" size="sm" className="h-6">
+          <span className="inline-flex h-6 items-center justify-center whitespace-nowrap rounded-full border border-input bg-background px-3 text-xs font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
             {selectedAccordianValue == accordianValue ? "Close" : "Edit"}
-          </Button>
+          </span>
         </AccordionTrigger>
       </div>
     </div>

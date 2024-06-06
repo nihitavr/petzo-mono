@@ -49,6 +49,7 @@ export default function ServiceCard({
           center={center}
           open={openDetails}
           setOpen={setOpenDetails}
+          user={user}
         />
       </div>
 
@@ -73,7 +74,9 @@ export default function ServiceCard({
         )}
 
         {/* TODO:  */}
-        <BookServiceDialog service={service} center={center} user={user} />
+        <div className="absolute bottom-0 flex w-full translate-y-1/2 justify-center">
+          <BookServiceDialog service={service} center={center} user={user} />
+        </div>
       </div>
     </div>
   );

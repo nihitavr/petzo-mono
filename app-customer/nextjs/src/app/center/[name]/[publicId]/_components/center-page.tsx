@@ -50,7 +50,7 @@ export default async function CenterPage({ publicId }: { publicId: string }) {
 
         {/* Center Info */}
         <CenterInfo
-          className={`${!imageUrls.length ? "col-span-10" : "col-span-6"} h-min rounded-lg bg-muted p-3`}
+          className={`${!imageUrls.length ? "col-span-10" : "col-span-6"} h-min rounded-xl bg-muted p-3`}
           center={center}
         />
       </div>

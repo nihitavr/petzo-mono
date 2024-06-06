@@ -32,7 +32,7 @@ const DrawerOverlay = React.forwardRef<
   <DrawerPrimitive.Overlay
     ref={ref}
     className={cn(
-      `fixed inset-0 z-50  ${shouldOverlay ? "bg-black/60" : ""}`,
+      `fixed inset-0 z-50  ${shouldOverlay ? "bg-black/30" : ""}`,
       className,
     )}
     {...props}
@@ -59,10 +59,10 @@ const DrawerContent = React.forwardRef<
       {/* Drawer Drag */}
       {/* <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" /> */}
       <DrawerClose
-        className="absolute -top-3 right-2 size-10 -translate-y-full rounded-full bg-background p-1"
+        className="absolute right-3 top-2 z-10 size-8 rounded-full border border-foreground/30 bg-muted p-1"
         asChild
       >
-        <LuX className="h-7 w-7" strokeWidth={2.5} />
+        <LuX className="!size-6" strokeWidth={2.5} />
       </DrawerClose>
       {children}
     </DrawerPrimitive.Content>

@@ -9,10 +9,7 @@ import { GrLocation } from "react-icons/gr";
 import DogGroomingAnimation from "~/app/_components/dog-grooming-animation";
 import { MIN_SEARCH_TEXT_LENGTH } from "~/app/_components/global-search-input";
 import { filtersStore } from "~/lib/storage/global-storage";
-import {
-  getCenterRelativeUrl,
-  getServicesNamesStr,
-} from "~/lib/utils/center.utils";
+import { getCenterUrl, getServicesNamesStr } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
 import { CenterSearchListLoading } from "./center-search-list-loading";
 
@@ -55,7 +52,7 @@ export default function CenterSearchList() {
 
               return (
                 <Link
-                  href={getCenterRelativeUrl(center)}
+                  href={getCenterUrl(center)}
                   key={center.publicId}
                   className="grid grid-cols-6 gap-2 rounded-lg hover:bg-muted/80"
                 >
