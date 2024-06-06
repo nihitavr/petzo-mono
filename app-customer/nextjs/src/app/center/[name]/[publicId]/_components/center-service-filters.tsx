@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { SERVICES_OFFERED } from "@petzo/constants";
 
-const ServiceFilters = ({
+const CenterServiceFilters = ({
   serviceTypes,
   selectedServices,
   setSelectedServices,
@@ -53,4 +53,4 @@ const ServiceFilters = ({
   );
 };
 
-export default ServiceFilters;
+export default CenterServiceFilters;

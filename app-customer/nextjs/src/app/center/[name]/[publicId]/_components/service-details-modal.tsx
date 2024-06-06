@@ -3,7 +3,7 @@
 import { useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
 
-import type { Center, Service } from "@petzo/db";
+import type { Center, CustomerUser, Service } from "@petzo/db";
 import { Button } from "@petzo/ui/components/button";
 import {
   Dialog,
@@ -20,10 +20,9 @@ import {
 import { Label } from "@petzo/ui/components/label";
 
 import { useMediaQuery } from "~/lib/hooks/screen.hooks";
-import {
-  getCenterRelativeUrl,
-  getServiceRelativeUrl,
-} from "~/lib/utils/center.utils";
+import { getCenterUrl, getServiceUrl } from "~/lib/utils/center.utils";
+import { getCommaPrice } from "~/lib/utils/price.utils";
+import { BookServiceDialog } from "./book-service-modal";
 import ServiceImagesCasousel from "./service-images-carousel";
 
 export function ServiceDetailsModal({
@@ -31,13 +30,16 @@ export function ServiceDetailsModal({
   center,
   open,
   setOpen,
+  user,
 }: {
   center: Center;
   service: Service;
   open: boolean;
   setOpen: (open: boolean) => void;
+  user?: CustomerUser;
 }) {
-  const serviceUrl = useMemo(() => getServiceRelativeUrl(service, center), []);
+  const serviceUrl = useMemo(() => getServiceUrl(service, center), []);
+  const centerUrl = useMemo(() => getCenterUrl(center), []);
 
   const pathname = usePathname();
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -57,10 +59,11 @@ export function ServiceDetailsModal({
   }, [pathname]);
 
   useEffect(() => {
-    const handleBackButton = (event: PopStateEvent) => {
-      event.preventDefault();
-      if (open) onOpenChange(false);
+    const handleBackButton = () => {
+      if (open) setOpen(false);
     };
+
+    if (pathname == serviceUrl) window.history.replaceState({}, "", centerUrl);
 
     if (open) {
       window.history.pushState({}, "", serviceUrl);
@@ -84,8 +87,8 @@ export function ServiceDetailsModal({
             View Details {">"}
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-h-[90vh] rounded-md p-0 pb-[50px] sm:max-w-[425px] md:max-h-[90vh]">
-          <div className="max-h-[90vh] overflow-y-auto p-3 md:max-h-[90vh] md:p-4">
+        <DialogContent className="max-h-[90vh] rounded-md p-0 pb-[50px] sm:max-w-[425px] ">
+          <div className="max-h-[90vh] overflow-y-auto p-3 md:p-4">
             <div className="flex flex-col">
               <ServiceImagesCasousel
                 images={imageUrls}
@@ -93,13 +96,21 @@ export function ServiceDetailsModal({
                 imageClassName="rounded-md border-none"
               />
               <div>
-                <div className="py-2">
-                  <h3 className="text-xl font-semibold md:text-2xl">
-                    {service.name}
-                  </h3>
-                  <div className="-mt-0.5 text-sm font-semibold text-primary md:text-base">
-                    at {center?.name}
+                <div className="flex items-center justify-between">
+                  <div className="py-2">
+                    <h3 className="text-xl font-semibold md:text-2xl">
+                      {service.name}
+                    </h3>
+                    <div className="-mt-0.5 text-sm font-semibold text-primary md:text-base">
+                      at {center?.name}
+                    </div>
                   </div>
+
+                  <BookServiceDialog
+                    service={service}
+                    center={center}
+                    user={user}
+                  />
                 </div>
                 <DialogDescription className="whitespace-pre-wrap">
                   <Label>Details</Label>
@@ -126,7 +137,7 @@ export function ServiceDetailsModal({
           View Details {">"}
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="max-h-[85vh] min-h-[50vh] rounded-t-3xl border-none p-0">
+      <DrawerContent className="h-[83vh] min-h-[50vh] rounded-t-3xl border-none p-0">
         <div className=" overflow-y-auto rounded-t-3xl md:p-4">
           <div className="flex flex-col">
             <ServiceImagesCasousel
@@ -134,15 +145,29 @@ export function ServiceDetailsModal({
               className="aspect-[5/4] w-full "
               imageClassName="border-none rounded-t-3xl"
             />
-            <div className="p-2 px-2.5">
-              <div className="pb-2">
-                <h3 className="text-lg font-semibold md:text-xl">
-                  {service.name}
-                </h3>
-                <div className="-mt-0.5 text-sm font-semibold text-primary md:text-base">
-                  at {center?.name}
+            <div className="p-3">
+              <div className="items-center1 flex justify-between">
+                <div className="pb-2">
+                  <h3 className="text-lg font-semibold md:text-xl">
+                    {service.name}
+                  </h3>
+                  <div className="-mt-0.5 text-sm font-semibold text-primary md:text-base">
+                    at {center?.name}
+                  </div>
+                  <div className="mt-1 text-base font-bold">
+                    &#8377; {getCommaPrice(service.price)}
+                  </div>
+                </div>
+
+                <div className="mt-2 flex flex-col items-center gap-1">
+                  <BookServiceDialog
+                    service={service}
+                    center={center}
+                    user={user}
+                  />
                 </div>
               </div>
+
               <DrawerDescription className="whitespace-pre-wrap">
                 <Label>Details</Label>
                 <span className="mt-2 block text-foreground/90">

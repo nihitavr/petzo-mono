@@ -13,7 +13,7 @@ export function convertToUrlFriendlyText(text: string): string {
     .replace(/\s+/g, "-");
 }
 
-export function getCenterRelativeUrl(center: Center): string {
+export function getCenterUrl(center: Center): string {
   if (!center) return "";
 
   const nameParam = convertToUrlFriendlyText(center.name);
@@ -21,10 +21,7 @@ export function getCenterRelativeUrl(center: Center): string {
   return `/center/${nameParam}/${center.publicId}`;
 }
 
-export function getServiceBookingRelativeUrl(
-  service: Service,
-  center: Center,
-): string {
+export function getServiceBookingUrl(service: Service, center: Center): string {
   if (!center || !service) return "";
 
   const centerNameParam = convertToUrlFriendlyText(center.name);
@@ -33,10 +30,7 @@ export function getServiceBookingRelativeUrl(
   return `/center/${centerNameParam}/${center.publicId}/${serviceNameParam}/${service.publicId}/book`;
 }
 
-export function getServiceRelativeUrl(
-  service: Service,
-  center: Center,
-): string {
+export function getServiceUrl(service: Service, center: Center): string {
   const centerNameParam = convertToUrlFriendlyText(center.name);
   const serviceNameParam = convertToUrlFriendlyText(service.name);
 

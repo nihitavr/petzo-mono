@@ -6,10 +6,7 @@ import type { Center } from "@petzo/db";
 import { SERVICES_OFFERED } from "@petzo/constants";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
-import {
-  getCenterRelativeUrl,
-  getServicesNamesStr,
-} from "~/lib/utils/center.utils";
+import { getCenterUrl, getServicesNamesStr } from "~/lib/utils/center.utils";
 import { getLowertCostService } from "~/lib/utils/service.utils";
 
 export default function HomePageCenterCard({ center }: { center: Center }) {
@@ -21,7 +18,7 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
       <div className="flex h-44 w-full gap-1 md:h-60">
         {/* Center Image */}
         <Link
-          href={getCenterRelativeUrl(center)}
+          href={getCenterUrl(center)}
           className="relative h-full w-2/5 cursor-pointer overflow-hidden rounded-xl"
         >
           {thumbnail ? (
@@ -40,7 +37,7 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
         <div className="flex w-3/5 flex-col gap-1 p-1 pr-1.5 md:gap-1.5 md:p-2.5">
           {/* Center Name */}
           <Link
-            href={getCenterRelativeUrl(center)}
+            href={getCenterUrl(center)}
             className="line-clamp-2 cursor-pointer text-sm font-semibold hover:underline md:text-base"
           >
             {center.name}
