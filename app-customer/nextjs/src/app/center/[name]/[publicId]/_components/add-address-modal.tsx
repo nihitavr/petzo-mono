@@ -6,10 +6,6 @@ import { Button } from "@petzo/ui/components/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@petzo/ui/components/dialog";
 import {
@@ -55,16 +51,13 @@ export default function NewAddessModal({
     );
 
   return (
-    <Drawer open={open} onOpenChange={setOpen} shouldScaleBackground={false}>
+    <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button variant="secondary" className="h-6" size="sm">
           Add New Address
         </Button>
       </DrawerTrigger>
       <DrawerContent className="h-[85vh] rounded-t-3xl px-2 pt-3">
-        <DrawerClose className="absolute right-4 top-2" asChild>
-          <span className="text-xl font-semibold">X</span>
-        </DrawerClose>
         <div className="no-scrollbar relative overflow-y-auto pb-10">
           <AddressForm
             onFormSubmit={() => {

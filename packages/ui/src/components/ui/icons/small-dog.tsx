@@ -1,5 +1,7 @@
-import { FaDog } from "react-icons/fa6";
+import { BiSolidDog } from "react-icons/bi";
 
-export default function SmallDog() {
-  return <FaDog className="size-4" />;
+import { cn } from "../../../lib/utils";
+
+export default function SmallDog({ className }: { className?: string }) {
+  return <BiSolidDog className={cn("size-4 text-foreground/90", className)} />;
 }
