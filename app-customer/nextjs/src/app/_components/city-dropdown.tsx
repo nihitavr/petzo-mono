@@ -54,7 +54,10 @@ export default function CityDropdown({
             {selectedCity?.name}
           </span>
           <div className="flex items-center">
-            <SlLocationPin className="size-5 text-foreground/70" />
+            <SlLocationPin
+              className="size-[1.1rem] text-foreground/70"
+              strokeWidth={10}
+            />
             <LuChevronDown className="size-5 text-foreground/70" />
           </div>
         </div>

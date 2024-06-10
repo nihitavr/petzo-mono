@@ -47,7 +47,7 @@ export const slots = pgTable(
   }),
 );
 
-export const slotRelations = relations(slots, ({ one, many }) => ({
+export const slotRelations = relations(slots, ({ one }) => ({
   service: one(services, {
     fields: [slots.serviceId],
     references: [services.id],

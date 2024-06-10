@@ -19,9 +19,9 @@ import {
 } from "@petzo/ui/components/drawer";
 import { Label } from "@petzo/ui/components/label";
 
+import Price from "~/app/_components/price";
 import { useMediaQuery } from "~/lib/hooks/screen.hooks";
 import { getCenterUrl, getServiceUrl } from "~/lib/utils/center.utils";
-import { getCommaPrice } from "~/lib/utils/price.utils";
 import { BookServiceDialog } from "./book-service-modal";
 import ServiceImagesCasousel from "./service-images-carousel";
 
@@ -154,8 +154,11 @@ export function ServiceDetailsModal({
                   <div className="-mt-0.5 text-sm font-semibold text-primary md:text-base">
                     at {center?.name}
                   </div>
-                  <div className="mt-1 text-base font-bold">
-                    &#8377; {getCommaPrice(service.price)}
+                  <div className="mt-1">
+                    <Price
+                      price={service.price}
+                      className="text-base font-bold"
+                    />
                   </div>
                 </div>
 

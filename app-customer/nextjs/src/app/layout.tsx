@@ -16,6 +16,7 @@ import { auth } from "@petzo/auth-customer-app";
 import { api } from "~/trpc/server";
 import Footer from "./_components/footer";
 import Header from "./_components/header";
+import ViewCartButton from "./_components/view-cart-button";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -71,6 +72,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             <main className="px-3 py-[4.4rem] md:py-[4.8rem] lg:px-24 xl:px-48">
               {props.children}
             </main>
+            <ViewCartButton />
             <Footer />
           </TRPCReactProvider>
           <Toaster />
