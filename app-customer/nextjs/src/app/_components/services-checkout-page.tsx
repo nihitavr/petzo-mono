@@ -146,7 +146,7 @@ const BillDetails = ({ items }: { items: ServiceCartItem[] }) => {
         </div>
       </div>
       <span className="text-xs font-medium text-destructive">
-        *Payment needs to be done directly to the Partner.
+        *Payments should be made directly to the Service Provider.
       </span>
     </div>
   );
