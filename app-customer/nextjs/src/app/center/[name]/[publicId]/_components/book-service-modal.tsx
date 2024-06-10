@@ -235,7 +235,7 @@ function ServiceBookingForm({
     },
   );
 
-  const addToCart = () => {
+  const addToCart = (closeDialog = true) => {
     if (!selectedPet || !selectedSlot) return;
 
     addItemToServicesCart({
@@ -249,7 +249,7 @@ function ServiceBookingForm({
       ],
     });
 
-    onOpenChange(false);
+    if (closeDialog) onOpenChange(false);
   };
 
   // const {
@@ -607,7 +607,7 @@ function ServiceBookingForm({
           <div className="fixed bottom-0 left-0 flex w-full space-x-2 px-3 py-3 pt-2">
             <Button
               type="button"
-              onClick={addToCart}
+              onClick={() => addToCart()}
               variant="outline"
               className="w-1/2"
               disabled={!selectedPet || !selectedSlot}
@@ -620,6 +620,7 @@ function ServiceBookingForm({
               className="w-1/2"
               disabled={!selectedPet || !selectedSlot}
               onClick={() => {
+                addToCart(false);
                 router.push(`/checkout/services`);
               }}
             >
