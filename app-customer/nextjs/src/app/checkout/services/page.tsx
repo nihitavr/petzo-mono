@@ -1,7 +1,73 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useSignals } from "@preact/signals-react/runtime";
+import { format, parse } from "date-fns";
+import { MdDelete } from "react-icons/md";
+
+import { Label } from "@petzo/ui/components/label";
+
+import Price from "~/app/_components/price";
+import { servicesCart } from "~/lib/storage/service-cart-storage";
+
 export default function Page() {
+  useSignals();
+
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
+  if (!isLoaded) return null;
+
   return (
     <div>
-      <h1>Checkout</h1>
+      <div className="flex items-center justify-start gap-2">
+        <h1 className="text-xl font-semibold">Cart</h1>
+      </div>
+      <div className="rounded-xl bg-primary/10 p-2 py-2 pb-4">
+        <Label className="text-xs text-foreground/80">Center</Label>
+        <h3 className="line-clamp-1 text-sm font-semibold">
+          {servicesCart.value?.center?.name}
+        </h3>
+
+        <div className="mt-2 rounded-xl bg-background px-2.5 py-1.5">
+          <Label className="text-xs text-foreground/80">Services</Label>
+          <div className="flex flex-col gap-3">
+            {servicesCart.value?.items?.map((item) => (
+              <div
+                key={item.service.id}
+                className="flex items-start justify-between gap-2 text-sm"
+              >
+                <div className="flex flex-col">
+                  <span className="line-clamp-1 text-sm font-semibold">
+                    {item.service.name}
+                  </span>
+                  <span className="line-clamp-1 text-xs font-medium text-foreground/70">
+                    Booking for: {item.pet.name}
+                  </span>
+                  <span className="line-clamp-1 text-xs font-medium text-foreground/70">
+                    Start Time:{" "}
+                    {format(
+                      parse(
+                        item.slot.startTime,
+                        "HH:mm:ss",
+                        new Date(item.slot.date),
+                      ),
+                      "EEE do MMM, h:mm a",
+                    )}
+                  </span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <Price className="font-semibold" price={item.service.price} />
+                  <MdDelete className="size-5" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
