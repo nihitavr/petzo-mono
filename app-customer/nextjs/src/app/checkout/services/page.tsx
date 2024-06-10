@@ -46,7 +46,7 @@ export default function Page() {
         <div className="flex items-center justify-start gap-2">
           <h1 className="text-xl font-semibold">Cart</h1>
         </div>
-        <div className="mt-1 rounded-xl bg-muted p-2 pb-4 pt-1.5">
+        <div className="mt-1 rounded-xl bg-muted p-2 py-4 pt-1.5">
           <Label className="text-xs text-foreground/80">Center</Label>
           <h3 className="line-clamp-1 text-sm font-semibold">
             {servicesCart.value?.center?.name}
@@ -82,13 +82,59 @@ export default function Page() {
   );
 }
 
+const CartServiceDetails = ({ items }: { items: ServiceCartItem[] }) => {
+  return (
+    <div className="mt-2 flex flex-col gap-5">
+      {items?.map((item, idx) => (
+        <div
+          key={item.service.id}
+          className="flex items-start justify-between gap-2 text-sm"
+        >
+          <div className="flex flex-col">
+            <span className="line-clamp-1 text-[0.82rem] font-semibold">
+              {item.service.name}
+            </span>
+            <span className="text-[0.7rem] text-foreground/70">
+              Booking for:{" "}
+              <span className="font-medium text-primary">{item?.pet.name}</span>
+            </span>
+            <span className="line-clamp-1 text-[0.7rem] text-foreground/70">
+              Start Time:{" "}
+              <span className="font-medium">
+                {format(
+                  parse(
+                    item.slot.startTime,
+                    "HH:mm:ss",
+                    new Date(item.slot.date),
+                  ),
+                  "EEE do MMM, h:mm a",
+                )}
+              </span>
+            </span>
+          </div>
+          <div className="flex flex-col items-center">
+            <Price
+              className="text-[0.8rem] font-semibold"
+              price={item.service.price}
+            />
+            <MdDelete
+              className="size-5 cursor-pointer text-foreground/50 hover:text-foreground/30"
+              onClick={() => removeItemFromServicesCart(idx)}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const BillDetails = ({ items }: { items: ServiceCartItem[] }) => {
   const total = items?.reduce((acc, item) => acc + item.service.price, 0) ?? 0;
 
   return (
     <div>
       <Label className="font-semibold">Bill Details</Label>
-      <div className="mt-1 flex flex-col gap-1.5 rounded-xl bg-muted p-2">
+      <div className="mt-1 flex flex-col gap-1.5 rounded-xl bg-muted p-2 py-3.5">
         <div className="flex items-center justify-between text-xs font-medium ">
           <span className="text-foreground/80">Items Total</span>
           <Price price={total} />
@@ -202,52 +248,6 @@ const AddressDetails = ({
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-    </div>
-  );
-};
-
-const CartServiceDetails = ({ items }: { items: ServiceCartItem[] }) => {
-  return (
-    <div className="mt-2 flex flex-col gap-5">
-      {items?.map((item, idx) => (
-        <div
-          key={item.service.id}
-          className="flex items-start justify-between gap-2 text-sm"
-        >
-          <div className="flex flex-col">
-            <span className="line-clamp-1 text-[0.82rem] font-semibold">
-              {item.service.name}
-            </span>
-            <span className="text-[0.7rem] text-foreground/70">
-              Booking for:{" "}
-              <span className="font-medium text-primary">{item?.pet.name}</span>
-            </span>
-            <span className="line-clamp-1 text-[0.7rem] text-foreground/70">
-              Start Time:{" "}
-              <span className="font-medium">
-                {format(
-                  parse(
-                    item.slot.startTime,
-                    "HH:mm:ss",
-                    new Date(item.slot.date),
-                  ),
-                  "EEE do MMM, h:mm a",
-                )}
-              </span>
-            </span>
-          </div>
-          <div className="flex flex-col items-center">
-            <Price
-              className="text-[0.8rem] font-semibold"
-              price={item.service.price}
-            />
-            <MdDelete
-              className="size-5 cursor-pointer text-foreground/50 hover:text-foreground/30"
-              onClick={() => removeItemFromServicesCart(idx)}
-            />
-          </div>
-        </div>
-      ))}
     </div>
   );
 };
