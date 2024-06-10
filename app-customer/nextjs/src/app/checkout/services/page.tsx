@@ -6,7 +6,7 @@ import { format, parse } from "date-fns";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
 import { MdDelete } from "react-icons/md";
 
-import type { CustomerAddresses, Pet, Service, Slot } from "@petzo/db";
+import type { CustomerAddresses } from "@petzo/db";
 import {
   Accordion,
   AccordionContent,
@@ -17,11 +17,11 @@ import { Button } from "@petzo/ui/components/button";
 import { Label } from "@petzo/ui/components/label";
 import { Skeleton } from "@petzo/ui/components/skeleton";
 
+import type { ServiceCartItem } from "~/lib/storage/service-cart-storage";
 import Price from "~/app/_components/price";
 import NewAddessModal from "~/app/center/[name]/[publicId]/_components/add-address-modal";
 import {
   removeItemFromServicesCart,
-  ServiceCartItem,
   servicesCart,
 } from "~/lib/storage/service-cart-storage";
 import { api } from "~/trpc/react";
@@ -46,7 +46,7 @@ export default function Page() {
         <div className="flex items-center justify-start gap-2">
           <h1 className="text-xl font-semibold">Cart</h1>
         </div>
-        <div className="mt-1 rounded-xl bg-primary/10 p-2 pb-4 pt-1.5">
+        <div className="mt-1 rounded-xl bg-muted p-2 pb-4 pt-1.5">
           <Label className="text-xs text-foreground/80">Center</Label>
           <h3 className="line-clamp-1 text-sm font-semibold">
             {servicesCart.value?.center?.name}
@@ -88,7 +88,7 @@ const BillDetails = ({ items }: { items: ServiceCartItem[] }) => {
   return (
     <div>
       <Label className="font-semibold">Bill Details</Label>
-      <div className="mt-1 flex flex-col gap-1.5 rounded-xl bg-primary/10 p-2">
+      <div className="mt-1 flex flex-col gap-1.5 rounded-xl bg-muted p-2">
         <div className="flex items-center justify-between text-xs font-medium ">
           <span className="text-foreground/80">Items Total</span>
           <Price price={total} />
@@ -142,9 +142,9 @@ const AddressDetails = ({
         {/* Address */}
         <AccordionItem value="address-details" className="rounded-xl border-0">
           <div
-            className={`flex w-full items-center justify-between bg-primary/10 px-2 ${accordianValue == "address-details" ? "rounded-t-xl" : "rounded-xl"}`}
+            className={`flex w-full items-center justify-between bg-muted px-2 ${accordianValue == "address-details" ? "rounded-t-xl" : "rounded-xl"}`}
           >
-            <span className="text-sm font-semibold">
+            <span className="text-xs font-semibold">
               {selectedAddress ? (
                 <span className="text-primary">{selectedAddress.name}</span>
               ) : (
