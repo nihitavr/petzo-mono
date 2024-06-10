@@ -47,14 +47,14 @@ export default function CenterDescriptionAndButtons({
         <div
           onClick={() => setShowMoreDetails(true)}
           aria-hidden="true"
-          className={`${showMoreDetails ? "" : "line-clamp-2 cursor-pointer md:line-clamp-6"} whitespace-pre-wrap text-sm  md:text-base`}
+          className={`${showMoreDetails ? "" : "line-clamp-2 cursor-pointer md:line-clamp-6"} text-2sm whitespace-pre-wrap md:text-sm`}
         >
           {center.description}
         </div>
         <div className="flex w-full justify-start">
           <span
             onClick={() => setShowMoreDetails(!showMoreDetails)}
-            className="h-min w-min cursor-pointer whitespace-nowrap py-1 text-sm font-semibold text-foreground/90"
+            className="text-2sm h-min w-min cursor-pointer whitespace-nowrap py-1 font-semibold text-foreground/90 md:text-sm"
             aria-hidden="true"
           >
             {showMoreDetails ? "Show Less" : "More Details >"}

@@ -98,17 +98,17 @@ const CartServiceDetails = ({ items }: { items: ServiceCartItem[] }) => {
       {items?.map((item, idx) => (
         <div
           key={`service-no-${idx}`}
-          className="flex items-start justify-between gap-2 text-sm leading-[1.2rem]"
+          className="flex items-start justify-between gap-2"
         >
-          <div className="flex flex-col">
-            <span className="line-clamp-1 text-[0.82rem] font-semibold">
+          <div className="flex flex-col gap-0.5">
+            <span className="text-2sm line-clamp-1 font-semibold">
               {item.service.name}
             </span>
-            <span className="text-[0.7rem] text-foreground/70">
+            <span className="text-2xs text-foreground/70">
               Booking for:{" "}
               <span className="font-medium text-primary">{item?.pet.name}</span>
             </span>
-            <span className="line-clamp-1 text-[0.7rem] text-foreground/70">
+            <span className="text-2xs line-clamp-1 text-foreground/70">
               Start Time:{" "}
               <span className="font-medium">
                 {format(
@@ -124,7 +124,7 @@ const CartServiceDetails = ({ items }: { items: ServiceCartItem[] }) => {
           </div>
           <div className="flex flex-col items-center">
             <Price
-              className="text-[0.8rem] font-semibold leading-5"
+              className="text-2sm font-semibold"
               price={item.service.price}
             />
             <MdDelete
@@ -218,10 +218,10 @@ const AddressDetails = ({
 
           <AccordionContent className="rounded-b-xl border px-2 pt-3">
             <div className="flex items-center justify-between">
-              <Label className="text-sm font-medium text-foreground/80">
+              <Label className="text-2sm font-medium text-foreground/80">
                 Select Address
               </Label>
-              <span className="opacity-80">OR</span>
+              <span className="text-2sm opacity-80">OR</span>
               <NewAddessModal onAddNewAddress={() => refetchAddresses()} />
             </div>
             <div className="mt-4 flex max-h-60 flex-col gap-2 overflow-y-auto">
@@ -238,7 +238,7 @@ const AddressDetails = ({
                     }}
                     aria-hidden="true"
                   >
-                    <span className="text-sm font-semibold">
+                    <span className="text-2sm font-semibold">
                       {address.name}
                     </span>
                     <span className="line-clamp-2 text-xs text-foreground/70">

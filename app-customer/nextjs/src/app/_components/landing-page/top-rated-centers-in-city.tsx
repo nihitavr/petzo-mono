@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { LoadingCentersList } from "~/app/[city]/centers/loading";
 import { api } from "~/trpc/react";
-import HomePageCenterCard from "./homepage-center-card-";
+import HomePageCenterCard from "./homepage-center-card";
 
 export default function BestCentersInCity({
   cityPublicId,
