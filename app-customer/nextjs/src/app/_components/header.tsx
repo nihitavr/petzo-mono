@@ -50,7 +50,8 @@ export default function Header({
     if (
       currentScrollPos > lastScrollTop &&
       currentScrollPos > scrollUpThreshold &&
-      !pathname.startsWith("/dashboard")
+      !pathname.startsWith("/dashboard") &&
+      !pathname.startsWith("/checkout")
     ) {
       // Scroll Up
       setHeaderVisible(false);
