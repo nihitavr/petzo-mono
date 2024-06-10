@@ -6,13 +6,15 @@ import type { Center, Pet, Service, Slot } from "@petzo/db";
 
 export const dynamic = "force-dynamic";
 
-interface ServicesCart {
+export interface ServicesCart {
   center: Center;
-  items: {
-    service: Service;
-    slot: Slot;
-    pet: Pet;
-  }[];
+  items: ServiceCartItem[];
+}
+
+export interface ServiceCartItem {
+  service: Service;
+  slot: Slot;
+  pet: Pet;
 }
 
 export const servicesCart = signal(getServicesCart());
