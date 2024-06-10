@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useSignals } from "@preact/signals-react/runtime";
 import { format, parse } from "date-fns";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
+import { FaArrowLeft } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 
 import type { CustomerAddresses } from "@petzo/db";
@@ -24,6 +26,7 @@ import {
   removeItemFromServicesCart,
   servicesCart,
 } from "~/lib/storage/service-cart-storage";
+import { getCenterUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
 
 export default function ServicesCheckoutPage() {
@@ -48,9 +51,15 @@ export default function ServicesCheckoutPage() {
         </div>
         <div className="mt-1 rounded-xl bg-muted p-2 py-4 pt-1.5">
           <Label className="text-xs text-foreground/80">Center</Label>
-          <h3 className="line-clamp-1 text-sm font-semibold">
-            {servicesCart.value?.center?.name}
-          </h3>
+          <Link
+            href={getCenterUrl(servicesCart.value?.center)}
+            className="flex cursor-pointer flex-nowrap items-center gap-1 hover:opacity-80"
+          >
+            <FaArrowLeft className="size-3.5" />
+            <h3 className="line-clamp-1 text-sm font-semibold">
+              {servicesCart.value?.center?.name}
+            </h3>
+          </Link>
 
           <div className="mt-2 rounded-xl bg-background px-2.5 py-1.5">
             {/* <Label className="text-xs text-foreground/80">Services</Label> */}
@@ -73,9 +82,10 @@ export default function ServicesCheckoutPage() {
       <div className="fixed bottom-0 left-0 z-10 w-full bg-background px-3 pt-0 md:left-auto md:right-3 md:w-72 md:px-0 lg:right-24 xl:right-48">
         <Button
           disabled={!selectedAddress}
-          className="flex h-11 w-full -translate-y-[40%] rounded-xl bg-green-700 caret-primary shadow-[0_0px_20px_rgba(0,0,0,0.25)] shadow-green-700/50 hover:bg-green-700/90"
+          className="flex h-11 w-full -translate-y-[40%] items-center gap-1 rounded-xl bg-green-700 caret-primary shadow-[0_0px_20px_rgba(0,0,0,0.25)] shadow-green-700/50 hover:bg-green-700/90"
         >
           <span className="font-semibold">Book Services</span>
+          {/* <FaDog className="size-4" /> */}
         </Button>
       </div>
     </div>
@@ -87,7 +97,7 @@ const CartServiceDetails = ({ items }: { items: ServiceCartItem[] }) => {
     <div className="mt-2 flex flex-col gap-5">
       {items?.map((item, idx) => (
         <div
-          key={item.service.id}
+          key={`service-no-${idx}`}
           className="flex items-start justify-between gap-2 text-sm leading-[1.2rem]"
         >
           <div className="flex flex-col">
@@ -145,9 +155,9 @@ const BillDetails = ({ items }: { items: ServiceCartItem[] }) => {
           <Price price={total} />
         </div>
       </div>
-      <span className="text-xs font-medium text-destructive">
+      <p className="text-xs font-medium text-destructive">
         *Payments should be made directly to the Service Provider.
-      </span>
+      </p>
     </div>
   );
 };
