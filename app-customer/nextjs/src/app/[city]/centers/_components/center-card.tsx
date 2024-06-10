@@ -42,13 +42,13 @@ export default function CenterCard({ center }: { center: Center }) {
           {/* Center Name */}
           <Link
             href={getCenterUrl(center)}
-            className="line-clamp-2 cursor-pointer text-sm font-semibold hover:underline md:text-base"
+            className="text-2sm line-clamp-2 cursor-pointer font-semibold hover:underline md:text-base"
           >
             {center.name}
           </Link>
 
           {/* Rating and Reviews */}
-          <div className="flex items-center gap-2 text-sm text-foreground/80 md:text-base">
+          <div className="text-2sm flex items-center gap-2 text-foreground/80 md:text-base">
             <Rating rating={center.averageRating} />
             <span className="line-clamp-1 text-xs font-semibold">
               (Google Rating)

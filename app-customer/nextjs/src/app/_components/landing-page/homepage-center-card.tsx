@@ -38,7 +38,7 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
           {/* Center Name */}
           <Link
             href={getCenterUrl(center)}
-            className="line-clamp-2 cursor-pointer text-sm font-semibold hover:underline md:text-base"
+            className="text-2sm line-clamp-2 cursor-pointer font-semibold hover:underline md:text-base"
           >
             {center.name}
           </Link>

@@ -56,7 +56,9 @@ export default function ReviewDisplay({
               </div>
             )}
           </div>
-          <span className="whitespace-pre-wrap text-sm">{review.text}</span>
+          <span className="text-2sm whitespace-pre-wrap md:text-sm">
+            {review.text}
+          </span>
         </div>
       </div>
     )
