@@ -42,7 +42,7 @@ export default function NewAddessModal({
         </DialogTrigger>
         <DialogContent
           shouldOverlay={false}
-          className="no-scrollbar mb-5 h-[90vh] overflow-y-auto rounded-t-md px-3 pb-0"
+          className="no-scrollbar mb-5 h-[90vh] overflow-y-auto rounded-t-3xl px-3 pb-0"
         >
           <AddressForm
             onFormSubmit={() => {
@@ -61,10 +61,7 @@ export default function NewAddessModal({
           Add New Address
         </Button>
       </DrawerTrigger>
-      <DrawerContent
-        shouldOverlay={false}
-        className="h-[90vh] rounded-t-md px-2"
-      >
+      <DrawerContent className="h-[85vh] rounded-t-3xl px-2 pt-3">
         <DrawerClose className="absolute right-4 top-2" asChild>
           <span className="text-xl font-semibold">X</span>
         </DrawerClose>
