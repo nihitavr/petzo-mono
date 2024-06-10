@@ -10,7 +10,7 @@ export default function Footer() {
   if (pathname !== "/" && !pathname.includes("explore")) return null;
 
   return (
-    <footer className="relative flex flex-col-reverse items-start justify-start gap-5 px-3 pb-8  md:flex-row md:justify-between md:pb-[4.8rem] lg:px-24 xl:px-48">
+    <footer className="relative -mt-10 flex flex-col-reverse items-start justify-start gap-5 px-3 pb-20  md:flex-row md:justify-between md:pb-[4.8rem] lg:px-24 xl:px-48">
       <div className="flex flex-col gap-2">
         {/* Instagram */}
         <a

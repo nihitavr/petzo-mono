@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { useSignals } from "@preact/signals-react/runtime";
 import { FaArrowRight } from "react-icons/fa6";
 
@@ -11,20 +12,36 @@ import { servicesCart } from "~/lib/storage/service-cart-storage";
 export default function ViewCartButton() {
   useSignals();
 
-  const [isLoaded, setIsLoaded] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const [shouldBeVisible, setShouldBeVisible] = useState(false);
 
   useEffect(() => {
-    setIsLoaded(true);
-  }, []);
+    if (
+      pathname.endsWith("/explore") ||
+      pathname.endsWith("/centers") ||
+      pathname.startsWith("/center")
+    ) {
+      setShouldBeVisible(true);
+    } else {
+      setShouldBeVisible(false);
+    }
+  }, [pathname]);
 
-  if (!servicesCart?.value?.items?.length || !isLoaded) return null;
+  if (!servicesCart?.value?.items?.length || !shouldBeVisible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 z-10 w-full bg-background px-3 pb-4 pt-0">
-      <Button className="flex h-11 w-full justify-between rounded-xl caret-primary shadow-[0_0px_20px_rgba(0,0,0,0.25)] shadow-primary/80">
+    <div className="fixed bottom-0 left-0 z-10 w-full bg-background px-3 pt-0">
+      <Button
+        onClick={() => {
+          router.push("/checkout/services");
+        }}
+        className="flex h-11 w-full -translate-y-[40%] justify-between rounded-xl bg-green-600 caret-primary shadow-[0_0px_20px_rgba(0,0,0,0.25)] shadow-green-600/80 hover:bg-green-600/90"
+      >
         <span>
-          {servicesCart?.value?.items?.length} item
-          {servicesCart?.value?.items?.length == 1 ? "" : "s"}
+          {servicesCart?.value?.items?.length} service
+          {servicesCart?.value?.items?.length == 1 ? "" : "s"} added
         </span>{" "}
         <div className="flex items-center gap-1">
           <span className="font-semibold">View</span>

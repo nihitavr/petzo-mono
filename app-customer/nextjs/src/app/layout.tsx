@@ -69,7 +69,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <ThemeProvider attribute="class" defaultTheme="light">
           <TRPCReactProvider>
             <Header session={session} cities={cities} />
-            <main className="px-3 py-[4.4rem] md:py-[4.8rem] lg:px-24 xl:px-48">
+            <main className="px-3 py-[4.4rem] pb-[5.4rem] md:py-[4.8rem] lg:px-24 xl:px-48">
               {props.children}
             </main>
             <ViewCartButton />
