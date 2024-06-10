@@ -88,7 +88,7 @@ const CartServiceDetails = ({ items }: { items: ServiceCartItem[] }) => {
       {items?.map((item, idx) => (
         <div
           key={item.service.id}
-          className="flex items-start justify-between gap-2 text-sm"
+          className="flex items-start justify-between gap-2 text-sm leading-[1.2rem]"
         >
           <div className="flex flex-col">
             <span className="line-clamp-1 text-[0.82rem] font-semibold">
@@ -114,7 +114,7 @@ const CartServiceDetails = ({ items }: { items: ServiceCartItem[] }) => {
           </div>
           <div className="flex flex-col items-center">
             <Price
-              className="text-[0.8rem] font-semibold"
+              className="text-[0.8rem] font-semibold leading-5"
               price={item.service.price}
             />
             <MdDelete
