@@ -55,13 +55,10 @@ export function addItemToServicesCart(
   ) as ServicesCart;
 }
 
-export function removeItemFromServicesCart(itemInfo: ServicesCart) {
-  servicesCart.value.items = servicesCart.value.items.filter(
-    (item) =>
-      !itemInfo.items.find(
-        (itemInfo) =>
-          item.service.id === itemInfo.service.id &&
-          item.slot.id === itemInfo.slot.id,
-      ),
-  );
+export function removeItemFromServicesCart(itemIdx: number) {
+  const cart = servicesCart.value;
+
+  cart.items = cart.items.filter((_, idx) => itemIdx !== idx);
+
+  servicesCart.value = JSON.parse(JSON.stringify(cart)) as ServicesCart;
 }
