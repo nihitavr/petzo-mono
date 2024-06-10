@@ -2,55 +2,33 @@
 
 import { cn } from "@petzo/ui/lib/utils";
 
-import { getDiscountedPrice } from "~/lib/utils/price.utils";
+import { getCommaPrice, getDiscountedPrice } from "~/lib/utils/price.utils";
 
 export default function Price({
   className,
   price,
   discount,
-  animate,
 }: {
   className?: string;
   price: number;
-  discount: number;
-  animate?: boolean;
+  discount?: number;
 }) {
   return (
-    <div
-      className={cn("flex items-center gap-3 text-foreground/90", className)}
-    >
-      <OriginalPrice price={price} />
-      <DiscountedPrice
-        price={price}
-        discount={discount}
-        className={animate ? "opacity-0" : ""}
-      />
+    <div className={cn("flex items-center gap-2", className)}>
+      <span
+        className={cn(
+          "whitespace-nowrap",
+          discount ? "line-through" : "",
+          className,
+        )}
+      >
+        &#8377; {getCommaPrice(price)}
+      </span>
+      {!!discount && (
+        <span className={cn("font-semibold", className)}>
+          &#8377; {getCommaPrice(getDiscountedPrice(price, discount))}
+        </span>
+      )}
     </div>
   );
 }
-
-const OriginalPrice = ({
-  price,
-  className,
-}: {
-  price: number;
-  className?: string;
-}) => {
-  return <span className={cn("line-through", className)}>&#8377; {price}</span>;
-};
-
-const DiscountedPrice = ({
-  price,
-  discount,
-  className,
-}: {
-  price: number;
-  discount: number;
-  className?: string;
-}) => {
-  return (
-    <span className={cn("font-semibold text-primary", className)}>
-      &#8377; {getDiscountedPrice(price, discount)}
-    </span>
-  );
-};

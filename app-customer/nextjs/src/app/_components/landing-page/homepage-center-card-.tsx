@@ -60,7 +60,7 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
           </div>
 
           {/* Services Provided */}
-          <span className="md:text-md line-clamp-1 break-all text-xs font-semibold capitalize text-primary">
+          <span className="line-clamp-1 break-all text-xs font-semibold capitalize text-primary md:text-sm">
             {getServicesNamesStr(center)}
           </span>
 

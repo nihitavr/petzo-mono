@@ -6,8 +6,8 @@ import Image from "next/image";
 import type { Center, CustomerUser, Service } from "@petzo/db";
 import { cn } from "@petzo/ui/lib/utils";
 
+import Price from "~/app/_components/price";
 import { COLOR_MAP } from "~/lib/constants";
-import { getCommaPrice } from "~/lib/utils/price.utils";
 import { BookServiceDialog } from "./book-service-modal";
 import { ServiceDetailsModal } from "./service-details-modal";
 
@@ -33,8 +33,9 @@ export default function ServiceCard({
         </h2>
 
         <div className="flex items-center gap-1.5">
-          <span className="text-sm font-semibold text-primary md:text-base">
-            &#8377; {getCommaPrice(service.price)}
+          <span className="text-sm font-semibold md:text-base">
+            <Price price={service.price} className="text-primary" />
+            {/* &#8377; {getCommaPrice(service.price)} */}
           </span>
           <div className="size-1 rounded-full bg-foreground/80"></div>
           <span className="text-sm">2 hrs 30 mins</span>

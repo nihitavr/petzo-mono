@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { format, parse } from "date-fns";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
 import { HiOutlineMoon } from "react-icons/hi";
@@ -54,6 +54,7 @@ import {
 
 import SignIn from "~/app/_components/sign-in";
 import { useMediaQuery } from "~/lib/hooks/screen.hooks";
+import { addItemToServicesCart } from "~/lib/storage/service-cart-storage";
 import { getCenterUrl, getServiceBookingUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
 import NewAddessModal from "./add-address-modal";
@@ -114,7 +115,7 @@ export function BookServiceDialog({
         <DialogTrigger asChild>
           <Button variant="primary">Add</Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="pb-16 sm:max-w-[425px]">
           <DialogHeader>
             <span className="text-xs">Booking</span>
             <div className="flex items-center justify-between">
@@ -136,15 +137,12 @@ export function BookServiceDialog({
               )}
             </div>
           </DialogHeader>
-          <ServiceBookingForm service={service} user={user} />
-          <DialogFooter className="flex w-full flex-row items-center gap-1 pt-2">
-            <Button variant="outline" className="w-1/2">
-              Add to Cart
-            </Button>
-            <Button variant="primary" className="w-1/2">
-              Checkout
-            </Button>
-          </DialogFooter>
+          <ServiceBookingForm
+            service={service}
+            center={center}
+            user={user}
+            onOpenChange={onOpenChange}
+          />
         </DialogContent>
       </Dialog>
     );
@@ -155,7 +153,7 @@ export function BookServiceDialog({
       <DrawerTrigger asChild>
         <Button variant="primary">Add</Button>
       </DrawerTrigger>
-      <DrawerContent className="h-[83vh] rounded-t-2xl">
+      <DrawerContent className="h-[83vh] rounded-t-3xl">
         <DrawerHeader className="text-left">
           <p className="text-xs">Booking</p>
           <div className="flex items-center justify-between">
@@ -179,15 +177,21 @@ export function BookServiceDialog({
             )}
           </div>
         </DrawerHeader>
-        <ServiceBookingForm service={service} user={user} className="px-4" />
-        <DrawerFooter className="flex w-full flex-row items-center gap-1 pt-2">
+        <ServiceBookingForm
+          service={service}
+          center={center}
+          user={user}
+          className="px-4"
+          onOpenChange={onOpenChange}
+        />
+        {/* <DrawerFooter className="flex w-full flex-row items-center gap-1 pt-2">
           <Button variant="outline" className="w-1/2">
             Add to Cart
           </Button>
           <Button variant="primary" className="w-1/2">
             Checkout
           </Button>
-        </DrawerFooter>
+        </DrawerFooter> */}
       </DrawerContent>
     </Drawer>
   );
@@ -196,11 +200,17 @@ export function BookServiceDialog({
 function ServiceBookingForm({
   className,
   service,
+  center,
   user,
+  onOpenChange,
 }: React.ComponentProps<"form"> & {
   service: Service;
+  center: Center;
   user?: CustomerUser;
+  onOpenChange: (open: boolean) => void;
 }) {
+  const router = useRouter();
+
   const [isAddNewPet, setIsAddNewPet] = useState(false);
   const [accordianValue, setAccordianValue] = useState("pet-details");
 
@@ -224,6 +234,23 @@ function ServiceBookingForm({
       enabled: !!user,
     },
   );
+
+  const addToCart = () => {
+    if (!selectedPet || !selectedSlot) return;
+
+    addItemToServicesCart({
+      center: center,
+      items: [
+        {
+          service: service,
+          slot: selectedSlot,
+          pet: selectedPet,
+        },
+      ],
+    });
+
+    onOpenChange(false);
+  };
 
   // const {
   //   data: addresses,
@@ -576,6 +603,30 @@ function ServiceBookingForm({
             </div>
           </AccordionContent>
         </AccordionItem>
+        <div>
+          <div className="fixed bottom-0 left-0 flex w-full space-x-2 px-3 py-3 pt-2">
+            <Button
+              type="button"
+              onClick={addToCart}
+              variant="outline"
+              className="w-1/2"
+              disabled={!selectedPet || !selectedSlot}
+            >
+              Add to Cart
+            </Button>
+            <Button
+              type="button"
+              variant="primary"
+              className="w-1/2"
+              disabled={!selectedPet || !selectedSlot}
+              onClick={() => {
+                router.push(`/checkout/services`);
+              }}
+            >
+              Checkout
+            </Button>
+          </div>
+        </div>
       </Accordion>
     </form>
   );
