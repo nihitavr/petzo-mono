@@ -31,7 +31,7 @@ export default function Page() {
       <div className="flex items-center justify-start gap-2">
         <h1 className="text-xl font-semibold">Cart</h1>
       </div>
-      <div className="rounded-xl bg-primary/10 p-2 py-2 pb-4">
+      <div className="rounded-xl bg-primary/10 p-2 pb-4 pt-1.5">
         <Label className="text-xs text-foreground/80">Center</Label>
         <h3 className="line-clamp-1 text-sm font-semibold">
           {servicesCart.value?.center?.name}
@@ -69,7 +69,7 @@ const CartServicesList = ({
           className="flex items-start justify-between gap-2 text-sm"
         >
           <div className="flex flex-col">
-            <span className="line-clamp-1 text-sm font-medium">
+            <span className="line-clamp-1 text-sm font-semibold">
               {item.service.name}
             </span>
             <span className="line-clamp-1 text-xs text-foreground/70">
@@ -88,7 +88,7 @@ const CartServicesList = ({
             </span>
           </div>
           <div className="flex flex-col items-center">
-            <Price className="font-medium" price={item.service.price} />
+            <Price className="font-semibold" price={item.service.price} />
             <MdDelete
               className="size-5 cursor-pointer text-foreground/50 hover:text-foreground/30"
               onClick={() => removeItemFromServicesCart(idx)}
