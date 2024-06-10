@@ -61,8 +61,6 @@ const CartServicesList = ({
     pet: Pet;
   }[];
 }) => {
-  console.log("items: ", items);
-
   return (
     <div className="flex flex-col gap-3">
       {items?.map((item, idx) => (
@@ -71,13 +69,13 @@ const CartServicesList = ({
           className="flex items-start justify-between gap-2 text-sm"
         >
           <div className="flex flex-col">
-            <span className="line-clamp-1 text-sm font-semibold">
+            <span className="line-clamp-1 text-sm font-medium">
               {item.service.name}
             </span>
-            <span className="line-clamp-1 text-xs font-medium text-foreground/70">
+            <span className="line-clamp-1 text-xs text-foreground/70">
               Booking for: {item.pet.name}
             </span>
-            <span className="line-clamp-1 text-xs font-medium text-foreground/70">
+            <span className="line-clamp-1 text-xs text-foreground/70">
               Start Time:{" "}
               {format(
                 parse(
@@ -90,9 +88,9 @@ const CartServicesList = ({
             </span>
           </div>
           <div className="flex flex-col items-center">
-            <Price className="font-semibold" price={item.service.price} />
+            <Price className="font-medium" price={item.service.price} />
             <MdDelete
-              className="size-5 cursor-pointer text-foreground/40 hover:text-foreground/20"
+              className="size-5 cursor-pointer text-foreground/50 hover:text-foreground/30"
               onClick={() => removeItemFromServicesCart(idx)}
             />
           </div>
