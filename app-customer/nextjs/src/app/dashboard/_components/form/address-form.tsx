@@ -34,7 +34,7 @@ const MAP_ZOOM = 16.5;
 
 const GEOLOCATION_CONFIG = {
   enableHighAccuracy: true,
-  maximumAge: 600000,
+  maximumAge: 0,
   timeout: 10000,
 };
 

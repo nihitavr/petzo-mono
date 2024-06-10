@@ -37,7 +37,7 @@ export default function ViewCartButton() {
         onClick={() => {
           router.push("/checkout/services");
         }}
-        className="flex h-11 w-full -translate-y-[40%] justify-between rounded-xl bg-green-600 caret-primary shadow-[0_0px_20px_rgba(0,0,0,0.25)] shadow-green-600/80 hover:bg-green-600/90"
+        className="flex h-11 w-full -translate-y-[40%] justify-between rounded-xl bg-green-700 caret-primary shadow-[0_0px_20px_rgba(0,0,0,0.25)] shadow-green-700/50 hover:bg-green-700/80"
       >
         <span>
           {servicesCart?.value?.items?.length} service
