@@ -25,6 +25,7 @@ import {
   servicesCart,
 } from "~/lib/storage/service-cart-storage";
 import { api } from "~/trpc/react";
+import ServicesCheckoutLoading from "./loading";
 
 export default function Page() {
   useSignals();
@@ -38,7 +39,7 @@ export default function Page() {
     setIsLoaded(true);
   }, []);
 
-  if (!isLoaded) return null;
+  if (!isLoaded) return <ServicesCheckoutLoading />;
 
   return (
     <div className="flex flex-col gap-5 pb-2">
