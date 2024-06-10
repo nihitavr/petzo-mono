@@ -107,9 +107,16 @@ export function AddressForm({
       await updateAddressData({ latitude, longitude });
     });
 
+    map.current?.on("dragstart", (e) => {
+      e.originalEvent?.preventDefault();
+      e.originalEvent?.stopPropagation();
+    });
+
     map.current?.on("drag", (e) => {
       const { lng: longitude, lat: latitude } = e.target.getCenter();
       rerenderMap(longitude, latitude, false, false);
+      e.originalEvent?.preventDefault();
+      e.originalEvent?.stopPropagation();
     });
 
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -271,10 +278,10 @@ export function AddressForm({
         <div className="flex flex-col gap-2">
           <div className="relative">
             <div
+              data-vaul-no-drag
               className="h-[230px] w-full rounded-lg border md:h-[300px]"
               ref={mapContainer}
             />
-
             <div className="absolute bottom-4 flex w-full justify-center">
               <Button
                 className="space-x-1"

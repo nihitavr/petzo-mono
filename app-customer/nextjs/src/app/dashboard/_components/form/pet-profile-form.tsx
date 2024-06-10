@@ -19,6 +19,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@petzo/ui/components/form";
+import BigDog from "@petzo/ui/components/icons/big-dog";
+import Cat from "@petzo/ui/components/icons/cat";
+import SmallDog from "@petzo/ui/components/icons/small-dog";
 import { ImageInput } from "@petzo/ui/components/image-input";
 import { Input } from "@petzo/ui/components/input";
 import { Label } from "@petzo/ui/components/label";
@@ -168,25 +171,33 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
                   <RadioGroup
                     onValueChange={field.onChange}
                     value={field.value ?? ""}
-                    className="flex flex-row items-center gap-3"
+                    className="flex flex-row items-center gap-5"
                   >
-                    <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormItem className="flex items-center space-x-2 space-y-0">
                       <FormControl>
                         <RadioGroupItem value="cat" />
                       </FormControl>
-                      <FormLabel className="font-normal">Cat</FormLabel>
+                      <FormLabel className="flex items-center gap-1 font-normal">
+                        <span className="whitespace-nowrap">Cat</span> <Cat />
+                      </FormLabel>{" "}
                     </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormItem className="flex items-center space-x-2 space-y-0">
                       <FormControl>
                         <RadioGroupItem value="small_dog" />
                       </FormControl>
-                      <FormLabel className="font-normal">Small Dog</FormLabel>
+                      <FormLabel className="flex items-center gap-1 font-normal">
+                        <span className="whitespace-nowrap">Small Dog</span>{" "}
+                        <SmallDog />
+                      </FormLabel>
                     </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormItem className="flex items-center space-x-2 space-y-0">
                       <FormControl>
                         <RadioGroupItem value="big_dog" />
                       </FormControl>
-                      <FormLabel className="font-normal">Big Dog</FormLabel>
+                      <FormLabel className="flex items-center gap-1 font-normal">
+                        <span className="whitespace-nowrap">Big Dog</span>{" "}
+                        <BigDog />
+                      </FormLabel>
                     </FormItem>
                   </RadioGroup>
                 </FormControl>

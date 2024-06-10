@@ -33,14 +33,14 @@ export default async function PetsList({ pets }: { pets: Pet[] }) {
                 />
               </Link>
             </div>
-            <div className="flex h-full w-full flex-col justify-between gap-1 p-1 font-semibold text-foreground md:p-2">
+            <div className="flex h-full w-full flex-col justify-between gap-1 p-1 text-foreground md:p-2">
               <div className="flex justify-between">
-                <div className="flex  flex-col gap-0 ">
+                <div className="flex flex-col gap-1">
                   <Link
                     href={`/dashboard/pets/${pet.publicId}`}
-                    className="cursor-pointer text-base hover:underline md:text-lg"
+                    className="cursor-pointer text-sm hover:underline md:text-lg"
                   >
-                    {pet.name}{" "}
+                    <span className="font-semibold">{pet.name} </span>
                     {pet?.dateOfBirth && (
                       <span className="text-xs opacity-70 md:text-sm">
                         ({getTimePassed(pet?.dateOfBirth)})
@@ -48,19 +48,17 @@ export default async function PetsList({ pets }: { pets: Pet[] }) {
                     )}
                   </Link>
                   {pet.breed && (
-                    <span className="text-xs opacity-70 md:text-sm">
+                    <span className="text-xs font-medium opacity-70 md:text-sm">
                       {pet.breed}
                     </span>
                   )}
                   {pet?.dateOfBirth && (
-                    <span>
-                      <span className="text-xs opacity-70 md:text-sm">
-                        DOB:{" "}
-                      </span>
-                      <span className="text-xs font-normal opacity-70 md:text-sm">
+                    <div className="flex items-center gap-1">
+                      <p className="text-xs opacity-70 md:text-sm">DOB: </p>
+                      <p className="text-xs font-medium opacity-70 md:text-sm ">
                         {format(pet?.dateOfBirth, "ccc do MMM yy")}
-                      </span>
-                    </span>
+                      </p>
+                    </div>
                   )}
                 </div>
                 <Link
@@ -80,7 +78,7 @@ export default async function PetsList({ pets }: { pets: Pet[] }) {
 
               <div className="mt-6 flex w-full flex-col">
                 <Link
-                  className="cursor-pointer text-sm text-primary hover:underline md:text-base"
+                  className="cursor-pointer text-xs font-medium text-primary hover:underline md:text-sm"
                   href={`/dashboard/medical-records?petId=${pet.publicId}`}
                 >
                   Medical Records

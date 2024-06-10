@@ -4,18 +4,10 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { format, parse } from "date-fns";
-import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
 import { HiOutlineMoon } from "react-icons/hi";
 import { WiDaySunny, WiSunrise } from "react-icons/wi";
 
-import type {
-  Center,
-  CustomerAddresses,
-  CustomerUser,
-  Pet,
-  Service,
-  Slot,
-} from "@petzo/db";
+import type { Center, CustomerUser, Pet, Service, Slot } from "@petzo/db";
 import {
   Accordion,
   AccordionContent,
@@ -26,17 +18,13 @@ import { Button } from "@petzo/ui/components/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@petzo/ui/components/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -57,7 +45,6 @@ import { useMediaQuery } from "~/lib/hooks/screen.hooks";
 import { addItemToServicesCart } from "~/lib/storage/service-cart-storage";
 import { getCenterUrl, getServiceBookingUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
-import NewAddessModal from "./add-address-modal";
 
 export function BookServiceDialog({
   defaultopen = false,
@@ -215,8 +202,6 @@ function ServiceBookingForm({
   const [accordianValue, setAccordianValue] = useState("pet-details");
 
   const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
-  // const [selectedAddress, setSelectedAddress] =
-  //   useState<CustomerAddresses>(null);
 
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
   const [selectedSlotDate, setSelectedSlotDate] = useState<string>(
@@ -251,14 +236,6 @@ function ServiceBookingForm({
 
     if (closeDialog) onOpenChange(false);
   };
-
-  // const {
-  //   data: addresses,
-  //   isLoading: isAddressesLoading,
-  //   refetch: refetchAddresses,
-  // } = api.customerAddress.getAddresses.useQuery(undefined, {
-  //   enabled: !!user,
-  // });
 
   if (isPetsLoading || isSlotsLoading) {
     return (
@@ -364,83 +341,6 @@ function ServiceBookingForm({
             )}
           </AccordionContent>
         </AccordionItem>
-
-        {/* Address */}
-        {/* <AccordionItem value="booking-address" className="rounded-lg border">
-          <div
-            className={`flex w-full items-center justify-between px-2 ${accordianValue == "booking-address" ? "rounded-t-lg bg-primary/10" : ""}`}
-          >
-            <span className="text-sm font-semibold">
-              Address:{" "}
-              {selectedAddress ? (
-                <span className="text-primary">{selectedAddress.name}</span>
-              ) : (
-                <span className="text-destructive">Not Selected</span>
-              )}
-            </span>
-            <div className="w-min">
-              <AccordionTrigger className="w-min py-2.5" noIcon>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-6"
-                >
-                  {accordianValue == "booking-address" ? "Close" : "Edit"}
-                </Button>
-              </AccordionTrigger>
-            </div>
-          </div>
-
-          <AccordionContent className="border-t px-2 pt-3">
-            {user ? (
-              <div>
-                <div className="flex items-center justify-between">
-                  <Label className="text-sm font-semibold text-foreground/80">
-                    Addresses*
-                  </Label>
-                  <NewAddessModal onAddNewAddress={() => refetchAddresses()} />
-                </div>
-                <div className="mt-4 flex max-h-60 flex-col gap-2 overflow-y-auto">
-                  {addresses?.length ? (
-                    addresses.map((address, idx) => (
-                      <div
-                        key={idx}
-                        className={`flex cursor-pointer flex-col gap-0.5 rounded-lg p-1.5 ${selectedAddress?.id == address.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
-                        onClick={() => {
-                          setTimeout(() => {
-                            setAccordianValue("slot-starttime-selection");
-                          }, 200);
-                          setSelectedAddress(address);
-                        }}
-                        aria-hidden="true"
-                      >
-                        <span className="text-sm font-semibold">
-                          {address.name}
-                        </span>
-                        <span className="line-clamp-2 text-xs text-foreground/70">
-                          {getFullFormattedAddresses(address)}
-                        </span>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="w-full text-center text-sm">
-                      No address found!
-                      <br /> Click{" "}
-                      <span className="font-semibold">Add New Address</span> to
-                      create new address.
-                    </div>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center gap-1">
-                <span>Login to select address</span>
-                <SignIn />
-              </div>
-            )}
-          </AccordionContent>
-        </AccordionItem> */}
 
         {/* Start Time */}
         <AccordionItem

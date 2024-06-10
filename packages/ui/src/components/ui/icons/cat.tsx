@@ -1,5 +1,7 @@
 import { FaCat } from "react-icons/fa6";
 
-export default function Cat() {
-  return <FaCat />;
+import { cn } from "../../../lib/utils";
+
+export default function Cat({ className }: { className?: string }) {
+  return <FaCat className={cn("size-4 text-foreground/90", className)} />;
 }

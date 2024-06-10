@@ -1,8 +1,4 @@
-import Link from "next/link";
-import { PiPawPrintFill } from "react-icons/pi";
-
 import { auth } from "@petzo/auth-customer-app";
-import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 
 import SignIn from "~/app/_components/sign-in";
