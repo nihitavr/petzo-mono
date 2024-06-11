@@ -88,8 +88,8 @@ export function ServiceDetailsModal({
             View Details {">"}
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-h-[85vh] rounded-xl p-0 pb-[50px] sm:max-w-[425px] ">
-          <div className="max-h-[85vh] overflow-y-auto p-3 md:p-4">
+        <DialogContent className="max-h-[80vh] rounded-xl p-0 pb-[50px] sm:max-w-[425px] ">
+          <div className="max-h-[80vh] overflow-y-auto p-3 md:p-4">
             <div className="flex flex-col">
               <ServiceImagesCasousel
                 images={imageUrls}
