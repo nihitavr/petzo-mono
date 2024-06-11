@@ -264,6 +264,18 @@ export function AddressForm({
     setIsSubmitting(false);
   };
 
+  const getFullAddressFormatted = (
+    houseNo: string,
+    line2: string,
+    placeAddressFormatted: string,
+  ) => {
+    let fullFormattedAddress = houseNo ? `${houseNo}, ` : "";
+    fullFormattedAddress = line2 ? `${fullFormattedAddress}${line2}, ` : "";
+    fullFormattedAddress = `${fullFormattedAddress}${placeAddressFormatted}`;
+
+    return fullFormattedAddress;
+  };
+
   return (
     <Form {...form}>
       <form
@@ -307,12 +319,16 @@ export function AddressForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <div className="line-clamp-2 space-x-1 py-1">
+                <div className="space-x-1 py-1">
                   <GrLocation size={23} className="inline text-primary" />
                   <span className="text-sm font-semibold md:text-base">
                     {!field.value || isFetchingLocation
                       ? "Fetching address..."
-                      : field.value}
+                      : getFullAddressFormatted(
+                          form.watch("houseNo"),
+                          form.watch("line2"),
+                          field.value,
+                        )}
                   </span>
                 </div>
               </FormControl>
