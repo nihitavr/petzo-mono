@@ -159,7 +159,7 @@ export function BookServiceDialog({
       <DrawerTrigger asChild>
         <Button variant="primary">Add</Button>
       </DrawerTrigger>
-      <DrawerContent className="h-[83vh] rounded-t-3xl">
+      <DrawerContent className="h-[83vh] rounded-t-3xl pb-16">
         <DrawerHeader className="text-left">
           <p className="text-xs">Booking</p>
           <div className="flex items-center justify-between">
