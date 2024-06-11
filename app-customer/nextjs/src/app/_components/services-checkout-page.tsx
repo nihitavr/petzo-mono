@@ -18,6 +18,7 @@ import {
 import { Button } from "@petzo/ui/components/button";
 import { Label } from "@petzo/ui/components/label";
 import { Skeleton } from "@petzo/ui/components/skeleton";
+import { cn } from "@petzo/ui/lib/utils";
 
 import type { ServiceCartItem } from "~/lib/storage/service-cart-storage";
 import Price from "~/app/_components/price";
@@ -56,7 +57,7 @@ export default function ServicesCheckoutPage() {
             className="flex cursor-pointer flex-nowrap items-center gap-1 hover:opacity-80"
           >
             <FaArrowLeft className="size-3.5" />
-            <h3 className="line-clamp-1 text-sm font-semibold">
+            <h3 className="line-clamp-1 text-sm font-semibold md:text-base">
               {servicesCart.value?.center?.name}
             </h3>
           </Link>
@@ -101,14 +102,14 @@ const CartServiceDetails = ({ items }: { items: ServiceCartItem[] }) => {
           className="flex items-start justify-between gap-2"
         >
           <div className="flex flex-col gap-0.5">
-            <span className="line-clamp-1 text-2sm font-semibold">
+            <span className="line-clamp-1 text-2sm font-semibold md:text-sm">
               {item.service.name}
             </span>
-            <span className="text-2xs text-foreground/70">
+            <span className="text-2xs text-foreground/70 md:text-xs">
               Booking for:{" "}
               <span className="font-medium text-primary">{item?.pet.name}</span>
             </span>
-            <span className="line-clamp-1 text-2xs text-foreground/70">
+            <span className="line-clamp-1 text-2xs text-foreground/70 md:text-xs">
               Start Time:{" "}
               <span className="font-medium">
                 {format(
@@ -124,7 +125,7 @@ const CartServiceDetails = ({ items }: { items: ServiceCartItem[] }) => {
           </div>
           <div className="flex flex-col items-center">
             <Price
-              className="text-2sm font-semibold"
+              className="text-2sm font-semibold md:text-sm"
               price={item.service.price}
             />
             <MdDelete
@@ -145,17 +146,17 @@ const BillDetails = ({ items }: { items: ServiceCartItem[] }) => {
     <div>
       <Label className="font-semibold">Bill Details</Label>
       <div className="mt-1 flex flex-col gap-1.5 rounded-xl bg-muted p-2 py-3.5">
-        <div className="flex items-center justify-between text-2sm font-medium ">
+        <div className="flex items-center justify-between text-2sm font-medium md:text-sm ">
           <span className="text-foreground/80">Items Total</span>
           <Price price={total} />
         </div>
         <hr className="mt-1.5 border-dotted border-foreground/40 pb-1.5" />
-        <div className="flex items-center justify-between text-2sm font-semibold">
+        <div className="flex items-center justify-between text-2sm font-semibold md:text-sm">
           <span>To Pay</span>
           <Price price={total} />
         </div>
       </div>
-      <p className="text-xs font-medium text-destructive">
+      <p className="text-xs font-medium text-destructive md:text-2sm">
         *Payments should be made directly to the Service Provider.
       </p>
     </div>
@@ -198,9 +199,15 @@ const AddressDetails = ({
         {/* Address */}
         <AccordionItem value="address-details" className="rounded-xl border-0">
           <div
-            className={`flex w-full items-center justify-between bg-muted px-2 ${accordianValue == "address-details" ? "rounded-t-xl" : "rounded-xl"}`}
+            className={cn(
+              `flex w-full items-center justify-between bg-muted px-2`,
+              accordianValue == "address-details"
+                ? "rounded-t-xl"
+                : "rounded-xl",
+              !selectedAddress ? "bg-primary/20" : "",
+            )}
           >
-            <span className="text-2sm font-semibold">
+            <span className="text-2sm font-semibold md:text-sm">
               {selectedAddress ? (
                 <span className="text-primary">{selectedAddress.name}</span>
               ) : (
@@ -218,7 +225,7 @@ const AddressDetails = ({
 
           <AccordionContent className="rounded-b-xl border px-2 pt-3">
             <div className="flex items-center justify-between">
-              <Label className="text-2sm font-medium text-foreground/80">
+              <Label className="text-2sm font-medium text-foreground/80 md:text-sm">
                 Select Address
               </Label>
               <span className="text-2sm opacity-80">OR</span>
