@@ -56,14 +56,13 @@ export default function CenterSearchList() {
                   key={center.publicId}
                   className="grid grid-cols-6 gap-2 rounded-lg hover:bg-muted/80"
                 >
-                  <div className="relative col-span-2 h-full min-h-28 md:min-h-32">
+                  <div className="relative col-span-2 min-h-28 w-full md:min-h-32">
                     {thumbnail ? (
                       <Image
                         fill
-                        style={{ objectFit: "cover" }}
                         src={thumbnail}
                         alt=""
-                        className="aspect-square rounded-lg"
+                        className="aspect-square rounded-xl object-cover"
                       />
                     ) : (
                       <div className="flex size-full items-center justify-center rounded-lg bg-primary/60 text-center">

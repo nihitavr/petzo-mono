@@ -38,7 +38,7 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
           {/* Center Name */}
           <Link
             href={getCenterUrl(center)}
-            className="text-2sm line-clamp-2 cursor-pointer font-semibold hover:underline md:text-base"
+            className="line-clamp-2 cursor-pointer text-sm font-semibold hover:underline md:text-base"
           >
             {center.name}
           </Link>
@@ -54,7 +54,7 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
           {/* Area */}
           <div className="flex items-center gap-1">
             <GrLocation className="size-3.5" />
-            <span className="line-clamp-1 text-xs font-medium capitalize md:text-sm">
+            <span className="line-clamp-1 text-sm font-medium capitalize md:text-sm">
               {center.centerAddress.area.name}
             </span>
           </div>
@@ -68,13 +68,13 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
           {lowestPriceService && (
             <div className="mt-auto flex justify-between rounded-r-full bg-gradient-to-r from-background to-primary/40 px-2 py-1">
               <div className="flex flex-col ">
-                <span className="text-xs capitalize text-foreground/80">
+                <span className="text-xs font-medium capitalize text-foreground/80">
                   {SERVICES_OFFERED[lowestPriceService.serviceType]?.name}
                 </span>
                 <span className="text-2sm">Starting at </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold md:text-base">
+                <span className="text-base font-semibold md:text-base">
                   &#8377; {lowestPriceService.price}
                 </span>
               </div>
