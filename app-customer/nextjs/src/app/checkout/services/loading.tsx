@@ -29,7 +29,7 @@ export default function ServicesCheckoutLoading() {
         </Skeleton>
       </div>
 
-      <div className="fixed bottom-0 left-0 z-10 w-full bg-background px-3 pt-0">
+      <div className="fixed bottom-0 left-0 z-10 w-full bg-background px-3 pt-0 md:left-auto md:right-3 md:w-72 md:px-0 lg:right-24 xl:right-48">
         <Button
           disabled={true}
           className="flex h-11 w-full -translate-y-[40%] rounded-xl bg-green-700 caret-primary shadow-[0_0px_20px_rgba(0,0,0,0.25)] shadow-green-700/50 hover:bg-green-700/90"

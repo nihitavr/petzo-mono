@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { format, parse } from "date-fns";
@@ -32,7 +32,7 @@ import {
 import { Input } from "@petzo/ui/components/input";
 import { Label } from "@petzo/ui/components/label";
 import { Skeleton } from "@petzo/ui/components/skeleton";
-import { cn } from "@petzo/ui/lib/utils";
+import { cn, iOS } from "@petzo/ui/lib/utils";
 import {
   convertTime24To12,
   isAfternoon,
@@ -96,13 +96,13 @@ export function BookServiceDialog({
 
   const serviceImage = service.images?.[0]?.url;
 
-  if (isDesktop) {
+  if (isDesktop || iOS()) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogTrigger asChild>
           <Button variant="primary">Add</Button>
         </DialogTrigger>
-        <DialogContent className="pb-16 sm:max-w-[425px]">
+        <DialogContent className="rounded-xl p-3 pb-16 sm:max-w-[425px]">
           <DialogHeader>
             <span className="text-xs">Booking</span>
             <div className="flex items-center justify-between">

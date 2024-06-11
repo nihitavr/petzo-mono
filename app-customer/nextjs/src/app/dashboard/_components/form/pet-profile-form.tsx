@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { LuCalendar } from "react-icons/lu";
+import { TbGenderFemale, TbGenderMale } from "react-icons/tb";
 
 import type { Pet } from "@petzo/db";
 import { Button } from "@petzo/ui/components/button";
@@ -47,7 +48,7 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
   const form = useForm({
     resolver: zodResolver(petValidator.ProfileSchema),
     defaultValues: {
-      publicId: petProfile?.publicId ?? "",
+      publicId: petProfile?.publicId,
       name: petProfile?.name ?? "",
       gender: petProfile?.gender ?? "",
       images: petProfile?.images ?? [],
@@ -61,6 +62,7 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
 
   const addPet = api.pet.addPetProfile.useMutation();
   const updatePet = api.pet.updatePetProfile.useMutation();
+  console.log(form.formState.errors);
 
   const onMutateSuccess = (
     data?: Pet | null,
@@ -80,6 +82,8 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (values: any) => {
+    console.log("values", values);
+
     const data = values as unknown as PetProfileSchema;
 
     setIsSubmitting(true);
@@ -173,28 +177,42 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
                     value={field.value ?? ""}
                     className="flex flex-row items-center gap-5"
                   >
-                    <FormItem className="flex items-center space-x-2 space-y-0">
+                    <FormItem>
                       <FormControl>
-                        <RadioGroupItem value="cat" />
+                        <RadioGroupItem value="cat" className="peer hidden" />
                       </FormControl>
-                      <FormLabel className="flex items-center gap-1 font-normal">
+                      <FormLabel
+                        className={`flex h-9 cursor-pointer items-center gap-1 rounded-md border p-2 font-normal ${field.value == "cat" ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                      >
+                        {" "}
                         <span className="whitespace-nowrap">Cat</span> <Cat />
                       </FormLabel>{" "}
                     </FormItem>
-                    <FormItem className="flex items-center space-x-2 space-y-0">
+                    <FormItem>
                       <FormControl>
-                        <RadioGroupItem value="small_dog" />
+                        <RadioGroupItem
+                          value="small_dog"
+                          className="peer hidden"
+                        />
                       </FormControl>
-                      <FormLabel className="flex items-center gap-1 font-normal">
+                      <FormLabel
+                        className={`flex h-9 cursor-pointer items-center gap-1 rounded-md border p-2 font-normal ${field.value == "small_dog" ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                      >
                         <span className="whitespace-nowrap">Small Dog</span>{" "}
                         <SmallDog />
                       </FormLabel>
                     </FormItem>
-                    <FormItem className="flex items-center space-x-2 space-y-0">
+                    <FormItem>
                       <FormControl>
-                        <RadioGroupItem value="big_dog" />
+                        <RadioGroupItem
+                          value="big_dog"
+                          className="peer hidden"
+                        />
                       </FormControl>
-                      <FormLabel className="flex items-center gap-1 font-normal">
+                      <FormLabel
+                        className={`flex h-9 cursor-pointer items-center gap-1 rounded-md border p-2 font-normal ${field.value == "big_dog" ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                      >
+                        {" "}
                         <span className="whitespace-nowrap">Big Dog</span>{" "}
                         <BigDog />
                       </FormLabel>
@@ -219,17 +237,30 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
                     value={field.value ?? ""}
                     className="flex flex-row items-center gap-3"
                   >
-                    <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormItem>
                       <FormControl>
-                        <RadioGroupItem value="male" />
+                        <RadioGroupItem value="male" className="peer hidden" />
                       </FormControl>
-                      <FormLabel className="font-normal">Male</FormLabel>
+                      <FormLabel
+                        className={`flex h-9 cursor-pointer items-center justify-center gap-0.5 rounded-md border p-2 font-normal ${field.value == "male" ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                      >
+                        <span className="whitespace-nowrap">Male</span>
+                        <TbGenderMale className="size-5" />
+                      </FormLabel>
                     </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormItem>
                       <FormControl>
-                        <RadioGroupItem value="female" />
+                        <RadioGroupItem
+                          value="female"
+                          className="peer hidden"
+                        />
                       </FormControl>
-                      <FormLabel className="font-normal">Female</FormLabel>
+                      <FormLabel
+                        className={`flex h-9 cursor-pointer items-center justify-center gap-0.5 rounded-md border p-2 font-normal ${field.value == "female" ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                      >
+                        <span className="whitespace-nowrap">Female</span>
+                        <TbGenderFemale className="size-5" />
+                      </FormLabel>
                     </FormItem>
                   </RadioGroup>
                 </FormControl>

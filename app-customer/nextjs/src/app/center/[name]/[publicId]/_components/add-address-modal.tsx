@@ -10,11 +10,11 @@ import {
 } from "@petzo/ui/components/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerFooter,
   DrawerTrigger,
 } from "@petzo/ui/components/drawer";
+import { iOS } from "@petzo/ui/lib/utils";
 
 import { AddressForm } from "~/app/dashboard/_components/form/address-form";
 import { useMediaQuery } from "~/lib/hooks/screen.hooks";
@@ -28,7 +28,7 @@ export default function NewAddessModal({
 
   const [open, setOpen] = useState(false);
 
-  if (isDesktop)
+  if (isDesktop || iOS())
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
@@ -38,7 +38,7 @@ export default function NewAddessModal({
         </DialogTrigger>
         <DialogContent
           shouldOverlay={false}
-          className="no-scrollbar mb-5 h-[90vh] overflow-y-auto rounded-t-3xl px-3 pb-0"
+          className="no-scrollbar mb-5 h-[80vh] overflow-y-auto rounded-t-3xl px-3 pb-0"
         >
           <AddressForm
             onFormSubmit={() => {
