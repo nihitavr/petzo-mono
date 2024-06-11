@@ -3,9 +3,7 @@
 import type { z } from "zod";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { useForm } from "react-hook-form";
 import { LuCalendar } from "react-icons/lu";
 import { TbGenderFemale, TbGenderMale } from "react-icons/tb";
 
@@ -19,6 +17,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  useForm,
 } from "@petzo/ui/components/form";
 import BigDog from "@petzo/ui/components/icons/big-dog";
 import Cat from "@petzo/ui/components/icons/cat";
@@ -46,14 +45,14 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
   const router = useRouter();
 
   const form = useForm({
-    resolver: zodResolver(petValidator.ProfileSchema),
+    schema: petValidator.ProfileSchema,
     defaultValues: {
       publicId: petProfile?.publicId,
       name: petProfile?.name ?? "",
-      gender: petProfile?.gender ?? "",
+      gender: petProfile?.gender ?? undefined,
       images: petProfile?.images ?? [],
       breed: petProfile?.breed ?? "",
-      type: petProfile?.type ?? "",
+      type: petProfile?.type ?? undefined,
       dateOfBirth: petProfile?.dateOfBirth ?? new Date(),
     },
   });
@@ -81,10 +80,8 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = async (values: any) => {
-    console.log("values", values);
-
-    const data = values as unknown as PetProfileSchema;
+  const onSubmit = async (values: unknown) => {
+    const data = values as PetProfileSchema;
 
     setIsSubmitting(true);
 
