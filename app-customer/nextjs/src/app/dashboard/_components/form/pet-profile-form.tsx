@@ -166,15 +166,15 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
             control={form.control}
             name="type"
             render={({ field }) => (
-              <FormItem className="space-y-2 py-1">
+              <FormItem>
                 <FormLabel>Type*</FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
                     value={field.value ?? ""}
-                    className="flex flex-row items-center gap-5"
+                    className="flex flex-row items-center gap-3"
                   >
-                    <FormItem>
+                    <FormItem className="space-y-0">
                       <FormControl>
                         <RadioGroupItem value="cat" className="peer hidden" />
                       </FormControl>
@@ -185,7 +185,7 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
                         <span className="whitespace-nowrap">Cat</span> <Cat />
                       </FormLabel>{" "}
                     </FormItem>
-                    <FormItem>
+                    <FormItem className="space-y-0">
                       <FormControl>
                         <RadioGroupItem
                           value="small_dog"
@@ -199,7 +199,7 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
                         <SmallDog />
                       </FormLabel>
                     </FormItem>
-                    <FormItem>
+                    <FormItem className="space-y-0">
                       <FormControl>
                         <RadioGroupItem
                           value="big_dog"
@@ -226,15 +226,15 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
             control={form.control}
             name="gender"
             render={({ field }) => (
-              <FormItem className="space-y-2 py-1">
-                <FormLabel>Gender*</FormLabel>
+              <FormItem className="">
+                <FormLabel>Gender</FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
                     value={field.value ?? ""}
                     className="flex flex-row items-center gap-3"
                   >
-                    <FormItem>
+                    <FormItem className="space-y-0">
                       <FormControl>
                         <RadioGroupItem value="male" className="peer hidden" />
                       </FormControl>
@@ -245,7 +245,7 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
                         <TbGenderMale className="size-5" />
                       </FormLabel>
                     </FormItem>
-                    <FormItem>
+                    <FormItem className="space-y-0">
                       <FormControl>
                         <RadioGroupItem
                           value="female"
@@ -291,7 +291,7 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
             name="dateOfBirth"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <Label>Date of birth*</Label>
+                <Label>Date of birth</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
