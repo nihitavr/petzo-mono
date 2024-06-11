@@ -6,15 +6,16 @@ import type { Center } from "@petzo/db";
 import { SERVICES_OFFERED } from "@petzo/constants";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
+import { COLOR_MAP } from "~/lib/constants";
 import { getCenterUrl, getServicesNamesStr } from "~/lib/utils/center.utils";
 import { getLowertCostService } from "~/lib/utils/service.utils";
 
-export default function HomePageCenterCard({ center }: { center: Center }) {
+export default function CenterCard({ center }: { center: Center }) {
   const thumbnail = center.images?.[0]?.url;
   const lowestPriceService = getLowertCostService(center);
 
   return (
-    <div className="flex flex-row rounded-xl bg-muted md:border">
+    <div className="flex flex-row rounded-xl bg-muted md:border md:shadow-sm">
       <div className="flex h-44 w-full gap-1 md:h-60">
         {/* Center Image */}
         <Link
@@ -25,10 +26,13 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
             <Image src={thumbnail} alt="" fill style={{ objectFit: "cover" }} />
           ) : (
             <div
-              className={`flex size-full items-center justify-center rounded-lg bg-primary/60 text-center`}
-              // className={`flex size-full items-center justify-center rounded-lg text-center ${COLOR_MAP[center.name[0]!.toLowerCase()]?.bgColor} bg-opacity-75`}
+              className={`flex size-full items-center justify-center rounded-md text-center ${COLOR_MAP[center.name[0]!.toLowerCase()]?.bgColor} bg-opacity-75`}
             >
-              <div className={`text-7xl text-white`}>{center.name[0]}</div>
+              <div
+                className={`text-7xl ${COLOR_MAP[center.name[0]!.toLowerCase()]?.textColor}`}
+              >
+                {center.name[0]}
+              </div>
             </div>
           )}
         </Link>
@@ -44,7 +48,7 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
           </Link>
 
           {/* Rating and Reviews */}
-          <div className="flex items-center gap-2 text-sm text-foreground/80">
+          <div className="flex items-center gap-2 text-2sm text-foreground/80 md:text-base">
             <Rating rating={center.averageRating} />
             <span className="line-clamp-1 text-xs font-semibold">
               (Google Rating)
@@ -53,14 +57,14 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
 
           {/* Area */}
           <div className="flex items-center gap-1">
-            <GrLocation className="size-3.5" />
-            <span className="line-clamp-1 text-sm font-medium capitalize md:text-sm">
+            <GrLocation />
+            <span className="line-clamp-1 text-2sm font-medium capitalize md:text-sm">
               {center.centerAddress.area.name}
             </span>
           </div>
 
           {/* Services Provided */}
-          <span className="line-clamp-1 break-all text-xs font-semibold capitalize text-primary md:text-sm">
+          <span className="md:text-md line-clamp-1 break-all text-xs font-semibold capitalize text-primary">
             {getServicesNamesStr(center)}
           </span>
 
@@ -68,13 +72,13 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
           {lowestPriceService && (
             <div className="mt-auto flex justify-between rounded-r-full bg-gradient-to-r from-background to-primary/40 px-2 py-1">
               <div className="flex flex-col ">
-                <span className="text-xs font-medium capitalize text-foreground/80">
+                <span className="text-xs capitalize text-foreground/80 md:text-sm">
                   {SERVICES_OFFERED[lowestPriceService.serviceType]?.name}
                 </span>
-                <span className="text-2sm">Starting at </span>
+                <span className="text-sm md:text-base">Starting at </span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-base font-semibold md:text-base">
+              <div className="text-md flex items-center justify-between md:text-lg">
+                <span className="text-base font-semibold md:text-lg">
                   &#8377; {lowestPriceService.price}
                 </span>
               </div>

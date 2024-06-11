@@ -44,7 +44,7 @@ export default function ServicesCheckoutPage() {
   if (!isLoaded) return null;
 
   return (
-    <div className="flex flex-col gap-5 pb-2">
+    <div className="flex flex-col gap-6 pb-2">
       <div>
         <div className="flex items-center justify-start gap-2">
           <h1 className="text-xl font-semibold">Cart</h1>
@@ -101,14 +101,14 @@ const CartServiceDetails = ({ items }: { items: ServiceCartItem[] }) => {
           className="flex items-start justify-between gap-2"
         >
           <div className="flex flex-col gap-0.5">
-            <span className="text-2sm line-clamp-1 font-semibold">
+            <span className="line-clamp-1 text-2sm font-semibold">
               {item.service.name}
             </span>
             <span className="text-2xs text-foreground/70">
               Booking for:{" "}
               <span className="font-medium text-primary">{item?.pet.name}</span>
             </span>
-            <span className="text-2xs line-clamp-1 text-foreground/70">
+            <span className="line-clamp-1 text-2xs text-foreground/70">
               Start Time:{" "}
               <span className="font-medium">
                 {format(
@@ -145,12 +145,12 @@ const BillDetails = ({ items }: { items: ServiceCartItem[] }) => {
     <div>
       <Label className="font-semibold">Bill Details</Label>
       <div className="mt-1 flex flex-col gap-1.5 rounded-xl bg-muted p-2 py-3.5">
-        <div className="flex items-center justify-between text-xs font-medium ">
+        <div className="flex items-center justify-between text-2sm font-medium ">
           <span className="text-foreground/80">Items Total</span>
           <Price price={total} />
         </div>
         <hr className="mt-1.5 border-dotted border-foreground/40 pb-1.5" />
-        <div className="flex items-center justify-between text-xs font-semibold">
+        <div className="flex items-center justify-between text-2sm font-semibold">
           <span>To Pay</span>
           <Price price={total} />
         </div>
@@ -200,7 +200,7 @@ const AddressDetails = ({
           <div
             className={`flex w-full items-center justify-between bg-muted px-2 ${accordianValue == "address-details" ? "rounded-t-xl" : "rounded-xl"}`}
           >
-            <span className="text-xs font-semibold">
+            <span className="text-2sm font-semibold">
               {selectedAddress ? (
                 <span className="text-primary">{selectedAddress.name}</span>
               ) : (

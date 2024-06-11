@@ -8,7 +8,7 @@ import type { Point } from "@petzo/db";
 
 import { LoadingCentersList } from "~/app/[city]/centers/loading";
 import { api } from "~/trpc/react";
-import HomePageCenterCard from "./homepage-center-card";
+import CenterCard from "../center-card";
 
 const GEOLOCATION_TIMEOUT_IN_MS = 10000;
 const GEOLOCATION_MAX_AGE_IN_MS = 600000;
@@ -104,7 +104,7 @@ export default function CentersNearYouSection({
                 className="flex-shrink-0 basis-[95%] py-3 md:basis-[40%]"
                 key={center.id}
               >
-                <HomePageCenterCard center={center} />
+                <CenterCard center={center} />
               </div>
             ))}
             <div className="flex items-center justify-center whitespace-nowrap py-4">
