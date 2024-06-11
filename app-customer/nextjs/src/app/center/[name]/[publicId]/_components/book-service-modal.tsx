@@ -526,7 +526,10 @@ function ServiceBookingForm({
             accordianValue="slot-starttime-selection"
           />
 
-          <AccordionContent className="max-h-54 grid grid-cols-1 border-t py-3">
+          <AccordionContent
+            data-vaul-no-drag
+            className="max-h-54 grid grid-cols-1 border-t py-3"
+          >
             <div className="no-scrollbar overflow-x-auto px-3 pb-3">
               <div className="flex w-max items-center gap-2">
                 {slots &&
