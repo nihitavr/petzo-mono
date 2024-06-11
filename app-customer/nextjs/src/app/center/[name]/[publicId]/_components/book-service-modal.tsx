@@ -555,7 +555,7 @@ function ServiceBookingForm({
               </div>
             </div>
 
-            <div className="max-h-80 overflow-y-scroll">
+            <div className="max-h-72 overflow-y-scroll">
               {(() => {
                 const morningSlots = slots
                   ?.get(selectedSlotDate)
