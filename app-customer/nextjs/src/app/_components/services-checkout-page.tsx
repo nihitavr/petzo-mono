@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useSignals } from "@preact/signals-react/runtime";
 import { format, parse } from "date-fns";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
@@ -94,6 +95,16 @@ export default function ServicesCheckoutPage() {
 }
 
 const CartServiceDetails = ({ items }: { items: ServiceCartItem[] }) => {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!servicesCart.value?.center?.id) {
+      router.push("/");
+    } else if (!servicesCart.value?.items?.length) {
+      router.push(getCenterUrl(servicesCart.value?.center));
+    }
+  }, [servicesCart.value?.items?.length, servicesCart.value?.center?.id]);
+
   return (
     <div className="mt-2 flex flex-col gap-5">
       {items?.map((item, idx) => (
@@ -229,7 +240,10 @@ const AddressDetails = ({
                 Select Address
               </Label>
               <span className="text-2sm opacity-80">OR</span>
-              <NewAddessModal onAddNewAddress={() => refetchAddresses()} />
+              <NewAddessModal
+                onAddNewAddress={() => refetchAddresses()}
+                buttonVarient={!addresses?.length ? "primary" : "secondary"}
+              />
             </div>
             <div className="mt-4 flex max-h-60 flex-col gap-2 overflow-y-auto">
               {addresses?.length ? (

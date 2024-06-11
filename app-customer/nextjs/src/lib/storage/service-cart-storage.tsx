@@ -36,15 +36,21 @@ function getServicesCart(): ServicesCart {
 
 export function addItemToServicesCart(
   itemInfo: ServicesCart,
+  updateCenter = true,
 ): "error" | undefined {
-  if (
-    servicesCart.value?.center?.id &&
-    servicesCart.value.center.id !== itemInfo.center.id
-  ) {
-    return "error";
-  }
-
   let servicesCartData = servicesCart.value;
+
+  if (
+    servicesCartData?.center?.id &&
+    servicesCartData.center.id !== itemInfo.center.id
+  ) {
+    if (!updateCenter) {
+      return "error";
+    } else {
+      servicesCartData.center = itemInfo.center;
+      servicesCartData.items = [];
+    }
+  }
 
   if (!servicesCartData?.center) {
     servicesCartData = itemInfo;
