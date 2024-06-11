@@ -47,14 +47,14 @@ export default function CenterDescriptionAndButtons({
         <div
           onClick={() => setShowMoreDetails(true)}
           aria-hidden="true"
-          className={`${showMoreDetails ? "" : "line-clamp-2 cursor-pointer md:line-clamp-6"} text-2sm whitespace-pre-wrap md:text-sm`}
+          className={`${showMoreDetails ? "" : "line-clamp-2 cursor-pointer md:line-clamp-6"} whitespace-pre-wrap text-2sm md:text-sm`}
         >
           {center.description}
         </div>
-        <div className="flex w-full justify-start">
+        <div className="flex w-full justify-between">
           <span
             onClick={() => setShowMoreDetails(!showMoreDetails)}
-            className="text-2sm h-min w-min cursor-pointer whitespace-nowrap py-1 font-semibold text-foreground/90 md:text-sm"
+            className="h-min w-min cursor-pointer whitespace-nowrap py-1 text-2sm font-semibold text-foreground/90 md:text-sm"
             aria-hidden="true"
           >
             {showMoreDetails ? "Show Less" : "More Details >"}
@@ -63,7 +63,7 @@ export default function CenterDescriptionAndButtons({
       </div>
 
       {/* Center Call and location Buttons */}
-      <div
+      {/* <div
         ref={ctaButtonsContainerRef}
         className="mt-2 flex items-center justify-end gap-2"
       >
@@ -73,7 +73,7 @@ export default function CenterDescriptionAndButtons({
           phoneNumber={center.phoneNumber}
           // geocode={center.centerAddress?.geocode}
         />
-      </div>
+      </div> */}
 
       {/*  Floating buttons  */}
       {/* <div

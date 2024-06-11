@@ -15,13 +15,13 @@ export default function CenterCard({ center }: { center: Center }) {
   const lowestPriceService = getLowertCostService(center);
 
   return (
-    <div className="flex flex-row rounded-xl bg-muted md:border md:shadow-sm">
+    <Link
+      href={getCenterUrl(center)}
+      className="flex flex-row rounded-xl bg-muted md:border md:shadow-sm"
+    >
       <div className="flex h-44 w-full gap-1 md:h-60">
         {/* Center Image */}
-        <Link
-          href={getCenterUrl(center)}
-          className="relative h-full w-2/5 cursor-pointer overflow-hidden rounded-xl"
-        >
+        <div className="relative h-full w-2/5 cursor-pointer overflow-hidden rounded-xl">
           {thumbnail ? (
             <Image src={thumbnail} alt="" fill style={{ objectFit: "cover" }} />
           ) : (
@@ -35,17 +35,14 @@ export default function CenterCard({ center }: { center: Center }) {
               </div>
             </div>
           )}
-        </Link>
+        </div>
 
         {/* Center Details */}
         <div className="flex w-3/5 flex-col gap-1 p-1 pr-1.5 md:gap-1.5 md:p-2.5">
           {/* Center Name */}
-          <Link
-            href={getCenterUrl(center)}
-            className="line-clamp-2 cursor-pointer text-sm font-semibold hover:underline md:text-base"
-          >
+          <div className="line-clamp-2 cursor-pointer text-sm font-semibold hover:underline md:text-base">
             {center.name}
-          </Link>
+          </div>
 
           {/* Rating and Reviews */}
           <div className="flex items-center gap-2 text-2sm text-foreground/80 md:text-base">
@@ -86,6 +83,6 @@ export default function CenterCard({ center }: { center: Center }) {
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

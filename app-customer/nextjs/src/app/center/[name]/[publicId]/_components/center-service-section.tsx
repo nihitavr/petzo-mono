@@ -30,7 +30,7 @@ const ServicesSection = ({
           />
         )}
         <h4 className="text-center text-lg font-bold md:text-xl">
-          {serviceTypeInfo.name}
+          {serviceTypeInfo.name} Services
         </h4>
       </div>
 
