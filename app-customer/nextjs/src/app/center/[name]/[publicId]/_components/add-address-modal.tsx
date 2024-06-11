@@ -36,10 +36,7 @@ export default function NewAddessModal({
             Add New Address
           </Button>
         </DialogTrigger>
-        <DialogContent
-          shouldOverlay={false}
-          className="no-scrollbar mb-5 h-[80vh] overflow-y-auto rounded-t-3xl px-3 pb-0"
-        >
+        <DialogContent className="no-scrollbar mb-5 h-[80vh] overflow-y-auto rounded-xl px-3 pb-0">
           <div className="no-scrollbar relative overflow-y-auto pb-10">
             <AddressForm
               onFormSubmit={() => {
