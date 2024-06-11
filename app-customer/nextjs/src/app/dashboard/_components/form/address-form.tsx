@@ -270,7 +270,9 @@ export function AddressForm({
     placeAddressFormatted: string,
   ) => {
     let fullFormattedAddress = houseNo ? `${houseNo}, ` : "";
-    fullFormattedAddress = line2 ? `${fullFormattedAddress}${line2}, ` : "";
+    fullFormattedAddress = line2
+      ? `${fullFormattedAddress}${line2}, `
+      : fullFormattedAddress;
     fullFormattedAddress = `${fullFormattedAddress}${placeAddressFormatted}`;
 
     return fullFormattedAddress;
