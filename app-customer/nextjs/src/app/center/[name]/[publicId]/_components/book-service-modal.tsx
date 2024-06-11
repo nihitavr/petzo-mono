@@ -288,7 +288,9 @@ function ServiceBookingForm({
 
   if (isPetsLoading || isSlotsLoading) {
     return (
-      <div className="flex flex-col gap-2 md:px-0">
+      <div
+        className={cn("flex flex-col gap-2 px-3 md:px-0", iOS() ? "px-0" : "")}
+      >
         <Skeleton className="h-36 w-full" />
         <Skeleton className="h-12 w-full" />
       </div>
@@ -425,7 +427,7 @@ function ServiceBookingForm({
                                       />
                                     </FormControl>
                                     <FormLabel
-                                      className={`text-2sm flex h-8 cursor-pointer items-center gap-1 rounded-md border p-2 font-normal ${field.value == "cat" ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                                      className={`flex h-8 cursor-pointer items-center gap-1 rounded-md border p-2 text-2sm font-normal ${field.value == "cat" ? "bg-primary/30" : "hover:bg-primary/10"}`}
                                     >
                                       <span className="whitespace-nowrap">
                                         Cat
@@ -441,7 +443,7 @@ function ServiceBookingForm({
                                       />
                                     </FormControl>
                                     <FormLabel
-                                      className={`text-2sm flex h-8 cursor-pointer items-center gap-1 rounded-md border p-2 font-normal ${field.value == "small_dog" ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                                      className={`flex h-8 cursor-pointer items-center gap-1 rounded-md border p-2 text-2sm font-normal ${field.value == "small_dog" ? "bg-primary/30" : "hover:bg-primary/10"}`}
                                     >
                                       <span className="whitespace-nowrap">
                                         Small Dog
@@ -457,7 +459,7 @@ function ServiceBookingForm({
                                       />
                                     </FormControl>
                                     <FormLabel
-                                      className={`text-2sm flex h-8 cursor-pointer items-center gap-1 rounded-md border p-2 font-normal ${field.value == "big_dog" ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                                      className={`flex h-8 cursor-pointer items-center gap-1 rounded-md border p-2 text-2sm font-normal ${field.value == "big_dog" ? "bg-primary/30" : "hover:bg-primary/10"}`}
                                     >
                                       {" "}
                                       <span className="whitespace-nowrap">

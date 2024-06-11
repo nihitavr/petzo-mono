@@ -6,6 +6,8 @@ import type { Pet } from "@petzo/db";
 import { Button } from "@petzo/ui/components/button";
 import { getTimePassed } from "@petzo/utils";
 
+import DeletePetButton from "./delete-pet-button";
+
 export default async function PetsList({ pets }: { pets: Pet[] }) {
   return (
     <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -34,49 +36,58 @@ export default async function PetsList({ pets }: { pets: Pet[] }) {
               </Link>
             </div>
             <div className="flex h-full w-full flex-col justify-between gap-1 p-1 text-foreground md:p-2">
-              <div className="flex justify-between">
-                <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-0.5">
+                <div className="flex items-center justify-between gap-1">
                   <Link
                     href={`/dashboard/pets/${pet.publicId}`}
-                    className="cursor-pointer text-sm hover:underline md:text-lg"
+                    className="cursor-pointer text-sm hover:underline md:text-base"
                   >
-                    <span className="font-semibold">{pet.name} </span>
-                    {pet?.dateOfBirth && (
-                      <span className="text-xs opacity-70 md:text-sm">
-                        ({getTimePassed(pet?.dateOfBirth)})
-                      </span>
-                    )}
+                    <p className="line-clamp-1 font-semibold">{pet.name}</p>
                   </Link>
-                  {pet.breed && (
-                    <span className="text-xs font-medium opacity-70 md:text-sm">
-                      {pet.breed}
-                    </span>
-                  )}
-                  {pet?.dateOfBirth && (
-                    <div className="flex items-center gap-1">
-                      <p className="text-xs opacity-70 md:text-sm">DOB: </p>
-                      <p className="text-xs font-medium opacity-70 md:text-sm ">
-                        {format(pet?.dateOfBirth, "ccc do MMM yy")}
-                      </p>
-                    </div>
-                  )}
+                  <div className="flex items-center gap-1">
+                    <DeletePetButton petId={pet.id} petName={pet.name} />
+                    <Link
+                      className="mr-1 flex h-min cursor-pointer items-center gap-1 text-sm opacity-80 hover:underline md:text-base"
+                      href={`/dashboard/pets/${pet.publicId}`}
+                    >
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="h-6 px-2 text-xs md:px-3 md:text-sm"
+                      >
+                        Edit
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
-                <Link
-                  className="mr-1 flex h-min cursor-pointer items-center gap-1 text-sm opacity-80 hover:underline md:text-base"
-                  href={`/dashboard/pets/${pet.publicId}`}
-                >
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="h-6 px-2 text-xs md:px-3 md:text-sm"
-                  >
-                    Edit
-                  </Button>
-                  {/* <LuPencil strokeWidth={3} className="size-2.5 md:size-3.5" /> */}
-                </Link>
+
+                {pet.breed && (
+                  <div className="flex items-center gap-1 text-xs md:text-2sm">
+                    <p className="opacity-70">Breed: </p>
+                    <p className="font-medium opacity-80">{pet.breed}</p>
+                  </div>
+                )}
+
+                {pet?.dateOfBirth && (
+                  <div className="flex items-center gap-1 text-xs md:text-2sm">
+                    <p className="opacity-70">Age: </p>
+                    <p className="font-medium opacity-80">
+                      {getTimePassed(pet?.dateOfBirth)}
+                    </p>
+                  </div>
+                )}
+
+                {pet?.dateOfBirth && (
+                  <div className="flex items-center gap-1 text-xs md:text-2sm">
+                    <p className="opacity-70">DOB: </p>
+                    <p className="font-medium opacity-80">
+                      {format(pet?.dateOfBirth, "ccc do MMM yy")}
+                    </p>
+                  </div>
+                )}
               </div>
 
-              <div className="mt-6 flex w-full flex-col">
+              <div className="mt-1 flex w-full flex-col">
                 <Link
                   className="cursor-pointer text-xs font-medium text-primary hover:underline md:text-sm"
                   href={`/dashboard/medical-records?petId=${pet.publicId}`}

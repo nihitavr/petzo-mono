@@ -21,8 +21,10 @@ import { useMediaQuery } from "~/lib/hooks/screen.hooks";
 
 export default function NewAddessModal({
   onAddNewAddress,
+  buttonVarient = "secondary",
 }: {
   onAddNewAddress: () => void;
+  buttonVarient?: "primary" | "secondary";
 }) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -32,7 +34,7 @@ export default function NewAddessModal({
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="secondary" className="h-6" size="sm">
+          <Button variant={buttonVarient} className="h-6" size="sm">
             Add New Address
           </Button>
         </DialogTrigger>
@@ -52,7 +54,7 @@ export default function NewAddessModal({
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="secondary" className="h-6" size="sm">
+        <Button variant={buttonVarient} className="h-6" size="sm">
           Add New Address
         </Button>
       </DrawerTrigger>

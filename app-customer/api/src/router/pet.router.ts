@@ -7,6 +7,18 @@ import { generateRandomPublicId } from "../../../../packages/utils/src/string.ut
 import { protectedProcedure } from "../trpc";
 
 export const petRouter = {
+  deletePet: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.db
+        .delete(schema.pets)
+        .where(
+          and(
+            eq(schema.pets.id, input.id),
+            eq(schema.pets.customerUserId, ctx.session.user.id),
+          ),
+        );
+    }),
   addPetProfile: protectedProcedure
     .input(petValidator.ProfileSchema)
     .mutation(async ({ ctx, input }) => {
