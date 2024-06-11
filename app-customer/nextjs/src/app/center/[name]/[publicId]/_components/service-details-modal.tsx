@@ -18,6 +18,7 @@ import {
   DrawerTrigger,
 } from "@petzo/ui/components/drawer";
 import { Label } from "@petzo/ui/components/label";
+import { iOS } from "@petzo/ui/lib/utils";
 
 import Price from "~/app/_components/price";
 import { useMediaQuery } from "~/lib/hooks/screen.hooks";
@@ -75,7 +76,7 @@ export function ServiceDetailsModal({
     };
   }, [open, center?.id, service?.id]);
 
-  if (isDesktop) {
+  if (isDesktop || iOS()) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogTrigger asChild>
@@ -87,8 +88,8 @@ export function ServiceDetailsModal({
             View Details {">"}
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-h-[90vh] rounded-md p-0 pb-[50px] sm:max-w-[425px] ">
-          <div className="max-h-[90vh] overflow-y-auto p-3 md:p-4">
+        <DialogContent className="max-h-[85vh] rounded-xl p-0 pb-[50px] sm:max-w-[425px] ">
+          <div className="max-h-[85vh] overflow-y-auto p-3 md:p-4">
             <div className="flex flex-col">
               <ServiceImagesCasousel
                 images={imageUrls}

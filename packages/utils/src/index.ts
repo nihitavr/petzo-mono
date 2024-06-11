@@ -20,6 +20,10 @@ export function getTimePassed(startDate?: Date | null) {
   let months = end.getMonth() - start.getMonth();
   let days = end.getDate() - start.getDate();
 
+  if (years === 0 && months === 0 && days === 0) {
+    return "0 days";
+  }
+
   if (days < 0) {
     months--;
     days += new Date(end.getFullYear(), end.getMonth(), 0).getDate();
