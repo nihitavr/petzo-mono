@@ -7,8 +7,8 @@ import { useInView } from "@petzo/ui/components/in-view";
 
 import { CENTERS_LIST_PAGE_LIMIT } from "~/lib/constants";
 import { api } from "~/trpc/react";
+import CenterCard from "../../../_components/center-card";
 import { LoadingCentersList } from "../loading";
-import CenterCard from "./center-card";
 import NoCentersFound from "./no-centers.found";
 
 export const CenterFilterList = ({
