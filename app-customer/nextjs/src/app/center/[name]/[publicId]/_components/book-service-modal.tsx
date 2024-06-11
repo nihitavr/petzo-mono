@@ -121,7 +121,7 @@ export function BookServiceDialog({
         <DialogTrigger asChild>
           <Button variant="primary">Add</Button>
         </DialogTrigger>
-        <DialogContent className="rounded-xl p-3 pb-16 sm:max-w-[425px]">
+        <DialogContent className="flex h-[80vh] flex-col justify-start rounded-xl p-3 pb-16 sm:max-w-[425px]">
           <DialogHeader>
             <span className="text-xs">Booking</span>
             <div className="flex items-center justify-between">
@@ -555,7 +555,7 @@ function ServiceBookingForm({
               </div>
             </div>
 
-            <div className="max-h-72 overflow-y-scroll">
+            <div className="max-h-80 overflow-y-scroll">
               {(() => {
                 const morningSlots = slots
                   ?.get(selectedSlotDate)
