@@ -59,7 +59,7 @@ const DrawerContent = React.forwardRef<
       {/* Drawer Drag */}
       {/* <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" /> */}
       <DrawerClose
-        className="absolute right-3 top-2 z-10 size-8 rounded-full border border-foreground/30 bg-muted p-1"
+        className="absolute right-3 top-2 z-10 size-8 rounded-full border border-foreground/30 bg-muted p-0.5"
         asChild
       >
         <LuX className="!size-6" strokeWidth={2.5} />

@@ -71,10 +71,10 @@ export default function HomePageCenterCard({ center }: { center: Center }) {
                 <span className="text-xs capitalize text-foreground/80">
                   {SERVICES_OFFERED[lowestPriceService.serviceType]?.name}
                 </span>
-                <span className="text-sm">Starting at </span>
+                <span className="text-2sm">Starting at </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-base font-semibold md:text-lg">
+                <span className="text-sm font-semibold md:text-base">
                   &#8377; {lowestPriceService.price}
                 </span>
               </div>

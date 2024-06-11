@@ -49,8 +49,8 @@ const DialogContent = React.forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-2 top-2 rounded-full border bg-muted p-0.5 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-        <LuX className="size-5" />
+      <DialogPrimitive.Close className="absolute right-2 top-2 rounded-full border border-foreground/30 bg-muted p-0.5 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+        <LuX className="size-[1.1rem]" strokeWidth={2.5} />
         <span className="sr-only">Close</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>
@@ -62,10 +62,7 @@ const DialogHeader = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn("flex flex-col space-y-1.5", className)}
-    {...props}
-  />
+  <div className={cn("flex flex-col space-y-1.5", className)} {...props} />
 );
 DialogHeader.displayName = "DialogHeader";
 
