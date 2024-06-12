@@ -9,7 +9,6 @@ import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/address
 import { FaArrowLeft } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 
-import type { CustomerAddresses } from "@petzo/db";
 import {
   Accordion,
   AccordionContent,
@@ -27,6 +26,7 @@ import NewAddessModal from "~/app/center/[name]/[publicId]/_components/add-addre
 import {
   removeItemFromServicesCart,
   servicesCart,
+  setAddressToServiceCart,
 } from "~/lib/storage/service-cart-storage";
 import { getCenterUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
@@ -35,9 +35,6 @@ export default function ServicesCheckoutPage() {
   useSignals();
 
   const [isLoaded, setIsLoaded] = useState(false);
-
-  const [selectedAddress, setSelectedAddress] =
-    useState<CustomerAddresses | null>(null);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -71,19 +68,16 @@ export default function ServicesCheckoutPage() {
       </div>
 
       <div>
-        <BillDetails items={servicesCart.value?.items} />
+        <BillDetails />
       </div>
 
       <div>
-        <AddressDetails
-          selectedAddress={selectedAddress}
-          setSelectedAddress={setSelectedAddress}
-        />
+        <AddressDetails />
       </div>
 
       <div className="fixed bottom-0 left-0 z-10 w-full bg-background px-3 pt-0 md:left-auto md:right-3 md:w-72 md:px-0 lg:right-24 xl:right-48">
         <Button
-          disabled={!selectedAddress}
+          disabled={!servicesCart.value?.address}
           className="flex h-11 w-full -translate-y-[40%] items-center gap-1 rounded-xl bg-green-700 caret-primary shadow-[0_0px_20px_rgba(0,0,0,0.25)] shadow-green-700/50 hover:bg-green-700/90"
         >
           <span className="font-semibold">Book Services</span>
@@ -109,18 +103,18 @@ const CartServiceDetails = ({ items }: { items: ServiceCartItem[] }) => {
     <div className="mt-2 flex flex-col gap-5">
       {items?.map((item, idx) => (
         <div
-          key={`service-no-${idx}`}
-          className="flex items-start justify-between gap-2"
+          key={`service-no-${idx}-${item.service.id}-${item.slot.id}-${item.pet.id}`}
+          className={`flex animate-fade-in items-start justify-between gap-2`}
         >
           <div className="flex flex-col gap-0.5">
             <span className="line-clamp-1 text-2sm font-semibold md:text-sm">
               {item.service.name}
             </span>
-            <span className="text-2xs text-foreground/70 md:text-xs">
+            <span className="text-xs text-foreground/70 md:text-2sm">
               Booking for:{" "}
               <span className="font-medium text-primary">{item?.pet.name}</span>
             </span>
-            <span className="line-clamp-1 text-2xs text-foreground/70 md:text-xs">
+            <span className="line-clamp-1 text-xs text-foreground/70 md:text-2sm">
               Start Time:{" "}
               <span className="font-medium">
                 {format(
@@ -150,13 +144,17 @@ const CartServiceDetails = ({ items }: { items: ServiceCartItem[] }) => {
   );
 };
 
-const BillDetails = ({ items }: { items: ServiceCartItem[] }) => {
-  const total = items?.reduce((acc, item) => acc + item.service.price, 0) ?? 0;
+const BillDetails = () => {
+  const total =
+    servicesCart.value?.items?.reduce(
+      (acc, item) => acc + item.service.price,
+      0,
+    ) ?? 0;
 
   return (
     <div>
       <Label className="font-semibold">Bill Details</Label>
-      <div className="mt-1 flex flex-col gap-1.5 rounded-xl bg-muted p-2 py-3.5">
+      <div className="mt-1 flex animate-fade-in flex-col gap-1.5 rounded-xl bg-muted p-2 py-3.5">
         <div className="flex items-center justify-between text-2sm font-medium md:text-sm ">
           <span className="text-foreground/80">Items Total</span>
           <Price price={total} />
@@ -174,15 +172,7 @@ const BillDetails = ({ items }: { items: ServiceCartItem[] }) => {
   );
 };
 
-const AddressDetails = ({
-  selectedAddress,
-  setSelectedAddress,
-}: {
-  selectedAddress: CustomerAddresses | null;
-  setSelectedAddress: React.Dispatch<
-    React.SetStateAction<CustomerAddresses | null>
-  >;
-}) => {
+const AddressDetails = () => {
   const [accordianValue, setAccordianValue] = useState("address-details");
 
   const {
@@ -205,7 +195,7 @@ const AddressDetails = ({
         value={accordianValue}
         onValueChange={setAccordianValue}
         collapsible={true}
-        className="mt-1 space-y-1 shadow-none"
+        className="mt-1 animate-fade-in space-y-1 shadow-none"
       >
         {/* Address */}
         <AccordionItem value="address-details" className="rounded-xl border-0">
@@ -215,12 +205,14 @@ const AddressDetails = ({
               accordianValue == "address-details"
                 ? "rounded-t-xl"
                 : "rounded-xl",
-              !selectedAddress ? "bg-primary/20" : "",
+              !servicesCart.value?.address ? "bg-primary/25" : "",
             )}
           >
             <span className="text-2sm font-semibold md:text-sm">
-              {selectedAddress ? (
-                <span className="text-primary">{selectedAddress.name}</span>
+              {servicesCart.value?.address ? (
+                <span className="text-primary">
+                  {servicesCart.value.address?.name}
+                </span>
               ) : (
                 <span className="text-destructive">Not Selected</span>
               )}
@@ -250,12 +242,12 @@ const AddressDetails = ({
                 addresses.map((address, idx) => (
                   <div
                     key={idx}
-                    className={`flex cursor-pointer flex-col gap-0.5 rounded-lg p-1.5 ${selectedAddress?.id == address.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                    className={`flex cursor-pointer flex-col gap-0.5 rounded-lg p-1.5 ${servicesCart.value?.address?.id == address.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
                     onClick={() => {
                       setTimeout(() => {
                         setAccordianValue("slot-starttime-selection");
                       }, 100);
-                      setSelectedAddress(address);
+                      setAddressToServiceCart(address);
                     }}
                     aria-hidden="true"
                   >

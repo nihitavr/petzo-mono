@@ -3,6 +3,7 @@ import {
   boolean,
   index,
   integer,
+  pgEnum,
   serial,
   timestamp,
   varchar,
@@ -14,6 +15,12 @@ import { customerUsers } from "./customer-app-auth.schema";
 import { pets } from "./pet.schema";
 import { services } from "./service.schema";
 import { slots } from "./slot.schema";
+
+export const bookingStatusEnum = pgEnum("booking_status_type", [
+  "booked",
+  "confirmed",
+  "cancelled",
+]);
 
 export const bookings = pgTable(
   "booking",
@@ -37,7 +44,7 @@ export const bookings = pgTable(
       .references(() => centers.id),
     amount: integer("amount").notNull(),
     isPaid: boolean("is_paid").notNull(),
-    status: varchar("status", { length: 256 }).notNull(),
+    status: bookingStatusEnum("status").default("booked").notNull(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),

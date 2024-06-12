@@ -2,12 +2,13 @@
 
 import { effect, signal } from "@preact/signals-react";
 
-import type { Center, Pet, Service, Slot } from "@petzo/db";
+import type { Center, CustomerAddresses, Pet, Service, Slot } from "@petzo/db";
 
 export const dynamic = "force-dynamic";
 
 export interface ServicesCart {
   center: Center;
+  address: CustomerAddresses;
   items: ServiceCartItem[];
 }
 
@@ -31,6 +32,14 @@ function getServicesCart(): ServicesCart {
 
   return JSON.parse(
     localStorage?.getItem("servicesCart") ?? "{}",
+  ) as ServicesCart;
+}
+
+export function setAddressToServiceCart(address: CustomerAddresses) {
+  servicesCart.value.address = address;
+
+  servicesCart.value = JSON.parse(
+    JSON.stringify(servicesCart.value),
   ) as ServicesCart;
 }
 

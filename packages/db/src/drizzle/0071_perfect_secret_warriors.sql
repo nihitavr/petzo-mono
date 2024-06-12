@@ -1,0 +1,1 @@
+ALTER TABLE "booking" ALTER COLUMN "status" SET DEFAULT 'booked';

@@ -29,8 +29,8 @@ const HomePageServicesCard = ({
           toast.info(disabledToastText ?? "This service is coming soon...");
         }
       }}
-      className={`relative m-auto flex aspect-square w-full flex-col 
-      overflow-hidden rounded-2xl border p-3 transition-transform 
+      className={`relative m-auto flex aspect-square w-full animate-fade-in 
+      flex-col overflow-hidden rounded-2xl border p-3 transition-transform
       duration-200 ease-in-out md:p-4 ${disabled ? "opacity-60 dark:opacity-50" : "group hover:scale-105"}`}
     >
       <Image

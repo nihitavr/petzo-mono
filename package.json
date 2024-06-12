@@ -10,7 +10,7 @@
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo clean",
     "db:introspect": "drizzle-kit introspect:pg --schema=./packages/db/src/schema",
-    "db:generate": "drizzle-kit generate:pg --schema=./packages/db/src/schema",
+    "db:generate": "pnpm -F db generate",
     "db:push": "pnpm -F db push",
     "db:studio": "pnpm -F db studio",
     "dev": "turbo dev --parallel --verbosity=1",

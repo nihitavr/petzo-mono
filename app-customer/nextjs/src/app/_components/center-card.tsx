@@ -17,7 +17,7 @@ export default function CenterCard({ center }: { center: Center }) {
   return (
     <Link
       href={getCenterUrl(center)}
-      className="flex flex-row rounded-xl bg-muted md:border md:shadow-sm"
+      className="flex animate-fade-in flex-row rounded-xl bg-muted md:border md:shadow-sm"
     >
       <div className="flex h-44 w-full gap-1 md:h-60">
         {/* Center Image */}
