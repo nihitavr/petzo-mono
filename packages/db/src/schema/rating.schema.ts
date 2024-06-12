@@ -2,7 +2,6 @@ import { sql } from "drizzle-orm";
 import {
   index,
   integer,
-  real,
   serial,
   timestamp,
   varchar,
