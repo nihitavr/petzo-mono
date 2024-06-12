@@ -38,7 +38,7 @@ export default function CenterCard({ center }: { center: Center }) {
         </div>
 
         {/* Center Details */}
-        <div className="flex w-3/5 flex-col gap-1 p-1 pr-1.5 md:gap-1.5 md:p-2.5">
+        <div className="flex w-3/5 flex-col gap-1 p-1 pr-1.5 md:gap-1.5 md:p-1.5">
           {/* Center Name */}
           <div className="line-clamp-2 cursor-pointer text-sm font-semibold hover:underline md:text-base">
             {center.name}
