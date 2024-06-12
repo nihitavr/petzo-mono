@@ -24,7 +24,6 @@ input[type="file"] {
     --secondary: 240 4.8% 85.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
-    /* --muted: 330 9% 96%; */
     --muted-foreground: 240 3.8% 46.1%;
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
@@ -38,7 +37,6 @@ input[type="file"] {
 
   .dark {
     /* Google color */
-    /* --background: 223 49% 8%; */
     --background: 0 0% 13%;
     --foreground: 0 0% 88%;
     --card: 240 10% 3.9%;
@@ -53,7 +51,6 @@ input[type="file"] {
     --muted-foreground: 240 5% 64.9%;
     --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
-    /* --destructive: 0 62.8% 30.6%; */
     --destructive: 0 72.22% 45.59%;
     --destructive-foreground: 0 85.7% 97.3%;
     --border: 0 0% 23%;

@@ -26,18 +26,18 @@ export default function RatingInput({
               key={star}
               className="h-5 w-5 cursor-pointer text-yellow-600"
               onClick={() => setRating(star)}
-              onMouseEnter={() => setHoveredRating(star)}
-              onMouseLeave={() => setHoveredRating(0)}
+              // onMouseEnter={() => setHoveredRating(star)}
+              // onMouseLeave={() => setHoveredRating(0)}
             />
           );
         } else {
           return (
             <FaStar
               key={star}
-              onClick={() => setRating(star)}
-              onMouseEnter={() => setHoveredRating(star)}
-              onMouseLeave={() => setHoveredRating(0)}
               className="h-5 w-5 cursor-pointer text-yellow-600"
+              onClick={() => setRating(star)}
+              // onMouseEnter={() => setHoveredRating(star)}
+              // onMouseLeave={() => setHoveredRating(0)}
             />
           );
         }

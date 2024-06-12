@@ -146,7 +146,10 @@ export default function ReviewInput({
           className="min-h-60 w-full md:min-h-36"
         />
 
-        {(isFocused || input) && (
+        {(isFocused ||
+          input ||
+          rating !== currentUserReview?.rating?.rating ||
+          rating != 0) && (
           <div className="mt-2 flex items-center justify-end gap-2">
             <Button
               disabled={isSubmitting}

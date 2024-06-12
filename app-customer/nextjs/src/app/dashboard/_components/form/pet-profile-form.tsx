@@ -61,7 +61,6 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
 
   const addPet = api.pet.addPetProfile.useMutation();
   const updatePet = api.pet.updatePetProfile.useMutation();
-  console.log(form.formState.errors);
 
   const onMutateSuccess = (
     data?: Pet | null,

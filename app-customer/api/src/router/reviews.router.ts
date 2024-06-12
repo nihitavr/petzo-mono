@@ -19,20 +19,28 @@ export const reviewsRouter = {
             eq(schema.reviews.customerUserId, ctx.session.user.id),
             isNull(schema.reviews.parentReviewId),
           ),
-        )
-        .leftJoin(
-          schema.ratings,
+        );
+
+      const ratings = await ctx.db
+        .select()
+        .from(schema.ratings)
+        .where(
           and(
-            eq(schema.reviews.centerId, schema.ratings.centerId),
-            eq(schema.reviews.customerUserId, schema.ratings.customerUserId),
+            eq(schema.ratings.centerId, input.centerId),
+            eq(schema.ratings.customerUserId, ctx.session.user.id),
           ),
         );
 
-      if (!reviews || reviews.length === 0) return undefined;
+      if (
+        (!reviews || reviews.length === 0) &&
+        (!ratings || ratings.length === 0)
+      ) {
+        return undefined;
+      }
 
       return {
-        ...reviews[0]!.review,
-        rating: { ...reviews[0]?.rating },
+        ...reviews?.[0],
+        rating: { ...ratings?.[0] },
         user: { ...ctx.session.user, phoneNumber: null },
       } as Review;
     }),

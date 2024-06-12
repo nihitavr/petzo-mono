@@ -25,9 +25,9 @@ export default function ServiceCard({
   const [openDetails, setOpenDetails] = useState(false);
 
   return (
-    <div className={cn("flex justify-between", className)}>
+    <div className={cn("flex justify-between bg-muted", className)}>
       {/* Service Info */}
-      <div className="flex flex-col gap-1 p-2.5">
+      <div className="flex flex-col gap-1 p-2">
         <h2 className="line-clamp-2 text-sm font-semibold md:text-base">
           {service.name}
         </h2>

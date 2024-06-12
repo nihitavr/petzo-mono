@@ -18,7 +18,7 @@ const ServicesSection = ({
   user?: CustomerUser;
 }) => {
   return (
-    <div className={`overflow-hidden1 flex w-full flex-col gap-3`}>
+    <div className={`flex w-full flex-col gap-3`}>
       <div className="flex items-center justify-center gap-1">
         {serviceTypeInfo.icon && (
           <Image
@@ -39,7 +39,7 @@ const ServicesSection = ({
           return (
             // Service Card Container
             <ServiceCard
-              className={`${services.length == 1 ? "col-span-2" : "col-span-1"} rounded-xl bg-muted`}
+              className={`${services.length == 1 ? "col-span-2" : "col-span-1"} rounded-xl`}
               key={`services-${serviceTypeInfo.publicId}-${service.id}`}
               service={service}
               center={center}
