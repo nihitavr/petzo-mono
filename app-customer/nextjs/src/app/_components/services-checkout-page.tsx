@@ -9,7 +9,6 @@ import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/address
 import { FaArrowLeft } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 
-import type { CustomerAddresses } from "@petzo/db";
 import {
   Accordion,
   AccordionContent,
@@ -69,7 +68,7 @@ export default function ServicesCheckoutPage() {
       </div>
 
       <div>
-        <BillDetails items={servicesCart.value?.items} />
+        <BillDetails />
       </div>
 
       <div>
@@ -145,13 +144,17 @@ const CartServiceDetails = ({ items }: { items: ServiceCartItem[] }) => {
   );
 };
 
-const BillDetails = ({ items }: { items: ServiceCartItem[] }) => {
-  const total = items?.reduce((acc, item) => acc + item.service.price, 0) ?? 0;
+const BillDetails = () => {
+  const total =
+    servicesCart.value?.items?.reduce(
+      (acc, item) => acc + item.service.price,
+      0,
+    ) ?? 0;
 
   return (
     <div>
       <Label className="font-semibold">Bill Details</Label>
-      <div className="mt-1 flex flex-col gap-1.5 rounded-xl bg-muted p-2 py-3.5">
+      <div className="mt-1 flex animate-fade-in flex-col gap-1.5 rounded-xl bg-muted p-2 py-3.5">
         <div className="flex items-center justify-between text-2sm font-medium md:text-sm ">
           <span className="text-foreground/80">Items Total</span>
           <Price price={total} />
@@ -192,7 +195,7 @@ const AddressDetails = () => {
         value={accordianValue}
         onValueChange={setAccordianValue}
         collapsible={true}
-        className="mt-1 space-y-1 shadow-none"
+        className="mt-1 animate-fade-in space-y-1 shadow-none"
       >
         {/* Address */}
         <AccordionItem value="address-details" className="rounded-xl border-0">
