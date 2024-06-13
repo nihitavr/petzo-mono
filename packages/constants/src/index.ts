@@ -1,11 +1,14 @@
+export const SLOT_DURATION_IN_MINS = 30;
+
 export const SERVICES_OFFERED: Record<
   string,
-  { name: string; publicId: string; icon?: string }
+  { name: string; publicId: string; icon?: string; travelTimeInMins?: number }
 > = {
   home_grooming: {
     name: "Home Grooming",
     publicId: "home_grooming",
     icon: "/icons/home-grooming-icon.svg",
+    travelTimeInMins: 30,
   },
   // veterinary: {
   //   name: "Veterinary",

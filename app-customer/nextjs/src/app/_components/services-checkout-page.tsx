@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSignals } from "@preact/signals-react/runtime";
+import { TRPCClientError } from "@trpc/client";
 import { format, parse } from "date-fns";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -18,12 +19,14 @@ import {
 import { Button } from "@petzo/ui/components/button";
 import { Label } from "@petzo/ui/components/label";
 import { Skeleton } from "@petzo/ui/components/skeleton";
+import { toast } from "@petzo/ui/components/toast";
 import { cn } from "@petzo/ui/lib/utils";
 
 import type { ServiceCartItem } from "~/lib/storage/service-cart-storage";
 import Price from "~/app/_components/price";
 import NewAddessModal from "~/app/center/[name]/[publicId]/_components/add-address-modal";
 import {
+  clearServicesCart,
   removeItemFromServicesCart,
   servicesCart,
   setAddressToServiceCart,
@@ -33,12 +36,42 @@ import { api } from "~/trpc/react";
 
 export default function ServicesCheckoutPage() {
   useSignals();
+  const router = useRouter();
 
   const [isLoaded, setIsLoaded] = useState(false);
+
+  const bookingService = api.booking.bookService.useMutation();
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
+
+  const onClickBookServices = async () => {
+    try {
+      await bookingService.mutateAsync({
+        centerId: servicesCart.value.center.id,
+        addressId: servicesCart.value.address!.id,
+        items: servicesCart.value.items.map((item) => ({
+          serviceId: item.service.id,
+          slotId: item.slot.id,
+          petId: item.pet.id,
+        })),
+      });
+
+      router.push(
+        "/checkout/services/booking-confirmed?center=" +
+          servicesCart.value.center.name,
+      );
+
+      clearServicesCart();
+    } catch (e) {
+      if (e instanceof TRPCClientError) {
+        toast.error(
+          e.message ?? "Failed to book services. Please try again later.",
+        );
+      }
+    }
+  };
 
   if (!isLoaded) return null;
 
@@ -77,7 +110,12 @@ export default function ServicesCheckoutPage() {
 
       <div className="fixed bottom-0 left-0 z-10 w-full bg-background px-3 pt-0 md:left-auto md:right-3 md:w-72 md:px-0 lg:right-24 xl:right-48">
         <Button
-          disabled={!servicesCart.value?.address}
+          onClick={onClickBookServices}
+          disabled={
+            !servicesCart.value?.address ||
+            !servicesCart.value?.items?.length ||
+            !servicesCart.value.center
+          }
           className="flex h-11 w-full -translate-y-[40%] items-center gap-1 rounded-xl bg-green-700 caret-primary shadow-[0_0px_20px_rgba(0,0,0,0.25)] shadow-green-700/50 hover:bg-green-700/90"
         >
           <span className="font-semibold">Book Services</span>

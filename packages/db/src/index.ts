@@ -2,6 +2,7 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
 import * as area from "./schema/area.schema";
+import * as bookingItems from "./schema/booking-items.schema";
 import * as booking from "./schema/booking.schema";
 import * as centerAddress from "./schema/center-address.schema";
 import * as centerAuth from "./schema/center-app-auth.schema";
@@ -25,6 +26,7 @@ export const schema = {
   ...customerAddress,
   ...area,
   ...booking,
+  ...bookingItems,
   ...center,
   ...centerAddress,
   ...city,

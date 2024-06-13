@@ -1,4 +1,47 @@
-import { isAfter, isBefore, parse } from "date-fns";
+import {
+  addMinutes,
+  format,
+  isAfter,
+  isBefore,
+  parse,
+  setHours,
+  setMinutes,
+  subMinutes,
+} from "date-fns";
+
+/**
+ * Get all slots start times before and after the booked time within the given duration.
+ *
+ * @param time - The booked slot start time in 'HH:mm:ss' format.
+ * @param duration - The duration of the service in minutes.
+ * @returns - An array of slot start times within the duration before and after the booked time.
+ */
+export function getSurroundingTime(time: string, duration: number): string[] {
+  // Parse the bookedTime into a Date object
+
+  const startTimeHours = parseInt(time.split(":")[0]!);
+  const startTimeMinutes = parseInt(time.split(":")[1]!);
+
+  const baseDate = setMinutes(
+    setHours(new Date("1970-01-01"), startTimeHours),
+    startTimeMinutes,
+  );
+
+  // Calculate the start and end time considering the duration
+  const startTime = subMinutes(baseDate, duration);
+  const endTime = addMinutes(baseDate, duration);
+
+  // Generate the slots between startTime and endTime at 30-minute intervals
+  const slots: string[] = [];
+  let currentTime = startTime;
+
+  while (currentTime <= endTime) {
+    slots.push(format(currentTime, "HH:mm:ss"));
+    currentTime = addMinutes(currentTime, 30);
+  }
+
+  return slots;
+}
 
 export function convertTime24To12(time24: string): string {
   const [hours, minutes] = time24.split(":").map(Number);

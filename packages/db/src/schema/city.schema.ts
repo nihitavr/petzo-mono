@@ -16,7 +16,7 @@ export const cities = pgTable(
       .references(() => states.id),
   },
   (city) => ({
-    cityAndStateIdx: unique("city_public_id_and_state_unique_idx").on(
+    cityAndStateIdx: unique("city_public_id_state_idx").on(
       city.publicId,
       city.stateId,
     ),

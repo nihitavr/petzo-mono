@@ -11,10 +11,8 @@ import {
 
 import { pgTable } from "./_table";
 import { centers } from "./center.schema";
+import { customerAddresses } from "./customer-address.schema";
 import { customerUsers } from "./customer-app-auth.schema";
-import { pets } from "./pet.schema";
-import { services } from "./service.schema";
-import { slots } from "./slot.schema";
 
 export const bookingStatusEnum = pgEnum("booking_status_type", [
   "booked",
@@ -30,15 +28,7 @@ export const bookings = pgTable(
       .notNull()
       .references(() => customerUsers.id),
 
-    petId: integer("pet_id")
-      .notNull()
-      .references(() => pets.id),
-    slotId: integer("slot_id")
-      .notNull()
-      .references(() => slots.id),
-    serviceId: integer("service_id")
-      .notNull()
-      .references(() => services.id),
+    addressId: integer("address_id").references(() => customerAddresses.id),
     centerId: integer("center_id")
       .notNull()
       .references(() => centers.id),
@@ -53,13 +43,9 @@ export const bookings = pgTable(
       .notNull(),
   },
   (booking) => ({
-    userPetIdx: index("bookings_user_pet_idx").on(
+    centerIdIdx: index("center_id_index").on(booking.centerId),
+    customerUserIdIdx: index("customer_user_id_index").on(
       booking.customerUserId,
-      booking.petId,
-    ),
-    serviceCenterIdx: index("bookings_service_center_idx").on(
-      booking.serviceId,
-      booking.centerId,
     ),
   }),
 );
