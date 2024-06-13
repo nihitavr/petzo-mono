@@ -34,6 +34,8 @@ export const services = pgTable(
     price: integer("price").notNull(),
     images: json("images").$type<{ url: string }[]>(),
     startTime: time("start_time").default("09:00").notNull(),
+
+    // Duration in minutes
     duration: integer("duration").default(60).notNull(),
     startTimeEnd: time("start_time_end").default("17:00").notNull(),
     description: text("description"),

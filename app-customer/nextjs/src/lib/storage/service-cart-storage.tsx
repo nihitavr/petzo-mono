@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export interface ServicesCart {
   center: Center;
-  address: CustomerAddresses;
+  address?: CustomerAddresses;
   items: ServiceCartItem[];
 }
 
@@ -78,4 +78,8 @@ export function removeItemFromServicesCart(itemIdx: number) {
   cart.items = cart.items.filter((_, idx) => itemIdx !== idx);
 
   servicesCart.value = JSON.parse(JSON.stringify(cart)) as ServicesCart;
+}
+
+export function clearServicesCart() {
+  servicesCart.value = {} as ServicesCart;
 }

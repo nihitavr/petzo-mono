@@ -10,3 +10,4 @@ export * as reviewValidator from "./review.validator";
 export * as mapValidator from "./map.validator";
 export * as geographyValidator from "./geography.validator";
 export * as customerAddressValidator from "./customer-address.validator";
+export * as bookingValidator from "./booking.validator";

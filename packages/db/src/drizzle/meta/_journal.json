@@ -505,6 +505,34 @@
       "when": 1718201552295,
       "tag": "0071_perfect_secret_warriors",
       "breakpoints": true
+    },
+    {
+      "idx": 72,
+      "version": "7",
+      "when": 1718228303205,
+      "tag": "0072_condemned_nightshade",
+      "breakpoints": true
+    },
+    {
+      "idx": 73,
+      "version": "7",
+      "when": 1718228314006,
+      "tag": "0073_fancy_moonstone",
+      "breakpoints": true
+    },
+    {
+      "idx": 74,
+      "version": "7",
+      "when": 1718277278992,
+      "tag": "0074_wakeful_lizard",
+      "breakpoints": true
+    },
+    {
+      "idx": 75,
+      "version": "7",
+      "when": 1718316546924,
+      "tag": "0075_easy_moira_mactaggert",
+      "breakpoints": true
     }
   ]
 }

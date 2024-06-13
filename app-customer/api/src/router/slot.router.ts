@@ -1,13 +1,15 @@
 import { format, isBefore, isEqual, setHours, setMinutes } from "date-fns";
 import { z } from "zod";
 
-import { and, eq, inArray, schema, Service, Slot } from "@petzo/db";
+import type { Service, Slot } from "@petzo/db";
+import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
+import { and, asc, eq, inArray, schema } from "@petzo/db";
 import { getNextNDaysString } from "@petzo/utils/time";
 
 import { publicCachedProcedure } from "../trpc";
 
 export const slotRouter = {
-  getSlots: publicCachedProcedure
+  getDateToSlotsMap: publicCachedProcedure
     .input(z.object({ serviceId: z.number() }))
     .query(async ({ ctx, input }) => {
       const next7Dates = getNextNDaysString(7);
@@ -17,6 +19,7 @@ export const slotRouter = {
           eq(schema.slots.serviceId, input.serviceId),
           inArray(schema.slots.date, next7Dates),
         ),
+        orderBy: [asc(schema.slots.date), asc(schema.slots.startTime)],
       });
 
       const dateToSlotsMap = new Map<string, typeof slots>();
@@ -107,7 +110,9 @@ const slotRouterUtils = {
           startTime: time,
         } as unknown as Slot);
 
-        startTimeDate.setMinutes(startTimeDate.getMinutes() + 30);
+        startTimeDate.setMinutes(
+          startTimeDate.getMinutes() + SLOT_DURATION_IN_MINS,
+        );
       }
     });
 

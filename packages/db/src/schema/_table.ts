@@ -49,6 +49,11 @@ export const point = customType<{
     return parseEWKB(value);
   },
   dataType() {
-    return "geography(Point,4326)";
+    return "geography";
+
+    // TODO: geography(Point,4326) is what is in the database. But for some reason drizzle-kit when
+    // pulls schema from database it only gets "geography" and not "geography(Point,4326)"
+    // So for now, we are returning "geography" here. But this should be fixed in drizzle-kit.
+    // return "geography(Point,4326)";
   },
 });

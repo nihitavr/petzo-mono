@@ -1,4 +1,5 @@
 import { authRouter } from "./router/auth.router";
+import { bookingRouter } from "./router/booking.router";
 import { centerRouter } from "./router/center.router";
 import { customerAddressRouter } from "./router/customer-address.router";
 import { geographyRouter } from "./router/geography.router";
@@ -25,6 +26,7 @@ export const appRouter = createTRPCRouter({
   ratings: ratingsRouter,
   customerAddress: customerAddressRouter,
   slot: slotRouter,
+  booking: bookingRouter,
 });
 
 // export type definition of API

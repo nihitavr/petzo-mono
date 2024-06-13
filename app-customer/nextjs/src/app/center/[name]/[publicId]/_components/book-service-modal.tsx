@@ -238,12 +238,13 @@ function ServiceBookingForm({
   const [isNewPetSubmitting, setIsNewPetSubmitting] = useState(false);
   const addPet = api.pet.addPetProfile.useMutation();
 
-  const { data: slots, isLoading: isSlotsLoading } = api.slot.getSlots.useQuery(
-    { serviceId: service.id },
-    {
-      enabled: !!user,
-    },
-  );
+  const { data: slots, isLoading: isSlotsLoading } =
+    api.slot.getDateToSlotsMap.useQuery(
+      { serviceId: service.id },
+      {
+        enabled: !!user,
+      },
+    );
 
   const addToCart = (closeDialog = true) => {
     if (!selectedPet || !selectedSlot) return;
@@ -260,6 +261,15 @@ function ServiceBookingForm({
     });
 
     if (closeDialog) onOpenChange(false);
+  };
+
+  const onSlotClick = (slot: Slot) => {
+    if (!slot.availableSlots) return;
+
+    setSelectedSlot(slot);
+    setTimeout(() => {
+      setAccordianValue("");
+    }, 200);
   };
 
   const onSubmit = async (values: unknown) => {
@@ -577,91 +587,51 @@ function ServiceBookingForm({
                 return (
                   <div className="flex flex-col">
                     {morningSlots?.length && (
-                      <div className="space-y-2 p-3">
-                        <div className="flex items-center gap-0.5 font-semibold">
+                      <SlotSection
+                        icon={
                           <WiSunrise
                             size={25}
                             strokeWidth={0.3}
                             className="text-yellow-600"
                           />
-                          <span>Morning</span>
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                          {morningSlots.map((slot, idx) => (
-                            <span
-                              key={idx}
-                              onClick={() => {
-                                setSelectedSlot(slot);
-                                setTimeout(() => {
-                                  setAccordianValue("");
-                                }, 200);
-                              }}
-                              aria-hidden="true"
-                              className={`cursor-pointer rounded-md border p-1.5 text-xs font-semibold ${selectedSlot?.id == slot.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
-                            >
-                              {convertTime24To12(slot.startTime)}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
+                        }
+                        name="Morning"
+                        slots={morningSlots}
+                        selectedSlotId={selectedSlot?.id}
+                        onSlotClick={onSlotClick}
+                      />
                     )}
+
                     {afternoonSlots?.length && (
-                      <div className="space-y-2 p-3">
-                        <div className="flex items-center gap-0.5 font-semibold">
+                      <SlotSection
+                        icon={
                           <WiDaySunny
                             size={25}
                             strokeWidth={0.3}
                             className="text-orange-600"
                           />
-                          <span>Afternoon</span>
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                          {afternoonSlots.map((slot, idx) => (
-                            <span
-                              key={idx}
-                              onClick={() => {
-                                setSelectedSlot(slot);
-                                setTimeout(() => {
-                                  setAccordianValue("");
-                                }, 200);
-                              }}
-                              aria-hidden="true"
-                              className={`cursor-pointer rounded-md border p-1.5 text-xs font-semibold ${selectedSlot?.id == slot.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
-                            >
-                              {convertTime24To12(slot.startTime)}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
+                        }
+                        name="Afternoon"
+                        slots={afternoonSlots}
+                        selectedSlotId={selectedSlot?.id}
+                        onSlotClick={onSlotClick}
+                      />
                     )}
+
                     {eveningSlots?.length && (
-                      <div className="space-y-2 p-3">
-                        <div className="flex items-center gap-0.5 font-semibold">
+                      <SlotSection
+                        icon={
                           <HiOutlineMoon
                             size={17}
                             strokeWidth={2.2}
                             className="text-slate-500"
                           />
-                          <span>Evening</span>
-                        </div>{" "}
-                        <div className="flex flex-wrap gap-2">
-                          {eveningSlots.map((slot, idx) => (
-                            <span
-                              key={idx}
-                              onClick={() => {
-                                setSelectedSlot(slot);
-                                setTimeout(() => {
-                                  setAccordianValue("");
-                                }, 200);
-                              }}
-                              aria-hidden="true"
-                              className={`cursor-pointer rounded-md border p-1.5 text-xs font-semibold ${selectedSlot?.id == slot.id ? "bg-primary/30" : "hover:bg-primary/10"}`}
-                            >
-                              {convertTime24To12(slot.startTime)}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
+                        }
+                        name="Evening"
+                        slots={eveningSlots}
+                        selectedSlotId={selectedSlot?.id}
+                        onSlotClick={onSlotClick}
+                      />
                     )}
                   </div>
                 );
@@ -696,6 +666,62 @@ function ServiceBookingForm({
     </div>
   );
 }
+
+const SlotSection = ({
+  icon,
+  name,
+  slots,
+  selectedSlotId,
+  onSlotClick,
+}: {
+  icon: React.ReactNode;
+  name: string;
+  slots: Slot[];
+  selectedSlotId?: number | null;
+  onSlotClick: (slot: Slot) => void;
+}) => {
+  return (
+    <div className="space-y-2 p-3">
+      <div className="flex items-center gap-0.5 font-semibold">
+        {icon}
+        <span>{name}</span>
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {slots.map((slot, idx) => (
+          <SlotBox
+            key={idx}
+            onClick={() => onSlotClick(slot)}
+            isAvailable={!!slot.availableSlots}
+            isSelected={selectedSlotId == slot.id}
+            slotStartTime={slot.startTime}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const SlotBox = ({
+  onClick,
+  isAvailable,
+  isSelected,
+  slotStartTime,
+}: {
+  onClick: () => void;
+  isAvailable: boolean;
+  isSelected: boolean;
+  slotStartTime: string;
+}) => {
+  return (
+    <span
+      onClick={onClick}
+      aria-hidden="true"
+      className={`cursor-pointer rounded-md border p-1.5 text-xs font-semibold ${!isAvailable ? "bg-muted opacity-60" : isSelected ? "bg-primary/30" : "hover:bg-primary/10"}`}
+    >
+      {convertTime24To12(slotStartTime)}
+    </span>
+  );
+};
 
 const AccordianPreview = ({
   label,

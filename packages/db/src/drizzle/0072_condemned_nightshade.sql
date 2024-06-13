@@ -1,0 +1,1 @@
+ALTER TABLE "city" DROP CONSTRAINT "city_public_id_and_state_unique_idx";
