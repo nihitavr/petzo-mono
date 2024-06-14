@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSignals } from "@preact/signals-react/runtime";
-import { TRPCClientError } from "@trpc/client";
 import { format, parse } from "date-fns";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -16,10 +15,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@petzo/ui/components/accordion";
-import { Button } from "@petzo/ui/components/button";
 import { Label } from "@petzo/ui/components/label";
 import { Skeleton } from "@petzo/ui/components/skeleton";
-import { toast } from "@petzo/ui/components/toast";
 import { cn } from "@petzo/ui/lib/utils";
 
 import type { ServiceCartItem } from "~/lib/storage/service-cart-storage";
@@ -33,47 +30,40 @@ import {
 } from "~/lib/storage/service-cart-storage";
 import { getCenterUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
+import BookServicesButton from "./book-services-button";
 
 export default function ServicesCheckoutPage() {
   useSignals();
   const router = useRouter();
 
   const [isLoaded, setIsLoaded] = useState(false);
-
-  const bookingService = api.booking.bookService.useMutation();
+  const [isBookingComplete, setIsBookingComplete] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
 
-  const onClickBookServices = async () => {
-    try {
-      await bookingService.mutateAsync({
-        centerId: servicesCart.value.center.id,
-        addressId: servicesCart.value.address!.id,
-        items: servicesCart.value.items.map((item) => ({
-          serviceId: item.service.id,
-          slotId: item.slot.id,
-          petId: item.pet.id,
-        })),
-      });
-
-      router.push(
-        "/checkout/services/booking-confirmed?center=" +
-          servicesCart.value.center.name,
-      );
-
-      clearServicesCart();
-    } catch (e) {
-      if (e instanceof TRPCClientError) {
-        toast.error(
-          e.message ?? "Failed to book services. Please try again later.",
-        );
-      }
+  useEffect(() => {
+    if (isBookingComplete) {
+      setTimeout(() => {
+        router.push("/");
+        clearServicesCart();
+      }, 2000);
     }
-  };
+  }, [isBookingComplete]);
 
   if (!isLoaded) return null;
+
+  if (isBookingComplete) {
+    return (
+      <div className="flex h-[80vh] flex-col items-center justify-center gap-1">
+        <h1 className="text-2xl font-bold text-primary">Booking Complete!</h1>
+        <h2 className="text-xl font-semibold">
+          at {servicesCart.value?.center?.name}
+        </h2>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6 pb-2">
@@ -108,20 +98,7 @@ export default function ServicesCheckoutPage() {
         <AddressDetails />
       </div>
 
-      <div className="fixed bottom-0 left-0 z-10 w-full bg-background px-3 pt-0 md:left-auto md:right-3 md:w-72 md:px-0 lg:right-24 xl:right-48">
-        <Button
-          onClick={onClickBookServices}
-          disabled={
-            !servicesCart.value?.address ||
-            !servicesCart.value?.items?.length ||
-            !servicesCart.value.center
-          }
-          className="flex h-11 w-full -translate-y-[40%] items-center gap-1 rounded-xl bg-green-700 caret-primary shadow-[0_0px_20px_rgba(0,0,0,0.25)] shadow-green-700/50 hover:bg-green-700/90"
-        >
-          <span className="font-semibold">Book Services</span>
-          {/* <FaDog className="size-4" /> */}
-        </Button>
-      </div>
+      <BookServicesButton setBookingComplete={setIsBookingComplete} />
     </div>
   );
 }
