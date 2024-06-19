@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
+import { track } from "@vercel/analytics";
 
 import type { Center, CustomerUser, Service } from "@petzo/db";
 import { Button } from "@petzo/ui/components/button";
@@ -39,6 +40,8 @@ export function ServiceDetailsModal({
   setOpen: (open: boolean) => void;
   user?: CustomerUser;
 }) {
+  track("service-details-page", { serviceId: service.id });
+
   const serviceUrl = useMemo(() => getServiceUrl(service, center), []);
   const centerUrl = useMemo(() => getCenterUrl(center), []);
 

@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { track } from "@vercel/analytics/server";
 
 import { CENTERS_LIST_PAGE_LIMIT } from "~/lib/constants";
 import { getCenterFilters } from "~/lib/utils/center.utils";
@@ -24,6 +25,8 @@ export default async function Centers({
     longitude: string;
   };
 }) {
+  await track("city-centers-page", { city: params.city });
+
   const {
     serviceType,
     search,

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSignals } from "@preact/signals-react/runtime";
@@ -15,6 +16,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@petzo/ui/components/accordion";
+import { TypewriterEffect } from "@petzo/ui/components/animation/typewriter-effect";
 import { Label } from "@petzo/ui/components/label";
 import { Skeleton } from "@petzo/ui/components/skeleton";
 import { cn } from "@petzo/ui/lib/utils";
@@ -47,7 +49,10 @@ export default function ServicesCheckoutPage() {
     if (isBookingComplete) {
       setTimeout(() => {
         router.push("/");
-        clearServicesCart();
+
+        setTimeout(() => {
+          clearServicesCart();
+        }, 500);
       }, 2000);
     }
   }, [isBookingComplete]);
@@ -65,6 +70,8 @@ export default function ServicesCheckoutPage() {
     );
   }
 
+  const centerImage = servicesCart.value?.center.images?.[0]?.url;
+
   return (
     <div className="flex flex-col gap-6 pb-2">
       <div>
@@ -72,16 +79,28 @@ export default function ServicesCheckoutPage() {
           <h1 className="text-xl font-semibold">Cart</h1>
         </div>
         <div className="mt-1 rounded-xl bg-muted p-2 py-4 pt-1.5">
-          <Label className="text-xs text-foreground/80">Center</Label>
-          <Link
-            href={getCenterUrl(servicesCart.value?.center)}
-            className="flex cursor-pointer flex-nowrap items-center gap-1 hover:opacity-80"
-          >
-            <FaArrowLeft className="size-3.5" />
-            <h3 className="line-clamp-1 text-sm font-semibold md:text-base">
-              {servicesCart.value?.center?.name}
-            </h3>
-          </Link>
+          <div className="flex items-center justify-between">
+            <div>
+              <Label className="text-xs text-foreground/80">Center</Label>
+              <Link
+                href={getCenterUrl(servicesCart.value?.center)}
+                className="flex cursor-pointer flex-nowrap items-center gap-1 hover:opacity-80"
+              >
+                <FaArrowLeft className="size-3.5" />
+                <h3 className="line-clamp-1 text-sm font-semibold md:text-base">
+                  {servicesCart.value?.center?.name}
+                </h3>
+              </Link>
+            </div>
+            {centerImage && (
+              <Link
+                href={getCenterUrl(servicesCart.value?.center)}
+                className="relative aspect-square h-10 overflow-hidden rounded-md bg-red-500"
+              >
+                <Image src={centerImage} fill className="object-cover" alt="" />
+              </Link>
+            )}
+          </div>
 
           <div className="mt-2 rounded-xl bg-background px-2.5 py-1.5">
             {/* <Label className="text-xs text-foreground/80">Services</Label> */}
@@ -223,7 +242,7 @@ const AddressDetails = () => {
               !servicesCart.value?.address ? "bg-primary/25" : "",
             )}
           >
-            <span className="text-2sm font-semibold md:text-sm">
+            <span className="text-sm font-semibold md:text-base">
               {servicesCart.value?.address ? (
                 <span className="text-primary">
                   {servicesCart.value.address?.name}
@@ -266,10 +285,10 @@ const AddressDetails = () => {
                     }}
                     aria-hidden="true"
                   >
-                    <span className="text-2sm font-semibold">
+                    <span className="text-2sm font-semibold md:text-sm">
                       {address.name}
                     </span>
-                    <span className="line-clamp-2 text-xs text-foreground/70">
+                    <span className="line-clamp-2 text-xs text-foreground/70 md:text-2sm">
                       {getFullFormattedAddresses(address)}
                     </span>
                   </div>
