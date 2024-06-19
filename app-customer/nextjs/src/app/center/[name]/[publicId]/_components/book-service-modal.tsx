@@ -120,9 +120,12 @@ export function BookServiceDialog({
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogTrigger
-          onClick={() => {
-            track("service-booking-page", { serviceId: service.id });
-          }}
+          onClick={() =>
+            track("service-booking-page", {
+              serviceId: service.id,
+              type: "add-button-click",
+            })
+          }
           asChild
         >
           <Button variant="primary">Add</Button>
@@ -162,7 +165,15 @@ export function BookServiceDialog({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerTrigger asChild>
+      <DrawerTrigger
+        onClick={() =>
+          track("service-booking-page", {
+            serviceId: service.id,
+            type: "add-button-click",
+          })
+        }
+        asChild
+      >
         <Button variant="primary">Add</Button>
       </DrawerTrigger>
       <DrawerContent className="h-[83vh] rounded-t-3xl pb-16">

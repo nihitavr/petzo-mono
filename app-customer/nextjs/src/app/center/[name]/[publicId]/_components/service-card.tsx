@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { track } from "@vercel/analytics";
 
 import type { Center, CustomerUser, Service } from "@petzo/db";
 import { cn } from "@petzo/ui/lib/utils";
@@ -59,7 +60,13 @@ export default function ServiceCard({
         {service.images?.[0]?.url ? (
           <Image
             src={service.images?.[0]?.url}
-            onClick={() => setOpenDetails(true)}
+            onClick={() => {
+              track("service-details-page", {
+                serviceId: service.id,
+                type: "service-image-click",
+              });
+              setOpenDetails(true);
+            }}
             fill
             style={{ objectFit: "cover" }}
             alt="Service Image"
