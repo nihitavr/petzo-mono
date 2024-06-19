@@ -81,9 +81,12 @@ export function ServiceDetailsModal({
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogTrigger
-          onClick={() => {
-            track("service-details-page", { serviceId: service.id });
-          }}
+          onClick={() =>
+            track("service-details-page", {
+              serviceId: service.id,
+              type: "view-details-click",
+            })
+          }
           asChild
         >
           <Button
@@ -135,7 +138,15 @@ export function ServiceDetailsModal({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerTrigger asChild>
+      <DrawerTrigger
+        onClick={() =>
+          track("service-details-page", {
+            serviceId: service.id,
+            type: "view-details-click",
+          })
+        }
+        asChild
+      >
         <Button
           className="mt-2 h-min w-min px-2 py-0.5 text-xs text-foreground/80"
           size="sm"
