@@ -15,6 +15,7 @@ export async function generateMetadata({
 }: {
   params: { publicId: string; servicePublicId: string };
 }): Promise<Metadata> {
+
   // read route params
   const center = (await api.center.findByPublicId({
     publicId,

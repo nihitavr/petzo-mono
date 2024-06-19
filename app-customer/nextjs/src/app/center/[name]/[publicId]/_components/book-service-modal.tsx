@@ -4,6 +4,7 @@ import type { z } from "zod";
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { track } from "@vercel/analytics";
 import { format, parse } from "date-fns";
 import { HiOutlineMoon } from "react-icons/hi";
 import { WiDaySunny, WiSunrise } from "react-icons/wi";
@@ -76,6 +77,8 @@ export function BookServiceDialog({
   service: Service;
   user?: CustomerUser;
 }) {
+  track("service-booking-page", { serviceId: service.id });
+
   const serviceUrl = useMemo(() => getServiceBookingUrl(service, center), []);
   const centerUrl = useMemo(() => getCenterUrl(center), []);
 
@@ -509,7 +512,11 @@ function ServiceBookingForm({
             ) : (
               <div className="flex flex-col items-center gap-1">
                 <span>Login to select pet</span>
-                <SignIn />
+                <SignIn
+                  onClick={() => {
+                    track("service-booking-login");
+                  }}
+                />
               </div>
             )}
           </AccordionContent>

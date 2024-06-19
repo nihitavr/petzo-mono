@@ -9,15 +9,19 @@ import { cn } from "@petzo/ui/lib/utils";
 
 export default function SignIn({
   callbackUrl,
+  onClick,
   className,
   ...props
 }: {
   callbackUrl?: string;
+  onClick?: () => void;
   className?: string;
 }) {
   const [isSigningIn, setIsSigningIn] = useState(false);
 
   const handleSignIn = async () => {
+    onClick?.();
+
     setIsSigningIn(true);
     await signIn("google", {
       callbackUrl: callbackUrl,

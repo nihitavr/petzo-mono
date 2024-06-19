@@ -1,3 +1,5 @@
+import { track } from "@vercel/analytics/server";
+
 import CentersNearYouSection from "~/app/_components/landing-page/centers-near-you-section";
 import HeroSection from "~/app/_components/landing-page/hero-section";
 import BestCentersInCity from "~/app/_components/landing-page/top-rated-centers-in-city";
@@ -9,6 +11,8 @@ export default async function HomePage({
 }: {
   params: { city: string };
 }) {
+  await track("city-explore-home-page", { city });
+
   // You can await this here if you don't want to show Suspense fallback below
   const cities = await api.geography.getActiveCities();
   const cityName = cities.find((c) => c.publicId === city)?.name;

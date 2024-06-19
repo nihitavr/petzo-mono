@@ -79,13 +79,17 @@ export default function BookServicesButton({
           </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="flex flex-col gap-2 rounded-xl">
+      <DialogContent className="flex flex-col gap-4 rounded-xl">
         <span>
           We will <span className="font-semibold">call you</span> to confirm the
-          booking. Click <span className="font-semibold">Yes</span> to book.
+          booking.{" "}
+          <span>
+            Please click <span className="font-semibold">Yes</span> to complete
+            the booking.
+          </span>
         </span>
-        <div className="flex w-full items-center gap-2">
-          <DialogClose className="w-1/2 md:w-fit">
+        <div className="flex w-full items-center gap-2 md:justify-end">
+          <DialogClose className="w-1/2">
             <Button className="w-full" variant="outline" disabled={isBooking}>
               Cancel
             </Button>
@@ -93,7 +97,7 @@ export default function BookServicesButton({
           <Button
             onClick={onClickBookServices}
             variant="primary"
-            className="flex w-1/2 items-center gap-1 md:w-fit"
+            className="flex w-1/2 items-center gap-1"
             disabled={isBooking}
           >
             Yes <Loader className="size-4 border-2" show={isBooking} />

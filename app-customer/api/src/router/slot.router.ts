@@ -6,12 +6,13 @@ import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
 import { and, asc, eq, inArray, schema } from "@petzo/db";
 import { getNextNDaysString } from "@petzo/utils/time";
 
-import { publicCachedProcedure } from "../trpc";
+import { publicProcedure } from "../trpc";
 
 export const slotRouter = {
-  getDateToSlotsMap: publicCachedProcedure
+  getDateToSlotsMap: publicProcedure
     .input(z.object({ serviceId: z.number() }))
     .query(async ({ ctx, input }) => {
+
       const next7Dates = getNextNDaysString(7);
 
       const slots = await ctx.db.query.slots.findMany({
