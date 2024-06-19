@@ -40,8 +40,6 @@ export function ServiceDetailsModal({
   setOpen: (open: boolean) => void;
   user?: CustomerUser;
 }) {
-  track("service-details-page", { serviceId: service.id });
-
   const serviceUrl = useMemo(() => getServiceUrl(service, center), []);
   const centerUrl = useMemo(() => getCenterUrl(center), []);
 
@@ -82,7 +80,12 @@ export function ServiceDetailsModal({
   if (isDesktop || iOS()) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogTrigger asChild>
+        <DialogTrigger
+          onClick={() => {
+            track("service-details-page", { serviceId: service.id });
+          }}
+          asChild
+        >
           <Button
             className="mt-2 h-min w-min px-2 py-0.5 text-xs text-foreground/80"
             size="sm"

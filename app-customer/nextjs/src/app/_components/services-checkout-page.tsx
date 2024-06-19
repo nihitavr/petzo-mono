@@ -16,7 +16,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@petzo/ui/components/accordion";
-import { TypewriterEffect } from "@petzo/ui/components/animation/typewriter-effect";
 import { Label } from "@petzo/ui/components/label";
 import { Skeleton } from "@petzo/ui/components/skeleton";
 import { cn } from "@petzo/ui/lib/utils";

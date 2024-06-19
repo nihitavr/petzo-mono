@@ -77,8 +77,6 @@ export function BookServiceDialog({
   service: Service;
   user?: CustomerUser;
 }) {
-  track("service-booking-page", { serviceId: service.id });
-
   const serviceUrl = useMemo(() => getServiceBookingUrl(service, center), []);
   const centerUrl = useMemo(() => getCenterUrl(center), []);
 
@@ -121,7 +119,12 @@ export function BookServiceDialog({
   if (isDesktop || iOS()) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogTrigger asChild>
+        <DialogTrigger
+          onClick={() => {
+            track("service-booking-page", { serviceId: service.id });
+          }}
+          asChild
+        >
           <Button variant="primary">Add</Button>
         </DialogTrigger>
         <DialogContent className="flex h-[80vh] flex-col justify-start rounded-xl p-3 pb-16 sm:max-w-[425px]">
