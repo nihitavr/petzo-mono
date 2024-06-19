@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { track } from "@vercel/analytics/server";
 
 import type { Center } from "@petzo/db";
 
@@ -15,6 +16,8 @@ export async function generateMetadata({
 }: {
   params: { publicId: string; servicePublicId: string };
 }): Promise<Metadata> {
+  await track("service-details-page", { serviceId: servicePublicId });
+
   // read route params
   const center = (await api.center.findByPublicId({
     publicId,
