@@ -17,7 +17,7 @@ export async function generateMetadata({
   params: { publicId: string; servicePublicId: string };
 }): Promise<Metadata> {
   await track("service-booking-page", {
-    serviceId: servicePublicId,
+    servicePublicId: servicePublicId,
     type: "direct-page-load",
   });
 

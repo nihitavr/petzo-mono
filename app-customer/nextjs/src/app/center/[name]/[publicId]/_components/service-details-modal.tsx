@@ -83,7 +83,7 @@ export function ServiceDetailsModal({
         <DialogTrigger
           onClick={() =>
             track("service-details-page", {
-              serviceId: service.id,
+              servicePublicId: service.publicId,
               type: "view-details-click",
             })
           }
@@ -141,7 +141,7 @@ export function ServiceDetailsModal({
       <DrawerTrigger
         onClick={() =>
           track("service-details-page", {
-            serviceId: service.id,
+            servicePublicId: service.publicId,
             type: "view-details-click",
           })
         }

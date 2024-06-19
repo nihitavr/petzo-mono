@@ -122,7 +122,7 @@ export function BookServiceDialog({
         <DialogTrigger
           onClick={() =>
             track("service-booking-page", {
-              serviceId: service.id,
+              servicePublicId: service.publicId,
               type: "add-button-click",
             })
           }
@@ -168,7 +168,7 @@ export function BookServiceDialog({
       <DrawerTrigger
         onClick={() =>
           track("service-booking-page", {
-            serviceId: service.id,
+            servicePublicId: service.publicId,
             type: "add-button-click",
           })
         }
