@@ -11,6 +11,8 @@ import { TRPCReactProvider } from "~/trpc/react";
 import "~/app/globals.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 
+import { Analytics } from "@vercel/analytics/react";
+
 import { auth } from "@petzo/auth-customer-app";
 
 import { api } from "~/trpc/server";
@@ -66,6 +68,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           GeistMono.variable,
         )}
       >
+        <Analytics />
         <ThemeProvider attribute="class" defaultTheme="light">
           <TRPCReactProvider>
             <Header session={session} cities={cities} />
