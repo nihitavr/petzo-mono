@@ -254,12 +254,6 @@ function ServiceBookingForm({
     );
 
   const addToCart = (closeDialog = true) => {
-    trackCustom("click_add_to_cart_service_booking", {
-      servicePublicId: service.publicId,
-      slotId: selectedSlot!.id,
-      petId: selectedPet!.id,
-    });
-
     if (!selectedPet || !selectedSlot) return;
 
     addItemToServicesCart({
@@ -670,7 +664,14 @@ function ServiceBookingForm({
         <div className="fixed bottom-0 left-0 flex w-full space-x-2 px-3 py-3 pt-2">
           <Button
             type="button"
-            onClick={() => addToCart()}
+            onClick={() => {
+              trackCustom("click_add_to_cart_service_booking", {
+                servicePublicId: service.publicId,
+                slotId: selectedSlot!.id,
+                petId: selectedPet!.id,
+              });
+              addToCart();
+            }}
             variant="outline"
             className="w-1/2"
             disabled={!selectedPet || !selectedSlot}
