@@ -12,3 +12,7 @@ export function generatePublicIdByName(name?: string, replaceWith = "_") {
 export function generateRandomPublicId(size = 15) {
   return nanoid(size);
 }
+
+export function generateRandomSessionId() {
+  return nanoid(20);
+}

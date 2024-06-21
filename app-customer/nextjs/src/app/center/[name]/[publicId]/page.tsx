@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { track } from "@vercel/analytics/server";
 
+import { RecordEvent } from "~/app/_components/record-event";
 import {
   getMetadataDescription,
   getMetadataKeywords,
@@ -55,5 +56,13 @@ export default async function Page({
 }: {
   params: { publicId: string };
 }) {
-  return <CenterPage publicId={publicId} />;
+  return (
+    <>
+      <RecordEvent
+        name="center-details-page"
+        data={{ centerPublicId: publicId }}
+      />
+      <CenterPage publicId={publicId} />;
+    </>
+  );
 }
