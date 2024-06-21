@@ -69,7 +69,7 @@ export default function BookServicesButton({
         <div className="fixed bottom-0 left-0 z-10 w-full bg-background px-3 pt-0 md:left-auto md:right-3 md:w-72 md:px-0 lg:right-24 xl:right-48">
           <Button
             disabled={
-              !servicesCart.value?.address ||
+              !servicesCart.value?.address?.id ||
               !servicesCart.value?.items?.length ||
               !servicesCart.value.center
             }
