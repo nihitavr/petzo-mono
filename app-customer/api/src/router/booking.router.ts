@@ -1,8 +1,9 @@
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 import type { Pet, Service, Slot } from "@petzo/db";
 import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
-import { and, eq, gte, inArray, schema, sql } from "@petzo/db";
+import { and, desc, eq, gte, inArray, schema, sql } from "@petzo/db";
 import { getSurroundingTime } from "@petzo/utils/time";
 import { bookingValidator } from "@petzo/validators";
 
@@ -120,7 +121,7 @@ export const bookingRouter = {
         >,
       );
 
-      await ctx.db.transaction(
+      return await ctx.db.transaction(
         async (tx) => {
           const totalBookingAmount = bookingItems.reduce(
             (acc, item) => acc + (item?.service.price ?? 0),
@@ -203,10 +204,61 @@ export const bookingRouter = {
             .insert(schema.bookingItems)
             .values(bookingItemsInsertData)
             .returning();
+
+          return booking?.id;
         },
         {
           isolationLevel: "read uncommitted",
         },
       );
+    }),
+
+  getBookings: protectedProcedure.query(async ({ ctx }) => {
+    return ctx.db.query.bookings.findMany({
+      where: eq(schema.bookings.customerUserId, ctx.session.user.id),
+      orderBy: desc(schema.bookings.createdAt),
+      with: {
+        center: {
+          columns: { name: true, id: true, publicId: true, images: true },
+        },
+        address: true,
+        items: {
+          with: {
+            service: {
+              columns: { name: true, id: true, publicId: true, price: true },
+            },
+            slot: { columns: { id: true, date: true, startTime: true } },
+            pet: { columns: { name: true, id: true } },
+          },
+        },
+      },
+    });
+  }),
+
+  getBooking: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.query.bookings.findFirst({
+        where: and(
+          eq(schema.bookings.customerUserId, ctx.session.user.id),
+          eq(schema.bookings.id, input.id),
+        ),
+        orderBy: desc(schema.bookings.createdAt),
+        with: {
+          center: {
+            columns: { name: true, id: true, publicId: true, images: true },
+          },
+          address: true,
+          items: {
+            with: {
+              service: {
+                columns: { name: true, id: true, publicId: true, price: true },
+              },
+              slot: { columns: { id: true, date: true, startTime: true } },
+              pet: { columns: { name: true, id: true } },
+            },
+          },
+        },
+      });
     }),
 };

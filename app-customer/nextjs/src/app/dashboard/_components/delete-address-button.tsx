@@ -47,6 +47,7 @@ export default function DeleteAddressButton({
         <span>Are you sure you want to delete this address?</span>
         <div className="flex w-full items-center gap-2">
           <Button
+            disabled={deleteLoading}
             onClick={async () => {
               setDeleteLoading(true);
               try {
@@ -63,7 +64,11 @@ export default function DeleteAddressButton({
           >
             Delete <Loader className="h-5 w-5 border-2" show={deleteLoading} />
           </Button>
-          <DialogClose className="w-1/2 md:w-fit">
+          <DialogClose
+            disabled={deleteLoading}
+            asChild
+            className="!md:w-fit !w-1/2"
+          >
             <Button className="w-full">Cancel</Button>
           </DialogClose>
         </div>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSignals } from "@preact/signals-react/runtime";
 import { TRPCClientError } from "@trpc/client";
 
+import { Booking } from "@petzo/db";
 import { Button } from "@petzo/ui/components/button";
 import {
   Dialog,
@@ -18,9 +19,9 @@ import { servicesCart } from "~/lib/storage/service-cart-storage";
 import { api } from "~/trpc/react";
 
 export default function BookServicesButton({
-  setBookingComplete,
+  setBookingId,
 }: {
-  setBookingComplete: (value: boolean) => void;
+  setBookingId: (value: number | undefined) => void;
 }) {
   useSignals();
 
@@ -34,7 +35,7 @@ export default function BookServicesButton({
   const onClickBookServices = async () => {
     try {
       setIsBooking(true);
-      await bookingService.mutateAsync({
+      const booking = await bookingService.mutateAsync({
         centerId: servicesCart.value.center.id,
         addressId: servicesCart.value.address!.id,
         items: servicesCart.value.items.map((item) => ({
@@ -43,7 +44,8 @@ export default function BookServicesButton({
           petId: item.pet.id,
         })),
       });
-      setBookingComplete(true);
+
+      setBookingId(booking);
     } catch (e) {
       if (e instanceof TRPCClientError) {
         toast.error(
@@ -85,7 +87,7 @@ export default function BookServicesButton({
           the booking.
         </span>
         <div className="flex w-full items-center gap-2 md:justify-end">
-          <DialogClose className="w-1/2">
+          <DialogClose asChild className="!w-1/2">
             <Button className="w-full" variant="outline" disabled={isBooking}>
               Cancel
             </Button>
