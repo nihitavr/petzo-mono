@@ -41,6 +41,7 @@ export const pets = pgTable(
     updatedAt: timestamp("updated_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
+    deletedAt: timestamp("deleted_at"),
   },
   (pet) => ({
     userIdx: index("pets_user_idx").on(pet.customerUserId),

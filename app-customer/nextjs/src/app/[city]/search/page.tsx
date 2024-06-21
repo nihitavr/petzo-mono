@@ -1,10 +1,10 @@
-import { RecordEvent } from "~/app/_components/record-event";
+import { RecordEvent } from "~/web-analytics/react";
 import CenterSearchList from "./_components/center-search-list";
 
 export default async function Page() {
   return (
     <>
-      <RecordEvent name="search-page" />
+      <RecordEvent name="screenview_search_page" />
       <div className="container-2 animate-slide-up">
         <CenterSearchList />
       </div>

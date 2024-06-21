@@ -11,6 +11,7 @@ import {
   DialogTrigger,
 } from "@petzo/ui/components/dialog";
 import Loader from "@petzo/ui/components/loader";
+import { toast } from "@petzo/ui/components/toast";
 import { titleCase } from "@petzo/utils";
 
 import { api } from "~/trpc/react";
@@ -58,6 +59,7 @@ export default function DeletePetButton({
                 await deletePet.mutateAsync({ id: petId });
               } catch (e) {
                 // Pass
+                toast.error("Failed to delete pet. Please try again later.");
               }
               setDeleteLoading(false);
               setOpen(false);

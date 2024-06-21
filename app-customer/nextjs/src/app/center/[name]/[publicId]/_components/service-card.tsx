@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { track } from "@vercel/analytics";
 
 import type { Center, CustomerUser, Service } from "@petzo/db";
 import { cn } from "@petzo/ui/lib/utils";
 
 import Price from "~/app/_components/price";
 import { COLOR_MAP } from "~/lib/constants";
+import { trackCustom } from "~/web-analytics/react";
 import { BookServiceDialog } from "./book-service-modal";
 import { ServiceDetailsModal } from "./service-details-modal";
 
@@ -61,9 +61,8 @@ export default function ServiceCard({
           <Image
             src={service.images?.[0]?.url}
             onClick={() => {
-              track("service-details-page", {
-                serviceId: service.id,
-                type: "service-image-click",
+              trackCustom("click_service_details_image", {
+                servicePublicId: service.publicId,
               });
               setOpenDetails(true);
             }}

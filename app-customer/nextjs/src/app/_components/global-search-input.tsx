@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { signal } from "@preact/signals-react";
-import { FaSearch } from "react-icons/fa";
 
 import { Input } from "@petzo/ui/components/input";
 
@@ -75,8 +74,6 @@ export default function GlobalSearchInput({
 
   const currentPlaceholderIndex = signal(0);
   useEffect(() => {
-    router.prefetch("/search");
-
     let currentIntervalCount = 0;
     const interval = setInterval(() => {
       const updatePlaceholder = async () => {
@@ -117,7 +114,7 @@ export default function GlobalSearchInput({
 
   return (
     <div className="relative w-full md:w-72">
-      <Link href={`/${filtersStore.city.value}/search`}>
+      <Link href={`/${filtersStore.city.value}/search`} prefetch={true}>
         <Input
           value={input ?? ""}
           onChange={(e) => {

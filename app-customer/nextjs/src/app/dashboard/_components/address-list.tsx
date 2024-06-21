@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
+import { FiPhone } from "react-icons/fi";
 
 import type { CustomerAddresses } from "@petzo/db";
 import { Button } from "@petzo/ui/components/button";
@@ -30,6 +31,10 @@ export default async function AddressesList({
             <p className="text-sm text-foreground/70">
               {getFullFormattedAddresses(address)}
             </p>
+            <div className="flex items-center gap-1 text-foreground/80">
+              <FiPhone />
+              <p className="text-sm font-semibold">{address.phoneNumber}</p>
+            </div>
           </div>
         );
       })}

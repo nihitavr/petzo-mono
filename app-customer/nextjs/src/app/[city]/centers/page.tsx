@@ -1,10 +1,9 @@
 import { Suspense } from "react";
-import { track } from "@vercel/analytics/server";
 
-import { RecordEvent } from "~/app/_components/record-event";
 import { CENTERS_LIST_PAGE_LIMIT } from "~/lib/constants";
 import { getCenterFilters } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/server";
+import { RecordEvent } from "~/web-analytics/react";
 import { CenterFilterList } from "./_components/center-filter-list";
 import { CenterFilters } from "./_components/center-filters";
 import { MobileCenterFilters } from "./_components/mobile-center-filters";
@@ -68,7 +67,10 @@ export default async function Centers({
 
   return (
     <>
-      <RecordEvent name="city-centers-explore-page" data={{ city }} />
+      <RecordEvent
+        name="screenview_city_explore_centers_page"
+        data={{ city }}
+      />
       <div className="container-2">
         <div className="hidden items-end justify-between md:flex">
           <div className="ml-auto h-min rounded-full border px-3 py-1 text-sm">

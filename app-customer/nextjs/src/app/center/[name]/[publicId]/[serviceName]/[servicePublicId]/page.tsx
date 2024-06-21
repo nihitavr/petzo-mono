@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { track } from "@vercel/analytics/server";
 
 import type { Center } from "@petzo/db";
 
@@ -9,6 +8,7 @@ import {
   getMetadataTitle,
 } from "~/lib/utils/service.utils";
 import { api } from "~/trpc/server";
+import { RecordEvent } from "~/web-analytics/react";
 import CenterPage from "../../_components/center-page";
 
 export async function generateMetadata({
@@ -16,11 +16,6 @@ export async function generateMetadata({
 }: {
   params: { publicId: string; servicePublicId: string };
 }): Promise<Metadata> {
-  await track("service-details-page", {
-    servicePublicId: servicePublicId,
-    type: "direct-page-load",
-  });
-
   // read route params
   const center = (await api.center.findByPublicId({
     publicId,
@@ -64,5 +59,15 @@ export default async function Page({
 }: {
   params: { publicId: string };
 }) {
-  return <CenterPage publicId={publicId} />;
+  return (
+    <>
+      <RecordEvent
+        name="screenview_service_details_page"
+        data={{
+          servicePublicId: publicId,
+        }}
+      />
+      <CenterPage publicId={publicId} />;
+    </>
+  );
 }

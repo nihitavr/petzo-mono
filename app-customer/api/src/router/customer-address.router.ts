@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { and, asc, eq, schema } from "@petzo/db";
+import { and, asc, eq, isNull, schema, sql } from "@petzo/db";
 import { customerAddressValidator } from "@petzo/validators";
 
 import { protectedProcedure } from "../trpc";
@@ -10,7 +10,8 @@ export const customerAddressRouter = {
     .input(z.object({ id: z.number() }))
     .mutation(({ ctx, input }) => {
       return ctx.db
-        .delete(schema.customerAddresses)
+        .update(schema.customerAddresses)
+        .set({ deletedAt: sql`CURRENT_TIMESTAMP` })
         .where(
           and(
             eq(schema.customerAddresses.id, input.id),
@@ -44,7 +45,10 @@ export const customerAddressRouter = {
 
   getAddresses: protectedProcedure.query(({ ctx }) => {
     return ctx.db.query.customerAddresses.findMany({
-      where: eq(schema.customerAddresses.customerUserId, ctx.session.user.id),
+      where: and(
+        eq(schema.customerAddresses.customerUserId, ctx.session.user.id),
+        isNull(schema.customerAddresses.deletedAt),
+      ),
       orderBy: [asc(schema.customerAddresses.name)],
       with: {
         city: true,
@@ -65,6 +69,7 @@ export const customerAddressRouter = {
         where: and(
           eq(schema.customerAddresses.customerUserId, ctx.session.user.id),
           eq(schema.customerAddresses.id, input.id),
+          isNull(schema.customerAddresses.deletedAt),
         ),
         orderBy: [asc(schema.customerAddresses.name)],
         with: {
