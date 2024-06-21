@@ -16,6 +16,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { auth } from "@petzo/auth-customer-app";
 
 import { api } from "~/trpc/server";
+import { CustomEvents } from "./_components/custom-events";
 import Footer from "./_components/footer";
 import Header from "./_components/header";
 import ViewCartButton from "./_components/view-cart-button";
@@ -69,6 +70,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         )}
       >
         <Analytics />
+        <CustomEvents userId={session?.user?.id} />
         <ThemeProvider attribute="class" defaultTheme="light">
           <TRPCReactProvider>
             <Header session={session} cities={cities} />

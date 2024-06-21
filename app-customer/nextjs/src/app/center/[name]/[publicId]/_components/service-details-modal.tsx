@@ -26,6 +26,7 @@ import { useMediaQuery } from "~/lib/hooks/screen.hooks";
 import { getCenterUrl, getServiceUrl } from "~/lib/utils/center.utils";
 import { BookServiceDialog } from "./book-service-modal";
 import ServiceImagesCasousel from "./service-images-carousel";
+import { trackCustom } from "~/web-analytics/react";
 
 export function ServiceDetailsModal({
   service,
@@ -139,12 +140,11 @@ export function ServiceDetailsModal({
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger
-        onClick={() =>
-          track("service-details-page", {
-            servicePublicId: service.publicId,
-            type: "view-details-click",
-          })
-        }
+        onClick={() => {
+          trackCustom("service-details-page", {
+            serviceId: service.id,
+          });
+        }}
         asChild
       >
         <Button

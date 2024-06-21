@@ -63,6 +63,7 @@ import { useMediaQuery } from "~/lib/hooks/screen.hooks";
 import { addItemToServicesCart } from "~/lib/storage/service-cart-storage";
 import { getCenterUrl, getServiceBookingUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
+import { trackCustom } from "~/web-analytics/react";
 
 type PetProfileSchema = z.infer<typeof petValidator.ProfileSchema>;
 
@@ -120,12 +121,11 @@ export function BookServiceDialog({
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogTrigger
-          onClick={() =>
-            track("service-booking-page", {
-              servicePublicId: service.publicId,
-              type: "add-button-click",
-            })
-          }
+          onClick={() => {
+            trackCustom("service-booking-page", {
+              serviceId: service.id,
+            });
+          }}
           asChild
         >
           <Button variant="primary">Add</Button>
@@ -166,12 +166,11 @@ export function BookServiceDialog({
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger
-        onClick={() =>
-          track("service-booking-page", {
-            servicePublicId: service.publicId,
-            type: "add-button-click",
-          })
-        }
+        onClick={() => {
+          trackCustom("service-booking-page", {
+            serviceId: service.id,
+          });
+        }}
         asChild
       >
         <Button variant="primary">Add</Button>

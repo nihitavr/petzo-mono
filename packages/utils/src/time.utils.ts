@@ -1,9 +1,11 @@
 import {
   addMinutes,
+  differenceInMinutes,
   format,
   isAfter,
   isBefore,
   parse,
+  parseISO,
   setHours,
   setMinutes,
   subMinutes,
@@ -126,3 +128,26 @@ export function isEvening(timeString: string) {
 export function isAfternoon(timeString: string) {
   return !isMorning(timeString) && !isEvening(timeString);
 }
+
+/**
+ * Checks if a given timestamp is more than N minutes ago.
+ *
+ * @param {string} timestamp - The timestamp to check, in ISO 8601 format.
+ * @returns {boolean} - Returns true if the timestamp is more than N minutes ago, false otherwise.
+ */
+export const isMoreThanNMinutesAgo = (
+  timestamp: string,
+  differenceInMins = 60,
+) => {
+  // Get the current date and time
+  const now = new Date();
+
+  // Parse the given timestamp into a Date object
+  const time = parseISO(timestamp);
+
+  // Calculate the difference in minutes between now and the parsed timestamp
+  const minutesDifference = differenceInMinutes(now, time);
+
+  // Return true if the difference is greater than 15 minutes, otherwise false
+  return minutesDifference > differenceInMins;
+};

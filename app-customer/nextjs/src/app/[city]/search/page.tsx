@@ -1,13 +1,13 @@
-import { track } from "@vercel/analytics/server";
-
+import { RecordEvent } from "~/app/_components/record-event";
 import CenterSearchList from "./_components/center-search-list";
 
 export default async function Page() {
-  await track("search-page");
-
   return (
-    <div className="container-2 animate-slide-up">
-      <CenterSearchList />
-    </div>
+    <>
+      <RecordEvent name="search-page" />
+      <div className="container-2 animate-slide-up">
+        <CenterSearchList />
+      </div>
+    </>
   );
 }
