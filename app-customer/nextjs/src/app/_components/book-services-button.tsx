@@ -81,12 +81,8 @@ export default function BookServicesButton({
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-4 rounded-xl">
         <span>
-          We will <span className="font-semibold">call you</span> to confirm the
-          booking.{" "}
-          <span>
-            Please click <span className="font-semibold">Yes</span> to complete
-            the booking.
-          </span>
+          Please click <span className="font-semibold">Yes</span> to complete
+          the booking.
         </span>
         <div className="flex w-full items-center gap-2 md:justify-end">
           <DialogClose className="w-1/2">

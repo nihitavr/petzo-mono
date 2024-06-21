@@ -31,7 +31,7 @@ import {
 } from "~/lib/storage/service-cart-storage";
 import { getCenterUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
-import { RecordEvent } from "~/web-analytics/react";
+import { RecordEvent, trackCustom } from "~/web-analytics/react";
 import BookServicesButton from "./book-services-button";
 
 export default function ServicesCheckoutPage() {
@@ -47,6 +47,8 @@ export default function ServicesCheckoutPage() {
 
   useEffect(() => {
     if (isBookingComplete) {
+      trackCustom("screenview_booking_complete_page");
+
       setTimeout(() => {
         router.push("/");
 
