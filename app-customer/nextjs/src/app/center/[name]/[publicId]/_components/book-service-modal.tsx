@@ -356,10 +356,12 @@ function ServiceBookingForm({
                       ? "Add New Pet*"
                       : "Select Pet*"}
                   </Label>
+                  <span>OR</span>
                   {pets?.length && pets?.length > 0 && (
                     <Button
                       type="button"
                       onClick={() => {
+                        setSelectedPet(null);
                         setIsAddNewPet((isAddNewPet) => !isAddNewPet);
                       }}
                       variant={pets?.length ? "secondary" : "primary"}
@@ -585,7 +587,9 @@ function ServiceBookingForm({
                         <span className="font-semibold">
                           {format(date, "EEE, d MMM")}
                         </span>
-                        <span className="font-medium text-green-600">
+                        <span
+                          className={`font-medium ${availableSlots.length ? "text-green-600" : "text-red-600"}`}
+                        >
                           {availableSlots.length} available
                         </span>
                       </div>
@@ -615,9 +619,8 @@ function ServiceBookingForm({
                       <SlotSection
                         icon={
                           <WiSunrise
-                            size={25}
                             strokeWidth={0.3}
-                            className="text-yellow-600"
+                            className="size-6 text-yellow-600"
                           />
                         }
                         name="Morning"
@@ -631,9 +634,8 @@ function ServiceBookingForm({
                       <SlotSection
                         icon={
                           <WiDaySunny
-                            size={25}
                             strokeWidth={0.3}
-                            className="text-orange-600"
+                            className="size-6 text-orange-600"
                           />
                         }
                         name="Afternoon"
@@ -646,11 +648,12 @@ function ServiceBookingForm({
                     {eveningSlots?.length && (
                       <SlotSection
                         icon={
-                          <HiOutlineMoon
-                            size={17}
-                            strokeWidth={2.2}
-                            className="text-slate-500"
-                          />
+                          <div className="flex size-6 items-center justify-center">
+                            <HiOutlineMoon
+                              strokeWidth={2.2}
+                              className="size-4 text-slate-500"
+                            />
+                          </div>
                         }
                         name="Evening"
                         slots={eveningSlots}
@@ -705,23 +708,29 @@ const SlotSection = ({
   selectedSlotId?: number | null;
   onSlotClick: (slot: Slot) => void;
 }) => {
+  const areAllSlotsUnavailable = slots.every((slot) => !slot.availableSlots);
+
   return (
     <div className="space-y-2 p-3">
       <div className="flex items-center gap-0.5 font-semibold">
         {icon}
         <span>{name}</span>
       </div>
-      <div className="flex flex-wrap gap-2">
-        {slots.map((slot, idx) => (
-          <SlotBox
-            key={idx}
-            onClick={() => onSlotClick(slot)}
-            isAvailable={!!slot.availableSlots}
-            isSelected={selectedSlotId == slot.id}
-            slotStartTime={slot.startTime}
-          />
-        ))}
-      </div>
+      {!areAllSlotsUnavailable ? (
+        <div className="flex flex-wrap gap-2">
+          {slots.map((slot, idx) => (
+            <SlotBox
+              key={idx}
+              onClick={() => onSlotClick(slot)}
+              isAvailable={!!slot.availableSlots}
+              isSelected={selectedSlotId == slot.id}
+              slotStartTime={slot.startTime}
+            />
+          ))}
+        </div>
+      ) : (
+        <span className="w-full text-center">No slots available!</span>
+      )}
     </div>
   );
 };
