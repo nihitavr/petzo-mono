@@ -401,7 +401,7 @@ export function AddressForm({
               <FormControl>
                 <Input
                   className="rounded-none border-0 border-b px-0 shadow-none focus-visible:border-b-primary focus-visible:ring-0"
-                  placeholder="10 digit Number (eg. 9999999999)"
+                  placeholder="Phone Number - 10 Digits (eg. 9999999999)"
                   {...field}
                 />
               </FormControl>
