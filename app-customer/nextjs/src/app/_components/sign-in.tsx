@@ -21,6 +21,7 @@ export default function SignIn({
 
   const handleSignIn = async () => {
     onClick?.();
+    
 
     setIsSigningIn(true);
     await signIn("google", {

@@ -4,7 +4,6 @@ import type { z } from "zod";
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { track } from "@vercel/analytics";
 import { format, parse } from "date-fns";
 import { HiOutlineMoon } from "react-icons/hi";
 import { WiDaySunny, WiSunrise } from "react-icons/wi";
@@ -117,17 +116,16 @@ export function BookServiceDialog({
 
   const serviceImage = service.images?.[0]?.url;
 
+  const onTriggerClick = () => {
+    trackCustom("click_add_service_booking", {
+      servicePublicId: service.publicId,
+    });
+  };
+
   if (isDesktop || iOS()) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogTrigger
-          onClick={() => {
-            trackCustom("service-booking-page", {
-              serviceId: service.id,
-            });
-          }}
-          asChild
-        >
+        <DialogTrigger onClick={onTriggerClick} asChild>
           <Button variant="primary">Add</Button>
         </DialogTrigger>
         <DialogContent className="flex h-[80vh] flex-col justify-start rounded-xl p-3 pb-16 sm:max-w-[425px]">
@@ -165,14 +163,7 @@ export function BookServiceDialog({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerTrigger
-        onClick={() => {
-          trackCustom("service-booking-page", {
-            serviceId: service.id,
-          });
-        }}
-        asChild
-      >
+      <DrawerTrigger onClick={onTriggerClick} asChild>
         <Button variant="primary">Add</Button>
       </DrawerTrigger>
       <DrawerContent className="h-[83vh] rounded-t-3xl pb-16">
@@ -263,6 +254,12 @@ function ServiceBookingForm({
     );
 
   const addToCart = (closeDialog = true) => {
+    trackCustom("click_add_to_cart_service_booking", {
+      servicePublicId: service.publicId,
+      slotId: selectedSlot!.id,
+      petId: selectedPet!.id,
+    });
+
     if (!selectedPet || !selectedSlot) return;
 
     addItemToServicesCart({
@@ -288,7 +285,11 @@ function ServiceBookingForm({
     }, 200);
   };
 
-  const onSubmit = async (values: unknown) => {
+  const onSubmitSaveNewPet = async (values: unknown) => {
+    trackCustom("click_save_new_pet", {
+      servicePublicId: service.publicId,
+    });
+
     const data = values as PetProfileSchema;
 
     setIsNewPetSubmitting(true);
@@ -304,6 +305,11 @@ function ServiceBookingForm({
         setAccordianValue(selectedSlot ? "" : "slot-starttime-selection");
         setSelectedPet(data);
         setIsAddNewPet(false);
+      },
+      onError: () => {
+        toast.error(
+          "There was an error updating the data. We are looking into it!",
+        );
       },
     });
 
@@ -410,116 +416,115 @@ function ServiceBookingForm({
                     )}
                   </div>
                 ) : (
-                  <div>
-                    <Form {...petForm}>
-                      <form
-                        onSubmit={petForm.handleSubmit(onSubmit)}
-                        className="flex flex-col gap-3"
-                      >
-                        {/* Pet Name */}
-                        <FormField
-                          control={petForm.control}
-                          name="name"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-2sm">
-                                Pet Name*
-                              </FormLabel>
-                              <FormControl>
-                                <Input placeholder="Pet Name" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        {/* Pet Type */}
-                        <FormField
-                          control={petForm.control}
-                          name="type"
-                          render={({ field }) => (
-                            <FormItem className="space-y-0 py-1">
-                              <FormLabel className="text-2sm">Type*</FormLabel>
-                              <FormControl>
-                                <RadioGroup
-                                  onValueChange={field.onChange}
-                                  value={field.value ?? ""}
-                                  className="flex flex-row items-center gap-2"
-                                >
-                                  <FormItem>
-                                    <FormControl>
-                                      <RadioGroupItem
-                                        value="cat"
-                                        className="peer hidden"
-                                      />
-                                    </FormControl>
-                                    <FormLabel
-                                      className={`flex h-8 cursor-pointer items-center gap-1 rounded-md border p-2 text-2sm font-normal ${field.value == "cat" ? "bg-primary/30" : "hover:bg-primary/10"}`}
-                                    >
-                                      <span className="whitespace-nowrap">
-                                        Cat
-                                      </span>
-                                      <Cat />
-                                    </FormLabel>
-                                  </FormItem>
-                                  <FormItem>
-                                    <FormControl>
-                                      <RadioGroupItem
-                                        value="small_dog"
-                                        className="peer hidden"
-                                      />
-                                    </FormControl>
-                                    <FormLabel
-                                      className={`flex h-8 cursor-pointer items-center gap-1 rounded-md border p-2 text-2sm font-normal ${field.value == "small_dog" ? "bg-primary/30" : "hover:bg-primary/10"}`}
-                                    >
-                                      <span className="whitespace-nowrap">
-                                        Small Dog
-                                      </span>{" "}
-                                      <SmallDog />
-                                    </FormLabel>
-                                  </FormItem>
-                                  <FormItem>
-                                    <FormControl>
-                                      <RadioGroupItem
-                                        value="big_dog"
-                                        className="peer hidden"
-                                      />
-                                    </FormControl>
-                                    <FormLabel
-                                      className={`flex h-8 cursor-pointer items-center gap-1 rounded-md border p-2 text-2sm font-normal ${field.value == "big_dog" ? "bg-primary/30" : "hover:bg-primary/10"}`}
-                                    >
-                                      {" "}
-                                      <span className="whitespace-nowrap">
-                                        Big Dog
-                                      </span>{" "}
-                                      <BigDog />
-                                    </FormLabel>
-                                  </FormItem>
-                                </RadioGroup>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <div className="flex justify-center">
-                          <Button
-                            className="flex w-full items-center justify-center gap-2 md:w-32"
-                            type="submit"
-                            disabled={
-                              isNewPetSubmitting || !petForm.formState.isValid
-                            }
-                          >
-                            <span>Save</span>
-                            <div>
-                              <Loader
-                                className="h-5 w-5 border-2"
-                                show={isNewPetSubmitting}
-                              />
-                            </div>
-                          </Button>
-                        </div>
-                      </form>
-                    </Form>
-                  </div>
+                  <Form {...petForm}>
+                    <form
+                      onSubmit={petForm.handleSubmit(onSubmitSaveNewPet)}
+                      className="flex flex-col gap-3"
+                    >
+                      {/* Pet Name */}
+                      <FormField
+                        control={petForm.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-2sm">
+                              Pet Name*
+                            </FormLabel>
+                            <FormControl>
+                              <Input placeholder="Pet Name" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      {/* Pet Type */}
+                      <FormField
+                        control={petForm.control}
+                        name="type"
+                        render={({ field }) => (
+                          <FormItem className="space-y-0 py-1">
+                            <FormLabel className="text-2sm">Type*</FormLabel>
+                            <FormControl>
+                              <RadioGroup
+                                onValueChange={field.onChange}
+                                value={field.value ?? ""}
+                                className="flex flex-row items-center gap-2"
+                              >
+                                <FormItem>
+                                  <FormControl>
+                                    <RadioGroupItem
+                                      value="cat"
+                                      className="peer hidden"
+                                    />
+                                  </FormControl>
+                                  <FormLabel
+                                    className={`flex h-8 cursor-pointer items-center gap-1 rounded-md border p-2 text-2sm font-normal ${field.value == "cat" ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                                  >
+                                    <span className="whitespace-nowrap">
+                                      Cat
+                                    </span>
+                                    <Cat />
+                                  </FormLabel>
+                                </FormItem>
+                                <FormItem>
+                                  <FormControl>
+                                    <RadioGroupItem
+                                      value="small_dog"
+                                      className="peer hidden"
+                                    />
+                                  </FormControl>
+                                  <FormLabel
+                                    className={`flex h-8 cursor-pointer items-center gap-1 rounded-md border p-2 text-2sm font-normal ${field.value == "small_dog" ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                                  >
+                                    <span className="whitespace-nowrap">
+                                      Small Dog
+                                    </span>{" "}
+                                    <SmallDog />
+                                  </FormLabel>
+                                </FormItem>
+                                <FormItem>
+                                  <FormControl>
+                                    <RadioGroupItem
+                                      value="big_dog"
+                                      className="peer hidden"
+                                    />
+                                  </FormControl>
+                                  <FormLabel
+                                    className={`flex h-8 cursor-pointer items-center gap-1 rounded-md border p-2 text-2sm font-normal ${field.value == "big_dog" ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                                  >
+                                    {" "}
+                                    <span className="whitespace-nowrap">
+                                      Big Dog
+                                    </span>{" "}
+                                    <BigDog />
+                                  </FormLabel>
+                                </FormItem>
+                              </RadioGroup>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <div className="mt-3 flex justify-center md:justify-end">
+                        <Button
+                          className="flex w-full items-center justify-center gap-2 md:w-52"
+                          type="submit"
+                          onClick={() => {}}
+                          disabled={
+                            isNewPetSubmitting || !petForm.formState.isValid
+                          }
+                        >
+                          <span>Save</span>
+                          <div>
+                            <Loader
+                              className="h-5 w-5 border-2"
+                              show={isNewPetSubmitting}
+                            />
+                          </div>
+                        </Button>
+                      </div>
+                    </form>
+                  </Form>
                 )}
               </div>
             ) : (
@@ -527,7 +532,7 @@ function ServiceBookingForm({
                 <span>Login to select pet</span>
                 <SignIn
                   onClick={() => {
-                    track("service-booking-login");
+                    trackCustom("click_login_service_booking");
                   }}
                 />
               </div>

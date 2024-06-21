@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { and, asc, eq, schema } from "@petzo/db";
+import { and, asc, eq, isNull, schema, sql } from "@petzo/db";
 import { petValidator } from "@petzo/validators";
 
 import { generateRandomPublicId } from "../../../../packages/utils/src/string.utils";
@@ -11,7 +11,8 @@ export const petRouter = {
     .input(z.object({ id: z.number() }))
     .mutation(({ ctx, input }) => {
       return ctx.db
-        .delete(schema.pets)
+        .update(schema.pets)
+        .set({ deletedAt: sql`CURRENT_TIMESTAMP` })
         .where(
           and(
             eq(schema.pets.id, input.id),
@@ -19,6 +20,7 @@ export const petRouter = {
           ),
         );
     }),
+
   addPetProfile: protectedProcedure
     .input(petValidator.ProfileSchema)
     .mutation(async ({ ctx, input }) => {
@@ -63,19 +65,12 @@ export const petRouter = {
       )?.[0];
     }),
 
-  getPetProfilePublicIds: protectedProcedure.query(({ ctx }) => {
-    return ctx.db.query.pets.findMany({
-      where: eq(schema.pets.customerUserId, ctx.session.user.id),
-      columns: {
-        publicId: true,
-      },
-      orderBy: [asc(schema.pets.name)],
-    });
-  }),
-
   getPetProfiles: protectedProcedure.query(({ ctx }) => {
     return ctx.db.query.pets.findMany({
-      where: eq(schema.pets.customerUserId, ctx.session.user.id),
+      where: and(
+        eq(schema.pets.customerUserId, ctx.session.user.id),
+        isNull(schema.pets.deletedAt),
+      ),
       orderBy: [asc(schema.pets.name)],
     });
   }),
@@ -91,6 +86,7 @@ export const petRouter = {
         where: and(
           eq(schema.pets.customerUserId, ctx.session.user.id),
           eq(schema.pets.publicId, input.publicId),
+          isNull(schema.pets.deletedAt),
         ),
         orderBy: [asc(schema.pets.name)],
       });

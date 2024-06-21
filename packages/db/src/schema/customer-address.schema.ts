@@ -25,7 +25,7 @@ export const customerAddresses = customerPgTable(
     line1: varchar("line1", { length: 256 }).notNull(), // This is address string(neighbourhood) that we get from Reverse GeoCoding api.
     line2: varchar("line2", { length: 256 }).notNull(), // This is optional area/road/appartment name that the user can enter.
     pincode: varchar("pincode", { length: 6 }).notNull(),
-    phoneNumber: varchar("phone_number", { length: 15 }),
+    phoneNumber: varchar("phone_number", { length: 10 }).notNull(),
     geocode: point("geocode").notNull(),
     areaId: integer("area_id")
       .notNull()
@@ -42,6 +42,7 @@ export const customerAddresses = customerPgTable(
     updatedAt: timestamp("updated_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
+    deletedAt: timestamp("deleted_at"),
   },
   (customerAddresses) => ({
     customerUserIdx: index("customer_address_user_id_idx").on(

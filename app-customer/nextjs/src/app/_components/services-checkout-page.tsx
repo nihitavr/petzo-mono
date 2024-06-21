@@ -31,6 +31,7 @@ import {
 } from "~/lib/storage/service-cart-storage";
 import { getCenterUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
+import { RecordEvent } from "~/web-analytics/react";
 import BookServicesButton from "./book-services-button";
 
 export default function ServicesCheckoutPage() {
@@ -72,52 +73,69 @@ export default function ServicesCheckoutPage() {
   const centerImage = servicesCart.value?.center.images?.[0]?.url;
 
   return (
-    <div className="flex flex-col gap-6 pb-2">
-      <div>
-        <div className="flex items-center justify-start gap-2">
-          <h1 className="text-xl font-semibold">Cart</h1>
-        </div>
-        <div className="mt-1 rounded-xl bg-muted p-2 py-4 pt-1.5">
-          <div className="flex items-center justify-between">
-            <div>
-              <Label className="text-xs text-foreground/80">Center</Label>
-              <Link
-                href={getCenterUrl(servicesCart.value?.center)}
-                className="flex cursor-pointer flex-nowrap items-center gap-1 hover:opacity-80"
-              >
-                <FaArrowLeft className="size-3.5" />
-                <h3 className="line-clamp-1 text-sm font-semibold md:text-base">
-                  {servicesCart.value?.center?.name}
-                </h3>
-              </Link>
+    <>
+      {servicesCart.value?.center && servicesCart.value?.items.length && (
+        <RecordEvent
+          name="screenview_service_checkout_page"
+          data={{
+            centerPublicId: servicesCart.value?.center?.publicId,
+            noOfItems: servicesCart.value?.items.length,
+          }}
+        />
+      )}
+
+      <div className="flex flex-col gap-6 pb-2">
+        <div>
+          <div className="flex items-center justify-start gap-2">
+            <h1 className="text-xl font-semibold">Cart</h1>
+          </div>
+          <div className="mt-1 rounded-xl bg-muted p-2 py-4 pt-1.5">
+            <div className="flex items-center justify-between">
+              <div>
+                <Label className="text-xs text-foreground/80">Center</Label>
+                <Link
+                  href={getCenterUrl(servicesCart.value?.center)}
+                  className="flex cursor-pointer flex-nowrap items-center gap-1 hover:opacity-80"
+                >
+                  <FaArrowLeft className="size-3.5" />
+                  <h3 className="line-clamp-1 text-sm font-semibold md:text-base">
+                    {servicesCart.value?.center?.name}
+                  </h3>
+                </Link>
+              </div>
+              {centerImage && (
+                <Link
+                  href={getCenterUrl(servicesCart.value?.center)}
+                  className="relative aspect-square h-10 overflow-hidden rounded-md bg-red-500"
+                >
+                  <Image
+                    src={centerImage}
+                    fill
+                    className="object-cover"
+                    alt=""
+                  />
+                </Link>
+              )}
             </div>
-            {centerImage && (
-              <Link
-                href={getCenterUrl(servicesCart.value?.center)}
-                className="relative aspect-square h-10 overflow-hidden rounded-md bg-red-500"
-              >
-                <Image src={centerImage} fill className="object-cover" alt="" />
-              </Link>
-            )}
-          </div>
 
-          <div className="mt-2 rounded-xl bg-background px-2.5 py-1.5">
-            {/* <Label className="text-xs text-foreground/80">Services</Label> */}
-            <CartServiceDetails items={servicesCart.value?.items} />
+            <div className="mt-2 rounded-xl bg-background px-2.5 py-1.5">
+              {/* <Label className="text-xs text-foreground/80">Services</Label> */}
+              <CartServiceDetails items={servicesCart.value?.items} />
+            </div>
           </div>
         </div>
-      </div>
 
-      <div>
-        <BillDetails />
-      </div>
+        <div>
+          <BillDetails />
+        </div>
 
-      <div>
-        <AddressDetails />
-      </div>
+        <div>
+          <AddressDetails />
+        </div>
 
-      <BookServicesButton setBookingComplete={setIsBookingComplete} />
-    </div>
+        <BookServicesButton setBookingComplete={setIsBookingComplete} />
+      </div>
+    </>
   );
 }
 

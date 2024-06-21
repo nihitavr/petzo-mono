@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import { track } from "@vercel/analytics/server";
 
-import { RecordEvent } from "~/app/_components/record-event";
 import {
   getMetadataDescription,
   getMetadataKeywords,
   getMetadataTitle,
 } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/server";
+import { RecordEvent } from "~/web-analytics/react";
 import CenterPage from "./_components/center-page";
 
 export async function generateMetadata({
@@ -15,8 +14,6 @@ export async function generateMetadata({
 }: {
   params: { publicId: string };
 }): Promise<Metadata> {
-  await track("center-details-page", { centerId: publicId });
-
   // read route params
   const center = await api.center.findByPublicId({
     publicId,
@@ -59,7 +56,7 @@ export default async function Page({
   return (
     <>
       <RecordEvent
-        name="center-details-page"
+        name="screenview_center_details_page"
         data={{ centerPublicId: publicId }}
       />
       <CenterPage publicId={publicId} />;

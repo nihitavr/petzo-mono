@@ -2,8 +2,8 @@ import CentersNearYouSection from "~/app/_components/landing-page/centers-near-y
 import HeroSection from "~/app/_components/landing-page/hero-section";
 import BestCentersInCity from "~/app/_components/landing-page/top-rated-centers-in-city";
 import WhyUsePetzoSection from "~/app/_components/landing-page/why-use-petzo";
-import { RecordEvent } from "~/app/_components/record-event";
 import { api } from "~/trpc/server";
+import { RecordEvent } from "~/web-analytics/react";
 
 export default async function HomePage({
   params: { city },
@@ -18,8 +18,7 @@ export default async function HomePage({
 
   return (
     <div className="container-2 !gap-10">
-      <RecordEvent name="city-explore-home-page" data={{ city }} />
-
+      <RecordEvent name="screenview_city_explore_home_page" data={{ city }} />
       <HeroSection cityPublicId={city} cityName={cityName!} />
       <CentersNearYouSection cityPublicId={city} />
       <BestCentersInCity cityPublicId={city} cityName={cityName!} />

@@ -66,6 +66,7 @@ export function AddressForm({
 
       id: customerAddresses?.id,
       name: customerAddresses?.name ?? "",
+      phoneNumber: customerAddresses?.phoneNumber ?? "",
       houseNo: customerAddresses?.houseNo ?? "",
       line1: customerAddresses?.line1 ?? "",
       line2: customerAddresses?.line2 ?? "",
@@ -351,7 +352,7 @@ export function AddressForm({
           name="houseNo"
           render={({ field }) => (
             <FormItem className="relative mt-1 pt-1.5 md:pt-2">
-              <FormLabel className="absolute top-0 text-xs text-foreground/60 md:text-sm">
+              <FormLabel className="absolute top-0 text-2sm text-foreground/60 md:text-sm">
                 {field.value && "House / Flat / Block No"}
               </FormLabel>
 
@@ -373,13 +374,34 @@ export function AddressForm({
           name="line2"
           render={({ field }) => (
             <FormItem className="relative mt-1 pt-1.5 md:pt-2">
-              <FormLabel className="absolute top-0 text-xs text-foreground/60 md:text-sm">
+              <FormLabel className="absolute top-0 text-2sm text-foreground/60 md:text-sm">
                 {field.value && "Appartment / Road / Area"}
               </FormLabel>
               <FormControl>
                 <Input
                   className="rounded-none border-0 border-b px-0 shadow-none focus-visible:border-b-primary focus-visible:ring-0"
                   placeholder="Appartment / Road / Area"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Address Phone Number */}
+        <FormField
+          control={form.control}
+          name="phoneNumber"
+          render={({ field }) => (
+            <FormItem className="relative mt-1 pt-1.5 md:pt-2">
+              <FormLabel className="absolute top-0 text-2sm text-foreground/60 md:text-sm">
+                {field.value && "Phone Number"}
+              </FormLabel>
+              <FormControl>
+                <Input
+                  className="rounded-none border-0 border-b px-0 shadow-none focus-visible:border-b-primary focus-visible:ring-0"
+                  placeholder="10 digit Number (eg. 9999999999)"
                   {...field}
                 />
               </FormControl>

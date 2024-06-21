@@ -3,6 +3,10 @@ import { z } from "zod";
 export const CustomerAddressForm = z.object({
   id: z.number().int().optional(),
   name: z.string().min(1, { message: "Please enter a address name." }),
+  phoneNumber: z.string().regex(/^[56789]\d{9}$/, {
+    message:
+      "Invalid Phone Number. Please provide a valid 10 digits number eg. (9999999999)",
+  }),
   houseNo: z
     .string()
     .min(1, { message: "Please enter a valid house, flat, block no." }),
