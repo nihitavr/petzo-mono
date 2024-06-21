@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import { index, integer, serial, timestamp } from "drizzle-orm/pg-core";
 
 import { pgTable } from "./_table";
@@ -33,3 +33,22 @@ export const bookingItems = pgTable(
     bookingIdIdx: index("bookings_id_index").on(booking.bookingId),
   }),
 );
+
+export const bookingItemRelations = relations(bookingItems, ({ one }) => ({
+  booking: one(bookings, {
+    fields: [bookingItems.bookingId],
+    references: [bookings.id],
+  }),
+  pet: one(pets, {
+    fields: [bookingItems.petId],
+    references: [pets.id],
+  }),
+  slot: one(slots, {
+    fields: [bookingItems.slotId],
+    references: [slots.id],
+  }),
+  service: one(services, {
+    fields: [bookingItems.serviceId],
+    references: [services.id],
+  }),
+}));

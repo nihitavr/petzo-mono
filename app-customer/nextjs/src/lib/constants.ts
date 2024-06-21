@@ -5,6 +5,13 @@ export const DEFAULT_MAX_MEDICAL_RECORD_IMAGES = 5;
 
 export const CENTERS_LIST_PAGE_LIMIT = 20;
 
+export const BOOKING_STATUS = {
+  booked: { name: "Booked", textColor: "text-yellow-600" },
+  confirmed: { name: "Confirmed", textColor: "text-blue-600" },
+  completed: { name: "Completed", textColor: "text-green-600" },
+  cancelled: { name: "Cancelled", textColor: "text-red-500" },
+};
+
 export const COLOR_MAP: Record<string, { textColor: string; bgColor: string }> =
   {
     a: { textColor: "text-[#000000]", bgColor: "bg-[#264653]" },

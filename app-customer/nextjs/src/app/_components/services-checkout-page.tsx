@@ -16,6 +16,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@petzo/ui/components/accordion";
+import { Button } from "@petzo/ui/components/button";
 import { Label } from "@petzo/ui/components/label";
 import { Skeleton } from "@petzo/ui/components/skeleton";
 import { cn } from "@petzo/ui/lib/utils";
@@ -23,6 +24,7 @@ import { cn } from "@petzo/ui/lib/utils";
 import type { ServiceCartItem } from "~/lib/storage/service-cart-storage";
 import Price from "~/app/_components/price";
 import NewAddessModal from "~/app/center/[name]/[publicId]/_components/add-address-modal";
+import { filtersStore } from "~/lib/storage/global-storage";
 import {
   clearServicesCart,
   removeItemFromServicesCart,
@@ -36,43 +38,46 @@ import BookServicesButton from "./book-services-button";
 
 export default function ServicesCheckoutPage() {
   useSignals();
-  const router = useRouter();
 
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isBookingComplete, setIsBookingComplete] = useState(false);
+  const [bookingId, setBookingId] = useState<number | undefined>();
+
+  const { data: booking } = api.booking.getBooking.useQuery(
+    { id: bookingId! },
+    { enabled: !!bookingId },
+  );
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
 
   useEffect(() => {
-    if (isBookingComplete) {
+    if (bookingId) {
       trackCustom("screenview_booking_complete_page");
-
-      setTimeout(() => {
-        router.push("/");
-
-        setTimeout(() => {
-          clearServicesCart();
-        }, 500);
-      }, 2000);
+      clearServicesCart();
     }
-  }, [isBookingComplete]);
+  }, [bookingId]);
 
   if (!isLoaded) return null;
 
-  if (isBookingComplete) {
+  if (booking) {
     return (
       <div className="flex h-[80vh] flex-col items-center justify-center gap-1">
         <h1 className="text-2xl font-bold text-primary">Booking Complete!</h1>
-        <h2 className="text-xl font-semibold">
-          at {servicesCart.value?.center?.name}
-        </h2>
+        <h2 className="text-xl font-semibold">at {booking?.center?.name}</h2>
+        <div className="space-x-2">
+          <Link href={"/dashboard/bookings"}>
+            <Button variant={"outline"}>View Bookings</Button>
+          </Link>
+          <Link href={`/${filtersStore.city.value}/explore`}>
+            <Button>Explore More</Button>
+          </Link>
+        </div>
       </div>
     );
   }
 
-  const centerImage = servicesCart.value?.center.images?.[0]?.url;
+  const centerImage = servicesCart.value?.center?.images?.[0]?.url;
 
   return (
     <>
@@ -122,7 +127,10 @@ export default function ServicesCheckoutPage() {
 
             <div className="mt-2 rounded-xl bg-background px-2.5 py-1.5">
               {/* <Label className="text-xs text-foreground/80">Services</Label> */}
-              <CartServiceDetails items={servicesCart.value?.items} />
+              <CartServiceDetails
+                items={servicesCart.value?.items}
+                isBookingComplete={!!bookingId}
+              />
             </div>
           </div>
         </div>
@@ -135,20 +143,28 @@ export default function ServicesCheckoutPage() {
           <AddressDetails />
         </div>
 
-        <BookServicesButton setBookingComplete={setIsBookingComplete} />
+        <BookServicesButton setBookingId={setBookingId} />
       </div>
     </>
   );
 }
 
-const CartServiceDetails = ({ items }: { items: ServiceCartItem[] }) => {
+const CartServiceDetails = ({
+  items,
+  isBookingComplete,
+}: {
+  items: ServiceCartItem[];
+  isBookingComplete?: boolean;
+}) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!servicesCart.value?.center?.id) {
-      router.push("/");
-    } else if (!servicesCart.value?.items?.length) {
-      router.push(getCenterUrl(servicesCart.value?.center));
+    if (!isBookingComplete) {
+      if (!servicesCart.value?.center?.id) {
+        router.push("/");
+      } else if (!servicesCart.value?.items?.length) {
+        router.push(getCenterUrl(servicesCart.value?.center));
+      }
     }
   }, [servicesCart.value?.items?.length, servicesCart.value?.center?.id]);
 

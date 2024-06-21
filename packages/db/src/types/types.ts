@@ -69,6 +69,9 @@ export type Review = InferResultType<"reviews"> & {
   user?: CustomerUser;
 };
 
+export type Booking = InferResultType<"bookings">;
+export type BookingItem = InferResultType<"bookingItems">;
+
 export interface Point {
   latitude: number;
   longitude: number;

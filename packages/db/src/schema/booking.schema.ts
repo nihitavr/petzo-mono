@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   boolean,
   index,
@@ -10,6 +10,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 import { pgTable } from "./_table";
+import { bookingItems } from "./booking-items.schema";
 import { centers } from "./center.schema";
 import { customerAddresses } from "./customer-address.schema";
 import { customerUsers } from "./customer-app-auth.schema";
@@ -18,6 +19,7 @@ export const bookingStatusEnum = pgEnum("booking_status_type", [
   "booked",
   "confirmed",
   "cancelled",
+  "completed"
 ]);
 
 export const bookings = pgTable(
@@ -49,3 +51,15 @@ export const bookings = pgTable(
     ),
   }),
 );
+
+export const bookingRelations = relations(bookings, ({ one, many }) => ({
+  center: one(centers, {
+    fields: [bookings.centerId],
+    references: [centers.id],
+  }),
+  address: one(customerAddresses, {
+    fields: [bookings.addressId],
+    references: [customerAddresses.id],
+  }),
+  items: many(bookingItems),
+}));
