@@ -15,12 +15,10 @@ export function trackCustom(
 ) {
   const data = {
     sessionId: getSessionId(),
-    userId: getUserId(),
+    userId: getUserId() ?? null,
     timestamp: Date.now(),
     ...properties,
   };
-
-  console.log("trackCustom", eventName, data);
 
   track(eventName, { data: JSON.stringify(data) });
 }
