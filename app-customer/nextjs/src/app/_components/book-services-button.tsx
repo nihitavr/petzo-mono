@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useSignals } from "@preact/signals-react/runtime";
 import { TRPCClientError } from "@trpc/client";
 
-import { Booking } from "@petzo/db";
 import { Button } from "@petzo/ui/components/button";
 import {
   Dialog,
@@ -20,8 +19,10 @@ import { api } from "~/trpc/react";
 
 export default function BookServicesButton({
   setBookingId,
+  disabled,
 }: {
   setBookingId: (value: number | undefined) => void;
+  disabled?: boolean;
 }) {
   useSignals();
 
@@ -71,6 +72,8 @@ export default function BookServicesButton({
         <div className="fixed bottom-0 left-0 z-10 w-full bg-background px-3 pt-0 md:left-auto md:right-3 md:w-72 md:px-0 lg:right-24 xl:right-48">
           <Button
             disabled={
+              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+              disabled ||
               !servicesCart.value?.address?.id ||
               !servicesCart.value?.items?.length ||
               !servicesCart.value.center

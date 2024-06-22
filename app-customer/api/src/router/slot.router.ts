@@ -12,7 +12,6 @@ export const slotRouter = {
   getDateToSlotsMap: publicProcedure
     .input(z.object({ serviceId: z.number() }))
     .query(async ({ ctx, input }) => {
-
       const next7Dates = getNextNDaysString(7);
 
       const slots = await ctx.db.query.slots.findMany({
@@ -69,6 +68,14 @@ export const slotRouter = {
       }
 
       return dateToSlotsMap;
+    }),
+
+  getSlotsByIds: publicProcedure
+    .input(z.object({ slotIds: z.array(z.number()) }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.slots.findMany({
+        where: inArray(schema.slots.id, input.slotIds),
+      });
     }),
 };
 
