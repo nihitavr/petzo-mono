@@ -9,6 +9,7 @@ import { HiOutlineMoon } from "react-icons/hi";
 import { WiDaySunny, WiSunrise } from "react-icons/wi";
 
 import type { Center, CustomerUser, Pet, Service, Slot } from "@petzo/db";
+import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
 import {
   Accordion,
   AccordionContent,
@@ -49,6 +50,7 @@ import { RadioGroup, RadioGroupItem } from "@petzo/ui/components/radio-group";
 import { Skeleton } from "@petzo/ui/components/skeleton";
 import { toast } from "@petzo/ui/components/toast";
 import { cn, iOS } from "@petzo/ui/lib/utils";
+import { timeUtils } from "@petzo/utils";
 import {
   convertTime24To12,
   isAfternoon,
@@ -59,7 +61,10 @@ import { petValidator } from "@petzo/validators";
 
 import SignIn from "~/app/_components/sign-in";
 import { useMediaQuery } from "~/lib/hooks/screen.hooks";
-import { addItemToServicesCart } from "~/lib/storage/service-cart-storage";
+import {
+  addItemToServicesCart,
+  servicesCart,
+} from "~/lib/storage/service-cart-storage";
 import { getCenterUrl, getServiceBookingUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
 import { trackCustom } from "~/web-analytics/react";
@@ -217,7 +222,9 @@ function ServiceBookingForm({
   const router = useRouter();
 
   const [isAddNewPet, setIsAddNewPet] = useState(false);
-  const [accordianValue, setAccordianValue] = useState("pet-details");
+  const [accordianValue, setAccordianValue] = useState(
+    "slot-starttime-selection",
+  );
 
   const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
 
@@ -270,15 +277,17 @@ function ServiceBookingForm({
     if (closeDialog) onOpenChange(false);
   };
 
+  // Time Slot click handler.
   const onSlotClick = (slot: Slot) => {
     if (!slot.availableSlots) return;
 
     setSelectedSlot(slot);
     setTimeout(() => {
-      setAccordianValue("");
+      setAccordianValue(selectedPet ? "" : "pet-details");
     }, 200);
   };
 
+  // Save new pet flow submit button.
   const onSubmitSaveNewPet = async (values: unknown) => {
     trackCustom("click_save_new_pet", {
       servicePublicId: service.publicId,
@@ -312,6 +321,42 @@ function ServiceBookingForm({
     setIsNewPetSubmitting(false);
   };
 
+  // Map of unavailable time periods. This is required to
+  // remove the slots that are already added to cart.
+  const unavailableTimePeriodMap = useMemo(() => {
+    return servicesCart.value.items
+      ?.map((item) => {
+        return {
+          date: item.slot.date,
+          surroundingTimes: timeUtils.getSurroundingTime(
+            item.slot.startTime,
+            item.service.duration - SLOT_DURATION_IN_MINS,
+          ),
+        };
+      })
+      ?.reduce(
+        (acc, val) => {
+          val.surroundingTimes.forEach((time) => {
+            const key = `${val.date}_${time}`;
+            if (acc[key] === undefined) acc[key] = 1;
+            else acc[key]++;
+          });
+          return acc;
+        },
+        {} as Record<string, number>,
+      );
+  }, [servicesCart.value.items?.length]);
+
+  // Check if the slot is available using the above unavailableTimePeriodMap
+  //  function and the given time slot.
+  const isSlotAvailable = (slot: Slot) => {
+    return (
+      slot.availableSlots -
+        (unavailableTimePeriodMap?.[`${slot.date}_${slot.startTime}`] ?? 0) >
+      0
+    );
+  };
+
   if (isPetsLoading || isSlotsLoading) {
     return (
       <div
@@ -332,6 +377,133 @@ function ServiceBookingForm({
         collapsible={true}
         className="space-y-1"
       >
+        {/* Start Time */}
+        <AccordionItem
+          value="slot-starttime-selection"
+          className="rounded-lg border"
+        >
+          <AccordianPreview
+            label="Start Time"
+            labelValue={
+              selectedSlot
+                ? format(
+                    parse(
+                      selectedSlot.startTime,
+                      "HH:mm:ss",
+                      new Date(selectedSlot.date),
+                    ),
+                    "EEE do MMM, h:mm a",
+                  )
+                : ""
+            }
+            selectedAccordianValue={accordianValue}
+            accordianValue="slot-starttime-selection"
+          />
+
+          <AccordionContent
+            data-vaul-no-drag
+            className="max-h-54 grid grid-cols-1 border-t py-3"
+          >
+            <div className="no-scrollbar overflow-x-auto px-3 pb-3">
+              <div className="flex w-max items-center gap-2">
+                {slots &&
+                  Array.from(slots.entries()).map(([date, dateSlots], idx) => {
+                    const availableSlots = dateSlots.filter(isSlotAvailable);
+
+                    return (
+                      <div
+                        onClick={() => setSelectedSlotDate(date)}
+                        aria-hidden="true"
+                        className={`flex flex-shrink-0 cursor-pointer flex-col items-center gap-0.5 rounded-md border px-2 py-1 text-xs ${selectedSlotDate == date ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                        key={idx}
+                      >
+                        <span className="font-semibold">
+                          {format(date, "EEE, d MMM")}
+                        </span>
+                        <span
+                          className={`font-medium ${availableSlots.length ? "text-green-700" : "text-red-700"}`}
+                        >
+                          {availableSlots.length} available
+                        </span>
+                      </div>
+                    );
+                  })}
+                {/* <div>This is slot content</div> */}
+              </div>
+            </div>
+
+            <div className="max-h-72 overflow-y-scroll">
+              {(() => {
+                const morningSlots = slots
+                  ?.get(selectedSlotDate)
+                  ?.filter((slot) => isMorning(slot.startTime));
+
+                const afternoonSlots = slots
+                  ?.get(selectedSlotDate)
+                  ?.filter((slot) => isAfternoon(slot.startTime));
+
+                const eveningSlots = slots
+                  ?.get(selectedSlotDate)
+                  ?.filter((slot) => isEvening(slot.startTime));
+
+                return (
+                  <div className="flex flex-col">
+                    {morningSlots?.length && (
+                      <SlotSection
+                        icon={
+                          <WiSunrise
+                            strokeWidth={0.3}
+                            className="size-6 text-yellow-600"
+                          />
+                        }
+                        name="Morning"
+                        slots={morningSlots}
+                        selectedSlotId={selectedSlot?.id}
+                        isSlotAvailable={isSlotAvailable}
+                        onSlotClick={onSlotClick}
+                      />
+                    )}
+
+                    {afternoonSlots?.length && (
+                      <SlotSection
+                        icon={
+                          <WiDaySunny
+                            strokeWidth={0.3}
+                            className="size-6 text-orange-600"
+                          />
+                        }
+                        name="Afternoon"
+                        slots={afternoonSlots}
+                        selectedSlotId={selectedSlot?.id}
+                        isSlotAvailable={isSlotAvailable}
+                        onSlotClick={onSlotClick}
+                      />
+                    )}
+
+                    {eveningSlots?.length && (
+                      <SlotSection
+                        icon={
+                          <div className="flex size-6 items-center justify-center">
+                            <HiOutlineMoon
+                              strokeWidth={2.2}
+                              className="size-4 text-slate-500"
+                            />
+                          </div>
+                        }
+                        name="Evening"
+                        slots={eveningSlots}
+                        selectedSlotId={selectedSlot?.id}
+                        isSlotAvailable={isSlotAvailable}
+                        onSlotClick={onSlotClick}
+                      />
+                    )}
+                  </div>
+                );
+              })()}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
         {/* Booking For */}
         <AccordionItem value="pet-details" className="rounded-lg border">
           <AccordianPreview
@@ -505,7 +677,6 @@ function ServiceBookingForm({
                         <Button
                           className="flex w-full items-center justify-center gap-2 md:w-52"
                           type="submit"
-                          onClick={() => {}}
                           disabled={
                             isNewPetSubmitting || !petForm.formState.isValid
                           }
@@ -536,131 +707,6 @@ function ServiceBookingForm({
           </AccordionContent>
         </AccordionItem>
 
-        {/* Start Time */}
-        <AccordionItem
-          value="slot-starttime-selection"
-          className="rounded-lg border"
-        >
-          <AccordianPreview
-            label="Start Time"
-            labelValue={
-              selectedSlot
-                ? format(
-                    parse(
-                      selectedSlot.startTime,
-                      "HH:mm:ss",
-                      new Date(selectedSlot.date),
-                    ),
-                    "EEE do MMM, h:mm a",
-                  )
-                : ""
-            }
-            selectedAccordianValue={accordianValue}
-            accordianValue="slot-starttime-selection"
-          />
-
-          <AccordionContent
-            data-vaul-no-drag
-            className="max-h-54 grid grid-cols-1 border-t py-3"
-          >
-            <div className="no-scrollbar overflow-x-auto px-3 pb-3">
-              <div className="flex w-max items-center gap-2">
-                {slots &&
-                  Array.from(slots.entries()).map(([date, dateSlots], idx) => {
-                    const availableSlots = dateSlots.filter(
-                      (slot) => slot.availableSlots,
-                    );
-
-                    return (
-                      <div
-                        onClick={() => setSelectedSlotDate(date)}
-                        aria-hidden="true"
-                        className={`flex flex-shrink-0 cursor-pointer flex-col items-center gap-0.5 rounded-md border px-2 py-1 text-xs ${selectedSlotDate == date ? "bg-primary/30" : "hover:bg-primary/10"}`}
-                        key={idx}
-                      >
-                        <span className="font-semibold">
-                          {format(date, "EEE, d MMM")}
-                        </span>
-                        <span
-                          className={`font-medium ${availableSlots.length ? "text-green-600" : "text-red-600"}`}
-                        >
-                          {availableSlots.length} available
-                        </span>
-                      </div>
-                    );
-                  })}
-                {/* <div>This is slot content</div> */}
-              </div>
-            </div>
-
-            <div className="max-h-72 overflow-y-scroll">
-              {(() => {
-                const morningSlots = slots
-                  ?.get(selectedSlotDate)
-                  ?.filter((slot) => isMorning(slot.startTime));
-
-                const afternoonSlots = slots
-                  ?.get(selectedSlotDate)
-                  ?.filter((slot) => isAfternoon(slot.startTime));
-
-                const eveningSlots = slots
-                  ?.get(selectedSlotDate)
-                  ?.filter((slot) => isEvening(slot.startTime));
-
-                return (
-                  <div className="flex flex-col">
-                    {morningSlots?.length && (
-                      <SlotSection
-                        icon={
-                          <WiSunrise
-                            strokeWidth={0.3}
-                            className="size-6 text-yellow-600"
-                          />
-                        }
-                        name="Morning"
-                        slots={morningSlots}
-                        selectedSlotId={selectedSlot?.id}
-                        onSlotClick={onSlotClick}
-                      />
-                    )}
-
-                    {afternoonSlots?.length && (
-                      <SlotSection
-                        icon={
-                          <WiDaySunny
-                            strokeWidth={0.3}
-                            className="size-6 text-orange-600"
-                          />
-                        }
-                        name="Afternoon"
-                        slots={afternoonSlots}
-                        selectedSlotId={selectedSlot?.id}
-                        onSlotClick={onSlotClick}
-                      />
-                    )}
-
-                    {eveningSlots?.length && (
-                      <SlotSection
-                        icon={
-                          <div className="flex size-6 items-center justify-center">
-                            <HiOutlineMoon
-                              strokeWidth={2.2}
-                              className="size-4 text-slate-500"
-                            />
-                          </div>
-                        }
-                        name="Evening"
-                        slots={eveningSlots}
-                        selectedSlotId={selectedSlot?.id}
-                        onSlotClick={onSlotClick}
-                      />
-                    )}
-                  </div>
-                );
-              })()}
-            </div>
-          </AccordionContent>
-        </AccordionItem>
         <div className="fixed bottom-0 left-0 flex w-full space-x-2 px-3 py-3 pt-2">
           <Button
             type="button"
@@ -701,12 +747,14 @@ const SlotSection = ({
   name,
   slots,
   selectedSlotId,
+  isSlotAvailable,
   onSlotClick,
 }: {
   icon: React.ReactNode;
   name: string;
   slots: Slot[];
   selectedSlotId?: number | null;
+  isSlotAvailable: (slot: Slot) => boolean;
   onSlotClick: (slot: Slot) => void;
 }) => {
   const areAllSlotsUnavailable = slots.every((slot) => !slot.availableSlots);
@@ -723,14 +771,16 @@ const SlotSection = ({
             <SlotBox
               key={idx}
               onClick={() => onSlotClick(slot)}
-              isAvailable={!!slot.availableSlots}
+              isAvailable={isSlotAvailable(slot)}
               isSelected={selectedSlotId == slot.id}
               slotStartTime={slot.startTime}
             />
           ))}
         </div>
       ) : (
-        <span className="w-full text-center">No slots available!</span>
+        <span className="w-full text-center text-destructive">
+          No slots available!
+        </span>
       )}
     </div>
   );
