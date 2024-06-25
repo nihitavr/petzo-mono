@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { BsPersonFill } from "react-icons/bs";
 
 import type { CustomerUser, Rating, Review } from "@petzo/db";
@@ -27,6 +28,7 @@ export default function ReviewInput({
   currentUserReview: Review | undefined;
   className?: string;
 }) {
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(!currentUserReview);
@@ -59,11 +61,13 @@ export default function ReviewInput({
       data = { ...data, ...review };
       setInput(review.text ?? "");
       toast.success("Review submitted successfully.");
+      router.refresh();
     }
 
     if (rating) {
       data.rating = rating;
       toast.success("Rating submitted successfully.");
+      router.refresh();
     }
 
     setCurrentUserReview((currentUserReview) => {

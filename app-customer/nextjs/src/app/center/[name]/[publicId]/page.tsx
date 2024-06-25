@@ -59,7 +59,7 @@ export default async function Page({
         name="screenview_center_details_page"
         data={{ centerPublicId: publicId }}
       />
-      <CenterPage publicId={publicId} />;
+      <CenterPage publicId={publicId} />
     </>
   );
 }

@@ -19,7 +19,7 @@ const CitiyMap: Record<string, number> = {
 
 export const centerRouter = {
   findByPublicId: publicCachedProcedure
-    .meta({ cacheTTLInSeconds: 1800 })
+    .meta({ cacheTTLInSeconds: 60 })
     .input(centerValidator.FindByPublicId)
     .query(async ({ ctx, input }) => {
       const center = await ctx.db.query.centers.findFirst({
@@ -40,7 +40,7 @@ export const centerRouter = {
     }),
 
   findByFilters: publicCachedProcedure
-    .meta({ cacheTTLInSeconds: 1800 })
+    .meta({ cacheTTLInSeconds: 60 })
     .input(centerValidator.FindByFilters)
     .query(async ({ ctx, input }) => {
       // Search Conditions
