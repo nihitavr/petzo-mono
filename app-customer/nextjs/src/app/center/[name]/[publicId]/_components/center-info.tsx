@@ -17,9 +17,7 @@ export const CenterInfo = ({
   className?: string;
 }) => {
   return (
-    <div
-      className={cn("flex flex-col gap-1.5 overflow-y-auto pt-0", className)}
-    >
+    <div className={cn("flex flex-col gap-1 overflow-y-auto pt-0", className)}>
       {/* Center name */}
       <div className="flex items-start justify-between">
         <h1 className="line-clamp-2 text-base font-semibold md:text-lg">
@@ -29,16 +27,9 @@ export const CenterInfo = ({
       </div>
 
       {/* Rating and Reviews */}
-      <div className="flex items-center gap-2 text-2sm text-foreground/80 md:text-sm">
-        <div className="flex items-center gap-1">
-          <a href="#reviews">
-            <Rating rating={center.averageRating} />
-          </a>
-          <span className="line-clamp-1 text-xs font-semibold">
-            (Google Rating)
-          </span>
-        </div>
-      </div>
+      <a href="#reviews">
+        <Rating rating={center.averageRating} />
+      </a>
 
       {/* Services Provided */}
       <span className="space-x-1 text-2sm md:text-sm">
@@ -56,7 +47,7 @@ export const CenterInfo = ({
         rel="noreferrer"
         className="flex items-center gap-1 hover:underline"
       >
-        <GrLocation className="size-4" />
+        <GrLocation className="!h-4 !w-4" />
         <span className="line-clamp-2 text-2sm font-medium capitalize md:text-sm">
           {center.centerAddress.line1}, {center.centerAddress.area.name}
         </span>

@@ -67,7 +67,7 @@ export default async function Page({
           servicePublicId: publicId,
         }}
       />
-      <CenterPage publicId={publicId} />;
+      <CenterPage publicId={publicId} />
     </>
   );
 }

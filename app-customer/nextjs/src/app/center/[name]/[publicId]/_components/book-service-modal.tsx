@@ -253,12 +253,7 @@ function ServiceBookingForm({
   const addPet = api.pet.addPetProfile.useMutation();
 
   const { data: slots, isLoading: isSlotsLoading } =
-    api.slot.getDateToSlotsMap.useQuery(
-      { serviceId: service.id },
-      {
-        enabled: !!user,
-      },
-    );
+    api.slot.getDateToSlotsMap.useQuery({ serviceId: service.id });
 
   const addToCart = (closeDialog = true) => {
     if (!selectedPet || !selectedSlot) return;
@@ -522,20 +517,22 @@ function ServiceBookingForm({
                       ? "Add New Pet*"
                       : "Select Pet*"}
                   </Label>
-                  <span>OR</span>
-                  {pets?.length && pets?.length > 0 && (
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        setSelectedPet(null);
-                        setIsAddNewPet((isAddNewPet) => !isAddNewPet);
-                      }}
-                      variant={pets?.length ? "secondary" : "primary"}
-                      size="sm"
-                      className="h-6"
-                    >
-                      {isAddNewPet ? "Select Existing Pet" : "Add New Pet"}
-                    </Button>
+                  {!!pets?.length && (
+                    <>
+                      <span>OR</span>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          setSelectedPet(null);
+                          setIsAddNewPet((isAddNewPet) => !isAddNewPet);
+                        }}
+                        variant={pets?.length ? "secondary" : "primary"}
+                        size="sm"
+                        className="h-6"
+                      >
+                        {isAddNewPet ? "Select Existing Pet" : "Add New Pet"}
+                      </Button>
+                    </>
                   )}
                 </div>
                 {!isAddNewPet && pets?.length ? (

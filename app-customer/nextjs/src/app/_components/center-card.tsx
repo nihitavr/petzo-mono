@@ -45,12 +45,7 @@ export default function CenterCard({ center }: { center: Center }) {
           </div>
 
           {/* Rating and Reviews */}
-          <div className="flex items-center gap-2 text-2sm text-foreground/80 md:text-base">
-            <Rating rating={center.averageRating} />
-            <span className="line-clamp-1 text-xs font-semibold">
-              (Google Rating)
-            </span>
-          </div>
+          {!!center.averageRating && <Rating rating={center.averageRating} />}
 
           {/* Area */}
           <div className="flex items-center gap-1">
