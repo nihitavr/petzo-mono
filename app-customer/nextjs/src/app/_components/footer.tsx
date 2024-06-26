@@ -15,17 +15,17 @@ export default function Footer() {
         {/* Instagram */}
         <a
           className="flex w-min items-center justify-start gap-2  text-foreground hover:text-foreground/80"
-          href="https://instagram.com/petzo.co"
+          href="https://instagram.com/petzo_petcare"
           target="_blank"
           rel="noreferrer"
         >
-          <LuInstagram className="h-4 cursor-pointer" />
-          <span>petzo.co</span>
+          <LuInstagram className="mt-0.5 h-4 cursor-pointer" />
+          <span>petzo_petcare</span>
         </a>
 
         {/* Email */}
         <div className="flex items-center gap-2">
-          <LuMail className="h-4" />
+          <LuMail className="mt-0.5 h-4" />
           <span>petzo.co@gmail.com</span>
         </div>
 

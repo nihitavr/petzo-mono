@@ -1,8 +1,10 @@
 import { Fragment } from "react";
 import Link from "next/link";
+import { TbReload } from "react-icons/tb";
 
 import type { Center } from "@petzo/db";
 import { auth } from "@petzo/auth-customer-app";
+import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 
 import type { Items } from "./_components/booking-items";
@@ -12,6 +14,7 @@ import { BOOKING_STATUS } from "~/lib/constants";
 import { getCenterUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/server";
 import BookingItems from "./_components/booking-items";
+import { CancelBookingButton } from "./_components/cancel-booking-button";
 
 export default async function Page() {
   if (!(await auth())?.user) {
@@ -37,8 +40,7 @@ export default async function Page() {
       {/* Your Bookings */}
       <h1 className="text-xl font-semibold">Your Bookings</h1>
       <div className="flex flex-col">
-        <hr className="my-3 border-[1px] border-foreground/80" />
-
+        <hr className="mb-5 mt-2 border-foreground/20" />
         {bookings.length > 0 &&
           bookings.map((booking) => {
             const centerUrl = getCenterUrl(booking?.center as Center);
@@ -82,7 +84,23 @@ export default async function Page() {
                     <BookingItems items={booking?.items as unknown as Items} />
                   </div>
                 </div>
-                <hr className="my-3 border-[1px] border-foreground/80" />
+                <div className="flex gap-2">
+                  <div className="w-1/2 cursor-pointer">
+                    <CancelBookingButton />
+                  </div>
+                  <Link href={centerUrl} className="w-1/2 cursor-pointer">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="w-full space-x-0.5"
+                    >
+                      <span>Rebook</span>
+                      <TbReload className="size-3.5" strokeWidth={2.5} />
+                    </Button>
+                  </Link>
+                </div>
+
+                <hr className="my-5 border-foreground/20" />
               </Fragment>
             );
           })}

@@ -27,7 +27,7 @@ export const LoadingPetsList = forwardRef<
       {arr.map((_, index) => (
         <Skeleton
           key={`skeleton-${index}`}
-          className="flex h-20 w-full rounded-lg md:h-28"
+          className="flex h-full min-h-28 w-full min-w-28 rounded-lg"
         >
           <Skeleton className="aspect-square h-full rounded-lg bg-muted-foreground/15" />
           <div className="flex w-full flex-col gap-1 p-2">
