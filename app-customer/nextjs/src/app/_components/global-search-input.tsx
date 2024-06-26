@@ -11,13 +11,13 @@ import { Input } from "@petzo/ui/components/input";
 import { filtersStore } from "~/lib/storage/global-storage";
 
 export const MIN_SEARCH_TEXT_LENGTH = 3;
-export const MAX_SEARCH_PLACEHOLDER_REPETITIONS = 12;
+export const MAX_SEARCH_PLACEHOLDER_REPETITIONS = 1;
 
 const PLACEHOLDERS = [
-  "Veterinary Center",
-  "Grooming Center",
   "Home Grooming Center",
-  "Boarding Center",
+  // "Boarding Center",
+  // "Grooming Center",
+  // "Veterinary Center",
 ];
 
 export default function GlobalSearchInput({
@@ -121,7 +121,7 @@ export default function GlobalSearchInput({
             setInput(e.target.value);
           }}
           ref={ref}
-          placeholder="Search by Veterinary Center"
+          placeholder="Search by Home Grooming Center"
           className="h-11 w-full rounded-full px-5 caret-primary shadow-[0_0px_20px_rgba(0,0,0,0.25)]
           shadow-primary/30 focus-visible:ring-primary dark:shadow-foreground/10 md:w-72"
         />

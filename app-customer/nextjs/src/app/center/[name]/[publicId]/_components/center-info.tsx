@@ -27,9 +27,11 @@ export const CenterInfo = ({
       </div>
 
       {/* Rating and Reviews */}
-      <a href="#reviews">
-        <Rating rating={center.averageRating} />
-      </a>
+      {!!center.averageRating && (
+        <a href="#reviews">
+          <Rating rating={center.averageRating} />
+        </a>
+      )}
 
       {/* Services Provided */}
       <span className="space-x-1 text-2sm md:text-sm">

@@ -25,8 +25,6 @@ export default function CenterReviews({
         {!!center.averageRating && <Rating rating={center.averageRating} />}
       </h2>
 
-      <h3 className="text-lg font-semibold">Reviews</h3>
-
       <div className="flex flex-col gap-5">
         {user ? (
           <ReviewInput

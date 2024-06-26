@@ -36,7 +36,7 @@ export default async function CenterPage({ publicId }: { publicId: string }) {
   const imageUrls = center.images?.map((img) => img.url) ?? [];
 
   return (
-    <div className="flex flex-col gap-5 md:gap-8">
+    <div className="flex animate-fade-in flex-col gap-5 md:gap-8">
       {/* Center Image & Center Info */}
       <div className="flex grid-cols-10 flex-col gap-2 md:grid md:gap-5">
         {/* Center Images */}
