@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { DotLottiePlayer } from "@dotlottie/react-player";
 
 import type { Point } from "@petzo/db";
 
@@ -18,6 +19,8 @@ export default function CentersNearYouSection({
 }: {
   cityPublicId?: string;
 }) {
+  const [fetchingLocation, setFetchingLocation] = useState(true);
+
   const [geoCode, setGeoCode] = useState<Point>();
   const [isGeoCodeFetchError, setIsGeoCodeFetchError] =
     useState<boolean>(false);
@@ -31,14 +34,21 @@ export default function CentersNearYouSection({
     if (!navigator.geolocation) {
       return;
     }
+
+    setFetchingLocation(true);
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setGeoCode({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         });
+        setFetchingLocation(false);
       },
-      () => setIsGeoCodeFetchError(true),
+      () => {
+        setFetchingLocation(false);
+        setIsGeoCodeFetchError(true);
+      },
       {
         timeout: GEOLOCATION_TIMEOUT_IN_MS,
         maximumAge: GEOLOCATION_MAX_AGE_IN_MS,
@@ -84,7 +94,20 @@ export default function CentersNearYouSection({
           boarding centers near you.
         </span> */}
       </div>
-      {isPending || isLoading ? (
+      {fetchingLocation ? (
+        <div className="flex w-full flex-col items-center justify-center">
+          <DotLottiePlayer
+            className="size-36"
+            src="/location-fetching-animation.lottie"
+            loop={true}
+            speed={1.5}
+            autoplay={true}
+          />
+          <span className="-mt-4 text-sm font-semibold md:text-base">
+            Fetching Location
+          </span>
+        </div>
+      ) : isPending || isLoading ? (
         <div className="no-scrollbar flex items-center gap-3 overflow-x-auto">
           <div className="flex-shrink-0 basis-[95%] py-2 md:basis-[40%]">
             <LoadingCentersList noOfItems={1} />
