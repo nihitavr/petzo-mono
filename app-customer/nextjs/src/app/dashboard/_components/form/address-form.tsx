@@ -23,6 +23,7 @@ import {
   FormMessage,
 } from "@petzo/ui/components/form";
 import { Input } from "@petzo/ui/components/input";
+import Loader from "@petzo/ui/components/loader";
 import { toast } from "@petzo/ui/components/toast";
 import { customerAddressValidator } from "@petzo/validators";
 
@@ -283,7 +284,7 @@ export function AddressForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-2 md:gap-3"
+        className="relative flex flex-col gap-2 pb-16 md:gap-3"
       >
         <div className="flex items-center justify-start gap-2">
           <h1 className="text-xl font-semibold">Add Address</h1>
@@ -314,30 +315,6 @@ export function AddressForm({
             </div>
           </div>
         </div>
-
-        {/* Fetched Location String */}
-        <FormField
-          control={form.control}
-          name="placeAddressFormatted"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <div className="space-x-1 py-1">
-                  <GrLocation size={23} className="inline text-primary" />
-                  <span className="text-sm font-semibold md:text-base">
-                    {!field.value || isFetchingLocation
-                      ? "Fetching address..."
-                      : getFullAddressFormatted(
-                          form.watch("houseNo"),
-                          form.watch("line2"),
-                          field.value,
-                        )}
-                  </span>
-                </div>
-              </FormControl>
-            </FormItem>
-          )}
-        />
 
         {/* Detailed address message */}
         <div className="rounded-lg border border-primary/60 bg-primary/20 p-1.5 text-xs md:text-sm">
@@ -432,11 +409,54 @@ export function AddressForm({
           )}
         />
 
+        <div
+          className={`md:initial fixed bottom-0 left-0 z-50 flex w-full flex-col justify-end bg-background px-3 pb-3 md:static md:px-0`}
+        >
+          {/* Fetched Location String */}
+          <FormField
+            control={form.control}
+            name="placeAddressFormatted"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="space-x-1 py-1">
+                    <GrLocation size={18} className="inline text-primary" />
+                    <span className="text-2sm font-bold md:text-sm ">
+                      {!field.value || isFetchingLocation
+                        ? "Fetching address..."
+                        : getFullAddressFormatted(
+                            form.watch("houseNo"),
+                            form.watch("line2"),
+                            field.value,
+                          )}
+                    </span>
+                  </div>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <Button
+            className="flex w-full items-center justify-center gap-2 md:w-32"
+            type="submit"
+            disabled={
+              Object.keys(form.formState.dirtyFields).length == 0 ||
+              isSubmitting ||
+              isFetchingLocation
+            }
+          >
+            <span>Save</span>
+            <div>
+              <Loader className="h-5 w-5 border-2" show={isSubmitting} />
+            </div>
+          </Button>
+        </div>
+
         {/* Save Button */}
-        <FormSaveButton
+        {/* <FormSaveButton
           disabled={Object.keys(form.formState.dirtyFields).length == 0}
           isSubmitting={isSubmitting || isFetchingLocation}
-        />
+        /> */}
       </form>
     </Form>
   );

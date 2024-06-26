@@ -65,19 +65,22 @@ export default function BookServicesButton({
   if (!isMounted) {
     return null;
   }
+  const isDisabled =
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    disabled ||
+    !servicesCart.value?.address?.id ||
+    !servicesCart.value?.items?.length ||
+    !servicesCart.value.center;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+      <DialogTrigger
+        className={isDisabled ? `pointer-events-none` : ""}
+        asChild
+      >
         <div className="fixed bottom-0 left-0 z-10 w-full bg-background px-3 pt-0 md:left-auto md:right-3 md:w-72 md:px-0 lg:right-24 xl:right-48">
           <Button
-            disabled={
-              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-              disabled ||
-              !servicesCart.value?.address?.id ||
-              !servicesCart.value?.items?.length ||
-              !servicesCart.value.center
-            }
+            disabled={isDisabled}
             className="flex h-11 w-full -translate-y-[40%] items-center gap-1 rounded-xl bg-green-700 caret-primary shadow-[0_0px_20px_rgba(0,0,0,0.25)] shadow-green-700/50 hover:bg-green-700/90"
           >
             <span className="font-semibold">Book Services</span>

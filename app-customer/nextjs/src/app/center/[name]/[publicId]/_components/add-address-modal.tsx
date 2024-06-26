@@ -39,7 +39,7 @@ export default function NewAddessModal({
           </Button>
         </DialogTrigger>
         <DialogContent className="no-scrollbar mb-5 h-[80vh] overflow-y-auto rounded-xl px-3 pb-0">
-          <div className="no-scrollbar relative overflow-y-auto pb-16">
+          <div className="no-scrollbar relative overflow-y-auto">
             <AddressForm
               onFormSubmit={() => {
                 onAddNewAddress();

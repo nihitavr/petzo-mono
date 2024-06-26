@@ -14,13 +14,21 @@ export default function WhyUsePetzoSection() {
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <Card
           icon="/icons/discover-pet-centers-icon.svg"
-          title="Discover best Pet Care"
+          title="Discover Best Pet Care"
           buttonName="Explore"
           buttonLink={`/${filtersStore.city.value}/centers`}
           descriptions={[
             "Find top pet centers for vet consultation, grooming, home grooming, and boarding.",
             "Discover a variety of packages tailored to your pet's needs.",
             "Easily call or get directions to centers with one click.",
+          ]}
+        />
+        <Card
+          icon="/icons/pet-appointment-booking.svg"
+          title="Book Appointments"
+          descriptions={[
+            "Easily book visits or schedule home appointments with your favorite pet care centers.",
+            "View and select from available time slots in real-time to ensure convenient scheduling.",
           ]}
         />
         <Card
@@ -34,11 +42,7 @@ export default function WhyUsePetzoSection() {
             "Never worry about losing your pet's medical records again.",
           ]}
         />
-        <Card
-          icon="/icons/pet-appointment-booking.svg"
-          title="Book Appointments"
-          descriptions={["Coming soon."]}
-        />
+
         <Card
           icon="/icons/pet-vaccination-alerts-icon.svg"
           title="Vaccination Alerts"

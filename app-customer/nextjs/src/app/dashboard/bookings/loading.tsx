@@ -6,13 +6,13 @@ export default function Loading() {
       <h1 className="text-xl font-semibold">Your Bookings</h1>
 
       <div className="flex flex-col">
-        <hr className="mb-3 mt-1 border-[1px] border-foreground/50" />
+        <hr className="mb-5 border-foreground/20" />
         <Skeleton className="h-32 w-full rounded-none" />
-        <hr className="my-3 border-[1px] border-foreground/50" />
+        <hr className="my-5 border-foreground/20" />
         <Skeleton className="h-32 w-full rounded-none" />
-        <hr className="my-3 border-[1px] border-foreground/50" />
+        <hr className="my-5 border-foreground/20" />
         <Skeleton className="h-32 w-full rounded-none" />
-        <hr className="my-3 border-[1px] border-foreground/50" />
+        <hr className="my-5 border-foreground/20" />
         <Skeleton className="h-32 w-full rounded-none" />
       </div>
     </div>

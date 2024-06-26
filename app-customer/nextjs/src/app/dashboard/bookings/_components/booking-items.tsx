@@ -16,7 +16,7 @@ export type Items = (BookingItem & {
 
 const BookingItems = ({ items }: { items: Items }) => {
   return (
-    <div className="mt-2 flex flex-col gap-5">
+    <div className="flex flex-col gap-5">
       {items?.map((item, idx) => (
         <div
           key={`service-no-${idx}-${item.service.id}-${item.slot.id}-${item.pet.id}`}
