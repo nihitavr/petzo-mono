@@ -16,6 +16,7 @@ export const petTypeEnum = pgEnum("pet_type_enum_type", [
   "small_dog",
   "big_dog",
 ]);
+
 export const genderEnum = pgEnum("gender_enum_type", ["male", "female"]);
 
 export const GenderList = genderEnum.enumValues;

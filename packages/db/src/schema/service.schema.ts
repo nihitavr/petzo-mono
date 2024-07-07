@@ -31,6 +31,7 @@ export const services = pgTable(
     publicId: varchar("public_id", { length: 15 }).notNull().unique(),
     name: varchar("name", { length: 256 }).notNull(),
     serviceType: serviceTypeEnum("service_type").notNull(),
+    petTypes: json("pet_types").$type<string[]>(),
     price: integer("price").notNull(),
     images: json("images").$type<{ url: string }[]>(),
     startTime: time("start_time").default("09:00").notNull(),

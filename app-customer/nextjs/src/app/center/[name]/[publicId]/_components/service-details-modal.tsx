@@ -88,7 +88,7 @@ export function ServiceDetailsModal({
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogTrigger onClick={onTriggerClick} asChild>
           <Button
-            className="mt-2 h-min w-min px-2 py-0.5 text-xs text-foreground/80"
+            className="h-min w-min px-2 py-0.5 text-xs text-foreground/80"
             size="sm"
             variant="outline"
           >
@@ -138,7 +138,7 @@ export function ServiceDetailsModal({
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger onClick={onTriggerClick} asChild>
         <Button
-          className="mt-2 h-min w-min px-2 py-0.5 text-xs text-foreground/80"
+          className="h-min w-min px-2 py-0.5 text-xs text-foreground/80"
           size="sm"
           variant="outline"
         >

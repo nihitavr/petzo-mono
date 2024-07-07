@@ -26,36 +26,89 @@ export default function ServiceCard({
 }) {
   const [openDetails, setOpenDetails] = useState(false);
 
+  const getServicePetTypesComponent = () => {
+    const isCatType = service.petTypes?.every((type) => type.includes("cat"));
+    const isDogType = service.petTypes?.every((type) => type.includes("dog"));
+
+    const ImageComp = ({ name, src }: { name: string; src: string }) => {
+      return (
+        <>
+          <span className="opacity-70">{name} </span>
+          <Image
+            width={16}
+            height={16}
+            src={src}
+            alt=""
+            className="-mt-0.5 inline-block"
+          />
+        </>
+      );
+    };
+
+    if (
+      !service.petTypes ||
+      service.petTypes.length === 0 ||
+      (isCatType && isDogType)
+    )
+      return (
+        <span className="text-2sm font-medium">
+          <ImageComp name="For Cats " src="/icons/cat-face-icon.svg" />
+          <ImageComp name=", Dogs " src="/icons/dog-face-icon.svg" />
+        </span>
+      );
+
+    if (isCatType)
+      return (
+        <span className="text-2sm font-medium">
+          <ImageComp name="For Cats " src="/icons/cat-face-icon.svg" />
+        </span>
+      );
+    if (isDogType)
+      return (
+        <span className="text-2sm font-medium">
+          <ImageComp name="For Dogs " src="/icons/dog-face-icon.svg" />
+        </span>
+      );
+  };
+
   return (
     <div className={cn("flex justify-between bg-muted", className)}>
       {/* Service Info */}
-      <div className="flex flex-col gap-1 p-2">
-        <h2 className="line-clamp-2 text-sm font-semibold md:text-base">
+      <div className="flex flex-col gap-0.5 p-2">
+        <h2 className="line-clamp-1 break-all text-sm font-semibold md:text-base">
           {service.name}
         </h2>
+
+        <span>{getServicePetTypesComponent()}</span>
 
         <div className="flex items-center gap-1.5">
           <span className="text-base font-semibold md:text-base">
             <Price price={service.price} className="text-primary" />
             {/* &#8377; {getCommaPrice(service.price)} */}
           </span>
-          <div className="size-1 rounded-full bg-foreground/80"></div>
-          <span className="text-sm">
-            {timeUtils.convertMinutesToHoursAndMinutes(service.duration)}
-          </span>
         </div>
 
-        <span className="mt-1 line-clamp-2 whitespace-pre-wrap text-xs md:line-clamp-3 md:text-sm">
-          {service.description}
+        <span className="text-xs">
+          Duration:{" "}
+          <span className="font-medium">
+            {timeUtils.convertMinutesToHoursAndMinutes(service.duration)}
+          </span>
         </span>
 
-        <ServiceDetailsModal
-          service={service}
-          center={center}
-          open={openDetails}
-          setOpen={setOpenDetails}
-          user={user}
-        />
+        {/* TODO: Description has been removed as we currently only have  */}
+        {/* <span className="mt-1 line-clamp-2 whitespace-pre-wrap text-xs md:line-clamp-3 md:text-sm">
+          {service.description}
+        </span> */}
+
+        <div className="mt-0.5">
+          <ServiceDetailsModal
+            service={service}
+            center={center}
+            open={openDetails}
+            setOpen={setOpenDetails}
+            user={user}
+          />
+        </div>
       </div>
 
       {/* Service Image */}
