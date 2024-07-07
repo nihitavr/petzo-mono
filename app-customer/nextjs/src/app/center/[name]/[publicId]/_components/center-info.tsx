@@ -41,9 +41,8 @@ export const CenterInfo = ({
         </span>
       </span>
 
-      {/* address */}
-
-      <a
+      {/* Address */}
+      {/* <a
         href={getGoogleLocationLink(center.centerAddress.geocode)}
         target="_blank"
         rel="noreferrer"
@@ -53,7 +52,7 @@ export const CenterInfo = ({
         <span className="line-clamp-2 text-2sm font-medium capitalize md:text-sm">
           {center.centerAddress.line1}, {center.centerAddress.area.name}
         </span>
-      </a>
+      </a> */}
 
       {/* Center Description */}
       <CenterDescriptionAndButtons center={center} />

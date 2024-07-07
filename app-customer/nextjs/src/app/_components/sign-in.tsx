@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { signIn } from "next-auth/react";
 
 import { Button } from "@petzo/ui/components/button";
@@ -21,7 +22,6 @@ export default function SignIn({
 
   const handleSignIn = async () => {
     onClick?.();
-    
 
     setIsSigningIn(true);
     await signIn("google", {
@@ -39,6 +39,13 @@ export default function SignIn({
       {...props}
     >
       <span>Sign In</span>
+      <Image
+        className="text-white"
+        src={"/icons/google.svg"}
+        width={15}
+        height={15}
+        alt="google logo"
+      />
       <div className={`${isSigningIn ? "" : "hidden"}`}>
         <Loader className="h-5 w-5 border-2" show={isSigningIn} />
       </div>

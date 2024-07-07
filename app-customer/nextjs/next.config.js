@@ -46,7 +46,7 @@ const config = {
   async redirects(){
     return [
       {
-        permanent: true,
+        permanent: false,
         source: '/',
         destination: '/bengaluru/explore',
       },

@@ -5,6 +5,7 @@ import Image from "next/image";
 
 import type { Center, CustomerUser, Service } from "@petzo/db";
 import { cn } from "@petzo/ui/lib/utils";
+import { timeUtils } from "@petzo/utils";
 
 import Price from "~/app/_components/price";
 import { COLOR_MAP } from "~/lib/constants";
@@ -34,12 +35,14 @@ export default function ServiceCard({
         </h2>
 
         <div className="flex items-center gap-1.5">
-          <span className="text-sm font-semibold md:text-base">
+          <span className="text-base font-semibold md:text-base">
             <Price price={service.price} className="text-primary" />
             {/* &#8377; {getCommaPrice(service.price)} */}
           </span>
           <div className="size-1 rounded-full bg-foreground/80"></div>
-          <span className="text-sm">2 hrs 30 mins</span>
+          <span className="text-sm">
+            {timeUtils.convertMinutesToHoursAndMinutes(service.duration)}
+          </span>
         </div>
 
         <span className="mt-1 line-clamp-2 whitespace-pre-wrap text-xs md:line-clamp-3 md:text-sm">
@@ -69,7 +72,7 @@ export default function ServiceCard({
             fill
             style={{ objectFit: "cover" }}
             alt="Service Image"
-            className="cursor-pointer rounded-xl"
+            className="cursor-pointer rounded-xl border-[0.5px]"
             sizes="(min-width: 780px) 160px, 128px"
           />
         ) : (
