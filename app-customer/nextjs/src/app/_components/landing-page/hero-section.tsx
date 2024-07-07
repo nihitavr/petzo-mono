@@ -30,12 +30,12 @@ export default function HeroSection({
         />
 
         <HomePageServicesCard
-          name="Pet Grooming"
+          name="In-store Grooming"
           // label="Grooming Centers near you"
           disabled={true}
           imageUrl="/pet-grooming-card-image-removebg-preview.png"
           link={`/${cityPublicId}/centers?serviceType=grooming`}
-          disabledToastText="Pet Grooming is coming soon. Stay tuned!"
+          disabledToastText="In-store Grooming is coming soon. Stay tuned!"
         />
 
         <HomePageServicesCard
