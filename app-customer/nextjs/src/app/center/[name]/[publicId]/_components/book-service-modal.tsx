@@ -144,7 +144,7 @@ export function BookServiceDialog({
                 </span>
               </div>
               {serviceImage && (
-                <div className="relative aspect-square h-full overflow-hidden rounded-md">
+                <div className="relative aspect-square h-full overflow-hidden rounded-md border">
                   <Image
                     src={serviceImage}
                     fill
@@ -184,7 +184,7 @@ export function BookServiceDialog({
               </span>
             </div>
             {serviceImage && (
-              <div className="relative aspect-square h-full overflow-hidden rounded-md">
+              <div className="relative aspect-square h-full overflow-hidden rounded-md border">
                 <Image
                   src={serviceImage}
                   fill
@@ -229,9 +229,14 @@ function ServiceBookingForm({
   const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
 
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
-  const [selectedSlotDate, setSelectedSlotDate] = useState<string>(
-    format(new Date(), "yyyy-MM-dd"),
-  );
+
+  const tomorrow = useMemo(() => {
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    return format(date, "yyyy-MM-dd");
+  }, []);
+
+  const [selectedSlotDate, setSelectedSlotDate] = useState<string>(tomorrow);
 
   const petForm = useForm({
     schema: petValidator.ProfileSchema,
@@ -393,6 +398,7 @@ function ServiceBookingForm({
             }
             selectedAccordianValue={accordianValue}
             accordianValue="slot-starttime-selection"
+            notSelectedText="Not Selected"
           />
 
           <AccordionContent
@@ -506,6 +512,7 @@ function ServiceBookingForm({
             labelValue={selectedPet?.name}
             selectedAccordianValue={accordianValue}
             accordianValue="pet-details"
+            notSelectedText="Not Selected"
           />
 
           <AccordionContent className="border-t px-2 pt-3">
@@ -810,11 +817,13 @@ const AccordianPreview = ({
   labelValue,
   accordianValue,
   selectedAccordianValue,
+  notSelectedText,
 }: {
   label: string;
   labelValue?: string;
   accordianValue: string;
   selectedAccordianValue?: string;
+  notSelectedText: string;
 }) => {
   return (
     <div
@@ -825,7 +834,7 @@ const AccordianPreview = ({
         {labelValue ? (
           <span className="whitespace-nowrap text-primary">{labelValue}</span>
         ) : (
-          <span className="text-destructive">Not Selected</span>
+          <span className="text-destructive">{notSelectedText}</span>
         )}
       </span>
       <div className="w-min">

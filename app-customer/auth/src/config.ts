@@ -1,6 +1,7 @@
 import type { DefaultSession, NextAuthConfig } from "next-auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import Google from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials"
 
 import { customerPgTable, db } from "@petzo/db";
 

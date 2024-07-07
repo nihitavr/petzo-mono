@@ -100,7 +100,7 @@ export function ServiceDetailsModal({
             <div className="flex flex-col">
               <ServiceImagesCasousel
                 images={imageUrls}
-                className="aspect-[5/4] w-full"
+                className="aspect-square w-full"
                 imageClassName="rounded-md border-none"
               />
               <div>
@@ -122,7 +122,7 @@ export function ServiceDetailsModal({
                 </div>
                 <DialogDescription className="whitespace-pre-wrap">
                   <Label>Details</Label>
-                  <span className="mt-2 block text-foreground/90">
+                  <span className="mt-2 block text-base leading-7 text-foreground/90 md:text-lg">
                     {service.description}
                   </span>
                 </DialogDescription>
@@ -150,7 +150,7 @@ export function ServiceDetailsModal({
           <div className="flex flex-col">
             <ServiceImagesCasousel
               images={imageUrls}
-              className="aspect-[5/4] w-full "
+              className="aspect-square w-full "
               imageClassName="border-none rounded-t-3xl"
             />
             <div className="p-3">
@@ -181,7 +181,7 @@ export function ServiceDetailsModal({
 
               <DrawerDescription className="whitespace-pre-wrap">
                 <Label>Details</Label>
-                <span className="mt-2 block text-foreground/90">
+                <span className="mt-2 block text-base leading-7 text-foreground/90">
                   {service.description}
                 </span>
               </DrawerDescription>

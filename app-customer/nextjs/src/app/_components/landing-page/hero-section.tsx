@@ -1,6 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
-
 import HomePageServicesCard from "./hero-section-service-card";
 import HeroSectionText from "./hero-section-text";
 
@@ -20,7 +17,8 @@ export default function HeroSection({
           name="Home Grooming"
           // label="Home Grooming Centers near you"
           imageUrl="/pet-home-grooming-card-image-removebg-preview.png"
-          link={`/${cityPublicId}/centers?serviceType=home_grooming`}
+          link={`/center/petzo-home-grooming/home-grooming`}
+          // link={`/${cityPublicId}/centers?serviceType=home_grooming`}
         />
 
         <HomePageServicesCard
@@ -32,12 +30,12 @@ export default function HeroSection({
         />
 
         <HomePageServicesCard
-          name="Pet Grooming"
+          name="In-store Grooming"
           // label="Grooming Centers near you"
           disabled={true}
           imageUrl="/pet-grooming-card-image-removebg-preview.png"
           link={`/${cityPublicId}/centers?serviceType=grooming`}
-          disabledToastText="Pet Grooming is coming soon. Stay tuned!"
+          disabledToastText="In-store Grooming is coming soon. Stay tuned!"
         />
 
         <HomePageServicesCard

@@ -2,6 +2,7 @@ import {
   addMinutes,
   differenceInMinutes,
   format,
+  intervalToDuration,
   isAfter,
   isBefore,
   parse,
@@ -76,7 +77,7 @@ export function getNextNDays(n: number): Date[] {
 export function getNextNDaysString(n: number): string[] {
   const dates = [];
 
-  for (let i = 0; i < n; i++) {
+  for (let i = 1; i < n + 1; i++) {
     const date = new Date();
     date.setDate(date.getDate() + i);
     const year = date.getFullYear();
@@ -151,3 +152,26 @@ export const isMoreThanNMinutesAgo = (
   // Return true if the difference is greater than 15 minutes, otherwise false
   return minutesDifference > differenceInMins;
 };
+
+export function convertMinutesToHoursAndMinutes(totalMinutes: number) {
+  const duration = intervalToDuration({
+    start: 0,
+    end: totalMinutes * 60 * 1000,
+  });
+
+  let durationStr = "";
+
+  if (duration.hours == 1) {
+    durationStr += `${duration.hours} hr `;
+  } else if (duration.hours && duration.hours > 1) {
+    durationStr += `${duration.hours} hrs `;
+  }
+
+  if (duration.minutes == 1) {
+    durationStr += `${duration.minutes} min`;
+  } else if (duration.minutes && duration.minutes > 1) {
+    durationStr += `${duration.minutes} mins`;
+  }
+
+  return durationStr;
+}

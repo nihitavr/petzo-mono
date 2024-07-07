@@ -44,9 +44,18 @@ export default function CenterServiceList({
         {serviceTypesProvidedByCenter.map((serviceType, idx) => {
           const isServiceTypeSelected = selectedServices.includes(serviceType);
 
-          const services = serviceMap[serviceType]?.sort(
-            (a, b) => a.price - b.price,
-          );
+          const servicesForCats =
+            serviceMap[serviceType]
+              ?.filter((service) => service.name.toLowerCase().includes("cat"))
+              .sort((a, b) => a.price - b.price) ?? [];
+
+          const servicesForOthers =
+            serviceMap[serviceType]
+              ?.filter((service) => !service.name.toLowerCase().includes("cat"))
+              .sort((a, b) => a.price - b.price) ?? [];
+
+          const services = [...servicesForCats, ...servicesForOthers];
+
           const serviceTypeInfo = SERVICES_OFFERED[serviceType];
           if (!serviceTypeInfo || !services || services.length === 0)
             return null;

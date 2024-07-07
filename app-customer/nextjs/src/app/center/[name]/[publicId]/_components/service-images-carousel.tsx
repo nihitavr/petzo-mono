@@ -26,7 +26,6 @@ export default function ServiceImagesCasousel({
   autoplay?: boolean;
   autoPlayDelay?: number;
 }) {
-  images = [...images, ...images];
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
