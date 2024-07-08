@@ -2,6 +2,7 @@
 import HeroSection from "~/app/_components/landing-page/hero-section";
 // import BestCentersInCity from "~/app/_components/landing-page/top-rated-centers-in-city";
 import WhyUsePetzoSection from "~/app/_components/landing-page/why-use-petzo";
+import WhatsAppButton from "~/app/_components/whats-app-contact-button";
 import { api } from "~/trpc/server";
 import { RecordEvent } from "~/web-analytics/react";
 
@@ -23,6 +24,7 @@ export default async function HomePage({
       {/* <CentersNearYouSection cityPublicId={city} /> */}
       {/* <BestCentersInCity cityPublicId={city} cityName={cityName!} /> */}
       <WhyUsePetzoSection />
+      <WhatsAppButton />
     </div>
   );
 }
