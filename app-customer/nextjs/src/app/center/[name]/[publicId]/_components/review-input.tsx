@@ -124,7 +124,7 @@ export default function ReviewInput({
     !currentUserReviewState?.text ||
     isEditing ? (
     <div className={cn("flex w-full items-start gap-3", className)}>
-      <Avatar className="cursor-pointer hover:opacity-90">
+      <Avatar className="size-8 cursor-pointer hover:opacity-90">
         {image ? (
           <Image src={image} alt="Avatar" width={50} height={50} />
         ) : (
@@ -147,7 +147,7 @@ export default function ReviewInput({
           onChange={(e) => setInput(e.target.value)}
           onFocus={() => setIsFocused(true)}
           placeholder="Add a review..."
-          className="min-h-60 w-full md:min-h-36"
+          className="min-h-48 w-full md:min-h-36"
         />
 
         {(isFocused ||
