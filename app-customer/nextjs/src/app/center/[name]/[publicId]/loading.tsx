@@ -7,12 +7,13 @@ export default function Loading() {
         <Skeleton className="aspect-square w-full rounded-xl bg-foreground/10" />
         <div className="flex gap-2 ">
           <Skeleton className="hidden aspect-square basis-1/4 rounded-md md:inline md:basis-1/5" />
-          <Skeleton className="aspect-square basis-1/6 rounded-md bg-foreground/10" />
-          <Skeleton className="aspect-square basis-1/6 rounded-md bg-foreground/10" />
-          <Skeleton className="aspect-square basis-1/6 rounded-md bg-foreground/10" />
-          <Skeleton className="aspect-square basis-1/6 rounded-md bg-foreground/10" />
-          <Skeleton className="aspect-square basis-1/6 rounded-md bg-foreground/10" />
-          <Skeleton className="aspect-square basis-1/6 rounded-md bg-foreground/10" />
+          <Skeleton className="aspect-square basis-[14.285%] rounded-md bg-foreground/10" />
+          <Skeleton className="aspect-square basis-[14.285%] rounded-md bg-foreground/10" />
+          <Skeleton className="aspect-square basis-[14.285%] rounded-md bg-foreground/10" />
+          <Skeleton className="aspect-square basis-[14.285%] rounded-md bg-foreground/10" />
+          <Skeleton className="aspect-square basis-[14.285%] rounded-md bg-foreground/10" />
+          <Skeleton className="aspect-square basis-[14.285%] rounded-md bg-foreground/10" />
+          <Skeleton className="aspect-square basis-[14.285%] rounded-md bg-foreground/10" />
         </div>
       </div>
       <Skeleton className="col-span-10 flex h-full w-full flex-col gap-2 bg-foreground/10 p-2 md:col-span-6">
