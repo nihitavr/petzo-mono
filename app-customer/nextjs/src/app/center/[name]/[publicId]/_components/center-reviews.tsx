@@ -21,7 +21,7 @@ export default function CenterReviews({
   return (
     <div id={"reviews"} className="flex flex-col gap-4">
       <h2 className="text-base font-semibold md:text-lg">
-        User Rating and Reviews
+        Rating and Reviews
         {!!center.averageRating && <Rating rating={center.averageRating} />}
       </h2>
 
