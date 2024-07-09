@@ -30,20 +30,22 @@ export const metadata: Metadata = {
   title: "Furclub",
   icons: [{ rel: "icon", url: "/furclub-logo-icon.svg" }],
   description:
-    "Furclub is a pet-care platform for booking Pet Home Grooming, Vet Consultation, Pet Grooming and Pet boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
+    "Furclub is a pet-care platform for booking Pet Home/In-store Grooming, Vet Consultation, Pet Boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
   openGraph: {
-    title: "Furclub",
+    title:
+      "Pet Care Servics, Home/In-store Grooming, Vet Consultation, Pet Boarding | Furclub",
     images: "/furclub-social.jpg",
     description:
-      "Furclub is a pet-care platform for booking Pet Home Grooming, Vet Consultation, Pet Grooming and Pet boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
+      "Furclub is a pet-care platform for booking Pet Home/In-store Grooming, Vet Consultation, Pet Boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
     url: "https://furclub.in",
     siteName: "Furclub App",
   },
   twitter: {
-    title: "Furclub",
+    title:
+      "Pet Care Servics, Home/In-store Grooming, Vet Consultation, Pet Boarding | Furclub",
     images: "/furclub-social.jpg",
     description:
-      "Furclub is a pet-care platform for booking Pet Home Grooming, Vet Consultation, Pet Grooming and Pet boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
+      "Furclub is a pet-care platform for booking Pet Home/In-store Grooming, Vet Consultation, Pet Boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
     card: "summary_large_image",
     site: "@furclubapp",
     creator: "@furclub",
