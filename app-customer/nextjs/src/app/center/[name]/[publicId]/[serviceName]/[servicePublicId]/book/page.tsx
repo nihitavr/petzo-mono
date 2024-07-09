@@ -27,7 +27,7 @@ export async function generateMetadata({
 
   if (!service) {
     return {
-      title: "Petzo | Service not found",
+      title: "Furclub | Service not found",
       description: "Service not found",
     };
   }
