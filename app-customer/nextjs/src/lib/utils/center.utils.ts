@@ -96,7 +96,7 @@ export function getMetadataTitle(center: Center) {
     .map((serviceName) => `${SERVICES_OFFERED[serviceName]?.name}`)
     .join(", ");
 
-  return `${center.name} in ${center.centerAddress?.area?.name}, ${center.centerAddress?.city?.name} - ${servicesProvidedStr} services | Petzo`;
+  return `${center.name} in ${center.centerAddress?.area?.name}, ${center.centerAddress?.city?.name} - ${servicesProvidedStr} services | Furclub`;
 }
 
 export function getMetadataDescription(center: Center) {

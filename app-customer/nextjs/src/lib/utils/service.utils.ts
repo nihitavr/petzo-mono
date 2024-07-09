@@ -2,7 +2,7 @@ import type { Center, Service } from "@petzo/db";
 import { SERVICES_OFFERED } from "@petzo/constants";
 
 export function getMetadataTitle(service: Service, center: Center) {
-  return `${service.name} service at ${center.name}, ${center.centerAddress.area.name}, ${center.centerAddress.city.name} | Petzo`;
+  return `${service.name} service at ${center.name}, ${center.centerAddress.area.name}, ${center.centerAddress.city.name} | Furclub`;
 }
 
 export function getMetadataDescription(service: Service, center: Center) {
