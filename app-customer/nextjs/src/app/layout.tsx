@@ -30,22 +30,22 @@ export const metadata: Metadata = {
   title: "Furclub",
   icons: [{ rel: "icon", url: "/furclub-logo-icon.svg" }],
   description:
-    "Furclub is a pet-care platform for booking Pet Home/In-store Grooming, Vet Consultation, Pet Boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
+    "Easily book nearby pet services online. Furclub connects you with local groomers, vets, and boarders for all your pet care needs. Manage appointments and health records in one user-friendly platform. Discover quality pet care in your neighborhood today.",
   openGraph: {
     title:
-      "Pet Care Servics, Home/In-store Grooming, Vet Consultation, Pet Boarding | Furclub",
+      "Pet Care Servics, Home/In-store Grooming, Pet Boarding, Vet Consultation | Furclub",
     images: "/furclub-social.jpg",
     description:
-      "Furclub is a pet-care platform for booking Pet Home/In-store Grooming, Vet Consultation, Pet Boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
+      "Easily book nearby pet services online. Furclub connects you with local groomers, vets, and boarders for all your pet care needs. Manage appointments and health records in one user-friendly platform. Discover quality pet care in your neighborhood today.",
     url: "https://furclub.in",
-    siteName: "Furclub App",
+    siteName: "Furclub",
   },
   twitter: {
     title:
-      "Pet Care Servics, Home/In-store Grooming, Vet Consultation, Pet Boarding | Furclub",
+      "Pet Care Servics, Home/In-store Grooming, Pet Boarding, Vet Consultation | Furclub",
     images: "/furclub-social.jpg",
     description:
-      "Furclub is a pet-care platform for booking Pet Home/In-store Grooming, Vet Consultation, Pet Boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
+      "Easily book nearby pet services online. Furclub connects you with local groomers, vets, and boarders for all your pet care needs. Manage appointments and health records in one user-friendly platform. Discover quality pet care in your neighborhood today.",
     card: "summary_large_image",
     site: "@furclubapp",
     creator: "@furclub",
