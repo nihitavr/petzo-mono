@@ -38,8 +38,6 @@ export const slotRouter = {
 
       // This slot mechanism will only work for services that have 30 minutes slot duration
       if (noSlotAvailableDates.length > 0) {
-        console.log("No slots available for dates", noSlotAvailableDates);
-
         const service = await ctx.db.query.services.findFirst({
           where: eq(schema.services.id, input.serviceId),
           with: { center: true },
@@ -51,8 +49,6 @@ export const slotRouter = {
           noSlotAvailableDates,
           service,
         );
-
-        console.log("New slots list", newSlotsList);
 
         if (newSlotsList?.length) {
           const newSlots = await ctx.db

@@ -73,5 +73,6 @@ input[type="file"] {
 }
 
 .container-2 {
-  @apply flex flex-col gap-4 mt-[3.5rem] md:mt-0;
+  @apply flex flex-col gap-4 md:mt-0;
+  /* @apply flex flex-col gap-4 mt-[3.5rem] md:mt-0; */
 }

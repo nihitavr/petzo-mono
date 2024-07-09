@@ -10,14 +10,14 @@ export default function WhyUsePetzoSection() {
     <div className="space-y-7">
       <h1 className="text-center text-2xl md:text-3xl">
         Why use <span className="font-bold">fur</span>
-        <span className="text-foreground/80">club</span>?
+        <span className="text-foreground/80">club?</span>
       </h1>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <Card
           icon="/icons/discover-pet-centers-icon.svg"
           title="Discover Best Pet Care"
-          buttonName="Explore"
-          buttonLink={`/${filtersStore.city.value}/centers`}
+          // buttonName="Explore"
+          // buttonLink={`/${filtersStore.city.value}/centers`}
           descriptions={[
             "Find top pet centers for vet consultation, grooming, home grooming, and boarding.",
             "Discover a variety of packages tailored to your pet's needs.",
