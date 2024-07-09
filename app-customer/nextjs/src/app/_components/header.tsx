@@ -85,11 +85,23 @@ export default function Header({
     >
       <nav className="grid w-full grid-cols-2 gap-4 border-b px-3 py-2 shadow-sm md:grid-cols-3 lg:px-24 xl:px-48">
         <div className="flex items-center justify-start gap-4">
-          <Link href={`/${filtersStore.city.value}/explore`}>
-            <div className="md:w-38 relative h-10 w-28">
-              {/* <div className="relative h-12 w-44"> */}
+          <Link
+            className="flex items-center"
+            href={`/${filtersStore.city.value}/explore`}
+          >
+            <div className="relative h-10 w-40 dark:hidden">
               <Image
                 src="/petzo-logo.svg"
+                alt="Logo"
+                fill
+                style={{ objectFit: "contain" }}
+                className="w-min"
+                priority
+              />
+            </div>
+            <div className="relative hidden h-10 w-40 dark:inline-block">
+              <Image
+                src="/petzo-logo-dark.svg"
                 alt="Logo"
                 fill
                 style={{ objectFit: "contain" }}

@@ -35,8 +35,8 @@ export default function Footer() {
           <span>+91 6363822930</span>
         </div>
 
-        <p className="mt-5 font-semibold">Petzo</p>
-        <p>Copyright &copy; 2024 Petzo</p>
+        <p className="mt-5 font-semibold">FURCLUB</p>
+        <p>Copyright &copy; 2024 Furclub</p>
       </div>
       <div className="flex w-60 flex-col items-start gap-1">
         <h3 className="text-base font-bold">Company</h3>

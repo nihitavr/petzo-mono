@@ -3,44 +3,50 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSignals } from "@preact/signals-react/runtime";
+import { track } from "@vercel/analytics/react";
 
 import { cn } from "@petzo/ui/lib/utils";
 
-import { useMediaQuery } from "~/lib/hooks/screen.hooks";
+// import { useMediaQuery } from "~/lib/hooks/screen.hooks";
 import { servicesCart } from "~/lib/storage/service-cart-storage";
+import { trackCustom } from "~/web-analytics/react";
 
 const WhatsAppButton = () => {
   useSignals();
 
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  // const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  const [isScrollAtEnd, setIsScrollAtEnd] = useState(false);
+  // const [isScrollAtEnd, setIsScrollAtEnd] = useState(false);
+  const isScrollAtEnd = true;
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >
-        document.documentElement.scrollHeight - (isDesktop ? 200 : 400)
-      ) {
-        setIsScrollAtEnd(true);
-      } else {
-        setIsScrollAtEnd(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (
+  //       window.innerHeight + window.scrollY >
+  //       document.documentElement.scrollHeight - (isDesktop ? 200 : 400)
+  //     ) {
+  //       setIsScrollAtEnd(true);
+  //     } else {
+  //       setIsScrollAtEnd(false);
+  //     }
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
+  //   window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isDesktop]);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [isDesktop]);
 
   return (
     <a
       href="https://wa.me/6363822930"
       target="_blank"
       rel="noreferrer"
+      onClick={() => {
+        trackCustom("whatsapp_button_clicked");
+      }}
       className={cn(
         `fixed bottom-20 right-5 z-50 flex items-center justify-end overflow-hidden rounded-full p-1 hover:scale-105 md:right-3 lg:right-24 xl:right-48`,
-        isScrollAtEnd ? "bg-slate-100 shadow-md" : "",
+        // isScrollAtEnd ? "bg-slate-100 shadow-md" : "",
         servicesCart?.value?.items?.length ? "bottom-20" : "bottom-5",
       )}
     >
@@ -50,7 +56,7 @@ const WhatsAppButton = () => {
           isScrollAtEnd ? "w-min translate-x-0 px-2" : "w-0 opacity-0",
         )}
       >
-        <span>Contact Us</span>
+        {/* <span>Contact Us</span> */}
         <div className="relative z-10 h-10 w-10 md:h-12 md:w-12">
           <Image
             fill

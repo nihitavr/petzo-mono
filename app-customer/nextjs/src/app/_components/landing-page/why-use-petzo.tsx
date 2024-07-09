@@ -9,7 +9,8 @@ export default function WhyUsePetzoSection() {
   return (
     <div className="space-y-7">
       <h1 className="text-center text-2xl md:text-3xl">
-        Why use <span className="font-semibold">Petzo?</span>
+        Why use <span className="font-bold">fur</span>
+        <span className="text-foreground/80">club</span>?
       </h1>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <Card
