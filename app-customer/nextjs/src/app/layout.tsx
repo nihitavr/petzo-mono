@@ -24,29 +24,29 @@ import ViewCartButton from "./_components/view-cart-button";
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.VERCEL_ENV === "production"
-      ? "https://petzo.co"
+      ? "https://furclub.in"
       : "http://localhost:3000",
   ),
-  title: "Petzo",
-  icons: [{ rel: "icon", url: "/petzo-logo-icon.svg" }],
+  title: "Furclub",
+  icons: [{ rel: "icon", url: "/furclub-logo-icon.svg" }],
   description:
-    "Petzo | Book Vet Consultation, Pet Grooming and Pet boarding services online.",
+    "Furclub | Book Vet Consultation, Pet Grooming and Pet boarding services online.",
   openGraph: {
-    title: "Petzo",
-    images: [{ url: "/petzo-logo-icon.svg" }],
+    title: "Furclub",
+    images: [{ url: "/furclub-logo-icon.svg" }],
     description:
-      "Petzo is an online platform for booking Vet Consultation, Pet Grooming and Pet boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
-    url: "https://petzo.co",
-    siteName: "Petzo App",
+      "Furclub is an online platform for booking Pet Home Grooming, Vet Consultation, Pet Grooming and Pet boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
+    url: "https://furclub.in",
+    siteName: "Furclub App",
   },
   twitter: {
-    title: "Petzo",
-    images: [{ url: "/petzo-logo-icon.svg" }],
+    title: "Furclub",
+    images: [{ url: "/furclub-logo-icon.svg" }],
     description:
-      "Petzo is an online platform for booking Vet Consultation, Pet Grooming and Pet boarding services online. ",
+      "Furclub is an online platform for booking Vet Consultation, Pet Grooming and Pet boarding services online. ",
     card: "summary_large_image",
-    site: "@petzoapp",
-    creator: "@petzoapp",
+    site: "@furclubapp",
+    creator: "@furclubapp",
   },
 };
 

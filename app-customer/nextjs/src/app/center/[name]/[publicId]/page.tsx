@@ -21,7 +21,7 @@ export async function generateMetadata({
 
   if (!center) {
     return {
-      title: "Petzo | Center not found",
+      title: "Furclub | Center not found",
       description: "Center not found",
     };
   }
