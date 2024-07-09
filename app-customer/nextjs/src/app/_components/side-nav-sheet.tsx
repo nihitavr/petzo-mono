@@ -54,16 +54,28 @@ export function SideNavSheet({
       </SheetTrigger>
 
       <SheetContent>
-        <SheetHeader className="flex flex-row gap-2">
-          <div className="relative h-12 w-36">
-            <Image
-              src="/petzo-logo.svg"
-              alt="Logo"
-              className="rounded-lg"
-              fill
-              style={{ objectFit: "contain" }}
-              priority
-            />
+        <SheetHeader>
+          <div className="flex flex-row items-center">
+            <div className="relative h-10 w-40 dark:hidden">
+              <Image
+                src="/petzo-logo.svg"
+                alt="Logo"
+                className="rounded-lg"
+                fill
+                style={{ objectFit: "contain" }}
+                priority
+              />
+            </div>
+            <div className="relative hidden h-10 w-40 dark:inline-block">
+              <Image
+                src="/petzo-logo-dark.svg"
+                alt="Logo"
+                className="rounded-lg"
+                fill
+                style={{ objectFit: "contain" }}
+                priority
+              />
+            </div>
           </div>
         </SheetHeader>
         <div className="mt-5 flex flex-col gap-2">

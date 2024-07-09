@@ -26,7 +26,7 @@ export default function HeroSectionText({ city }: { city: string }) {
   ];
 
   return (
-    <div className="py-3">
+    <div className="pb-3">
       <div className="flex w-full flex-col items-center md:hidden">
         <TypewriterEffectSmooth
           className="text-2xl"
