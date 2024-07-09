@@ -30,23 +30,23 @@ export const metadata: Metadata = {
   title: "Furclub",
   icons: [{ rel: "icon", url: "/furclub-logo-icon.svg" }],
   description:
-    "Furclub | Book Vet Consultation, Pet Grooming and Pet boarding services online.",
+    "Furclub is a pet-care platform for booking Pet Home Grooming, Vet Consultation, Pet Grooming and Pet boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
   openGraph: {
     title: "Furclub",
-    images: [{ url: "/furclub-logo-icon.svg" }],
+    images: "/furclub-logo-icon.jpg",
     description:
-      "Furclub is an online platform for booking Pet Home Grooming, Vet Consultation, Pet Grooming and Pet boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
+      "Furclub is a pet-care platform for booking Pet Home Grooming, Vet Consultation, Pet Grooming and Pet boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
     url: "https://furclub.in",
     siteName: "Furclub App",
   },
   twitter: {
     title: "Furclub",
-    images: [{ url: "/furclub-logo-icon.svg" }],
+    images: "/furclub-logo-icon.jpg",
     description:
-      "Furclub is an online platform for booking Vet Consultation, Pet Grooming and Pet boarding services online. ",
+      "Furclub is a pet-care platform for booking Pet Home Grooming, Vet Consultation, Pet Grooming and Pet boarding services online from nearby centers. Also features Pet Profile, Pet Booking/Health records and more.",
     card: "summary_large_image",
     site: "@furclubapp",
-    creator: "@furclubapp",
+    creator: "@furclub",
   },
 };
 

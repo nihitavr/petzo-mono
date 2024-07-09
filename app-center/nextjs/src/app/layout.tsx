@@ -13,21 +13,21 @@ import "~/app/globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.VERCEL_ENV === "production"
-      ? "https://turbo.t3.gg"
+      ? "https://center.furclub.in"
       : "http://localhost:3000",
   ),
-  title: "Create T3 Turbo",
-  description: "Simple monorepo with shared backend for web & mobile apps",
+  title: "Furclub Center App",
+  description: "Furclub is an online platform for booking Pet Home Grooming, Vet Consultation, Pet Grooming and Pet boarding services online from nearby centers.",
   openGraph: {
-    title: "Create T3 Turbo",
-    description: "Simple monorepo with shared backend for web & mobile apps",
-    url: "https://create-t3-turbo.vercel.app",
-    siteName: "Create T3 Turbo",
+    title: "Furclub Center App",
+    description: "Furclub is an online platform for booking Pet Home Grooming, Vet Consultation, Pet Grooming and Pet boarding services online from nearby centers.",
+    url: "https://center.furclub.in",
+    siteName: "Furclub Center App",
   },
   twitter: {
     card: "summary_large_image",
-    site: "@jullerino",
-    creator: "@jullerino",
+    site: "@furclubcenterapp",
+    creator: "@furclub",
   },
 };
 
