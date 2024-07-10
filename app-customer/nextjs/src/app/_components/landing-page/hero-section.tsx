@@ -17,7 +17,7 @@ export default function HeroSection({
           name="Home Grooming"
           // label="Home Grooming Centers near you"
           imageUrl="/pet-home-grooming-card-image-removebg-preview.png"
-          link={`/center/petzo-home-grooming/home-grooming`}
+          link={`/center/furclub-bengaluru/home-grooming`}
           // link={`/${cityPublicId}/centers?serviceType=home_grooming`}
         />
 
