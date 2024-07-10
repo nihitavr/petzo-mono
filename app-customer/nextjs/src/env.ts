@@ -15,6 +15,7 @@ export const env = createEnv({
    * This way you can ensure the app isn't built with invalid env vars.
    */
   server: {
+    SLACK_WEBHOOK_URL: z.string().min(1),
     DATABASE_URL: z.string(),
     MAPBOX_ACCESS_TOKEN: z.string(),
   },

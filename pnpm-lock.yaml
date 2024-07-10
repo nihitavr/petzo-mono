@@ -301,6 +301,9 @@ importers:
       '@petzo/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@petzo/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@t3-oss/env-nextjs':
         specifier: ^0.9.2
         version: 0.9.2(typescript@5.4.3)(zod@3.22.4)

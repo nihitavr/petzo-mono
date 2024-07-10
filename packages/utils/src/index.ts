@@ -126,3 +126,4 @@ export function generatePublicId(size = 15) {
 export * as timeUtils from "./time.utils";
 export * as stringUtils from "./string.utils";
 export * as mapUtils from "./addresses.utils";
+export * as slackUtils from "./slack.utils";
