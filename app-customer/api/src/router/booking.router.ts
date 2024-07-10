@@ -4,6 +4,7 @@ import { z } from "zod";
 import type { Pet, Service, Slot } from "@petzo/db";
 import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
 import { and, desc, eq, gte, inArray, schema, sql } from "@petzo/db";
+import { slackUtils } from "@petzo/utils";
 import { getSurroundingTime } from "@petzo/utils/time";
 import { bookingValidator } from "@petzo/validators";
 
@@ -121,7 +122,7 @@ export const bookingRouter = {
         >,
       );
 
-      return await ctx.db.transaction(
+      const bookingId = await ctx.db.transaction(
         async (tx) => {
           const totalBookingAmount = bookingItems.reduce(
             (acc, item) => acc + (item?.service.price ?? 0),
@@ -211,6 +212,17 @@ export const bookingRouter = {
           isolationLevel: "read uncommitted",
         },
       );
+
+      if (bookingId) {
+        await slackUtils.sendSlackMessage({
+          channel: "#booking-alerts",
+          username: "booking-bot",
+          iconEmoji: ":tada:",
+          message: `New Booking, Id: ${bookingId}`,
+        });
+      }
+
+      return bookingId;
     }),
 
   getBookings: protectedProcedure.query(async ({ ctx }) => {
