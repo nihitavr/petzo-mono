@@ -29,9 +29,9 @@ const ServicesSection = ({
             alt=""
           />
         )}
-        <h4 className="text-center text-lg font-bold md:text-xl">
+        <h3 className="text-center text-lg font-bold md:text-xl">
           {serviceTypeInfo.name} Services
-        </h4>
+        </h3>
       </div>
 
       <div className={`grid grid-cols-1 gap-10 md:grid-cols-2`}>

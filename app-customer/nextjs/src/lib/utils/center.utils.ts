@@ -100,7 +100,7 @@ export function getMetadataTitle(center: Center) {
 }
 
 export function getMetadataDescription(center: Center) {
-  let description = `Discover exceptional pet care at ${center.name} near ${center.centerAddress?.area?.name}, ${center.centerAddress?.city?.name}. Specializing in `;
+  let description = `Discover best pet care at ${center.name} near ${center.centerAddress?.area?.name}, ${center.centerAddress?.city?.name}. Specializing in `;
 
   const servicesMap = getServiceTypeToServicesByCenterMap(center);
 
@@ -112,8 +112,7 @@ export function getMetadataDescription(center: Center) {
     )
     .join(", ");
 
-  description += servicesProvidedStr;
-  description += `. ${center.description}`;
+  description += `${servicesProvidedStr}.`;
 
   return description;
 }
