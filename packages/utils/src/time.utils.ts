@@ -77,12 +77,20 @@ export function getNextNDays(n: number): Date[] {
 export function getNextNDaysString(n: number): string[] {
   const dates = [];
 
+  // IST offset in minutes (5 hours 30 minutes) + 2 hrs offset before booking for tomorrow.
+  // So basically only before 8PM IST, we should be able to book for tomorrow.
+  const indiaOffsetInMinutes = 330 + 120;
+
   for (let i = 1; i < n + 1; i++) {
-    const date = new Date();
-    date.setDate(date.getDate() + i);
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
+    // const date = new Date();
+
+    const date = addMinutes(new Date(), indiaOffsetInMinutes);
+
+    date.setDate(date.getUTCDate() + i);
+
+    const year = date.getUTCFullYear();
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+    const day = date.getUTCDate().toString().padStart(2, "0");
 
     dates.push(`${year}-${month}-${day}`);
   }

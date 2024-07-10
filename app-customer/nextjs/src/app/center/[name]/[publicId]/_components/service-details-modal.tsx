@@ -165,7 +165,7 @@ export function ServiceDetailsModal({
                   <div className="mt-1">
                     <Price
                       price={service.price}
-                      className="text-base font-bold"
+                      className="text-lg font-semibold"
                     />
                   </div>
                 </div>
