@@ -82,7 +82,7 @@ export default function ServiceCard({
         <span>{getServicePetTypesComponent()}</span>
 
         <div className="flex items-center gap-1.5">
-          <span className="text-base font-semibold md:text-base">
+          <span className="text-base font-semibold">
             <Price price={service.price} className="text-primary" />
             {/* &#8377; {getCommaPrice(service.price)} */}
           </span>

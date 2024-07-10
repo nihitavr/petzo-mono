@@ -277,6 +277,12 @@ function ServiceBookingForm({
     if (closeDialog) onOpenChange(false);
   };
 
+  useEffect(() => {
+    const firstDate = slots?.keys().next().value as string;
+    if (!slots || !firstDate) return;
+    setSelectedSlotDate(firstDate);
+  }, [slots]);
+
   // Time Slot click handler.
   const onSlotClick = (slot: Slot) => {
     if (!slot.availableSlots) return;
