@@ -77,9 +77,9 @@ export function getNextNDays(n: number): Date[] {
 export function getNextNDaysString(n: number): string[] {
   const dates = [];
 
-  // IST offset in minutes (5 hours 30 minutes) + 2 hrs offset before booking for tomorrow.
+  // IST offset in minutes (5 hours 30 minutes) + 0 hrs offset before booking for tomorrow.
   // So basically only before 8PM IST, we should be able to book for tomorrow.
-  const indiaOffsetInMinutes = 330 + 120;
+  const indiaOffsetInMinutes = 330 + 0;
 
   for (let i = 1; i < n + 1; i++) {
     // const date = new Date();
