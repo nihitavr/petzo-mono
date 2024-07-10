@@ -7,7 +7,7 @@ import { filtersStore } from "~/lib/storage/global-storage";
 
 export default function WhyUsePetzoSection() {
   return (
-    <div className="space-y-7">
+    <div className="space-y-5 md:space-y-7">
       <h1 className="text-center text-2xl md:text-3xl">
         Why use <span className="font-bold">fur</span>
         <span className="text-foreground/80">club?</span>
@@ -19,8 +19,7 @@ export default function WhyUsePetzoSection() {
           // buttonName="Explore"
           // buttonLink={`/${filtersStore.city.value}/centers`}
           descriptions={[
-            "Find top pet centers for vet consultation, grooming, home grooming, and boarding.",
-            "Discover a variety of packages tailored to your pet's needs.",
+            "Find nearby top pet centers for home/in-store grooming, pet boarding, and vet consultation.",
             "Easily call or get directions to centers with one click.",
           ]}
         />
@@ -28,7 +27,7 @@ export default function WhyUsePetzoSection() {
           icon="/icons/pet-appointment-booking.svg"
           title="Book Appointments"
           descriptions={[
-            "Easily book visits or schedule home appointments with your favorite pet care centers.",
+            "Book visits or schedule home appointments with your favorite pet care centers online.",
             "View and select from available time slots in real-time to ensure convenient scheduling.",
           ]}
         />

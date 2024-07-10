@@ -58,7 +58,7 @@ export function SideNavSheet({
           <div className="flex flex-row items-center">
             <div className="relative h-10 w-40 dark:hidden">
               <Image
-                src="/furclub-logo.svg"
+                src="/website/furclub-logo.svg"
                 alt="Logo"
                 className="rounded-lg"
                 fill
@@ -68,7 +68,7 @@ export function SideNavSheet({
             </div>
             <div className="relative hidden h-10 w-40 dark:inline-block">
               <Image
-                src="/furclub-logo-dark.svg"
+                src="/website/furclub-logo-dark.svg"
                 alt="Logo"
                 className="rounded-lg"
                 fill

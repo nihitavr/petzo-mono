@@ -21,31 +21,33 @@ import Footer from "./_components/footer";
 import Header from "./_components/header";
 import ViewCartButton from "./_components/view-cart-button";
 
+const metadataTitle =
+  "Pet Care Services, Home/In-store Grooming, Pet Boarding, Vet Consultation | Furclub";
+const metadataDescription =
+  "Easily book nearby pet services online. Furclub helps you find top local pet groomers, pet boarders, and vets for all your pet care needs. Manage appointments and health records in one user-friendly platform. Discover quality pet care in your neighborhood today.";
+const metadataLogoIcon = "/website/furclub-logo-icon.svg";
+const metadataSocialImage = "/website/furclub-social.jpg";
+
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.VERCEL_ENV === "production"
       ? "https://furclub.in"
       : "http://localhost:3000",
   ),
-  title: "Furclub",
-  icons: [{ rel: "icon", url: "/furclub-logo-icon.svg" }],
-  description:
-    "Easily book nearby pet services online. Furclub connects you with local groomers, vets, and boarders for all your pet care needs. Manage appointments and health records in one user-friendly platform. Discover quality pet care in your neighborhood today.",
+  title: metadataTitle,
+  icons: [{ rel: "icon", url: metadataLogoIcon }],
+  description: metadataDescription,
   openGraph: {
-    title:
-      "Pet Care Servics, Home/In-store Grooming, Pet Boarding, Vet Consultation | Furclub",
-    images: "/furclub-social.jpg",
-    description:
-      "Easily book nearby pet services online. Furclub connects you with local groomers, vets, and boarders for all your pet care needs. Manage appointments and health records in one user-friendly platform. Discover quality pet care in your neighborhood today.",
+    title: metadataTitle,
+    images: metadataSocialImage,
+    description: metadataDescription,
     url: "https://furclub.in",
     siteName: "Furclub",
   },
   twitter: {
-    title:
-      "Pet Care Servics, Home/In-store Grooming, Pet Boarding, Vet Consultation | Furclub",
-    images: "/furclub-social.jpg",
-    description:
-      "Easily book nearby pet services online. Furclub connects you with local groomers, vets, and boarders for all your pet care needs. Manage appointments and health records in one user-friendly platform. Discover quality pet care in your neighborhood today.",
+    title: metadataTitle,
+    images: metadataSocialImage,
+    description: metadataDescription,
     card: "summary_large_image",
     site: "@furclubapp",
     creator: "@furclub",

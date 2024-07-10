@@ -91,7 +91,7 @@ export default function Header({
           >
             <div className="relative h-10 w-40 dark:hidden">
               <Image
-                src="/furclub-logo.svg"
+                src="/website/furclub-logo.svg"
                 alt="Logo"
                 fill
                 style={{ objectFit: "contain" }}
@@ -101,7 +101,7 @@ export default function Header({
             </div>
             <div className="relative hidden h-10 w-40 dark:inline-block">
               <Image
-                src="/furclub-logo-dark.svg"
+                src="/website/furclub-logo-dark.svg"
                 alt="Logo"
                 fill
                 style={{ objectFit: "contain" }}
