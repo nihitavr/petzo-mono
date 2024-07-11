@@ -23,9 +23,6 @@ export async function sendSlackMessage({
     icon_emoji: iconEmoji,
   };
 
-  console.log("Slack URL: ", url);
-  console.log("Sending message to slack:", payload);
-
   const options = {
     method: "POST",
     headers: {
@@ -40,7 +37,7 @@ export async function sendSlackMessage({
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const result = await response.text();
-    console.log("Message sent successfully:", result);
+    console.log("Slack message sent successfully");
   } catch (error) {
     console.error("Error sending message:", error);
   }
