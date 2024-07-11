@@ -12,7 +12,9 @@ export function CancelBookingButton() {
       variant="outline"
       className="w-full space-x-0.5"
       onClick={() => {
-        toast.error("Booking Cancellation is not allowed at the moment.");
+        toast.error(
+          "Booking Cancellation is not allowed at the moment. Contact us on Whatsapp for more details.",
+        );
       }}
     >
       <span>Cancel Booking</span>

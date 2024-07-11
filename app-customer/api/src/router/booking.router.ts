@@ -4,10 +4,11 @@ import { z } from "zod";
 import type { Pet, Service, Slot } from "@petzo/db";
 import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
 import { and, desc, eq, gte, inArray, schema, sql } from "@petzo/db";
-import { slackUtils } from "@petzo/utils";
-import { getSurroundingTime } from "@petzo/utils/time";
+import { getGoogleLocationLink, slackUtils } from "@petzo/utils";
+import { convertTime24To12, getSurroundingTime } from "@petzo/utils/time";
 import { bookingValidator } from "@petzo/validators";
 
+import { getFullFormattedAddresses } from "../../../../packages/utils/src/addresses.utils";
 import { protectedProcedure } from "../trpc";
 
 export const bookingRouter = {
@@ -29,13 +30,16 @@ export const bookingRouter = {
       }
 
       // TODO: Address is required for home service. For other services, it is optional.
-      // But for now we are assuming that address is always required as we are not supporting other services.
       const bookingAddress = (
-        await ctx.db
-          .select()
-          .from(schema.customerAddresses)
-          .where(eq(schema.customerAddresses.id, input.addressId))
-      )?.[0];
+        await ctx.db.query.customerAddresses.findMany({
+          where: eq(schema.customerAddresses.id, input.addressId),
+          with: {
+            area: true,
+            city: true,
+            state: true,
+          },
+        })
+      )[0];
 
       if (!bookingAddress) {
         throw new TRPCError({
@@ -214,11 +218,23 @@ export const bookingRouter = {
       );
 
       if (bookingId) {
+        let message = `Booking Id: ${bookingId}, Center: ${bookingCenter.name}, Email: ${ctx.session.user.email},\n--------------\n`;
+        message += `Name: ${ctx.session.user.name}, Phone Number: \`${bookingAddress.phoneNumber}\`\n--------------\n`;
+
+        message += "Service Booked:\n";
+        bookingItems.forEach((item, idx) => {
+          if (!item) return;
+          message += `${idx + 1}) Service: \`${item.service.name}\`,\n    Price: \`₹${item.service.price}\`\n    Slot: \`${item.slot.date} ${convertTime24To12(item.slot.startTime)}\`,\n    Pet Name: \`${item.pet.name}\`\n    Pet Type: \`${item.pet.type}\`\n`;
+        });
+
+        message += `--------------\nAddress: ${getFullFormattedAddresses(bookingAddress)}\n`;
+        message += `Map Link: ${getGoogleLocationLink(bookingAddress.geocode)}\n`;
+
         await slackUtils.sendSlackMessage({
           channel: "#booking-alerts",
           username: "booking-bot",
           iconEmoji: ":tada:",
-          message: `New Booking, Id: ${bookingId}`,
+          message: message,
         });
       }
 
