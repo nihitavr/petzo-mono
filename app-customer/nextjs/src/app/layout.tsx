@@ -26,7 +26,7 @@ const metadataTitle =
 const metadataDescription =
   "Easily book nearby pet services online. Furclub helps you find top local pet groomers, pet boarders, and vets for all your pet care needs. Manage appointments and health records in one user-friendly platform. Discover quality pet care in your neighborhood today.";
 const metadataLogoIcon = "/website/furclub-logo-icon.svg";
-const metadataSocialImage = "/website/furclub-social.jpg";
+const metadataSocialImage = "/website/furclub-social.png";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
