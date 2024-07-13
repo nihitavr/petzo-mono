@@ -120,7 +120,7 @@ export default function ServicesCheckoutPage() {
               {centerImage && (
                 <Link
                   href={getCenterUrl(servicesCart.value?.center)}
-                  className="relative aspect-square h-10 overflow-hidden rounded-md bg-red-500"
+                  className="relative aspect-square h-10 overflow-hidden rounded-md border"
                 >
                   <Image
                     src={centerImage}
