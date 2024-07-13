@@ -74,18 +74,19 @@ export default function ServiceCard({
   return (
     <div className={cn("flex justify-between bg-muted", className)}>
       {/* Service Info */}
-      <div className="flex flex-col gap-0.5 p-2">
-        <h2 className="line-clamp-1 break-all text-sm font-semibold md:text-base">
-          {service.name}
-        </h2>
+      <div className="flex flex-col gap-1 p-2">
+        <div className="flex flex-col">
+          <h2 className="line-clamp-1 break-all text-sm font-semibold md:text-base">
+            {service.name}
+          </h2>
+          <span>{getServicePetTypesComponent()}</span>
 
-        <span>{getServicePetTypesComponent()}</span>
-
-        <div className="flex items-center gap-1.5">
-          <span className="text-base font-semibold">
-            <Price price={service.price} className="text-primary" />
-            {/* &#8377; {getCommaPrice(service.price)} */}
-          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-base font-semibold">
+              <Price price={service.price} className="text-primary" />
+              {/* &#8377; {getCommaPrice(service.price)} */}
+            </span>
+          </div>
         </div>
 
         <span className="text-xs">

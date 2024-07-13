@@ -319,7 +319,8 @@ export function AddressForm({
         {/* Detailed address message */}
         <div className="rounded-lg border border-primary/60 bg-primary/20 p-1.5 text-xs md:text-sm">
           <span>
-            A detailed address will help our Partner reach your doorstep easily
+            <span className="font-bold">Note:</span> A detailed address will
+            help our Partner reach your doorstep easily.
           </span>
         </div>
 
