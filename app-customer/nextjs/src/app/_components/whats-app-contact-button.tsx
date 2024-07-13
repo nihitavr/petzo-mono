@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSignals } from "@preact/signals-react/runtime";
-import { track } from "@vercel/analytics/react";
 
 import { cn } from "@petzo/ui/lib/utils";
 
@@ -14,10 +13,15 @@ import { trackCustom } from "~/web-analytics/react";
 const WhatsAppButton = () => {
   useSignals();
 
-  // const isDesktop = useMediaQuery("(min-width: 768px)");
-
   // const [isScrollAtEnd, setIsScrollAtEnd] = useState(false);
+
   const isScrollAtEnd = true;
+
+  const [hasCartItems, setHasCartItems] = useState(false);
+
+  useEffect(() => {
+    setHasCartItems(!!servicesCart?.value?.items?.length);
+  }, [servicesCart?.value?.items?.length]);
 
   // useEffect(() => {
   //   const handleScroll = () => {
@@ -46,8 +50,7 @@ const WhatsAppButton = () => {
       }}
       className={cn(
         `fixed bottom-20 right-5 z-50 flex items-center justify-end overflow-hidden rounded-full p-1 hover:scale-105 md:right-3 lg:right-24 xl:right-48`,
-        // isScrollAtEnd ? "bg-slate-100 shadow-md" : "",
-        servicesCart?.value?.items?.length ? "bottom-20" : "bottom-5",
+        hasCartItems ? "bottom-20" : "bottom-5",
       )}
     >
       <div
