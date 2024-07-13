@@ -54,7 +54,7 @@ export default function CenterServiceList({
               ?.filter((service) => !service.petTypes?.includes("cat"))
               .sort((a, b) => a.price - b.price) ?? [];
 
-          const services = [...servicesForCats, ...servicesForOthers];
+          const services = [...servicesForOthers, ...servicesForCats];
 
           const serviceTypeInfo = SERVICES_OFFERED[serviceType];
           if (!serviceTypeInfo || !services || services.length === 0)
