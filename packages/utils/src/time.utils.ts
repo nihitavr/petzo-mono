@@ -86,7 +86,7 @@ export function getNextNDaysString(n: number): string[] {
 
     const date = addMinutes(new Date(), indiaOffsetInMinutes);
 
-    date.setDate(date.getUTCDate() + i);
+    date.setUTCDate(date.getUTCDate() + i);
 
     const year = date.getUTCFullYear();
     const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");

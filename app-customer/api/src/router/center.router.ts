@@ -32,7 +32,7 @@ export const centerRouter = {
               state: true,
             },
           },
-          services: { with: { slots: true } },
+          services: true,
         },
       });
 
