@@ -11,8 +11,6 @@ export default async function HomePage({
 }: {
   params: { city: string };
 }) {
-  // await track("city-explore-home-page", { city });
-
   // You can await this here if you don't want to show Suspense fallback below
   const cities = await api.geography.getActiveCities();
   const cityName = cities.find((c) => c.publicId === city)?.name;
