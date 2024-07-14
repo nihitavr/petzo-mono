@@ -4,6 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { toast } from "@petzo/ui/components/toast";
+import { stringUtils } from "@petzo/utils";
+
+import { trackCustom } from "~/web-analytics/react";
 
 const HomePageServicesCard = ({
   name,
@@ -24,6 +27,10 @@ const HomePageServicesCard = ({
     <Link
       href={link}
       onClick={(e) => {
+        trackCustom(
+          `hero_section_${stringUtils.generatePublicIdByName(name)}_clicked`,
+        );
+
         if (disabled) {
           e.preventDefault();
           toast.info(disabledToastText ?? "This service is coming soon...");
