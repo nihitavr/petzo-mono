@@ -32,7 +32,7 @@ export default function MedicalRecordsSection({
         petPublicId: selectedPetPublicId!,
         pagination: {
           page: 0,
-          limit: 10,
+          limit: 20,
         },
       },
       { enabled: !!selectedPetPublicId },
