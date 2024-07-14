@@ -108,7 +108,7 @@ export function MedicalRecordsForm({
       });
     } else {
       toast.success("Successfully create pet medical record!");
-      router.push(`/dashboard/medical-records/${values.id}/edit`);
+      router.push(`/dashboard/medical-records`);
     }
   };
 

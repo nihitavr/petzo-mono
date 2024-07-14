@@ -50,58 +50,67 @@ export default function MedicalRecordsList({
       value={selectedMedicalRecords}
       onValueChange={setSelectedMedicalRecords}
     >
-      {petMedicalRecords.map((medicalRecord, idx) => {
-        const value = `medical-record-${medicalRecord.id}`;
-        return (
-          <AccordionItem
-            key={idx}
-            value={`medical-record-${medicalRecord.id}`}
-            className="rounded-lg border"
-          >
-            <AccordionTrigger className="z-20 flex justify-between rounded-lg bg-muted px-2 text-sm md:text-lg">
-              <div className="flex w-full items-center justify-between">
-                <div className="flex flex-col items-start">
-                  <span className="text-xs text-foreground/70 md:text-sm">
-                    Appointment:{" "}
-                  </span>
-                  <span className="font-semibold">
-                    {format(medicalRecord.appointmentDate, "ccc do MMM yy")}
-                  </span>
-                </div>
-                <Button
-                  className="mr-2.5 h-7"
-                  size="sm"
-                  variant="outline"
-                  asChild={true}
-                >
-                  <Link
-                    href={`/dashboard/medical-records/${medicalRecord.id}/edit`}
-                  >
-                    Edit
-                  </Link>
-                </Button>
-              </div>
-            </AccordionTrigger>
-
-            <AccordionContent>
-              {medicalRecord.description && (
-                <div className="p-2">
-                  <Label>Details</Label>
-                  <div className="mt-1 whitespace-pre">
-                    {medicalRecord.description}
+      {petMedicalRecords?.length ? (
+        petMedicalRecords.map((medicalRecord, idx) => {
+          const value = `medical-record-${medicalRecord.id}`;
+          return (
+            <AccordionItem
+              key={idx}
+              value={`medical-record-${medicalRecord.id}`}
+              className="rounded-lg border"
+            >
+              <AccordionTrigger className="z-20 flex justify-between rounded-lg bg-muted px-2 text-sm md:text-lg">
+                <div className="flex w-full items-center justify-between">
+                  <div className="flex flex-col items-start">
+                    <span className="text-xs text-foreground/70 md:text-sm">
+                      Appointment:{" "}
+                    </span>
+                    <span className="font-semibold">
+                      {format(medicalRecord.appointmentDate, "ccc do MMM yy")}
+                    </span>
                   </div>
+                  <Button
+                    className="mr-2.5 h-7"
+                    size="sm"
+                    variant="outline"
+                    asChild={true}
+                  >
+                    <Link
+                      href={`/dashboard/medical-records/${medicalRecord.id}/edit`}
+                    >
+                      Edit
+                    </Link>
+                  </Button>
                 </div>
-              )}
-              <div className="mt-3 grid grid-cols-1 gap-2 md:grid-cols-3 md:px-2">
-                <MedicalRecordImages
-                  images={medicalRecord.images}
-                  isSelected={selectedMedicalRecords.includes(value)}
-                />
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        );
-      })}
+              </AccordionTrigger>
+
+              <AccordionContent>
+                {medicalRecord.description && (
+                  <div className="p-2">
+                    <Label>Details</Label>
+                    <div className="mt-1 whitespace-pre">
+                      {medicalRecord.description}
+                    </div>
+                  </div>
+                )}
+                <div className="mt-3 grid grid-cols-1 gap-2 md:grid-cols-3 md:px-2">
+                  <MedicalRecordImages
+                    images={medicalRecord.images}
+                    isSelected={selectedMedicalRecords.includes(value)}
+                  />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          );
+        })
+      ) : (
+        <div className="flex h-20 items-center justify-center text-center text-foreground/80">
+          <span>
+            No Medical Records found for {petName}. <br />
+            Click <span className="font-semibold">New Medical Record</span>.
+          </span>{" "}
+        </div>
+      )}
     </Accordion>
   );
 }
