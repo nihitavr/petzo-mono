@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Button } from "@petzo/ui/components/button";
 
-import { filtersStore } from "~/lib/storage/global-storage";
+// import { filtersStore } from "~/lib/storage/global-storage";
 
 export default function WhyUsePetzoSection() {
   return (
