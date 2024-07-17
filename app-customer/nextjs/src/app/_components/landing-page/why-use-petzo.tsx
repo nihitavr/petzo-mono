@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Button } from "@petzo/ui/components/button";
 
-import { filtersStore } from "~/lib/storage/global-storage";
+// import { filtersStore } from "~/lib/storage/global-storage";
 
 export default function WhyUsePetzoSection() {
   return (
@@ -37,9 +37,8 @@ export default function WhyUsePetzoSection() {
           buttonName="Medical Records"
           buttonLink={`/dashboard/medical-records`}
           descriptions={[
-            "Keep track of your pet's medical records and prescriptions.",
+            "Take photos of your pet's medical records/prescriptions and store them on Furclub for easy access.",
             "Easily show past medical records to your vet.",
-            "Never worry about losing your pet's medical records again.",
           ]}
         />
 
