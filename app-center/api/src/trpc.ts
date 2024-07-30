@@ -11,7 +11,8 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 
 import type { Session } from "@petzo/auth-customer-app";
-import { db } from "@petzo/db";
+import { and, db, eq, schema } from "@petzo/db";
+import { centerApp } from "@petzo/validators";
 
 /**
  * 1. CONTEXT
@@ -39,6 +40,11 @@ export const createTRPCContext = (opts: {
     db,
   };
 };
+
+export interface CTX {
+  session: Session | null;
+  db: typeof db;
+}
 
 /**
  * 2. INITIALIZATION
@@ -104,3 +110,30 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
     },
   });
 });
+
+export const protectedCenterProcedure = t.procedure
+  .input(centerApp.center.CenterAuthorization)
+  .use(async ({ ctx, next, input }) => {
+    if (!ctx.session?.user) {
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+
+    const center = await ctx.db.query.centers.findFirst({
+      where: and(
+        eq(schema.centers.publicId, input.centerPublicId),
+        eq(schema.centers.centerUserId, ctx.session.user.id),
+      ),
+    });
+
+    if (!center) {
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+
+    return next({
+      ctx: {
+        // infers the `session` as non-nullable
+        session: { ...ctx.session, user: ctx.session.user },
+        center: center,
+      },
+    });
+  });

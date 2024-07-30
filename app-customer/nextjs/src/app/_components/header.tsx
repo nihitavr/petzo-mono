@@ -16,15 +16,6 @@ import GlobalSearchInput from "./global-search-input";
 // import { CartSideSheet } from "./cart-side-sheet";
 import { SideNavSheet } from "./side-nav-sheet";
 
-const SEARCH_PATHNAMES = [
-  "/",
-  "/mumbai/explore",
-  "/bengaluru/explore",
-  "/bengaluru/centers",
-  "/mumbai/centers",
-  "/bengaluru/search",
-  "/mumbai/search",
-];
 export default function Header({
   session,
   cities,

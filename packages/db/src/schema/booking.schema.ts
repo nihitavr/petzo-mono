@@ -9,18 +9,15 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
+import { BOOKING_STATUS } from "@petzo/constants";
+
 import { pgTable } from "./_table";
 import { bookingItems } from "./booking-items.schema";
 import { centers } from "./center.schema";
 import { customerAddresses } from "./customer-address.schema";
 import { customerUsers } from "./customer-app-auth.schema";
 
-export const bookingStatusEnum = pgEnum("booking_status_type", [
-  "booked",
-  "confirmed",
-  "cancelled",
-  "completed"
-]);
+export const bookingStatusEnum = pgEnum("booking_status_type", BOOKING_STATUS);
 
 export const bookings = pgTable(
   "booking",
@@ -45,14 +42,21 @@ export const bookings = pgTable(
       .notNull(),
   },
   (booking) => ({
-    centerIdIdx: index("center_id_index").on(booking.centerId),
-    customerUserIdIdx: index("customer_user_id_index").on(
+    centerIdStatusIdx: index("center_id_and_status_index").on(
+      booking.centerId,
+      booking.status,
+    ),
+    customerUserIdStatusIdx: index("customer_user_id_and_status_index").on(
       booking.customerUserId,
     ),
   }),
 );
 
 export const bookingRelations = relations(bookings, ({ one, many }) => ({
+  user: one(customerUsers, {
+    fields: [bookings.customerUserId],
+    references: [customerUsers.id],
+  }),
   center: one(centers, {
     fields: [bookings.centerId],
     references: [centers.id],

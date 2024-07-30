@@ -1,13 +1,21 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import type { Pet, Service, Slot } from "@petzo/db";
+import type {
+  BookingItem,
+  Center,
+  CustomerAddresses,
+  Pet,
+  Service,
+  Slot,
+} from "@petzo/db";
 import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
 import { and, desc, eq, gte, inArray, schema, sql } from "@petzo/db";
 import { getGoogleLocationLink, slackUtils } from "@petzo/utils";
 import { convertTime24To12, getSurroundingTime } from "@petzo/utils/time";
 import { bookingValidator } from "@petzo/validators";
 
+import type { CTX } from "../trpc";
 import { getFullFormattedAddresses } from "../../../../packages/utils/src/addresses.utils";
 import { protectedProcedure } from "../trpc";
 
@@ -23,107 +31,41 @@ export const bookingRouter = {
       )?.[0];
 
       if (!bookingCenter) {
-        throw new TRPCError({
-          message: "Booking center not found.",
-          code: "BAD_REQUEST",
-        });
+        return bookingRouterUtils.throwBadRequestError(
+          "Booking center not found.",
+        );
       }
 
       // TODO: Address is required for home service. For other services, it is optional.
-      const bookingAddress = (
-        await ctx.db.query.customerAddresses.findMany({
-          where: eq(schema.customerAddresses.id, input.addressId),
-          with: {
-            area: true,
-            city: true,
-            state: true,
-          },
-        })
-      )[0];
+      const bookingAddress = await bookingRouterUtils.getBookingAddress(
+        ctx,
+        input.addressId,
+      );
 
       if (!bookingAddress) {
-        throw new TRPCError({
-          message: "Booking address not found.",
-          code: "BAD_REQUEST",
-        });
+        return bookingRouterUtils.throwBadRequestError(
+          "Booking address not found.",
+        );
       }
 
-      const bookingItemsPromises: Promise<
-        {
-          service: Service;
-          slot: Slot;
-          pet: Pet;
-        }[]
-      >[] = [];
-
-      input?.items?.forEach((item) => {
-        // This will return only one item in the array
-        const bookingItems = ctx.db
-          .select()
-          .from(schema.services)
-          .where(
-            and(
-              eq(schema.services.centerId, input.centerId),
-              eq(schema.services.id, item.serviceId),
-            ),
-          )
-          .innerJoin(
-            schema.slots,
-            and(
-              eq(schema.slots.serviceId, item.serviceId),
-              eq(schema.slots.id, item.slotId),
-            ),
-          )
-          .innerJoin(
-            schema.pets,
-            and(
-              eq(schema.pets.id, item.petId),
-              eq(schema.pets.customerUserId, ctx.session.user.id),
-            ),
-          );
-
-        bookingItemsPromises.push(bookingItems);
-      });
-
-      const bookingItems = (await Promise.all(bookingItemsPromises)).map(
-        (item) => item[0],
+      const bookingItems = await bookingRouterUtils.getBookingItems(
+        ctx,
+        input.centerId,
+        input.items,
       );
 
       // Check if all the items are valid.
       input?.items?.forEach((_, index) => {
         if (!bookingItems[index]) {
-          throw new TRPCError({
-            message: "Some of the booking data is invalid",
-            code: "BAD_REQUEST",
-          });
+          bookingRouterUtils.throwBadRequestError(
+            "Some of the booking data is invalid",
+          );
         }
       });
 
-      const servicesByType = (
-        await ctx.db.query.services.findMany({
-          where: eq(schema.services.centerId, input.centerId),
-          columns: {
-            id: true,
-            serviceType: true,
-          },
-        })
-      ).reduce(
-        (acc, service) => {
-          if (!acc[service.serviceType]) {
-            acc[service.serviceType] = [];
-          }
-
-          acc[service.serviceType]!.push(service);
-
-          return acc;
-        },
-        {} as Record<
-          string,
-          {
-            id: number;
-            serviceType: string;
-          }[]
-        >,
+      const servicesByType = await bookingRouterUtils.getServicesByType(
+        ctx,
+        input.centerId,
       );
 
       const bookingId = await ctx.db.transaction(
@@ -164,25 +106,23 @@ export const bookingRouter = {
               item!.service.duration - SLOT_DURATION_IN_MINS,
             );
 
-            const serviceIds = servicesByType[item!.service.serviceType]!.map(
-              (service) => service.id,
-            );
+            const serviceIdsToBlock = servicesByType[
+              item!.service.serviceType
+            ]!.map((service) => service.id);
 
-            const serviceTypeAllSlotsForSurroundingTimes = await tx
+            const slotsToBlock = await tx
               .select()
               .from(schema.slots)
               .where(
                 and(
-                  inArray(schema.slots.serviceId, serviceIds),
+                  inArray(schema.slots.serviceId, serviceIdsToBlock),
                   inArray(schema.slots.startTime, surroundingTimes),
                   eq(schema.slots.date, item!.slot.date),
                 ),
               )
               .for("update");
 
-            const updateSlotIds = serviceTypeAllSlotsForSurroundingTimes.map(
-              (slot) => slot.id,
-            );
+            const slotIdsToBlock = slotsToBlock.map((slot) => slot.id);
 
             await tx
               .update(schema.slots)
@@ -191,7 +131,7 @@ export const bookingRouter = {
               })
               .where(
                 and(
-                  inArray(schema.slots.id, updateSlotIds),
+                  inArray(schema.slots.id, slotIdsToBlock),
                   gte(schema.slots.availableSlots, 1),
                 ),
               );
@@ -217,26 +157,13 @@ export const bookingRouter = {
         },
       );
 
-      if (bookingId) {
-        let message = `Booking Id: ${bookingId}, Center: ${bookingCenter.name}, Email: ${ctx.session.user.email},\n--------------\n`;
-        message += `Name: ${ctx.session.user.name}, Phone Number: \`${bookingAddress.phoneNumber}\`\n--------------\n`;
-
-        message += "Service Booked:\n";
-        bookingItems.forEach((item, idx) => {
-          if (!item) return;
-          message += `${idx + 1}) Service: \`${item.service.name}\`,\n    Price: \`₹${item.service.price}\`\n    Slot: \`${item.slot.date} ${convertTime24To12(item.slot.startTime)}\`,\n    Pet Name: \`${item.pet.name}\`\n    Pet Type: \`${item.pet.type}\`\n`;
-        });
-
-        message += `--------------\nAddress: ${getFullFormattedAddresses(bookingAddress)}\n`;
-        message += `Map Link: ${getGoogleLocationLink(bookingAddress.geocode)}\n`;
-
-        await slackUtils.sendSlackMessage({
-          channel: "#booking-alerts",
-          username: "booking-bot",
-          iconEmoji: ":tada:",
-          message: message,
-        });
-      }
+      await bookingRouterUtils.sendBookingSlackMessage(
+        ctx,
+        bookingCenter,
+        bookingAddress,
+        bookingItems as BookingItem[],
+        bookingId,
+      );
 
       return bookingId;
     }),
@@ -289,4 +216,135 @@ export const bookingRouter = {
         },
       });
     }),
+};
+
+export const bookingRouterUtils = {
+  async sendBookingSlackMessage(
+    ctx: CTX,
+    bookingCenter: Center,
+    bookingAddress: CustomerAddresses,
+    bookingItems?: BookingItem[],
+    bookingId?: number,
+  ) {
+    if (!bookingId) return;
+
+    let message = `Booking Id: ${bookingId}, Center: ${bookingCenter.name}, Email: ${ctx.session!.user.email},\n--------------\n`;
+    message += `Name: ${ctx.session!.user.name}, Phone Number: \`${bookingAddress.phoneNumber}\`\n--------------\n`;
+
+    message += "Service Booked:\n";
+    bookingItems?.forEach((item, idx) => {
+      if (!item) return;
+      message += `${idx + 1}) Service: \`${item.service!.name}\`,\n    Price: \`₹${item.service!.price}\`\n    Slot: \`${item.slot!.date} ${convertTime24To12(item.slot!.startTime)}\`,\n    Pet Name: \`${item.pet!.name}\`\n    Pet Type: \`${item.pet!.type}\`\n`;
+    });
+
+    message += `--------------\nAddress: ${getFullFormattedAddresses(bookingAddress)}\n`;
+    message += `Map Link: ${getGoogleLocationLink(bookingAddress.geocode)}\n`;
+
+    await slackUtils.sendSlackMessage({
+      channel: "#booking-alerts",
+      username: "booking-bot",
+      iconEmoji: ":tada:",
+      message: message,
+    });
+  },
+
+  async getBookingAddress(ctx: CTX, addressId?: number) {
+    if (!addressId) {
+      return null;
+    }
+
+    return (
+      await ctx.db.query.customerAddresses.findMany({
+        where: eq(schema.customerAddresses.id, addressId),
+        with: {
+          area: true,
+          city: true,
+          state: true,
+        },
+      })
+    )[0];
+  },
+  async getServicesByType(ctx: CTX, centerId: number) {
+    return (
+      await ctx.db.query.services.findMany({
+        where: eq(schema.services.centerId, centerId),
+        columns: {
+          id: true,
+          serviceType: true,
+        },
+      })
+    ).reduce(
+      (acc, service) => {
+        if (!acc[service.serviceType]) {
+          acc[service.serviceType] = [];
+        }
+
+        acc[service.serviceType]!.push(service);
+
+        return acc;
+      },
+      {} as Record<
+        string,
+        {
+          id: number;
+          serviceType: string;
+        }[]
+      >,
+    );
+  },
+  async getBookingItems(
+    ctx: CTX,
+    centerId: number,
+    bookingItems: {
+      petId: number;
+      serviceId: number;
+      slotId: number;
+    }[],
+  ) {
+    const bookingItemsPromises: Promise<
+      {
+        service: Service;
+        slot: Slot;
+        pet: Pet;
+      }[]
+    >[] = [];
+
+    bookingItems?.forEach((item) => {
+      // This will return only one item in the array
+      const bookingItems = ctx.db
+        .select()
+        .from(schema.services)
+        .where(
+          and(
+            eq(schema.services.centerId, centerId),
+            eq(schema.services.id, item.serviceId),
+          ),
+        )
+        .innerJoin(
+          schema.slots,
+          and(
+            eq(schema.slots.serviceId, item.serviceId),
+            eq(schema.slots.id, item.slotId),
+          ),
+        )
+        .innerJoin(
+          schema.pets,
+          and(
+            eq(schema.pets.id, item.petId),
+            eq(schema.pets.customerUserId, ctx.session!.user.id),
+          ),
+        );
+
+      bookingItemsPromises.push(bookingItems);
+    });
+
+    return (await Promise.all(bookingItemsPromises)).map((item) => item[0]);
+  },
+
+  throwBadRequestError(message: string) {
+    throw new TRPCError({
+      message: message,
+      code: "BAD_REQUEST",
+    });
+  },
 };

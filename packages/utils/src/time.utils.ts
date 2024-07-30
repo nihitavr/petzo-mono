@@ -1,4 +1,5 @@
 import {
+  addDays,
   addMinutes,
   differenceInMinutes,
   format,
@@ -11,12 +12,15 @@ import {
   setMinutes,
   subMinutes,
 } from "date-fns";
+import { format as formatTz, toZonedTime } from "date-fns-tz";
+
+import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
 
 /**
  * Get all slots start times before and after the booked time within the given duration.
  *
  * @param time - The booked slot start time in 'HH:mm:ss' format.
- * @param duration - The duration of the service in minutes.
+ * @param duration - The duration in minutes to consider before and after the booked time.
  * @returns - An array of slot start times within the duration before and after the booked time.
  */
 export function getSurroundingTime(time: string, duration: number): string[] {
@@ -40,13 +44,24 @@ export function getSurroundingTime(time: string, duration: number): string[] {
 
   while (currentTime <= endTime) {
     slots.push(format(currentTime, "HH:mm:ss"));
-    currentTime = addMinutes(currentTime, 30);
+    currentTime = addMinutes(currentTime, SLOT_DURATION_IN_MINS);
   }
 
   return slots;
 }
 
-export function convertTime24To12(time24: string): string {
+export function isTimeBefore(time1: string, time2: string): boolean {
+  const date1 = parse(time1, "HH:mm:ss", new Date());
+  const date2 = parse(time2, "HH:mm:ss", new Date());
+
+  return isBefore(date1, date2);
+}
+
+export function convertTime24To12(time24?: string): string {
+  if (!time24) {
+    return "";
+  }
+
   const [hours, minutes] = time24.split(":").map(Number);
 
   if (hours == undefined || minutes == undefined) {
@@ -64,56 +79,50 @@ export function convertTime24To12(time24: string): string {
   return `${hours12Str}:${minutesStr} ${suffix}`;
 }
 
-export function getNextNDays(n: number): Date[] {
-  const dates = [];
-  for (let i = 0; i < n; i++) {
-    const date = new Date();
-    date.setDate(date.getDate() + i);
-    dates.push(date);
+export const generateTimesForDayHHMM = () => {
+  const times = [];
+  for (let hour = 0; hour < 24; hour++) {
+    for (let minute = 0; minute < 60; minute += 30) {
+      times.push(
+        `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}:00`,
+      );
+    }
   }
-  return dates;
-}
+  return times;
+};
 
-export function getNextNDaysString(n: number): string[] {
+export function getNextNDaysString(
+  n: number,
+  timeZone = "Asia/Kolkata",
+): string[] {
   const dates = [];
 
   // IST offset in minutes (5 hours 30 minutes) + 0 hrs offset before booking for tomorrow.
   // So basically only before 8PM IST, we should be able to book for tomorrow.
-  const indiaOffsetInMinutes = 330 + 0;
+  const offsetInMinutes = 0;
+
+  const today = new Date();
+  let istDate = toZonedTime(today, timeZone);
+
+  istDate = addMinutes(istDate, offsetInMinutes);
 
   for (let i = 1; i < n + 1; i++) {
-    // const date = new Date();
+    const date = addDays(istDate, i);
 
-    const date = addMinutes(new Date(), indiaOffsetInMinutes);
+    const formattedDate = formatTz(date, "yyyy-MM-dd", {
+      timeZone: timeZone,
+    });
 
-    date.setUTCDate(date.getUTCDate() + i);
-
-    const year = date.getUTCFullYear();
-    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
-    const day = date.getUTCDate().toString().padStart(2, "0");
-
-    dates.push(`${year}-${month}-${day}`);
+    dates.push(formattedDate);
   }
 
   return dates;
 }
 
-export function getNthDate(n: number, type?: "start" | "end"): Date {
-  const date = new Date();
-
-  if (type === "start") {
-    date.setHours(0);
-    date.setMinutes(0);
-    date.setSeconds(0);
-    date.setMilliseconds(0);
-  } else if (type === "end") {
-    date.setHours(23);
-    date.setMinutes(59);
-    date.setSeconds(59);
-    date.setMilliseconds(999);
-  }
-
-  return date;
+export function getDateString(timeZone = "Asia/Kolkata", date?: Date): string {
+  return formatTz(toZonedTime(date ?? new Date(), timeZone), "yyyy-MM-dd", {
+    timeZone: timeZone,
+  });
 }
 
 export function isMorning(timeString: string) {

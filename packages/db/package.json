@@ -28,6 +28,7 @@
     "drizzle-orm": "^0.31.0"
   },
   "devDependencies": {
+    "@petzo/constants": "workspace:*",
     "@petzo/eslint-config": "workspace:*",
     "@petzo/prettier-config": "workspace:*",
     "@petzo/tsconfig": "workspace:*",

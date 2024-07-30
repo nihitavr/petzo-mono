@@ -8,25 +8,20 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
+import { PET_GENDER, PET_TYPE } from "@petzo/constants";
+
 import { pgTable } from "./_table";
 import { customerUsers } from "./customer-app-auth.schema";
 
-export const petTypeEnum = pgEnum("pet_type_enum_type", [
-  "cat",
-  "small_dog",
-  "big_dog",
-]);
+export const petTypeEnum = pgEnum("pet_type_enum_type", PET_TYPE);
 
-export const genderEnum = pgEnum("gender_enum_type", ["male", "female"]);
-
-export const GenderList = genderEnum.enumValues;
-export const PetTypeList = petTypeEnum.enumValues;
+export const genderEnum = pgEnum("gender_enum_type", PET_GENDER);
 
 export const pets = pgTable(
   "pet",
   {
     id: serial("id").primaryKey(),
-    publicId: varchar("public_id", { length: 15 }).notNull().unique(),
+    publicId: varchar("public_id", { length: 20 }).notNull().unique(),
     customerUserId: varchar("customer_user_id", { length: 255 })
       .notNull()
       .references(() => customerUsers.id),

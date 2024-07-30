@@ -78,7 +78,7 @@ export const petRouter = {
   getPetProfile: protectedProcedure
     .input(
       z.object({
-        publicId: z.string().length(15),
+        publicId: z.string().length(20),
       }),
     )
     .query(({ ctx, input }) => {

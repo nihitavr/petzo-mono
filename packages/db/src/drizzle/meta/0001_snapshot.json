@@ -1,7 +1,510 @@
 {
+  "id": "76afe8ef-23fe-4753-a8bb-f6a98a011b13",
+  "prevId": "7fffba5e-f3c7-4972-9d17-7fdf5e018a2a",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.area": {
+      "name": "area",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "public_id": {
+          "name": "public_id",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "external_id": {
+          "name": "external_id",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_parent": {
+          "name": "is_parent",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "parent_area_id": {
+          "name": "parent_area_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "city_id": {
+          "name": "city_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "area_and_parent_idx": {
+          "name": "area_and_parent_idx",
+          "columns": [
+            {
+              "expression": "parent_area_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "area_city_id_city_id_fk": {
+          "name": "area_city_id_city_id_fk",
+          "tableFrom": "area",
+          "tableTo": "city",
+          "columnsFrom": [
+            "city_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "area_public_id_unique": {
+          "name": "area_public_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "public_id"
+          ]
+        },
+        "area_external_id_unique": {
+          "name": "area_external_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "external_id"
+          ]
+        },
+        "city_id_area_idx_idx": {
+          "name": "city_id_area_idx_idx",
+          "nullsNotDistinct": false,
+          "columns": [
+            "city_id",
+            "public_id"
+          ]
+        }
+      }
+    },
+    "public.booking_items": {
+      "name": "booking_items",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "booking_id": {
+          "name": "booking_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pet_id": {
+          "name": "pet_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slot_id": {
+          "name": "slot_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "service_id": {
+          "name": "service_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "booking_status_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'booked'"
+        },
+        "amount": {
+          "name": "amount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "bookings_id_index": {
+          "name": "bookings_id_index",
+          "columns": [
+            {
+              "expression": "booking_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "booking_items_booking_id_booking_id_fk": {
+          "name": "booking_items_booking_id_booking_id_fk",
+          "tableFrom": "booking_items",
+          "tableTo": "booking",
+          "columnsFrom": [
+            "booking_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "booking_items_pet_id_pet_id_fk": {
+          "name": "booking_items_pet_id_pet_id_fk",
+          "tableFrom": "booking_items",
+          "tableTo": "pet",
+          "columnsFrom": [
+            "pet_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "booking_items_slot_id_slot_id_fk": {
+          "name": "booking_items_slot_id_slot_id_fk",
+          "tableFrom": "booking_items",
+          "tableTo": "slot",
+          "columnsFrom": [
+            "slot_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "booking_items_service_id_service_id_fk": {
+          "name": "booking_items_service_id_service_id_fk",
+          "tableFrom": "booking_items",
+          "tableTo": "service",
+          "columnsFrom": [
+            "service_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.booking": {
+      "name": "booking",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "customer_user_id": {
+          "name": "customer_user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "address_id": {
+          "name": "address_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "center_id": {
+          "name": "center_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "amount": {
+          "name": "amount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_paid": {
+          "name": "is_paid",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "booking_status_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'booked'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "center_id_and_status_index": {
+          "name": "center_id_and_status_index",
+          "columns": [
+            {
+              "expression": "center_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "customer_user_id_and_status_index": {
+          "name": "customer_user_id_and_status_index",
+          "columns": [
+            {
+              "expression": "customer_user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "booking_customer_user_id_customer_user_id_fk": {
+          "name": "booking_customer_user_id_customer_user_id_fk",
+          "tableFrom": "booking",
+          "tableTo": "customer_user",
+          "columnsFrom": [
+            "customer_user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "booking_address_id_customer_address_id_fk": {
+          "name": "booking_address_id_customer_address_id_fk",
+          "tableFrom": "booking",
+          "tableTo": "customer_address",
+          "columnsFrom": [
+            "address_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "booking_center_id_center_id_fk": {
+          "name": "booking_center_id_center_id_fk",
+          "tableFrom": "booking",
+          "tableTo": "center",
+          "columnsFrom": [
+            "center_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.center_address": {
+      "name": "center_address",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "line1": {
+          "name": "line1",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pincode": {
+          "name": "pincode",
+          "type": "varchar(6)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "geocode": {
+          "name": "geocode",
+          "type": "geography",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "area_id": {
+          "name": "area_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "city_id": {
+          "name": "city_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "state_id": {
+          "name": "state_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "center_address_area_id_area_id_fk": {
+          "name": "center_address_area_id_area_id_fk",
+          "tableFrom": "center_address",
+          "tableTo": "area",
+          "columnsFrom": [
+            "area_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "center_address_city_id_city_id_fk": {
+          "name": "center_address_city_id_city_id_fk",
+          "tableFrom": "center_address",
+          "tableTo": "city",
+          "columnsFrom": [
+            "city_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "center_address_state_id_state_id_fk": {
+          "name": "center_address_state_id_state_id_fk",
+          "tableFrom": "center_address",
+          "tableTo": "state",
+          "columnsFrom": [
+            "state_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "public.center_account": {
       "name": "center_account",
       "schema": "",
@@ -82,6 +585,7 @@
       },
       "indexes": {
         "center_app_accounts_userId_idx": {
+          "name": "center_app_accounts_userId_idx",
           "columns": [
             {
               "expression": "userId",
@@ -90,10 +594,10 @@
               "nulls": "last"
             }
           ],
-          "name": "center_app_accounts_userId_idx",
           "isUnique": false,
+          "concurrently": false,
           "method": "btree",
-          "concurrently": false
+          "with": {}
         }
       },
       "foreignKeys": {},
@@ -140,6 +644,7 @@
       },
       "indexes": {
         "center_app_sessions_userId_idx": {
+          "name": "center_app_sessions_userId_idx",
           "columns": [
             {
               "expression": "userId",
@@ -148,10 +653,10 @@
               "nulls": "last"
             }
           ],
-          "name": "center_app_sessions_userId_idx",
           "isUnique": false,
+          "concurrently": false,
           "method": "btree",
-          "concurrently": false
+          "with": {}
         }
       },
       "foreignKeys": {},
@@ -171,6 +676,12 @@
         "name": {
           "name": "name",
           "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phone_number": {
+          "name": "phone_number",
+          "type": "varchar(15)",
           "primaryKey": false,
           "notNull": false
         },
@@ -249,237 +760,6 @@
       },
       "uniqueConstraints": {}
     },
-    "public.booking": {
-      "name": "booking",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "customer_user_id": {
-          "name": "customer_user_id",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "pet_id": {
-          "name": "pet_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "slot_id": {
-          "name": "slot_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "service_id": {
-          "name": "service_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "center_id": {
-          "name": "center_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "amount": {
-          "name": "amount",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "is_paid": {
-          "name": "is_paid",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "status": {
-          "name": "status",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "CURRENT_TIMESTAMP"
-        }
-      },
-      "indexes": {
-        "bookings_user_pet_idx": {
-          "columns": [
-            {
-              "expression": "customer_user_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "pet_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "name": "bookings_user_pet_idx",
-          "isUnique": false,
-          "method": "btree",
-          "concurrently": false
-        },
-        "bookings_service_center_idx": {
-          "columns": [
-            {
-              "expression": "service_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "center_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "name": "bookings_service_center_idx",
-          "isUnique": false,
-          "method": "btree",
-          "concurrently": false
-        }
-      },
-      "foreignKeys": {
-        "booking_customer_user_id_customer_user_id_fk": {
-          "name": "booking_customer_user_id_customer_user_id_fk",
-          "tableFrom": "booking",
-          "columnsFrom": [
-            "customer_user_id"
-          ],
-          "tableTo": "customer_user",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "booking_pet_id_pet_id_fk": {
-          "name": "booking_pet_id_pet_id_fk",
-          "tableFrom": "booking",
-          "columnsFrom": [
-            "pet_id"
-          ],
-          "tableTo": "pet",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "booking_slot_id_slot_id_fk": {
-          "name": "booking_slot_id_slot_id_fk",
-          "tableFrom": "booking",
-          "columnsFrom": [
-            "slot_id"
-          ],
-          "tableTo": "slot",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "booking_service_id_service_id_fk": {
-          "name": "booking_service_id_service_id_fk",
-          "tableFrom": "booking",
-          "columnsFrom": [
-            "service_id"
-          ],
-          "tableTo": "service",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "booking_center_id_center_id_fk": {
-          "name": "booking_center_id_center_id_fk",
-          "tableFrom": "booking",
-          "columnsFrom": [
-            "center_id"
-          ],
-          "tableTo": "center",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.center_address": {
-      "name": "center_address",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "line1": {
-          "name": "line1",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "pincode": {
-          "name": "pincode",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "geocode": {
-          "name": "geocode",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "city": {
-          "name": "city",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "state": {
-          "name": "state",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "CURRENT_TIMESTAMP"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
     "public.center": {
       "name": "center",
       "schema": "",
@@ -492,7 +772,7 @@
         },
         "public_id": {
           "name": "public_id",
-          "type": "varchar(13)",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true
         },
@@ -508,8 +788,47 @@
           "primaryKey": false,
           "notNull": false
         },
-        "address_id": {
-          "name": "address_id",
+        "images": {
+          "name": "images",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "average_rating": {
+          "name": "average_rating",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "rating_count": {
+          "name": "rating_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "review_count": {
+          "name": "review_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "phone_number": {
+          "name": "phone_number",
+          "type": "varchar(15)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "service_config": {
+          "name": "service_config",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "center_address_id": {
+          "name": "center_address_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -526,10 +845,18 @@
           "primaryKey": false,
           "notNull": true,
           "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
         }
       },
       "indexes": {
         "center_public_id_idx": {
+          "name": "center_public_id_idx",
           "columns": [
             {
               "expression": "public_id",
@@ -538,12 +865,13 @@
               "nulls": "last"
             }
           ],
-          "name": "center_public_id_idx",
           "isUnique": false,
+          "concurrently": false,
           "method": "btree",
-          "concurrently": false
+          "with": {}
         },
         "center_user_idx": {
+          "name": "center_user_idx",
           "columns": [
             {
               "expression": "center_user_id",
@@ -552,48 +880,48 @@
               "nulls": "last"
             }
           ],
-          "name": "center_user_idx",
           "isUnique": false,
+          "concurrently": false,
           "method": "btree",
-          "concurrently": false
+          "with": {}
         }
       },
       "foreignKeys": {
-        "center_address_id_center_address_id_fk": {
-          "name": "center_address_id_center_address_id_fk",
+        "center_center_address_id_center_address_id_fk": {
+          "name": "center_center_address_id_center_address_id_fk",
           "tableFrom": "center",
-          "columnsFrom": [
-            "address_id"
-          ],
           "tableTo": "center_address",
+          "columnsFrom": [
+            "center_address_id"
+          ],
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         },
         "center_center_user_id_center_user_id_fk": {
           "name": "center_center_user_id_center_user_id_fk",
           "tableFrom": "center",
+          "tableTo": "center_user",
           "columnsFrom": [
             "center_user_id"
           ],
-          "tableTo": "center_user",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "center_public_id_unique": {
           "name": "center_public_id_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "public_id"
-          ],
-          "nullsNotDistinct": false
+          ]
         }
       }
     },
@@ -607,11 +935,30 @@
           "primaryKey": true,
           "notNull": true
         },
+        "public_id": {
+          "name": "public_id",
+          "type": "varchar(30)",
+          "primaryKey": false,
+          "notNull": false
+        },
         "name": {
           "name": "name",
           "type": "varchar(256)",
           "primaryKey": false,
           "notNull": true
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "external_id": {
+          "name": "external_id",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
         },
         "state_id": {
           "name": "state_id",
@@ -625,159 +972,45 @@
         "city_state_id_state_id_fk": {
           "name": "city_state_id_state_id_fk",
           "tableFrom": "city",
+          "tableTo": "state",
           "columnsFrom": [
             "state_id"
           ],
-          "tableTo": "state",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.pet": {
-      "name": "pet",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "public_id": {
-          "name": "public_id",
-          "type": "varchar(13)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "customer_user_id": {
-          "name": "customer_user_id",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "type": {
-          "name": "type",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "breed": {
-          "name": "breed",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "date_of_birth": {
-          "name": "date_of_birth",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "CURRENT_TIMESTAMP"
-        }
-      },
-      "indexes": {
-        "pets_user_idx": {
-          "columns": [
-            {
-              "expression": "customer_user_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "name": "pets_user_idx",
-          "isUnique": false,
-          "method": "btree",
-          "concurrently": false
-        }
-      },
-      "foreignKeys": {
-        "pet_customer_user_id_customer_user_id_fk": {
-          "name": "pet_customer_user_id_customer_user_id_fk",
-          "tableFrom": "pet",
-          "columnsFrom": [
-            "customer_user_id"
-          ],
-          "tableTo": "customer_user",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "pet_public_id_unique": {
-          "name": "pet_public_id_unique",
+        "city_public_id_unique": {
+          "name": "city_public_id_unique",
+          "nullsNotDistinct": false,
           "columns": [
             "public_id"
-          ],
-          "nullsNotDistinct": false
+          ]
+        },
+        "city_external_id_unique": {
+          "name": "city_external_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "external_id"
+          ]
+        },
+        "city_public_id_state_idx": {
+          "name": "city_public_id_state_idx",
+          "nullsNotDistinct": false,
+          "columns": [
+            "public_id",
+            "state_id"
+          ]
         }
       }
     },
-    "public.post": {
-      "name": "post",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "content": {
-          "name": "content",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "CURRENT_TIMESTAMP"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.rating": {
-      "name": "rating",
+    "public.customer_address": {
+      "name": "customer_address",
       "schema": "",
       "columns": {
         "id": {
@@ -792,14 +1025,62 @@
           "primaryKey": false,
           "notNull": true
         },
-        "center_id": {
-          "name": "center_id",
+        "name": {
+          "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "house_no": {
+          "name": "house_no",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "line1": {
+          "name": "line1",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "line2": {
+          "name": "line2",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pincode": {
+          "name": "pincode",
+          "type": "varchar(6)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "phone_number": {
+          "name": "phone_number",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "geocode": {
+          "name": "geocode",
+          "type": "geography",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "area_id": {
+          "name": "area_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "rating": {
-          "name": "rating",
+        "city_id": {
+          "name": "city_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "state_id": {
+          "name": "state_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -810,106 +1091,25 @@
           "primaryKey": false,
           "notNull": true,
           "default": "CURRENT_TIMESTAMP"
-        }
-      },
-      "indexes": {
-        "ratings_user_center_idx": {
-          "columns": [
-            {
-              "expression": "customer_user_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "center_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "name": "ratings_user_center_idx",
-          "isUnique": false,
-          "method": "btree",
-          "concurrently": false
-        }
-      },
-      "foreignKeys": {
-        "rating_customer_user_id_customer_user_id_fk": {
-          "name": "rating_customer_user_id_customer_user_id_fk",
-          "tableFrom": "rating",
-          "columnsFrom": [
-            "customer_user_id"
-          ],
-          "tableTo": "customer_user",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
         },
-        "rating_center_id_center_id_fk": {
-          "name": "rating_center_id_center_id_fk",
-          "tableFrom": "rating",
-          "columnsFrom": [
-            "center_id"
-          ],
-          "tableTo": "center",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.review": {
-      "name": "review",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "customer_user_id": {
-          "name": "customer_user_id",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "center_id": {
-          "name": "center_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "text": {
-          "name": "text",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
+        "updated_at": {
+          "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "default": "CURRENT_TIMESTAMP"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {
-        "reviews_user_center_idx": {
+        "customer_address_user_id_idx": {
+          "name": "customer_address_user_id_idx",
           "columns": [
-            {
-              "expression": "center_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
             {
               "expression": "customer_user_id",
               "isExpression": false,
@@ -917,448 +1117,64 @@
               "nulls": "last"
             }
           ],
-          "name": "reviews_user_center_idx",
           "isUnique": false,
+          "concurrently": false,
           "method": "btree",
-          "concurrently": false
+          "with": {}
         }
       },
       "foreignKeys": {
-        "review_customer_user_id_customer_user_id_fk": {
-          "name": "review_customer_user_id_customer_user_id_fk",
-          "tableFrom": "review",
+        "customer_address_customer_user_id_customer_user_id_fk": {
+          "name": "customer_address_customer_user_id_customer_user_id_fk",
+          "tableFrom": "customer_address",
+          "tableTo": "customer_user",
           "columnsFrom": [
             "customer_user_id"
           ],
-          "tableTo": "customer_user",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         },
-        "review_center_id_center_id_fk": {
-          "name": "review_center_id_center_id_fk",
-          "tableFrom": "review",
+        "customer_address_area_id_area_id_fk": {
+          "name": "customer_address_area_id_area_id_fk",
+          "tableFrom": "customer_address",
+          "tableTo": "area",
           "columnsFrom": [
-            "center_id"
+            "area_id"
           ],
-          "tableTo": "center",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.service": {
-      "name": "service",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
+          "onDelete": "no action",
+          "onUpdate": "no action"
         },
-        "name": {
-          "name": "name",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "category": {
-          "name": "category",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "price": {
-          "name": "price",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "center_id": {
-          "name": "center_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "CURRENT_TIMESTAMP"
-        }
-      },
-      "indexes": {
-        "services_center_idx": {
-          "columns": [
-            {
-              "expression": "center_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "name": "services_center_idx",
-          "isUnique": false,
-          "method": "btree",
-          "concurrently": false
-        }
-      },
-      "foreignKeys": {
-        "service_center_id_center_id_fk": {
-          "name": "service_center_id_center_id_fk",
-          "tableFrom": "service",
+        "customer_address_city_id_city_id_fk": {
+          "name": "customer_address_city_id_city_id_fk",
+          "tableFrom": "customer_address",
+          "tableTo": "city",
           "columnsFrom": [
-            "center_id"
+            "city_id"
           ],
-          "tableTo": "center",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.slot": {
-      "name": "slot",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
+          "onDelete": "no action",
+          "onUpdate": "no action"
         },
-        "service_id": {
-          "name": "service_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "center_id": {
-          "name": "center_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "start_time": {
-          "name": "start_time",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "end_time": {
-          "name": "end_time",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "total_slots": {
-          "name": "total_slots",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "available_slots": {
-          "name": "available_slots",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "CURRENT_TIMESTAMP"
-        }
-      },
-      "indexes": {
-        "slots_service_center_idx": {
-          "columns": [
-            {
-              "expression": "service_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "center_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "name": "slots_service_center_idx",
-          "isUnique": false,
-          "method": "btree",
-          "concurrently": false
-        }
-      },
-      "foreignKeys": {
-        "slot_service_id_service_id_fk": {
-          "name": "slot_service_id_service_id_fk",
-          "tableFrom": "slot",
+        "customer_address_state_id_state_id_fk": {
+          "name": "customer_address_state_id_state_id_fk",
+          "tableFrom": "customer_address",
+          "tableTo": "state",
           "columnsFrom": [
-            "service_id"
+            "state_id"
           ],
-          "tableTo": "service",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "slot_center_id_center_id_fk": {
-          "name": "slot_center_id_center_id_fk",
-          "tableFrom": "slot",
-          "columnsFrom": [
-            "center_id"
-          ],
-          "tableTo": "center",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.staff": {
-      "name": "staff",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "center_user_id": {
-          "name": "center_user_id",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "type": {
-          "name": "type",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "center_id": {
-          "name": "center_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "CURRENT_TIMESTAMP"
-        }
-      },
-      "indexes": {
-        "staff_center_idx": {
-          "columns": [
-            {
-              "expression": "center_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "name": "staff_center_idx",
-          "isUnique": false,
-          "method": "btree",
-          "concurrently": false
-        }
-      },
-      "foreignKeys": {
-        "staff_center_user_id_center_user_id_fk": {
-          "name": "staff_center_user_id_center_user_id_fk",
-          "tableFrom": "staff",
-          "columnsFrom": [
-            "center_user_id"
-          ],
-          "tableTo": "center_user",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "staff_center_id_center_id_fk": {
-          "name": "staff_center_id_center_id_fk",
-          "tableFrom": "staff",
-          "columnsFrom": [
-            "center_id"
-          ],
-          "tableTo": "center",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.state": {
-      "name": "state",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "alpha2_code": {
-          "name": "alpha2_code",
-          "type": "varchar(2)",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "state_alpha2_code_idx": {
-          "columns": [
-            {
-              "expression": "alpha2_code",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "name": "state_alpha2_code_idx",
-          "isUnique": true,
-          "method": "btree",
-          "concurrently": false
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.vet": {
-      "name": "vet",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "center_user_id": {
-          "name": "center_user_id",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "center_id": {
-          "name": "center_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "qualifications": {
-          "name": "qualifications",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "CURRENT_TIMESTAMP"
-        }
-      },
-      "indexes": {
-        "vet_center_idx": {
-          "columns": [
-            {
-              "expression": "center_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "name": "vet_center_idx",
-          "isUnique": false,
-          "method": "btree",
-          "concurrently": false
-        }
-      },
-      "foreignKeys": {
-        "vet_center_user_id_center_user_id_fk": {
-          "name": "vet_center_user_id_center_user_id_fk",
-          "tableFrom": "vet",
-          "columnsFrom": [
-            "center_user_id"
-          ],
-          "tableTo": "center_user",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
-        },
-        "vet_center_id_center_id_fk": {
-          "name": "vet_center_id_center_id_fk",
-          "tableFrom": "vet",
-          "columnsFrom": [
-            "center_id"
-          ],
-          "tableTo": "center",
-          "columnsTo": [
-            "id"
-          ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -1444,6 +1260,7 @@
       },
       "indexes": {
         "customer_app_accounts_userId_idx": {
+          "name": "customer_app_accounts_userId_idx",
           "columns": [
             {
               "expression": "userId",
@@ -1452,10 +1269,10 @@
               "nulls": "last"
             }
           ],
-          "name": "customer_app_accounts_userId_idx",
           "isUnique": false,
+          "concurrently": false,
           "method": "btree",
-          "concurrently": false
+          "with": {}
         }
       },
       "foreignKeys": {},
@@ -1502,6 +1319,7 @@
       },
       "indexes": {
         "customer_app_sessions_userId_idx": {
+          "name": "customer_app_sessions_userId_idx",
           "columns": [
             {
               "expression": "userId",
@@ -1510,10 +1328,10 @@
               "nulls": "last"
             }
           ],
-          "name": "customer_app_sessions_userId_idx",
           "isUnique": false,
+          "concurrently": false,
           "method": "btree",
-          "concurrently": false
+          "with": {}
         }
       },
       "foreignKeys": {},
@@ -1533,6 +1351,12 @@
         "name": {
           "name": "name",
           "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phone_number": {
+          "name": "phone_number",
+          "type": "varchar(15)",
           "primaryKey": false,
           "notNull": false
         },
@@ -1610,15 +1434,1076 @@
         }
       },
       "uniqueConstraints": {}
+    },
+    "public.pet_medical_record": {
+      "name": "pet_medical_record",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "pet_id": {
+          "name": "pet_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "center_id": {
+          "name": "center_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "customer_user_id": {
+          "name": "customer_user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "images": {
+          "name": "images",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::json"
+        },
+        "appointment_date": {
+          "name": "appointment_date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "pet_medical_records_pet_appointment_date_idx": {
+          "name": "pet_medical_records_pet_appointment_date_idx",
+          "columns": [
+            {
+              "expression": "pet_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "appointment_date",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "pet_medical_records_center_idx": {
+          "name": "pet_medical_records_center_idx",
+          "columns": [
+            {
+              "expression": "center_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "pet_medical_record_pet_id_pet_id_fk": {
+          "name": "pet_medical_record_pet_id_pet_id_fk",
+          "tableFrom": "pet_medical_record",
+          "tableTo": "pet",
+          "columnsFrom": [
+            "pet_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "pet_medical_record_center_id_center_id_fk": {
+          "name": "pet_medical_record_center_id_center_id_fk",
+          "tableFrom": "pet_medical_record",
+          "tableTo": "center",
+          "columnsFrom": [
+            "center_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "pet_medical_record_customer_user_id_customer_user_id_fk": {
+          "name": "pet_medical_record_customer_user_id_customer_user_id_fk",
+          "tableFrom": "pet_medical_record",
+          "tableTo": "customer_user",
+          "columnsFrom": [
+            "customer_user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.pet": {
+      "name": "pet",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "public_id": {
+          "name": "public_id",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "customer_user_id": {
+          "name": "customer_user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "pet_type_enum_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gender": {
+          "name": "gender",
+          "type": "gender_enum_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "images": {
+          "name": "images",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "breed": {
+          "name": "breed",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "date_of_birth": {
+          "name": "date_of_birth",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "pets_user_idx": {
+          "name": "pets_user_idx",
+          "columns": [
+            {
+              "expression": "customer_user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "pet_customer_user_id_customer_user_id_fk": {
+          "name": "pet_customer_user_id_customer_user_id_fk",
+          "tableFrom": "pet",
+          "tableTo": "customer_user",
+          "columnsFrom": [
+            "customer_user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "pet_public_id_unique": {
+          "name": "pet_public_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "public_id"
+          ]
+        }
+      }
+    },
+    "public.rating": {
+      "name": "rating",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "customer_user_id": {
+          "name": "customer_user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "center_id": {
+          "name": "center_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rating": {
+          "name": "rating",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "ratings_user_center_idx": {
+          "name": "ratings_user_center_idx",
+          "columns": [
+            {
+              "expression": "customer_user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "center_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "rating_customer_user_id_customer_user_id_fk": {
+          "name": "rating_customer_user_id_customer_user_id_fk",
+          "tableFrom": "rating",
+          "tableTo": "customer_user",
+          "columnsFrom": [
+            "customer_user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "rating_center_id_center_id_fk": {
+          "name": "rating_center_id_center_id_fk",
+          "tableFrom": "rating",
+          "tableTo": "center",
+          "columnsFrom": [
+            "center_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.review": {
+      "name": "review",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "parent_review_id": {
+          "name": "parent_review_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "customer_user_id": {
+          "name": "customer_user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "center_id": {
+          "name": "center_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "reviews_center_id_user_id_index": {
+          "name": "reviews_center_id_user_id_index",
+          "columns": [
+            {
+              "expression": "center_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "customer_user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "reviews_center_id_parent_review_id_index": {
+          "name": "reviews_center_id_parent_review_id_index",
+          "columns": [
+            {
+              "expression": "center_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "parent_review_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "review_customer_user_id_customer_user_id_fk": {
+          "name": "review_customer_user_id_customer_user_id_fk",
+          "tableFrom": "review",
+          "tableTo": "customer_user",
+          "columnsFrom": [
+            "customer_user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "review_center_id_center_id_fk": {
+          "name": "review_center_id_center_id_fk",
+          "tableFrom": "review",
+          "tableTo": "center",
+          "columnsFrom": [
+            "center_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.service": {
+      "name": "service",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "public_id": {
+          "name": "public_id",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "service_type": {
+          "name": "service_type",
+          "type": "center_service_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pet_types": {
+          "name": "pet_types",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "price": {
+          "name": "price",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "images": {
+          "name": "images",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "config": {
+          "name": "config",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'{\"operatingHours\":{\"sun\":null,\"mon\":null,\"tue\":null,\"wed\":null,\"thu\":null,\"fri\":null,\"sat\":null}}'::json"
+        },
+        "start_time": {
+          "name": "start_time",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'09:00'"
+        },
+        "duration": {
+          "name": "duration",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 60
+        },
+        "start_time_end": {
+          "name": "start_time_end",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'17:00'"
+        },
+        "center_id": {
+          "name": "center_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "services_center_idx": {
+          "name": "services_center_idx",
+          "columns": [
+            {
+              "expression": "center_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "service_center_id_center_id_fk": {
+          "name": "service_center_id_center_id_fk",
+          "tableFrom": "service",
+          "tableTo": "center",
+          "columnsFrom": [
+            "center_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "service_public_id_unique": {
+          "name": "service_public_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "public_id"
+          ]
+        }
+      }
+    },
+    "public.slot": {
+      "name": "slot",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "service_id": {
+          "name": "service_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "center_id": {
+          "name": "center_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "start_time": {
+          "name": "start_time",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "total_slots": {
+          "name": "total_slots",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "available_slots": {
+          "name": "available_slots",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "slots_service_center_idx": {
+          "name": "slots_service_center_idx",
+          "columns": [
+            {
+              "expression": "service_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "center_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "slot_service_id_service_id_fk": {
+          "name": "slot_service_id_service_id_fk",
+          "tableFrom": "slot",
+          "tableTo": "service",
+          "columnsFrom": [
+            "service_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "slot_center_id_center_id_fk": {
+          "name": "slot_center_id_center_id_fk",
+          "tableFrom": "slot",
+          "tableTo": "center",
+          "columnsFrom": [
+            "center_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "slots_service_id_date_starttime_idx": {
+          "name": "slots_service_id_date_starttime_idx",
+          "nullsNotDistinct": false,
+          "columns": [
+            "service_id",
+            "date",
+            "start_time"
+          ]
+        }
+      }
+    },
+    "public.staff": {
+      "name": "staff",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "center_user_id": {
+          "name": "center_user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "center_id": {
+          "name": "center_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "staff_center_idx": {
+          "name": "staff_center_idx",
+          "columns": [
+            {
+              "expression": "center_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "staff_center_user_id_center_user_id_fk": {
+          "name": "staff_center_user_id_center_user_id_fk",
+          "tableFrom": "staff",
+          "tableTo": "center_user",
+          "columnsFrom": [
+            "center_user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "staff_center_id_center_id_fk": {
+          "name": "staff_center_id_center_id_fk",
+          "tableFrom": "staff",
+          "tableTo": "center",
+          "columnsFrom": [
+            "center_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.state": {
+      "name": "state",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "alpha2_code": {
+          "name": "alpha2_code",
+          "type": "varchar(5)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "external_id": {
+          "name": "external_id",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "state_alpha2_code_idx": {
+          "name": "state_alpha2_code_idx",
+          "columns": [
+            {
+              "expression": "alpha2_code",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "state_external_id_unique": {
+          "name": "state_external_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "external_id"
+          ]
+        }
+      }
+    },
+    "public.vet": {
+      "name": "vet",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "center_user_id": {
+          "name": "center_user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "center_id": {
+          "name": "center_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "qualifications": {
+          "name": "qualifications",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "vet_center_idx": {
+          "name": "vet_center_idx",
+          "columns": [
+            {
+              "expression": "center_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "vet_center_user_id_center_user_id_fk": {
+          "name": "vet_center_user_id_center_user_id_fk",
+          "tableFrom": "vet",
+          "tableTo": "center_user",
+          "columnsFrom": [
+            "center_user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "vet_center_id_center_id_fk": {
+          "name": "vet_center_id_center_id_fk",
+          "tableFrom": "vet",
+          "tableTo": "center",
+          "columnsFrom": [
+            "center_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
     }
   },
-  "enums": {},
+  "enums": {
+    "public.booking_status_type": {
+      "name": "booking_status_type",
+      "schema": "public",
+      "values": [
+        "booked",
+        "confirmed",
+        "cancelled",
+        "completed",
+        "ongoing"
+      ]
+    },
+    "public.gender_enum_type": {
+      "name": "gender_enum_type",
+      "schema": "public",
+      "values": [
+        "male",
+        "female"
+      ]
+    },
+    "public.pet_type_enum_type": {
+      "name": "pet_type_enum_type",
+      "schema": "public",
+      "values": [
+        "cat",
+        "small_dog",
+        "big_dog"
+      ]
+    },
+    "public.center_service_type": {
+      "name": "center_service_type",
+      "schema": "public",
+      "values": [
+        "veterinary",
+        "grooming",
+        "boarding",
+        "home_grooming"
+      ]
+    }
+  },
   "schemas": {},
   "_meta": {
+    "columns": {},
     "schemas": {},
-    "tables": {},
-    "columns": {}
-  },
-  "id": "9a81dafb-d667-4f7e-8361-4b620e7f75d0",
-  "prevId": "2952e0aa-f391-4eeb-9a41-8368a576ac92"
+    "tables": {}
+  }
 }

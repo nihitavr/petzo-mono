@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import Image from "next/image";
 
-import { SERVICES_OFFERED } from "@petzo/constants";
+import { SERVICES_CONFIG } from "@petzo/constants";
 
 export default function ServiceFilter({
   selectedServices,
@@ -11,7 +11,7 @@ export default function ServiceFilter({
   setSelectedServices: (selectedServices: string[]) => void;
 }) {
   const allServiceTypes = useMemo(() => {
-    return Object.values(SERVICES_OFFERED).map((service) => service.publicId);
+    return Object.values(SERVICES_CONFIG).map((service) => service.publicId);
   }, []);
 
   const onClickServicesFilter = (servicePublicId: string) => {
@@ -29,7 +29,7 @@ export default function ServiceFilter({
       <div className="no-scrollbar mt-4 flex flex-wrap justify-center gap-2 overflow-x-auto">
         {allServiceTypes.map((serviceType) => {
           const isFilterSelected = selectedServices.includes(serviceType);
-          const serviceTypeInfo = SERVICES_OFFERED[serviceType];
+          const serviceTypeInfo = SERVICES_CONFIG[serviceType];
           if (!serviceTypeInfo) return null;
           return (
             <button

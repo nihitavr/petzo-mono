@@ -6,6 +6,20 @@ createJiti(fileURLToPath(import.meta.url))("./src/env");
 
 /** @type {import("next").NextConfig} */
 const config = {
+  images: {
+    remotePatterns:[
+      {
+        protocol: 'https',
+        hostname: '8gyw0ohnixyehwla.public.blob.vercel-storage.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        pathname: '**',
+      }
+    ],
+  },
   reactStrictMode: true,
 
   /** Enables hot reloading for local packages without a build step */

@@ -109,10 +109,10 @@ const slotRouterUtils = {
           serviceId: service.id,
           centerId: service.centerId,
           totalSlots:
-            service.center!.servicesConfig?.homeGrooming.all
+            service.center!.servicesConfig?.homeGrooming.default
               .noOfParallelServices ?? 1,
           availableSlots:
-            service.center!.servicesConfig?.homeGrooming.all
+            service.center!.servicesConfig?.homeGrooming.default
               .noOfParallelServices ?? 1,
           date: dateStr,
           startTime: time,

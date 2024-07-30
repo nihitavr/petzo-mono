@@ -11,9 +11,10 @@ const MESSAGES = [
 export default function Unauthorised({ comp }: { comp?: ReactNode }) {
   return (
     <div className="flex h-[80vh] w-full flex-col items-center justify-center gap-2">
-      <span className="text-center text-2xl font-medium text-primary">
-        Oops... 401: Unauthorised
-      </span>
+      <div className="text-center text-2xl font-medium text-primary">
+        <div className="text-3xl">Oops!</div>
+        <div>You are not authorised</div>
+      </div>
 
       <div className="px-3 text-center text-xl">
         {comp ? comp : MESSAGES[Math.floor(Math.random() * MESSAGES.length)]}

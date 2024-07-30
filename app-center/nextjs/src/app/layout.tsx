@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
-import { ThemeProvider, ThemeToggle } from "@petzo/ui/components/theme";
+import { ThemeProvider } from "@petzo/ui/components/theme";
 import { Toaster } from "@petzo/ui/components/toast";
 import { cn } from "@petzo/ui/lib/utils";
 
@@ -10,23 +10,40 @@ import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
 
+import { auth } from "@petzo/auth-center-app";
+
+import { api } from "~/trpc/server";
+import Header from "./_components/header";
+
+const metadataTitle =
+  "Pet Care Services, Home/In-store Grooming, Pet Boarding, Vet Consultation | Furclub";
+const metadataDescription =
+  "Easily book nearby pet services online. Furclub helps you find top local pet groomers, pet boarders, and vets for all your pet care needs. Manage appointments and health records in one user-friendly platform. Discover quality pet care in your neighborhood today.";
+const metadataLogoIcon = "/website/furclub-logo-icon.svg";
+const metadataSocialImage = "/website/furclub-social.png";
+
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.VERCEL_ENV === "production"
       ? "https://center.furclub.in"
       : "http://localhost:3000",
   ),
-  title: "Furclub Center App",
-  description: "Furclub is an online platform for booking Pet Home Grooming, Vet Consultation, Pet Grooming and Pet boarding services online from nearby centers.",
+  title: metadataTitle,
+  icons: [{ rel: "icon", url: metadataLogoIcon }],
+  description: metadataDescription,
   openGraph: {
-    title: "Furclub Center App",
-    description: "Furclub is an online platform for booking Pet Home Grooming, Vet Consultation, Pet Grooming and Pet boarding services online from nearby centers.",
+    title: metadataTitle,
+    images: metadataSocialImage,
+    description: metadataDescription,
     url: "https://center.furclub.in",
-    siteName: "Furclub Center App",
+    siteName: "Furclub",
   },
   twitter: {
+    title: metadataTitle,
+    images: metadataSocialImage,
+    description: metadataDescription,
     card: "summary_large_image",
-    site: "@furclubcenterapp",
+    site: "@furclubapp",
     creator: "@furclub",
   },
 };
@@ -38,7 +55,14 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout(props: { children: React.ReactNode }) {
+export default async function RootLayout(props: { children: React.ReactNode }) {
+  const session = await auth();
+
+  let centers;
+  if (session?.user) {
+    centers = await api.center.getCenters();
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -49,10 +73,10 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <TRPCReactProvider>{props.children}</TRPCReactProvider>
-          <div className="absolute bottom-4 right-4">
-            <ThemeToggle />
-          </div>
+          <TRPCReactProvider>
+            <main className="container-main">{props.children}</main>
+          </TRPCReactProvider>
+          <Header session={session} centers={centers} />
           <Toaster />
         </ThemeProvider>
       </body>

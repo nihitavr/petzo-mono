@@ -1,6 +1,8 @@
+"use client";
+
 import type { PutBlobResult } from "@vercel/blob";
 import type { ErrorOption } from "react-hook-form";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 import { upload } from "@vercel/blob/client";
 import { LuPlusCircle, LuX } from "react-icons/lu";
@@ -194,52 +196,92 @@ export function ImageInput<T>({
   maxFiles: number;
   handleUploadUrl: string;
 }) {
+  const [showMore, setShowMore] = useState<boolean>(true);
+  const [filteredValue, setFilteredValue] = useState(value);
+
+  useEffect(() => {
+    if (
+      value &&
+      value.length > 5 &&
+      showMore &&
+      !value.find((image) => !image.url)
+    ) {
+      setFilteredValue(value.slice(0, 5));
+    } else {
+      setFilteredValue(value);
+    }
+  }, [value, showMore]);
+
   return (
-    <div className="grid w-full grid-cols-3 gap-2 md:grid-cols-6">
-      {value && value?.length < maxFiles && (
-        <AspectRatio className="rounded-lg border" ratio={ratio}>
-          <ImageButton
-            name={name}
-            clearErrors={clearErrors}
-            setError={setFieldError}
-            onChange={onChange}
-            value={value}
-            maxFiles={maxFiles}
-            handleUploadUrl={handleUploadUrl}
-          />
-        </AspectRatio>
+    <div className="w-full">
+      <div className="grid w-full grid-cols-3 gap-2 md:grid-cols-6">
+        {value && value?.length < maxFiles && (
+          <AspectRatio className="rounded-lg border" ratio={ratio}>
+            <ImageButton
+              name={name}
+              clearErrors={clearErrors}
+              setError={setFieldError}
+              onChange={onChange}
+              value={value}
+              maxFiles={maxFiles}
+              handleUploadUrl={handleUploadUrl}
+            />
+          </AspectRatio>
+        )}
+        {filteredValue &&
+          filteredValue.length > 0 &&
+          filteredValue?.map((image, idx) => {
+            return (
+              <div key={idx} className={cn("col-span-1 w-full", className)}>
+                {image.url ? (
+                  <AspectRatio
+                    className="rounded-lg border bg-black"
+                    ratio={ratio}
+                  >
+                    <Image
+                      src={image.url}
+                      fill
+                      style={{ objectFit }}
+                      className="rounded-md"
+                      alt={`image ${idx + 1}`}
+                    />
+                    <LuX
+                      className="absolute right-1 top-1 size-5 cursor-pointer rounded-full bg-slate-300 p-0.5 text-black/80 opacity-70 hover:opacity-100"
+                      strokeWidth={2}
+                      onClick={() => {
+                        const newImages = filteredValue.filter(
+                          (_, index) => index !== idx,
+                        );
+                        onChange(newImages);
+                      }}
+                    />
+                  </AspectRatio>
+                ) : (
+                  <AspectRatio
+                    className="flex items-center justify-center rounded-md bg-slate-200"
+                    ratio={ratio}
+                  >
+                    <Loader show={true} />
+                  </AspectRatio>
+                )}
+              </div>
+            );
+          })}
+      </div>
+      {value && value.length > 5 && (
+        <div className="mt-4 flex h-10 w-full justify-center">
+          <button
+            type="button"
+            onClick={() => setShowMore((showMore) => !showMore)}
+            className="flex h-10 w-full cursor-pointer items-center justify-center rounded-lg border hover:bg-muted"
+          >
+            <span className="text-center text-2sm text-foreground/70">
+              {showMore ? "Show More" : "Show Less"} ({showMore ? "+" : "-"}
+              {value.length - 5})
+            </span>
+          </button>
+        </div>
       )}
-      {value &&
-        value.length > 0 &&
-        value?.map((image, idx) => (
-          <div key={idx} className={cn("col-span-1 w-full", className)}>
-            {image.url ? (
-              <AspectRatio className="rounded-lg border bg-black" ratio={ratio}>
-                <Image
-                  src={image.url}
-                  fill
-                  style={{ objectFit }}
-                  className="rounded-md"
-                  alt={`image ${idx + 1}`}
-                />
-                <LuX
-                  className="hover: absolute right-1 top-1 cursor-pointer rounded-full bg-slate-300 p-1 text-black opacity-70 hover:opacity-100"
-                  onClick={() => {
-                    const newImages = value.filter((_, index) => index !== idx);
-                    onChange(newImages);
-                  }}
-                />
-              </AspectRatio>
-            ) : (
-              <AspectRatio
-                className="flex items-center justify-center rounded-md bg-slate-200"
-                ratio={ratio}
-              >
-                <Loader show={true} />
-              </AspectRatio>
-            )}
-          </div>
-        ))}
     </div>
   );
 }

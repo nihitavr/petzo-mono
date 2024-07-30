@@ -1,6 +1,8 @@
 import type { CustomerAddresses } from "@petzo/db";
 
-export function getFullFormattedAddresses(addresses?: CustomerAddresses) {
+export function getFullFormattedAddresses(
+  addresses?: CustomerAddresses | null,
+) {
   let fullAddress = "";
 
   if (addresses?.houseNo) fullAddress += `${addresses.houseNo}, `;

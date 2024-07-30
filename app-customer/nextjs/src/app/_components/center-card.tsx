@@ -3,7 +3,7 @@ import Link from "next/link";
 import { GrLocation } from "react-icons/gr";
 
 import type { Center } from "@petzo/db";
-import { SERVICES_OFFERED } from "@petzo/constants";
+import { SERVICES_CONFIG } from "@petzo/constants";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
@@ -65,7 +65,7 @@ export default function CenterCard({ center }: { center: Center }) {
             <div className="mt-auto flex justify-between rounded-r-full bg-gradient-to-r from-background to-primary/40 px-2 py-1">
               <div className="flex flex-col ">
                 <span className="text-xs capitalize text-foreground/80 md:text-sm">
-                  {SERVICES_OFFERED[lowestPriceService.serviceType]?.name}
+                  {SERVICES_CONFIG[lowestPriceService.serviceType]?.name}
                 </span>
                 <span className="text-sm md:text-base">Starting at </span>
               </div>

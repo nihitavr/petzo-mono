@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+input[type="file"] {
+  display: none;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -10,8 +14,8 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 327 66% 69%;
-    --primary-foreground: 337 65.5% 17.1%;
+    --primary: 192 96% 36%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
@@ -24,17 +28,19 @@
     --input: 240 5.9% 90%;
     --ring: 240 5% 64.9%;
     --radius: 0.5rem;
+    --ring: 192 37% 59%;
+
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 13%;
+    --foreground: 0 0% 88%;
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 327 66% 69%;
-    --primary-foreground: 337 65.5% 17.1%;
+    --primary: 92 45% 47%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
@@ -43,8 +49,23 @@
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 85.7% 97.3%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
+    --border: 0 0% 23%;
+    --input: 0 0% 23%;
     --ring: 240 4.9% 83.9%;
   }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.container-main {
+  @apply px-3 py-[4rem] pb-[5.4rem] md:py-[4.8rem] lg:px-24 xl:px-48
 }

@@ -1,22 +1,15 @@
-import { SERVICES_OFFERED } from "@petzo/constants";
+import { SERVICES_CONFIG } from "@petzo/constants";
 
 export const DEFAULT_MAX_PET_PROFILE_IMAGES = 1;
 export const DEFAULT_MAX_MEDICAL_RECORD_IMAGES = 5;
 
 export const CENTERS_LIST_PAGE_LIMIT = 20;
 
-export const BOOKING_STATUS = {
-  booked: { name: "Booked", textColor: "text-yellow-600" },
-  confirmed: { name: "Confirmed", textColor: "text-blue-600" },
-  completed: { name: "Completed", textColor: "text-green-600" },
-  cancelled: { name: "Cancelled", textColor: "text-red-500" },
-};
-
 export const COLOR_MAP: Record<string, { textColor: string; bgColor: string }> =
   {
     a: { textColor: "text-[#000000]", bgColor: "bg-[#264653]" },
     b: { textColor: "text-[#000000]", bgColor: "bg-[#e9c46a]" },
-    c: { textColor: "text-[#ffffff]", bgColor: "bg-[#2a9d8f]" },
+    c: { textColor: "text-[#ffffff]", bgColor: "bg-[#1bbe23]" },
     d: { textColor: "text-[#ffffff]", bgColor: "bg-[#f4a261]" },
     e: { textColor: "text-[#000000]", bgColor: "bg-[#e76f51]" },
     f: { textColor: "text-[#ffffff]", bgColor: "bg-[#d62828]" },
@@ -64,7 +57,7 @@ export const DEFAULT_CENTER_FILTERS: {
     publicId: "serviceType",
     label: "Service Type",
     type: "multi-select",
-    items: Object.values(SERVICES_OFFERED).map((service) => ({
+    items: Object.values(SERVICES_CONFIG).map((service) => ({
       publicId: service.publicId,
       label: service.name,
       selected: false,

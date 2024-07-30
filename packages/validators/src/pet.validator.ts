@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const ProfileSchema = z.object({
-  publicId: z.string().length(15).optional(),
+  publicId: z.string().length(20).optional(),
   name: z.string().min(1, "Name is required.").max(255, "Name is too long."),
   type: z.enum(["cat", "small_dog", "big_dog"], {
     errorMap: () => {

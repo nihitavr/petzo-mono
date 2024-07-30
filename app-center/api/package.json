@@ -20,7 +20,9 @@
   },
   "dependencies": {
     "@petzo/auth-customer-app": "workspace:*",
+    "@petzo/constants": "workspace:*",
     "@petzo/db": "workspace:*",
+    "@petzo/utils": "workspace:*",
     "@petzo/validators": "workspace:*",
     "@trpc/server": "11.0.0-next.320",
     "superjson": "2.2.1",
