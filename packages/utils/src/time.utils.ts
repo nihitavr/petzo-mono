@@ -6,6 +6,7 @@ import {
   intervalToDuration,
   isAfter,
   isBefore,
+  isEqual,
   parse,
   parseISO,
   setHours,
@@ -57,6 +58,27 @@ export function isTimeBefore(time1: string, time2: string): boolean {
   return isBefore(date1, date2);
 }
 
+export function isTimeBeforeOrEqual(time1: string, time2: string): boolean {
+  const date1 = parse(time1, "HH:mm:ss", new Date());
+  const date2 = parse(time2, "HH:mm:ss", new Date());
+
+  return isBefore(date1, date2) || isEqual(date1, date2);
+}
+
+export function isTimeAfter(time1: string, time2: string): boolean {
+  const date1 = parse(time1, "HH:mm:ss", new Date());
+  const date2 = parse(time2, "HH:mm:ss", new Date());
+
+  return isAfter(date1, date2);
+}
+
+export function isTimeAfterOrEqual(time1: string, time2: string): boolean {
+  const date1 = parse(time1, "HH:mm:ss", new Date());
+  const date2 = parse(time2, "HH:mm:ss", new Date());
+
+  return isAfter(date1, date2) || isEqual(date1, date2);
+}
+
 export function convertTime24To12(time24?: string): string {
   if (!time24) {
     return "";
@@ -106,7 +128,7 @@ export function getNextNDaysString(
 
   istDate = addMinutes(istDate, offsetInMinutes);
 
-  for (let i = 1; i < n + 1; i++) {
+  for (let i = 0; i < n + 1; i++) {
     const date = addDays(istDate, i);
 
     const formattedDate = formatTz(date, "yyyy-MM-dd", {

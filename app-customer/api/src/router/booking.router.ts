@@ -10,7 +10,7 @@ import type {
   Slot,
 } from "@petzo/db";
 import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
-import { and, desc, eq, gte, inArray, schema, sql } from "@petzo/db";
+import { and, desc, eq, inArray, schema, sql } from "@petzo/db";
 import { getGoogleLocationLink, slackUtils } from "@petzo/utils";
 import { convertTime24To12, getSurroundingTime } from "@petzo/utils/time";
 import { bookingValidator } from "@petzo/validators";
@@ -18,6 +18,8 @@ import { bookingValidator } from "@petzo/validators";
 import type { CTX } from "../trpc";
 import { getFullFormattedAddresses } from "../../../../packages/utils/src/addresses.utils";
 import { protectedProcedure } from "../trpc";
+
+const MAX_RETRIES = 3;
 
 export const bookingRouter = {
   bookService: protectedProcedure
@@ -31,9 +33,7 @@ export const bookingRouter = {
       )?.[0];
 
       if (!bookingCenter) {
-        return bookingRouterUtils.throwBadRequestError(
-          "Booking center not found.",
-        );
+        throw bookingRouterUtils.badRequestError("Booking center not found.");
       }
 
       // TODO: Address is required for home service. For other services, it is optional.
@@ -43,9 +43,7 @@ export const bookingRouter = {
       );
 
       if (!bookingAddress) {
-        return bookingRouterUtils.throwBadRequestError(
-          "Booking address not found.",
-        );
+        throw bookingRouterUtils.badRequestError("Booking address not found.");
       }
 
       const bookingItems = await bookingRouterUtils.getBookingItems(
@@ -57,8 +55,8 @@ export const bookingRouter = {
       // Check if all the items are valid.
       input?.items?.forEach((_, index) => {
         if (!bookingItems[index]) {
-          bookingRouterUtils.throwBadRequestError(
-            "Some of the booking data is invalid",
+          throw bookingRouterUtils.badRequestError(
+            "Some of the booking items are invalid",
           );
         }
       });
@@ -68,94 +66,113 @@ export const bookingRouter = {
         input.centerId,
       );
 
-      const bookingId = await ctx.db.transaction(
-        async (tx) => {
-          const totalBookingAmount = bookingItems.reduce(
-            (acc, item) => acc + (item?.service.price ?? 0),
-            0,
-          );
+      let retries = 0;
+      let bookingId;
 
-          const booking = (
-            await tx
-              .insert(schema.bookings)
-              .values({
-                customerUserId: ctx.session.user.id,
-                addressId: input.addressId,
-                centerId: input.centerId,
-                amount: totalBookingAmount,
-                isPaid: false,
-              })
-              .returning()
-          )[0];
-
-          const bookingItemsInsertData = [];
-          for (const item of bookingItems) {
-            if (item!.slot.availableSlots <= 0) {
-              try {
-                tx.rollback();
-              } catch (error) {
-                throw new TRPCError({
-                  message: "Some of the booked slots are not available.",
-                  code: "BAD_REQUEST",
-                });
-              }
-            }
-
-            const surroundingTimes = getSurroundingTime(
-              item!.slot.startTime,
-              item!.service.duration - SLOT_DURATION_IN_MINS,
-            );
-
-            const serviceIdsToBlock = servicesByType[
-              item!.service.serviceType
-            ]!.map((service) => service.id);
-
-            const slotsToBlock = await tx
-              .select()
-              .from(schema.slots)
-              .where(
-                and(
-                  inArray(schema.slots.serviceId, serviceIdsToBlock),
-                  inArray(schema.slots.startTime, surroundingTimes),
-                  eq(schema.slots.date, item!.slot.date),
-                ),
-              )
-              .for("update");
-
-            const slotIdsToBlock = slotsToBlock.map((slot) => slot.id);
-
-            await tx
-              .update(schema.slots)
-              .set({
-                availableSlots: sql`${schema.slots.availableSlots} - 1`,
-              })
-              .where(
-                and(
-                  inArray(schema.slots.id, slotIdsToBlock),
-                  gte(schema.slots.availableSlots, 1),
-                ),
+      while (retries < MAX_RETRIES) {
+        try {
+          bookingId = await ctx.db.transaction(
+            async (tx) => {
+              const totalBookingAmount = bookingItems.reduce(
+                (acc, item) => acc + (item?.service.price ?? 0),
+                0,
               );
 
-            bookingItemsInsertData.push({
-              bookingId: booking!.id,
-              serviceId: item!.service.id,
-              slotId: item!.slot.id,
-              petId: item!.pet.id,
-              amount: item!.service.price,
-            });
+              const booking = (
+                await tx
+                  .insert(schema.bookings)
+                  .values({
+                    customerUserId: ctx.session.user.id,
+                    addressId: input.addressId,
+                    centerId: input.centerId,
+                    amount: totalBookingAmount,
+                    isPaid: false,
+                  })
+                  .returning()
+              )[0];
+
+              const bookingItemsInsertData = [];
+
+              // For each booking item, we will lock the slots for all the services of same type..
+              for (const item of bookingItems) {
+                // Get the surrounding times for the slot.
+                const surroundingTimes = getSurroundingTime(
+                  item!.slot.startTime,
+                  item!.service.duration - SLOT_DURATION_IN_MINS,
+                );
+
+                const serviceIdsToBlock = servicesByType[
+                  item!.service.serviceType
+                ]!.map((service) => service.id);
+
+                // For Update will lock the rows for update.
+                // So any other transaction trying to update the same rows will wait.
+                const affectedSlots = await tx
+                  .select()
+                  .from(schema.slots)
+                  .where(
+                    and(
+                      inArray(schema.slots.serviceId, serviceIdsToBlock),
+                      inArray(schema.slots.startTime, surroundingTimes),
+                      eq(schema.slots.date, item!.slot.date),
+                    ),
+                  )
+                  .for("update");
+
+                // Check if the slot that is being booked is available. As we have locked the rows,
+                // we don't need to worry about updates with other transactions.
+                affectedSlots?.forEach((slot) => {
+                  if (slot.id == item!.slot.id && slot.availableSlots <= 0) {
+                    throw bookingRouterUtils.badRequestError(
+                      "Some of the booked slots are not available.",
+                    );
+                  }
+                });
+
+                const affectedSlotsIds = affectedSlots.map((slot) => slot.id);
+
+                // For all the affected slots, we will decrease the availableSlots count.
+                await tx
+                  .update(schema.slots)
+                  .set({
+                    availableSlots: sql`${schema.slots.availableSlots} - 1`,
+                  })
+                  .where(and(inArray(schema.slots.id, affectedSlotsIds)));
+
+                bookingItemsInsertData.push({
+                  bookingId: booking!.id,
+                  serviceId: item!.service.id,
+                  slotId: item!.slot.id,
+                  petId: item!.pet.id,
+                  amount: item!.service.price,
+                });
+              }
+
+              // If all the slots are updated, then insert the booking items.
+              await tx
+                .insert(schema.bookingItems)
+                .values(bookingItemsInsertData)
+                .returning();
+
+              return booking?.id;
+            },
+            {
+              isolationLevel: "serializable",
+            },
+          );
+
+          // If the transaction is successful, then break the loop. Otherwise, it will keep retrying.
+          break;
+        } catch (error: unknown) {
+          if ((error as { code?: string })?.code === "40001") {
+            // PostgreSQL serialization failure
+            retries++;
+            continue;
           }
 
-          await tx
-            .insert(schema.bookingItems)
-            .values(bookingItemsInsertData)
-            .returning();
-
-          return booking?.id;
-        },
-        {
-          isolationLevel: "read uncommitted",
-        },
-      );
+          throw error;
+        }
+      }
 
       await bookingRouterUtils.sendBookingSlackMessage(
         ctx,
@@ -341,8 +358,8 @@ export const bookingRouterUtils = {
     return (await Promise.all(bookingItemsPromises)).map((item) => item[0]);
   },
 
-  throwBadRequestError(message: string) {
-    throw new TRPCError({
+  badRequestError(message: string) {
+    new TRPCError({
       message: message,
       code: "BAD_REQUEST",
     });

@@ -1,19 +1,16 @@
 import { Fragment } from "react";
-import Link from "next/link";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
 import { FiPhone } from "react-icons/fi";
 import { GrLocation } from "react-icons/gr";
 
-import { Button } from "@petzo/ui/components/button";
+import type { Booking, BookingItem } from "@petzo/db";
 import { Label } from "@petzo/ui/components/label";
 import { getGoogleLocationLink } from "@petzo/utils";
 import { getDateString } from "@petzo/utils/time";
 
-import type { Items } from "./booking-items";
 import Price from "~/app/_components/price";
 import { BOOKING_TYPE_TO_STATUS } from "~/lib/constants";
 import { api } from "~/trpc/server";
-import AcceptBookingButton from "./accept-booking-button";
 import BookingItems from "./booking-items";
 import { BookingTypeInfo } from "./booking-type-bar";
 
@@ -44,18 +41,18 @@ export default async function Bookings({
         {bookings?.length ? (
           <>
             {bookings.map((booking) => {
-              const bookingUrl = `/dashboard/${centerPublicId}/bookings/${booking.id}`;
+              // const bookingUrl = `/dashboard/${centerPublicId}/bookings/${booking.id}`;
 
               return (
                 <div
-                  className="flex w-full flex-col gap-2 overflow-hidden rounded-md border pb-2"
+                  className="flex w-full flex-col gap-2 overflow-hidden rounded-md border border-foreground/20 pb-2"
                   key={booking.id}
                 >
-                  <div className="flex items-center justify-between bg-foreground/10 p-2">
-                    <span className="text-sm font-medium text-foreground/70 md:text-base">
+                  <div className="flex items-center justify-between border-b border-foreground/20 bg-foreground/10 p-2">
+                    <span className="text-base font-medium text-foreground/80 md:text-lg">
                       Booking Id: {booking.id}
                     </span>
-                    <span className="text-sm font-semibold text-foreground/70 md:text-base">
+                    <span className="text-base font-medium text-foreground/80 md:text-lg">
                       Total: <Price className="inline" price={booking.amount} />
                     </span>
                   </div>
@@ -122,31 +119,15 @@ export default async function Bookings({
                   {/*  */}
                   <div className="p-2 pt-0">
                     <Label className="text-foreground/80">
-                      Services Booked
+                      Services Booked ({booking.items?.length})
                     </Label>
                     <div className="mt-1 rounded-xl border bg-foreground/[3%] px-2.5 py-1.5">
                       <BookingItems
-                        items={booking?.items as unknown as Items}
+                        bookingItems={booking?.items as BookingItem[]}
+                        centerPublicId={centerPublicId}
+                        booking={booking as Booking}
+                        selectedType={type}
                       />
-                    </div>
-                  </div>
-                  <div className="flex px-2 md:justify-end">
-                    <div className="flex w-full gap-2 md:w-1/2">
-                      {/* <Link href={bookingUrl} className="w-1/2 cursor-pointer">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="w-full space-x-0.5"
-                        >
-                          <span>View Details</span>
-                        </Button>
-                      </Link> */}
-                      <div className="w-full cursor-pointer">
-                        <AcceptBookingButton
-                          centerPublicId={centerPublicId}
-                          booking={booking}
-                        />
-                      </div>
                     </div>
                   </div>
                 </div>

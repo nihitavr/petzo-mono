@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import type { Booking, BookingItem } from "@petzo/db";
+import { BOOKING_STATUS_CONFIG } from "@petzo/constants";
 import { Button } from "@petzo/ui/components/button";
 import {
   Dialog,
@@ -11,13 +12,14 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@petzo/ui/components/dialog";
+import { Input } from "@petzo/ui/components/input";
 import Loader from "@petzo/ui/components/loader";
 import { toast } from "@petzo/ui/components/toast";
 
 import { api } from "~/trpc/react";
 import BookingItemInfo from "./booking-item-info";
 
-export default function AcceptBookingButton({
+export default function CancelBookingButton({
   centerPublicId,
   booking,
   bookingItem,
@@ -33,21 +35,23 @@ export default function AcceptBookingButton({
 
   const [isMounted, setIsMounted] = useState(false);
 
-  const acceptBooking = api.booking.acceptBookingItem.useMutation();
+  const cancelBooking = api.booking.cancelBookingItem.useMutation();
+
+  const [value, setValue] = useState("");
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  if (!isMounted || bookingItem.status !== "booked") {
+  if (!isMounted || bookingItem.status !== BOOKING_STATUS_CONFIG.booked.id) {
     return null;
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="w-full">
-        <Button size="md" variant="primary" className="w-full">
-          <span>Accept</span>
+        <Button size="md" variant="outline" className="h-9 w-full">
+          <span>Cancel</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-2 rounded-xl">
@@ -56,9 +60,14 @@ export default function AcceptBookingButton({
           <BookingItemInfo bookingItem={bookingItem} />
         </div>
         <span className="font-semibold">
-          Are you sure you want to <span className="text-primary">accept</span>{" "}
-          the booking?
+          Are you sure you want to{" "}
+          <span className="text-destructive">cancel</span> the booking?
         </span>
+        <Input
+          onChange={(event) => setValue(event.currentTarget.value)}
+          value={value}
+          placeholder="write cancel here"
+        />
         <div className="flex w-full items-center gap-2">
           <DialogClose
             disabled={confirmBookingLoading}
@@ -70,11 +79,12 @@ export default function AcceptBookingButton({
             </Button>
           </DialogClose>
           <Button
-            disabled={confirmBookingLoading}
+            disabled={confirmBookingLoading || value !== "cancel"}
+            variant="destructive"
             onClick={async () => {
               setConfirmBooking(true);
               try {
-                await acceptBooking.mutateAsync({
+                await cancelBooking.mutateAsync({
                   centerPublicId: centerPublicId,
                   bookingId: booking.id,
                   bookingItemId: bookingItem.id,
@@ -82,7 +92,7 @@ export default function AcceptBookingButton({
               } catch (e) {
                 // Pass
                 toast.error(
-                  "Failed to accept the booking. Please try again later.",
+                  "Failed to cancel the booking. Please try again later.",
                 );
               }
               setConfirmBooking(false);

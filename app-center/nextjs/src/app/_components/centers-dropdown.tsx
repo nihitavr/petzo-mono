@@ -36,10 +36,7 @@ export default function CentersDropdown({ centers }: { centers?: Center[] }) {
   }, [selectedCenterPublicId.value, centers]);
 
   useEffect(() => {
-    if (
-      !!params.centerPublicId &&
-      params.centerPublicId !== selectedCenterPublicId.value
-    ) {
+    if (params.centerPublicId) {
       selectedCenterPublicId.value = params.centerPublicId as string;
     } else if (centers?.length) {
       selectedCenterPublicId.value = centers[0]?.publicId;

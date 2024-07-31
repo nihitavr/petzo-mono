@@ -1,55 +1,68 @@
-import { format, parse } from "date-fns";
+import { Fragment } from "react";
 
-import type { BookingItem } from "@petzo/db";
-import { PET_TYPE_CONFIG, SERVICES_CONFIG } from "@petzo/constants";
+import type { Booking, BookingItem } from "@petzo/db";
 
-import Price from "~/app/_components/price";
+import AcceptBookingButton from "./accept-booking-button";
+import BookingItemInfo from "./booking-item-info";
+import CancelBookingButton from "./cancel-booking-button";
+import CompleteBookingButton from "./complete-booking-button";
+import StartBookingButton from "./start-booking-button";
 
-export type Items = BookingItem[];
-
-const BookingItems = ({ items }: { items: Items }) => {
+const BookingItems = ({
+  bookingItems: items,
+  centerPublicId,
+  booking,
+  selectedType,
+}: {
+  centerPublicId: string;
+  booking: Booking;
+  bookingItems: BookingItem[];
+  selectedType: string;
+}) => {
   return (
     <div className="flex flex-col gap-3">
       {items?.map((item, idx) => (
-        <div
-          key={`service-no-${idx}-${item.service?.id}-${item.slot?.id}-${item.pet?.id}`}
-          className={`flex animate-fade-in flex-col gap-0.5`}
-        >
-          <div className="flex items-center justify-between gap-2">
-            <span className="line-clamp-1 text-sm font-medium md:text-base">
-              {item.service?.name}
-            </span>
-            <Price
-              className="text-2sm font-semibold md:text-sm"
-              price={item.service!.price}
+        <Fragment key={item.id}>
+          {idx > 0 && <hr />}
+          <div className="flex w-full flex-col justify-between md:flex-row md:gap-4">
+            <BookingItemInfo
+              key={`service-no-${idx}-${item.service?.id}-${item.slot?.id}-${item.pet?.id}`}
+              bookingItem={item}
             />
-          </div>
-          <span className="text-sm text-foreground/70 md:text-base">
-            Start Time:{" "}
-            <span className="font-medium text-green-600 underline">
-              {format(
-                parse(
-                  item.slot!.startTime,
-                  "HH:mm:ss",
-                  new Date(item.slot!.date),
-                ),
-                "EEE do MMM, h:mm a",
+            <div className="mt-3 flex w-full cursor-pointer flex-col justify-center gap-2 md:mt-0 md:w-64 md:border-l md:pl-3">
+              {selectedType === "new" && (
+                <>
+                  <AcceptBookingButton
+                    centerPublicId={centerPublicId}
+                    booking={booking}
+                    bookingItem={item}
+                  />
+                  <CancelBookingButton
+                    centerPublicId={centerPublicId}
+                    booking={booking}
+                    bookingItem={item}
+                  />
+                </>
               )}
-            </span>
-          </span>
-          <span className="text-sm text-foreground/70 md:text-base">
-            Service Type:{" "}
-            <span className="font-medium">
-              {SERVICES_CONFIG[item.service!.serviceType]?.name}
-            </span>
-          </span>
-          <span className="text-sm text-foreground/70 md:text-base">
-            Booking for:{" "}
-            <span className="font-medium">
-              {item?.pet?.name} ({PET_TYPE_CONFIG[item.pet!.type!]})
-            </span>
-          </span>
-        </div>
+
+              {selectedType === "today" && (
+                <StartBookingButton
+                  centerPublicId={centerPublicId}
+                  booking={booking}
+                  bookingItem={item}
+                />
+              )}
+
+              {selectedType === "active" && (
+                <CompleteBookingButton
+                  centerPublicId={centerPublicId}
+                  booking={booking}
+                  bookingItem={item}
+                />
+              )}
+            </div>
+          </div>
+        </Fragment>
       ))}
     </div>
   );

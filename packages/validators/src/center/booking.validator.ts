@@ -5,7 +5,7 @@ import { BOOKING_STATUS } from "@petzo/constants";
 import { CenterAuthorization } from "./center.validator";
 
 export const GetBookings = CenterAuthorization.extend({
-  status: z.enum(BOOKING_STATUS).optional(),
+  status: z.array(z.enum(BOOKING_STATUS)).optional(),
   date: z
     .object({
       startDate: z.string(),
@@ -16,4 +16,9 @@ export const GetBookings = CenterAuthorization.extend({
 
 export const AcceptBooking = CenterAuthorization.extend({
   bookingId: z.number(),
+});
+
+export const AcceptBookingItem = CenterAuthorization.extend({
+  bookingId: z.number(),
+  bookingItemId: z.number(),
 });

@@ -4,6 +4,7 @@ import { LuPencil } from "react-icons/lu";
 import { auth } from "@petzo/auth-center-app";
 import { SERVICES_CONFIG } from "@petzo/constants";
 import { Center } from "@petzo/db";
+import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 import {
   Table,
@@ -47,10 +48,18 @@ export default async function Page({
     <div>
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold">Services</h1>
+        <Link href={`/dashboard/${centerPublicId}/services/create`}>
+          <Button
+            variant="primary"
+            className="flex items-center justify-center gap-1"
+          >
+            New Service
+          </Button>
+        </Link>
       </div>
 
       {services.length ? (
-        <Table className="mt-3">
+        <Table className="mt-4">
           <TableCaption>List of all services.</TableCaption>
           <TableHeader>
             <TableRow>

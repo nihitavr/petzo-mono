@@ -78,35 +78,37 @@ export function SideNavSheet({
             </div>
           </div>
         </SheetHeader>
-        <div className="mt-5 flex flex-col gap-2">
-          <NavItem
-            href={`${centerUrl}`}
-            text="Dashboard"
-            Icon={TbLayoutDashboardFilled}
-            isSelected={pathname === `${centerUrl}`}
-          />
-          <hr />
-          <NavItem
-            href={`${centerUrl}/bookings?type=new`}
-            text="Bookings"
-            Icon={FaCalendarAlt}
-            isSelected={pathname.startsWith(`${centerUrl}/bookings`)}
-          />
-          <hr />
-          <NavItem
-            href={`${centerUrl}/services`}
-            text="Services"
-            Icon={FaAddressCard}
-            isSelected={pathname.startsWith(`${centerUrl}/services`)}
-          />
-          <hr />
-          <NavItem
-            href={`${centerUrl}/edit`}
-            text="Manage Center"
-            Icon={FaUserCircle}
-            isSelected={pathname == `${centerUrl}/edit`}
-          />
-        </div>
+        {selectedCenterPublicId.value && (
+          <div className="mt-5 flex flex-col gap-2">
+            <NavItem
+              href={`${centerUrl}`}
+              text="Dashboard"
+              Icon={TbLayoutDashboardFilled}
+              isSelected={pathname === `${centerUrl}`}
+            />
+            <hr />
+            <NavItem
+              href={`${centerUrl}/bookings?type=new`}
+              text="Bookings"
+              Icon={FaCalendarAlt}
+              isSelected={pathname.startsWith(`${centerUrl}/bookings`)}
+            />
+            <hr />
+            <NavItem
+              href={`${centerUrl}/services`}
+              text="Services"
+              Icon={FaAddressCard}
+              isSelected={pathname.startsWith(`${centerUrl}/services`)}
+            />
+            <hr />
+            <NavItem
+              href={`${centerUrl}/edit`}
+              text="Manage Center"
+              Icon={FaUserCircle}
+              isSelected={pathname == `${centerUrl}/edit`}
+            />
+          </div>
+        )}
         <SheetFooter className="mt-8">
           {isSignedIn ? (
             <SheetClose asChild>

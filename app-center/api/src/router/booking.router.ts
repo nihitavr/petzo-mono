@@ -1,13 +1,15 @@
+import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
 import {
   and,
+  asc,
   between,
   countDistinct,
-  desc,
   eq,
   inArray,
   schema,
+  sql,
 } from "@petzo/db";
-import { getDateString } from "@petzo/utils/time";
+import { getDateString, getSurroundingTime } from "@petzo/utils/time";
 import { centerApp } from "@petzo/validators";
 
 import { protectedCenterProcedure } from "../trpc";
@@ -15,17 +17,21 @@ import { protectedCenterProcedure } from "../trpc";
 export const bookingRouter = {
   getDashboardBookingStats: protectedCenterProcedure.query(async ({ ctx }) => {
     const getBookingCount = async (
-      status: string,
+      statuses: string[],
       date?: { startDate: string; endDate: string },
     ) => {
       return await ctx.db
         .selectDistinct({
-          count: countDistinct(schema.bookings.id),
+          count: countDistinct(schema.bookingItems.id),
         })
         .from(schema.bookings)
         .innerJoin(
           schema.bookingItems,
-          eq(schema.bookingItems.bookingId, schema.bookings.id),
+          and(
+            eq(schema.bookingItems.bookingId, schema.bookings.id),
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
+            inArray(schema.bookingItems.status, statuses as any),
+          ),
         )
         .innerJoin(
           schema.slots,
@@ -36,25 +42,19 @@ export const bookingRouter = {
               : undefined,
           ),
         )
-        .where(
-          and(
-            eq(schema.bookings.centerId, ctx.center.id),
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
-            eq(schema.bookings.status, status as any),
-          ),
-        );
+        .where(eq(schema.bookings.centerId, ctx.center.id));
     };
 
     const today = getDateString();
 
     const statsArray = await Promise.all([
-      getBookingCount("confirmed", {
+      getBookingCount(["confirmed"], {
         startDate: today,
         endDate: today,
       }),
-      getBookingCount("booked"),
-      getBookingCount("ongoing"),
-      getBookingCount("completed", {
+      getBookingCount(["booked"]),
+      getBookingCount(["ongoing"]),
+      getBookingCount(["completed"], {
         startDate: today,
         endDate: today,
       }),
@@ -73,56 +73,47 @@ export const bookingRouter = {
   getBookingsForCenter: protectedCenterProcedure
     .input(centerApp.booking.GetBookings)
     .query(async ({ ctx, input }) => {
-      // Get bookings for center
-      let whereClause = and(
-        eq(schema.bookings.centerId, ctx.center.id),
-        input.status ? eq(schema.bookings.status, input.status) : undefined,
-      );
-
-      // If date is provided, get booking ids for booking_item with slot date between startDate and endDate
       // Then filter bookings with those ids
-      if (input.date) {
-        const bookingIdsObj = await ctx.db
-          .select({
-            id: schema.bookings.id,
-          })
-          .from(schema.bookings)
-          .innerJoin(
-            schema.bookingItems,
+      const bookingIdsObj = await ctx.db
+        .select({
+          id: schema.bookings.id,
+        })
+        .from(schema.bookings)
+        .innerJoin(
+          schema.bookingItems,
+          and(
             eq(schema.bookingItems.bookingId, schema.bookings.id),
-          )
-          .innerJoin(
-            schema.slots,
-            and(
-              eq(schema.slots.id, schema.bookingItems.slotId),
-              between(
-                schema.slots.date,
-                input.date.startDate,
-                input.date.endDate,
-              ),
-            ),
-          )
-          .where(
-            and(
-              eq(schema.bookings.centerId, ctx.center.id),
-              input.status
-                ? eq(schema.bookings.status, input.status)
-                : undefined,
-            ),
-          );
+            // Check if bookingItems status is equal to the input status
+            input.status
+              ? inArray(schema.bookingItems.status, input.status)
+              : undefined,
+          ),
+        )
+        .innerJoin(
+          schema.slots,
+          and(
+            eq(schema.slots.id, schema.bookingItems.slotId),
+            // If date is provided, get booking ids for booking_item with slot date between startDate and endDate
+            input.date
+              ? between(
+                  schema.slots.date,
+                  input.date.startDate,
+                  input.date.endDate,
+                )
+              : undefined,
+          ),
+        )
+        .where(and(eq(schema.bookings.centerId, ctx.center.id)));
 
-        const bookingIds = bookingIdsObj.map((booking) => booking.id);
+      const bookingIds = bookingIdsObj.map((booking) => booking.id);
 
-        if (bookingIds.length === 0) {
-          return [];
-        }
-
-        whereClause = inArray(schema.bookings.id, bookingIds);
+      if (bookingIds.length === 0) {
+        return [];
       }
 
       const bookings = ctx.db.query.bookings.findMany({
-        where: whereClause,
-        orderBy: desc(schema.bookings.createdAt),
+        where: inArray(schema.bookings.id, bookingIds),
+        orderBy: asc(schema.bookings.createdAt),
         with: {
           user: {
             columns: { name: true },
@@ -149,38 +140,141 @@ export const bookingRouter = {
       return bookings;
     }),
 
-  acceptBooking: protectedCenterProcedure
-    .input(centerApp.booking.AcceptBooking)
+  acceptBookingItem: protectedCenterProcedure
+    .input(centerApp.booking.AcceptBookingItem)
     .mutation(async ({ ctx, input }) => {
-      const booking = await ctx.db.transaction(async (trx) => {
-        const booking = await trx
-          .update(schema.bookings)
+      const bookingItem = await ctx.db
+        .update(schema.bookingItems)
+        .set({
+          status: "confirmed",
+        })
+        .where(
+          and(
+            eq(schema.bookingItems.bookingId, input.bookingId),
+            eq(schema.bookingItems.id, input.bookingItemId),
+          ),
+        )
+        .returning();
+
+      if (!bookingItem) {
+        throw new Error("Booking not found");
+      }
+    }),
+
+  startBookingItem: protectedCenterProcedure
+    .input(centerApp.booking.AcceptBookingItem)
+    .mutation(async ({ ctx, input }) => {
+      const bookingItem = await ctx.db
+        .update(schema.bookingItems)
+        .set({
+          status: "ongoing",
+        })
+        .where(
+          and(
+            eq(schema.bookingItems.bookingId, input.bookingId),
+            eq(schema.bookingItems.id, input.bookingItemId),
+          ),
+        )
+        .returning();
+
+      if (!bookingItem) {
+        throw new Error("Booking not found");
+      }
+    }),
+
+  completeBookingItem: protectedCenterProcedure
+    .input(centerApp.booking.AcceptBookingItem)
+    .mutation(async ({ ctx, input }) => {
+      const bookingItem = await ctx.db
+        .update(schema.bookingItems)
+        .set({
+          status: "completed",
+        })
+        .where(
+          and(
+            eq(schema.bookingItems.bookingId, input.bookingId),
+            eq(schema.bookingItems.id, input.bookingItemId),
+          ),
+        )
+        .returning();
+
+      if (!bookingItem) {
+        throw new Error("Booking not found");
+      }
+    }),
+  cancelBookingItem: protectedCenterProcedure
+    .input(centerApp.booking.AcceptBookingItem)
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.transaction(async (trx) => {
+        // Update booking item status to center_cancelled
+        const bookingItemId = (
+          await trx
+            .update(schema.bookingItems)
+            .set({
+              status: "center_cancelled",
+            })
+            .where(
+              and(
+                eq(schema.bookingItems.id, input.bookingItemId),
+                eq(schema.bookingItems.status, "booked"),
+                eq(schema.bookingItems.bookingId, input.bookingId),
+              ),
+            )
+            .returning({ id: schema.bookingItems.id })
+        )?.[0]?.id;
+
+        // If booking item is not found, throw error
+        if (!bookingItemId) {
+          throw new Error(
+            "There is some issue with the cancellation of the booking.",
+          );
+        }
+
+        // Get booking item details with slots and services. This is required to update the available slots.
+        const bookingItem = await trx.query.bookingItems.findFirst({
+          where: eq(schema.bookingItems.id, bookingItemId),
+          with: {
+            service: true,
+            slot: true,
+          },
+        });
+
+        // Get surrounding times for the slot
+        const surroundingTimes = getSurroundingTime(
+          bookingItem!.slot!.startTime,
+          bookingItem!.service.duration - SLOT_DURATION_IN_MINS,
+        );
+
+        // Get affected services with the same service type of the cancelled booking item.
+        // This is required to update the available slots of all the services with the same service type.
+        const affectedServices = await trx
+          .select({ id: schema.services.id })
+          .from(schema.services)
+          .where(
+            and(
+              eq(schema.services.centerId, bookingItem!.service.centerId),
+              eq(schema.services.serviceType, bookingItem!.service.serviceType),
+            ),
+          );
+
+        const affectedServiceIds = affectedServices.map(
+          (service) => service.id,
+        );
+
+        // Update available slots for the affected services and
+        // surrounding times for the cancelled booking item date.
+        await trx
+          .update(schema.slots)
           .set({
-            status: "confirmed",
+            availableSlots: sql`${schema.slots.availableSlots} + 1`,
           })
           .where(
             and(
-              eq(schema.bookings.id, input.bookingId),
-              eq(schema.bookings.centerId, ctx.center.id),
+              inArray(schema.slots.serviceId, affectedServiceIds),
+              inArray(schema.slots.startTime, surroundingTimes),
+              eq(schema.slots.date, bookingItem!.slot!.date),
             ),
-          )
-          .returning();
-
-        await trx
-          .update(schema.bookingItems)
-          .set({
-            status: "confirmed",
-          })
-          .where(and(eq(schema.bookingItems.bookingId, input.bookingId)))
-          .returning();
-
-        throw new Error("Booking not found");
-
-        return booking;
+          );
       });
-
-      if (!booking) {
-        throw new Error("Booking not found");
-      }
     }),
 };

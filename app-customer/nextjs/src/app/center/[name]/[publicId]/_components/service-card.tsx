@@ -87,7 +87,7 @@ export default function ServiceCard({
           </span>
         </div>
 
-        <span className="text-xs">
+        <span className="text-xs md:text-2sm">
           Duration:{" "}
           <span className="font-medium">
             {timeUtils.convertMinutesToHoursAndMinutes(service.duration)}

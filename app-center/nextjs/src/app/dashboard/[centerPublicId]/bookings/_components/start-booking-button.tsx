@@ -17,7 +17,7 @@ import { toast } from "@petzo/ui/components/toast";
 import { api } from "~/trpc/react";
 import BookingItemInfo from "./booking-item-info";
 
-export default function AcceptBookingButton({
+export default function StartBookingButton({
   centerPublicId,
   booking,
   bookingItem,
@@ -33,13 +33,13 @@ export default function AcceptBookingButton({
 
   const [isMounted, setIsMounted] = useState(false);
 
-  const acceptBooking = api.booking.acceptBookingItem.useMutation();
+  const startBooking = api.booking.startBookingItem.useMutation();
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  if (!isMounted || bookingItem.status !== "booked") {
+  if (!isMounted || bookingItem.status !== "confirmed") {
     return null;
   }
 
@@ -47,7 +47,7 @@ export default function AcceptBookingButton({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="w-full">
         <Button size="md" variant="primary" className="w-full">
-          <span>Accept</span>
+          <span>Start</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-2 rounded-xl">
@@ -56,7 +56,7 @@ export default function AcceptBookingButton({
           <BookingItemInfo bookingItem={bookingItem} />
         </div>
         <span className="font-semibold">
-          Are you sure you want to <span className="text-primary">accept</span>{" "}
+          Are you sure you want to <span className="text-primary">start</span>{" "}
           the booking?
         </span>
         <div className="flex w-full items-center gap-2">
@@ -74,7 +74,7 @@ export default function AcceptBookingButton({
             onClick={async () => {
               setConfirmBooking(true);
               try {
-                await acceptBooking.mutateAsync({
+                await startBooking.mutateAsync({
                   centerPublicId: centerPublicId,
                   bookingId: booking.id,
                   bookingItemId: bookingItem.id,
@@ -82,7 +82,7 @@ export default function AcceptBookingButton({
               } catch (e) {
                 // Pass
                 toast.error(
-                  "Failed to accept the booking. Please try again later.",
+                  "Failed to start the booking. Please try again later.",
                 );
               }
               setConfirmBooking(false);

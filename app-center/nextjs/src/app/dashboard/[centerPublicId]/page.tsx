@@ -4,6 +4,10 @@ import { FiCheckCircle } from "react-icons/fi";
 import { IoTodayOutline } from "react-icons/io5";
 import { VscServerProcess } from "react-icons/vsc";
 
+import { auth } from "@petzo/auth-center-app";
+import Unauthorised from "@petzo/ui/components/errors/unauthorised";
+
+import SignIn from "~/app/_components/sign-in";
 import { api } from "~/trpc/server";
 
 export default async function Page({
@@ -11,6 +15,22 @@ export default async function Page({
 }: {
   params: { centerPublicId: string };
 }) {
+  if (!(await auth())?.user) {
+    return (
+      <Unauthorised
+        comp={
+          <div className="flex flex-col items-center justify-center gap-2">
+            <span className="text-base">
+              Please <span className="font-semibold">Sign In</span> to view
+              center dashboard.
+            </span>
+            <SignIn />
+          </div>
+        }
+      />
+    );
+  }
+
   // You can await this here if you don't want to show Suspense fallback below
   const stats = await api.booking.getDashboardBookingStats({
     centerPublicId,
@@ -48,7 +68,7 @@ export default async function Page({
         />
         <DashboardItem
           title="Active"
-          link={`${centerUrl}/bookings?type=ongoing`}
+          link={`${centerUrl}/bookings?type=active`}
           Icon={VscServerProcess}
           iconColor="text-purple-800"
           iconBackgroundColor="bg-purple-600/15"

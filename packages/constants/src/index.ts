@@ -22,17 +22,26 @@ export const PET_GENDER_CONFIG = {
 export const BOOKING_STATUS = [
   "booked",
   "confirmed",
-  "center_cancelled",
-  "customer_cancelled",
-  "completed",
   "ongoing",
+  "completed",
+  "customer_cancelled",
+  "center_cancelled",
 ] as const;
 export const BOOKING_STATUS_CONFIG = {
-  booked: { name: "Booked", textColor: "#CA8A04" },
-  ongoing: { name: "Active", textColor: "#ac25eb" },
-  confirmed: { name: "Confirmed", textColor: "#2563EB" },
-  completed: { name: "Completed", textColor: "#00A34A" },
-  cancelled: { name: "Cancelled", textColor: "#EF4444" },
+  booked: { name: "Booked", textColor: "#CA8A04", id: "booked" },
+  confirmed: { name: "Confirmed", textColor: "#2563EB", id: "confirmed" },
+  ongoing: { name: "Active", textColor: "#ac25eb", id: "ongoing" },
+  completed: { name: "Completed", textColor: "#00A34A", id: "completed" },
+  customer_cancelled: {
+    name: "Cancelled",
+    textColor: "#EF4444",
+    id: "customer_cancelled",
+  },
+  center_cancelled: {
+    name: "Cancelled",
+    textColor: "#EF4444",
+    id: "center_cancelled",
+  },
 };
 
 // Pet Type

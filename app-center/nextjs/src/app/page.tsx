@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { auth } from "@petzo/auth-center-app";
+import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 
 import { api } from "~/trpc/server";
@@ -37,14 +38,26 @@ export default async function HomePage() {
         services.
       </h2>
 
-      <div className="flex w-full flex-col items-center gap-1 md:w-3/4">
-        <h2 className="text-2xl font-medium">Select Center</h2>
-        <div className="grid w-full grid-cols-1 flex-col items-center gap-1 md:grid-cols-2">
-          {centers.map((center) => (
-            <HomePageCenterButton key={center.publicId} center={center} />
-          ))}
+      {centers?.length > 0 ? (
+        <div className="flex w-full flex-col items-center gap-1 md:w-3/4">
+          <h2 className="text-2xl font-medium">Select Center</h2>
+          <div className="grid w-full grid-cols-1 flex-col items-center gap-1 md:grid-cols-2">
+            {centers.map((center) => (
+              <HomePageCenterButton key={center.publicId} center={center} />
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="mt-2 flex flex-col items-center gap-2">
+          <span className="text-xl">
+            Start by creating a{" "}
+            <span className="font-semibold">new center.</span>
+          </span>
+          <Link href={"/center/create"}>
+            <Button>Create New Center</Button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
