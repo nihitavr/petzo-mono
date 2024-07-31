@@ -8,6 +8,7 @@ import { LuCalendar } from "react-icons/lu";
 import { TbGenderFemale, TbGenderMale } from "react-icons/tb";
 
 import type { Pet } from "@petzo/db";
+import { PET_TYPE_CONFIG } from "@petzo/constants";
 import { Button } from "@petzo/ui/components/button";
 import { Calendar } from "@petzo/ui/components/calendar";
 import {
@@ -173,46 +174,31 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
                     value={field.value ?? ""}
                     className="flex flex-row items-center gap-3"
                   >
-                    <FormItem className="space-y-0">
-                      <FormControl>
-                        <RadioGroupItem value="cat" className="peer hidden" />
-                      </FormControl>
-                      <FormLabel
-                        className={`flex h-9 cursor-pointer items-center gap-1 rounded-md border p-2 font-normal ${field.value == "cat" ? "bg-primary/30" : "hover:bg-primary/10"}`}
-                      >
-                        {" "}
-                        <span className="whitespace-nowrap">Cat</span> <Cat />
-                      </FormLabel>{" "}
-                    </FormItem>
-                    <FormItem className="space-y-0">
-                      <FormControl>
-                        <RadioGroupItem
-                          value="small_dog"
-                          className="peer hidden"
-                        />
-                      </FormControl>
-                      <FormLabel
-                        className={`flex h-9 cursor-pointer items-center gap-1 rounded-md border p-2 font-normal ${field.value == "small_dog" ? "bg-primary/30" : "hover:bg-primary/10"}`}
-                      >
-                        <span className="whitespace-nowrap">Small Dog</span>{" "}
-                        <SmallDog />
-                      </FormLabel>
-                    </FormItem>
-                    <FormItem className="space-y-0">
-                      <FormControl>
-                        <RadioGroupItem
-                          value="big_dog"
-                          className="peer hidden"
-                        />
-                      </FormControl>
-                      <FormLabel
-                        className={`flex h-9 cursor-pointer items-center gap-1 rounded-md border p-2 font-normal ${field.value == "big_dog" ? "bg-primary/30" : "hover:bg-primary/10"}`}
-                      >
-                        {" "}
-                        <span className="whitespace-nowrap">Big Dog</span>{" "}
-                        <BigDog />
-                      </FormLabel>
-                    </FormItem>
+                    {Object.entries(PET_TYPE_CONFIG).map(([petType, label]) => {
+                      let Icon = Cat;
+                      if (petType == "small_dog") Icon = SmallDog;
+                      if (petType == "big_dog") Icon = BigDog;
+
+                      return (
+                        <FormItem key={petType} className="space-y-0">
+                          <FormControl>
+                            <RadioGroupItem
+                              value={petType}
+                              className="peer hidden"
+                            />
+                          </FormControl>
+                          <FormLabel
+                            className={`flex h-9 cursor-pointer items-center gap-1 rounded-md border p-2 font-normal ${field.value == petType ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                          >
+                            {" "}
+                            <span className="whitespace-nowrap">
+                              {label}
+                            </span>{" "}
+                            <Icon />
+                          </FormLabel>{" "}
+                        </FormItem>
+                      );
+                    })}
                   </RadioGroup>
                 </FormControl>
                 <FormMessage />

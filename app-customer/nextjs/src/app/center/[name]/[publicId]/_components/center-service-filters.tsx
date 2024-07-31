@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import { SERVICES_OFFERED } from "@petzo/constants";
+import { SERVICES_CONFIG } from "@petzo/constants";
 
 const CenterServiceFilters = ({
   serviceTypes,
@@ -28,7 +28,7 @@ const CenterServiceFilters = ({
       {serviceTypes.map((serviceType) => {
         const isFilterSelected = selectedServices.includes(serviceType);
 
-        const serviceTypeInfo = SERVICES_OFFERED[serviceType];
+        const serviceTypeInfo = SERVICES_CONFIG[serviceType];
         if (!serviceTypeInfo) return null;
 
         return (

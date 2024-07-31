@@ -64,6 +64,7 @@ export const viewport: Viewport = {
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const session = await auth();
   const cities = await api.geography.getActiveCities();
+
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body

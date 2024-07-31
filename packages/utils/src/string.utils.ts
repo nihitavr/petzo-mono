@@ -9,7 +9,7 @@ export function generatePublicIdByName(name?: string, replaceWith = "_") {
     .toLowerCase();
 }
 
-export function generateRandomPublicId(size = 15) {
+export function generateRandomPublicId(size = 20) {
   return nanoid(size);
 }
 

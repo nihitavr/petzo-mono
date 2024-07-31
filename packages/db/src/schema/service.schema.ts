@@ -11,6 +11,8 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
+import type { DAYS_TYPE } from "@petzo/constants";
+
 import { pgTable } from "./_table";
 import { centers } from "./center.schema";
 import { slots } from "./slot.schema";
@@ -28,18 +30,37 @@ export const services = pgTable(
   "service",
   {
     id: serial("id").primaryKey(),
-    publicId: varchar("public_id", { length: 15 }).notNull().unique(),
+    publicId: varchar("public_id", { length: 20 }).notNull().unique(),
     name: varchar("name", { length: 256 }).notNull(),
+    description: text("description"),
     serviceType: serviceTypeEnum("service_type").notNull(),
     petTypes: json("pet_types").$type<string[]>(),
     price: integer("price").notNull(),
     images: json("images").$type<{ url: string }[]>(),
+    config: json("config")
+      .$type<{
+        operatingHours: Record<
+          DAYS_TYPE,
+          { startTime: string; startTimeEnd: string } | null
+        >;
+      }>()
+      .default({
+        operatingHours: {
+          sun: null,
+          mon: null,
+          tue: null,
+          wed: null,
+          thu: null,
+          fri: null,
+          sat: null,
+        },
+      }),
+
     startTime: time("start_time").default("09:00").notNull(),
 
     // Duration in minutes
     duration: integer("duration").default(60).notNull(),
     startTimeEnd: time("start_time_end").default("17:00").notNull(),
-    description: text("description"),
     centerId: integer("center_id")
       .notNull()
       .references(() => centers.id),
@@ -49,6 +70,7 @@ export const services = pgTable(
     updatedAt: timestamp("updated_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
+    deletedAt: timestamp("deleted_at"),
   },
   (service) => ({
     centerIdx: index("services_center_idx").on(service.centerId),

@@ -9,7 +9,7 @@ export default function HeroSection({
   cityName: string;
 }) {
   return (
-    <div className="space-y-3 md:space-y-4">
+    <div className="space-y-6">
       <HeroSectionText city={cityName} />
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4 ">

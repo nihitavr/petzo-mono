@@ -7,7 +7,7 @@ import AddNewPetButton from "../_components/add-new-pet-button";
 import NoPetsFallback from "../_components/no-pets-fallback";
 import PetsList from "../_components/pets-list";
 
-export default async function PetsDasoboardPage() {
+export default async function PetsDashboardPage() {
   if (!(await auth())?.user) {
     return (
       <Unauthorised

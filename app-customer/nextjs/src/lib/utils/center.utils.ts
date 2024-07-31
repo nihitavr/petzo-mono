@@ -1,5 +1,5 @@
 import type { Center, Service } from "@petzo/db";
-import { SERVICES_OFFERED } from "@petzo/constants";
+import { SERVICES_CONFIG } from "@petzo/constants";
 
 import { DEFAULT_CENTER_FILTERS } from "../constants";
 
@@ -41,7 +41,7 @@ export function getServicesNamesStr(center: Center): string {
   const serviceTypesProvided: string[] = [];
 
   center.services?.forEach((service) => {
-    const serviceName = SERVICES_OFFERED[service.serviceType]?.name;
+    const serviceName = SERVICES_CONFIG[service.serviceType]?.name;
 
     if (serviceName && !serviceTypesProvided.includes(serviceName)) {
       serviceTypesProvided.push(serviceName);
@@ -55,7 +55,7 @@ export function getServicesNamesList(center: Center): string[] {
   const serviceTypesProvided: string[] = [];
 
   center.services?.forEach((service) => {
-    const serviceName = SERVICES_OFFERED[service.serviceType]!.name;
+    const serviceName = SERVICES_CONFIG[service.serviceType]!.name;
 
     if (!serviceTypesProvided.includes(serviceName)) {
       serviceTypesProvided.push(serviceName);
@@ -93,7 +93,7 @@ export function getServiceTypeToServicesByCenterMap(
 export function getMetadataTitle(center: Center) {
   const servicesProvided = getServicesTypesList(center);
   const servicesProvidedStr = servicesProvided
-    .map((serviceName) => `${SERVICES_OFFERED[serviceName]?.name}`)
+    .map((serviceName) => `${SERVICES_CONFIG[serviceName]?.name}`)
     .join(", ");
 
   return `${center.name} in ${center.centerAddress?.area?.name}, ${center.centerAddress?.city?.name} - ${servicesProvidedStr} services | Furclub`;
@@ -108,7 +108,7 @@ export function getMetadataDescription(center: Center) {
   const servicesProvidedStr = servicesProvided
     .map(
       (serviceName) =>
-        `${SERVICES_OFFERED[serviceName]?.name} (${servicesMap[serviceName]?.map((service) => service.name).join(", ")})`,
+        `${SERVICES_CONFIG[serviceName]?.name} (${servicesMap[serviceName]?.map((service) => service.name).join(", ")})`,
     )
     .join(", ");
 

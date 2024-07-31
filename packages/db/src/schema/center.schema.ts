@@ -19,7 +19,7 @@ export const centers = pgTable(
   "center",
   {
     id: serial("id").primaryKey(),
-    publicId: varchar("public_id", { length: 15 }).notNull().unique(),
+    publicId: varchar("public_id", { length: 20 }).notNull().unique(),
     name: varchar("name", { length: 256 }).notNull(),
     description: text("description"),
     images: json("images").$type<{ url: string }[]>(),
@@ -28,7 +28,8 @@ export const centers = pgTable(
     reviewCount: integer("review_count").default(0).notNull(),
     phoneNumber: varchar("phone_number", { length: 15 }),
     servicesConfig: json("service_config").$type<{
-      homeGrooming: { all: { noOfParallelServices: number } };
+      homeGrooming: { default: { noOfParallelServices: number } };
+      grooming: { default: { noOfParallelServices: number } };
     }>(),
     centerAddressId: integer("center_address_id")
       .notNull()
@@ -42,6 +43,7 @@ export const centers = pgTable(
     updatedAt: timestamp("updated_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
+    deletedAt: timestamp("deleted_at"),
   },
   (center) => ({
     centerPublicIdIdx: index("center_public_id_idx").on(center.publicId),

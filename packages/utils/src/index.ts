@@ -127,3 +127,4 @@ export * as timeUtils from "./time.utils";
 export * as stringUtils from "./string.utils";
 export * as mapUtils from "./addresses.utils";
 export * as slackUtils from "./slack.utils";
+export * as urlUtils from "./url.utils";

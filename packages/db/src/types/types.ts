@@ -36,7 +36,7 @@ export type State = InferResultType<"states">;
 
 // Center Type
 export type Center = InferResultType<"centers"> & {
-  centerAddress: CenterAddress;
+  centerAddress?: CenterAddress;
   services?: Service[];
 };
 
@@ -69,8 +69,17 @@ export type Review = InferResultType<"reviews"> & {
   user?: CustomerUser;
 };
 
-export type Booking = InferResultType<"bookings">;
-export type BookingItem = InferResultType<"bookingItems">;
+export type BookingItem = InferResultType<"bookingItems"> & {
+  pet?: Pet;
+  service?: Service;
+  slot?: Slot | null;
+};
+
+export type Booking = InferResultType<"bookings"> & {
+  items?: Partial<BookingItem>[] | null;
+  address?: Partial<CustomerAddresses> | null;
+  user?: Partial<CustomerUser> | null;
+};
 
 export interface Point {
   latitude: number;

@@ -19,6 +19,8 @@
     "dev:center-app": "pnpm -F center-app run dev",
     "build:customer-app": "pnpm -F customer-app run build",
     "start:customer-app": "pnpm -F customer-app run start",
+    "build:center-app": "pnpm -F center-app run build",
+    "start:center-app": "pnpm -F center-app run start",
     "format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
     "format:fix": "turbo format --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
     "lint": "turbo lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",

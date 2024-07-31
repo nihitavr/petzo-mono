@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 
 import type { Center, CustomerUser } from "@petzo/db";
-import { SERVICES_OFFERED } from "@petzo/constants";
+import { SERVICES_CONFIG } from "@petzo/constants";
 
 import {
   getServicesTypesList,
@@ -56,7 +56,7 @@ export default function CenterServiceList({
 
           const services = [...servicesForOthers, ...servicesForCats];
 
-          const serviceTypeInfo = SERVICES_OFFERED[serviceType];
+          const serviceTypeInfo = SERVICES_CONFIG[serviceType];
           if (!serviceTypeInfo || !services || services.length === 0)
             return null;
 

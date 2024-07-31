@@ -46,6 +46,11 @@ export const createTRPCContext = (opts: {
   };
 };
 
+export interface CTX {
+  session: Session | null;
+  db: typeof db;
+}
+
 export interface Meta {
   cacheTTLInSeconds?: number;
 }

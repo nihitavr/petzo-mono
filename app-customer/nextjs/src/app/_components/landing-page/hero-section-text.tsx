@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { TypewriterEffectSmooth } from "@petzo/ui/components/animation/typewriter-effect";
 
 export default function HeroSectionText({ city }: { city: string }) {
@@ -26,10 +28,9 @@ export default function HeroSectionText({ city }: { city: string }) {
   ];
 
   return (
-    <div className="pb-3">
-      <div className="flex w-full flex-col items-center md:hidden">
+    <div className="md:py-3">
+      <div className="flex w-full flex-col items-center text-2xl font-medium md:hidden">
         <TypewriterEffectSmooth
-          className="text-2xl"
           duration={0.8}
           startDelay={0}
           words={
@@ -39,7 +40,6 @@ export default function HeroSectionText({ city }: { city: string }) {
         />
 
         <TypewriterEffectSmooth
-          className="text-2xl"
           cursorClassName="w-0"
           duration={1}
           startDelay={0.8}
@@ -49,10 +49,10 @@ export default function HeroSectionText({ city }: { city: string }) {
         />
       </div>
 
-      <div className="hidden w-full items-center justify-center gap-1 md:flex">
+      <div className="hidden w-full items-center justify-center gap-1 font-medium md:flex">
         <TypewriterEffectSmooth
           duration={1.5}
-          className="py-0 text-3xl"
+          className="py-0 text-4xl"
           words={wordsDesktop}
           cursorClassName="w-0"
         />

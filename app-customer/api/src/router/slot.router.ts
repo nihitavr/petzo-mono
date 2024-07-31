@@ -14,62 +14,70 @@ export const slotRouter = {
     .query(async ({ ctx, input }) => {
       const next7Dates = getNextNDaysString(7);
 
-      const slots = await ctx.db.query.slots.findMany({
-        where: and(
-          eq(schema.slots.serviceId, input.serviceId),
-          inArray(schema.slots.date, next7Dates),
-        ),
-        orderBy: [asc(schema.slots.date), asc(schema.slots.startTime)],
-      });
+      // Fetch slots and service in parallel
+      const [slots, service] = await Promise.all([
+        ctx.db.query.slots.findMany({
+          where: and(
+            eq(schema.slots.serviceId, input.serviceId),
+            inArray(schema.slots.date, next7Dates),
+          ),
+          orderBy: [asc(schema.slots.date), asc(schema.slots.startTime)],
+        }),
+        ctx.db.query.services.findFirst({
+          where: eq(schema.services.id, input.serviceId),
+          with: { center: true },
+        }),
+      ]);
+
+      if (!service) throw new Error("Service not found");
 
       const dateToSlotsMap = new Map<string, typeof slots>();
 
-      slots.forEach((slot) => {
+      // Populate dateToSlotsMap and track missing dates in one loop
+      const missingDates = new Set(next7Dates);
+      for (const slot of slots) {
         const date = slot.date.toString();
         if (!dateToSlotsMap.has(date)) {
           dateToSlotsMap.set(date, []);
+          missingDates.delete(date);
         }
-        dateToSlotsMap.get(date)?.push(slot);
-      });
+        dateToSlotsMap.get(date)!.push(slot);
+      }
 
-      const noSlotAvailableDates = next7Dates.filter(
-        (date) => !dateToSlotsMap.has(date),
-      );
-
-      // This slot mechanism will only work for services that have 30 minutes slot duration
-      if (noSlotAvailableDates.length > 0) {
-        const service = await ctx.db.query.services.findFirst({
-          where: eq(schema.services.id, input.serviceId),
-          with: { center: true },
-        });
-
-        if (!service) throw new Error("Service not found");
-
+      // Create new slots if necessary
+      if (missingDates.size > 0) {
         const newSlotsList = slotRouterUtils.getSlotInsertData(
-          noSlotAvailableDates,
+          Array.from(missingDates),
           service,
         );
 
         if (newSlotsList?.length) {
-          const newSlots = await ctx.db
+          await ctx.db
             .insert(schema.slots)
             .values(newSlotsList)
-            // .onConflictDoNothing()
-            .returning();
+            .onConflictDoNothing();
 
-          newSlots.forEach((slot) => {
+          const newSlots = await ctx.db
+            .select()
+            .from(schema.slots)
+            .where(
+              and(
+                eq(schema.slots.serviceId, input.serviceId),
+                inArray(schema.slots.date, next7Dates),
+              ),
+            )
+            .orderBy(asc(schema.slots.date), asc(schema.slots.startTime));
+
+          for (const slot of newSlots) {
             const date = slot.date.toString();
-            if (!dateToSlotsMap.has(date)) {
-              dateToSlotsMap.set(date, []);
-            }
-            dateToSlotsMap.get(date)?.push(slot);
-          });
+            if (!dateToSlotsMap.has(date)) dateToSlotsMap.set(date, []);
+            dateToSlotsMap.get(date)!.push(slot);
+          }
         }
       }
 
       return dateToSlotsMap;
     }),
-
   getSlotsByIds: publicProcedure
     .input(z.object({ slotIds: z.array(z.number()) }))
     .query(async ({ ctx, input }) => {
@@ -109,10 +117,10 @@ const slotRouterUtils = {
           serviceId: service.id,
           centerId: service.centerId,
           totalSlots:
-            service.center!.servicesConfig?.homeGrooming.all
+            service.center!.servicesConfig?.homeGrooming.default
               .noOfParallelServices ?? 1,
           availableSlots:
-            service.center!.servicesConfig?.homeGrooming.all
+            service.center!.servicesConfig?.homeGrooming.default
               .noOfParallelServices ?? 1,
           date: dateStr,
           startTime: time,

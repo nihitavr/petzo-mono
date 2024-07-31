@@ -31,7 +31,7 @@ export const petMedicalRecordRouter = {
   getPetMedicalRecords: protectedProcedure
     .input(
       z.object({
-        petPublicId: z.string().length(15),
+        petPublicId: z.string().length(20),
         pagination: z.object({
           limit: z.number().int().max(20).positive(),
           page: z.number().int().nonnegative(),
