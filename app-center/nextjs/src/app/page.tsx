@@ -41,7 +41,9 @@ export default async function HomePage() {
       {centers?.length > 0 ? (
         <div className="flex w-full flex-col items-center gap-1 md:w-3/4">
           <h2 className="text-2xl font-medium">Select Center</h2>
-          <div className="grid w-full grid-cols-1 flex-col items-center gap-1 md:grid-cols-2">
+          <div
+            className={`grid w-full grid-cols-1 flex-col items-center gap-1 ${centers?.length == 1 ? "md:grid-cols-1" : "md:grid-cols-2"}`}
+          >
             {centers.map((center) => (
               <HomePageCenterButton key={center.publicId} center={center} />
             ))}

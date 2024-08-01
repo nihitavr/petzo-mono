@@ -55,7 +55,7 @@ export default function CancelBookingButton({
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-2 rounded-xl">
-        <h3 className="font-semibold">Booking Item Id: {bookingItem.id}</h3>
+        <h3 className="font-semibold">Booking Details</h3>
         <div className="rounded-lg border p-2">
           <BookingItemInfo bookingItem={bookingItem} />
         </div>
