@@ -125,7 +125,12 @@ export function SideNavSheet({
           )}
         </SheetFooter>
 
-        <div className="absolute bottom-8 right-5">
+        <div className="absolute bottom-8 right-5 flex flex-col items-end gap-4">
+          <SheetClose asChild>
+            <Link href={"/for-partners"} className="font-semibold md:hidden">
+              For Partners
+            </Link>
+          </SheetClose>
           <ThemeToggle />
         </div>
       </SheetContent>

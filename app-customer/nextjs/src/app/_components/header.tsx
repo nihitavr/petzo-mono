@@ -107,6 +107,12 @@ export default function Header({
         </div>
 
         <div className="flex items-center justify-end gap-2">
+          <Link
+            href={"/for-partners"}
+            className="mr-2 hidden font-medium hover:text-foreground/80 md:inline"
+          >
+            For Partners
+          </Link>
           {/* <CartSideSheet /> */}
           <CityDropdown cities={cities} />
           <SideNavSheet
