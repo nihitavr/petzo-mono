@@ -116,7 +116,7 @@ export const bookingRouter = {
         orderBy: asc(schema.bookings.createdAt),
         with: {
           user: {
-            columns: { name: true },
+            columns: { name: true, phoneNumber: true },
           },
           address: true,
           items: {

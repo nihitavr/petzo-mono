@@ -1,9 +1,5 @@
 import { Suspense } from "react";
 
-import { auth } from "@petzo/auth-center-app";
-import Unauthorised from "@petzo/ui/components/errors/unauthorised";
-
-import SignIn from "~/app/_components/sign-in";
 import BookingTypeBar from "./_components/booking-type-bar";
 import Bookings from "./_components/bookings";
 import Loading from "./loading";
@@ -15,22 +11,6 @@ export default async function Page({
   params: { centerPublicId: string };
   searchParams: { type: string };
 }) {
-  if (!(await auth())?.user) {
-    return (
-      <Unauthorised
-        comp={
-          <div className="flex flex-col items-center justify-center gap-2">
-            <span className="text-base">
-              Please <span className="font-semibold">Sign In</span> to view
-              center bookings.
-            </span>
-            <SignIn />
-          </div>
-        }
-      />
-    );
-  }
-
   return (
     <div className="flex flex-col gap-4">
       {/* Your Bookings */}
