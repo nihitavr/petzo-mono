@@ -21,7 +21,7 @@ export default async function Page() {
             Your one-stop to showcase services, attract clients, and streamline
             bookings - all while focusing on what you do best: caring for pets.
           </span>
-          <Button className="w-1/3">Join Us</Button>
+          <Button className="w-1/3">Register your center</Button>
         </div>
 
         <div className="absolute right-0 top-0 col-span-1 h-96 w-full px-2 sm:w-1/2 md:inline md:px-0">
