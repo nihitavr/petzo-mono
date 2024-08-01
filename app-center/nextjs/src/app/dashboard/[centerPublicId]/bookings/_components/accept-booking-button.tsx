@@ -46,8 +46,9 @@ export default function AcceptBookingButton({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="w-full">
-        <Button size="md" variant="primary" className="w-full">
+        <Button size="md" variant="primary" className="w-full space-x-1">
           <span>Accept</span>
+          <Loader className="size-5" show={confirmBookingLoading} />
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-2 rounded-xl">
@@ -85,9 +86,9 @@ export default function AcceptBookingButton({
                   "Failed to accept the booking. Please try again later.",
                 );
               }
-              setConfirmBooking(false);
-              setOpen(false);
               router.refresh();
+              setOpen(false);
+              setConfirmBooking(false);
             }}
             className="flex w-1/2 items-center gap-1"
           >

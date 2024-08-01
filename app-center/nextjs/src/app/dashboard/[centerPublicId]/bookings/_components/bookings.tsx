@@ -1,14 +1,16 @@
-import { Fragment } from "react";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
 import { FiPhone } from "react-icons/fi";
 import { GrLocation } from "react-icons/gr";
 
 import type { Booking, BookingItem } from "@petzo/db";
+import { auth } from "@petzo/auth-center-app";
+import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 import { Label } from "@petzo/ui/components/label";
 import { getGoogleLocationLink } from "@petzo/utils";
 import { getDateString } from "@petzo/utils/time";
 
 import Price from "~/app/_components/price";
+import SignIn from "~/app/_components/sign-in";
 import { BOOKING_TYPE_TO_STATUS } from "~/lib/constants";
 import { api } from "~/trpc/server";
 import BookingItems from "./booking-items";
@@ -21,6 +23,22 @@ export default async function Bookings({
   centerPublicId: string;
   type: string;
 }) {
+  if (!(await auth())?.user) {
+    return (
+      <Unauthorised
+        comp={
+          <div className="flex flex-col items-center justify-center gap-2">
+            <span className="text-base">
+              Please <span className="font-semibold">Sign In</span> to view
+              center bookings.
+            </span>
+            <SignIn />
+          </div>
+        }
+      />
+    );
+  }
+
   let date;
   if (type === "today") {
     const today = getDateString();
@@ -62,21 +80,7 @@ export default async function Bookings({
                       Customer Details
                     </Label>
                     <div className="mt-1 flex flex-col gap-1.5 rounded-lg border bg-foreground/[3%] p-2 text-sm md:text-base">
-                      {/* Booking Status */}
-                      {/* <div>
-                          <span>Status: </span>
-                          <span
-                            style={{
-                              color:
-                                BOOKING_STATUS_CONFIG[booking.status].textColor,
-                            }}
-                            className={`font-bold capitalize `}
-                          >
-                            {BOOKING_STATUS_CONFIG[booking.status].name}
-                          </span>
-                        </div> */}
-
-                      {/* Booking Customer Name */}
+                      {/* Customer Name */}
                       <div>
                         <span>Customer Name:</span>{" "}
                         <span className="font-semibold">
@@ -88,7 +92,7 @@ export default async function Bookings({
                       <div className="flex items-center gap-1">
                         <span>Phone Number:</span>{" "}
                         <a
-                          href={`tel:${booking.address?.phoneNumber}`}
+                          href={`tel:${booking.address?.phoneNumber ?? booking.user.phoneNumber}`}
                           className="inline-flex items-center gap-1 font-medium text-blue-700 dark:text-blue-500"
                         >
                           <FiPhone />
