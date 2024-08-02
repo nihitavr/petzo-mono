@@ -103,7 +103,7 @@ export default function Header({
           </Link>
         </div>
         <div className="hidden items-center justify-center md:flex">
-          {/* <GlobalSearchInput /> */}
+          <GlobalSearchInput />
         </div>
 
         <div className="flex items-center justify-end gap-2">
@@ -125,11 +125,12 @@ export default function Header({
         </div>
       </nav>
 
-      {/* {SEARCH_PATHNAMES.includes(pathname) && (
+      {(pathname.startsWith(`/${filtersStore.city.value}/explore`) ||
+        pathname.startsWith(`/${filtersStore.city.value}/centers`)) && (
         <div className="px-3 py-2 md:hidden md:pt-2">
           <GlobalSearchInput />
         </div>
-      )} */}
+      )}
     </header>
   );
 }
