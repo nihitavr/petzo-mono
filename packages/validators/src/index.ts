@@ -3,6 +3,7 @@ import { zodResolver as zr } from "@hookform/resolvers/zod";
 import * as centerAppBookingValidator from "./center/booking.validator";
 import * as centerAppCenterValidator from "./center/center.validator";
 import * as centerAppServiceValidator from "./center/service.validator";
+import * as earlyAccessUsersValidator from "./early-access-users.validator";
 
 export const zodResolver = zr;
 
@@ -15,9 +16,14 @@ export * as mapValidator from "./map.validator";
 export * as geographyValidator from "./geography.validator";
 export * as customerAddressValidator from "./customer-address.validator";
 export * as bookingValidator from "./booking.validator";
+export * as Validator from "./booking.validator";
 
 export const centerApp = {
   center: centerAppCenterValidator,
   booking: centerAppBookingValidator,
   service: centerAppServiceValidator,
+};
+
+export const customerApp = {
+  earlyAccessUsers: earlyAccessUsersValidator,
 };
