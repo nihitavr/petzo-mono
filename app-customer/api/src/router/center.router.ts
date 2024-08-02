@@ -11,12 +11,6 @@ const NEARBY_DISTANCE_IN_METERS = 5000;
 
 const DEFAULT_PAGE_SIZE = 10;
 
-// Define a static map for cities to their ids(database ids).
-const CitiyMap: Record<string, number> = {
-  bengaluru: 1,
-  mumbai: 2,
-};
-
 export const centerRouter = {
   findByPublicId: publicCachedProcedure
     .meta({ cacheTTLInSeconds: 60 })
@@ -51,10 +45,6 @@ export const centerRouter = {
         ? sql.join(searchConditions, sql` AND `)
         : undefined;
 
-      // Get city id from the input using the static cityMap.
-      const cityId = CitiyMap[input.city];
-      if (!cityId) return [];
-
       // Get area ids from the input using the static areaMap.
       // const areaIds = input.area?.map((a) => AreaMap[a]! || -1);
       const areaIds = await geographyRouterUtils.getAreaIdsByPublicIds(
@@ -83,8 +73,11 @@ export const centerRouter = {
               eq(schema.centers.centerAddressId, schema.centerAddresses.id),
 
               // If city is provided, filter by it.
-              CitiyMap[input.city]
-                ? eq(schema.centerAddresses.cityId, CitiyMap[input.city]!)
+              input.city
+                ? eq(
+                    schema.centerAddresses.cityId,
+                    sql`(SELECT ${schema.cities.id} FROM ${schema.cities} WHERE ${schema.cities.publicId} = ${input.city})`,
+                  )
                 : undefined,
 
               // If areas are provided, filter by it.
@@ -135,9 +128,7 @@ export const centerRouter = {
           )
       ).map((c) => c.id);
 
-      if (!centerIds.length) {
-        return [];
-      }
+      if (!centerIds.length) return [];
 
       // Then fetch centers using the filtered center ids.
       const centers = await ctx.db.query.centers.findMany({

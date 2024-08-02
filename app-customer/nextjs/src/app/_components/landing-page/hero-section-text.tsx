@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import { TypewriterEffectSmooth } from "@petzo/ui/components/animation/typewriter-effect";
 
 export default function HeroSectionText({ city }: { city: string }) {

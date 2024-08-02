@@ -147,37 +147,39 @@ export function CenterFilters({
                       <FormLabel className="font-semibold text-foreground">
                         {field.value.label}
                       </FormLabel>
-                      {field.value?.items.map((serviceTypeItem, itemIdx) => (
-                        <FormField
-                          key={`filters.${filterTypeIdx}.items.${itemIdx}`}
-                          control={form.control}
-                          name={`filters.${filterTypeIdx}.items.${itemIdx}`}
-                          render={({ field }) => {
-                            return (
-                              <FormItem
-                                key={`${filterTypeIdx}.items.${itemIdx}.item`}
-                                className="flex flex-row items-center space-x-3 space-y-0 pb-1"
-                              >
-                                <FormControl>
-                                  <Checkbox
-                                    className=""
-                                    checked={field.value.selected}
-                                    onCheckedChange={(checked) => {
-                                      field.onChange({
-                                        ...field.value,
-                                        selected: checked,
-                                      });
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormLabel className="w-full cursor-pointer text-base font-normal">
-                                  {field.value.label}
-                                </FormLabel>
-                              </FormItem>
-                            );
-                          }}
-                        />
-                      ))}
+                      <div className="max-h-72 space-y-2 overflow-auto">
+                        {field.value?.items.map((serviceTypeItem, itemIdx) => (
+                          <FormField
+                            key={`filters.${filterTypeIdx}.items.${itemIdx}`}
+                            control={form.control}
+                            name={`filters.${filterTypeIdx}.items.${itemIdx}`}
+                            render={({ field }) => {
+                              return (
+                                <FormItem
+                                  key={`${filterTypeIdx}.items.${itemIdx}.item`}
+                                  className="flex flex-row items-center space-x-3 space-y-0 pb-1"
+                                >
+                                  <FormControl>
+                                    <Checkbox
+                                      className=""
+                                      checked={field.value.selected}
+                                      onCheckedChange={(checked) => {
+                                        field.onChange({
+                                          ...field.value,
+                                          selected: checked,
+                                        });
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormLabel className="w-full cursor-pointer text-base font-normal">
+                                    {field.value.label}
+                                  </FormLabel>
+                                </FormItem>
+                              );
+                            }}
+                          />
+                        ))}
+                      </div>
                       <FormMessage />
                     </FormItem>
                   );

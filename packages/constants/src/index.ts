@@ -65,7 +65,7 @@ export const SERVICES_CONFIG: Record<
     travelTimeInMins: 30,
   },
   grooming: {
-    name: "Pet Grooming",
+    name: "In-store Grooming",
     publicId: "grooming",
     icon: "/icons/pet-grooming-icon.svg",
   },
