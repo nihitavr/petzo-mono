@@ -19,18 +19,18 @@ export default function WhatYouGet() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setSelectedTabIdx((prev) => (prev === 3 ? 1 : prev + 1));
-    }, 3000);
+    }, 5000);
 
     return () => clearTimeout(timeout);
   }, [selectedTabIdx]);
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col ">
       <h1 className="text-2xl font-medium md:text-3xl lg:text-4xl">
         Here&apos;s what you get on sign-up
       </h1>
-      <div className="grid grid-cols-7 gap-4">
-        <div className="col-span-7 flex flex-col gap-7 md:col-span-3">
+      <div className="grid grid-cols-7 gap-4 pt-4">
+        <div className="col-span-7 flex flex-col gap-5 pt-4 md:col-span-3 md:gap-10 md:pt-8">
           <InfoTab
             tabIdx={1}
             selectedTabIdx={selectedTabIdx}
