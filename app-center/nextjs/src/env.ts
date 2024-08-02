@@ -16,6 +16,7 @@ export const env = createEnv({
    */
   server: {
     DATABASE_URL: z.string(),
+    CUSTOMER_APP_BASE_URL: z.string().min(1),
   },
 
   /**

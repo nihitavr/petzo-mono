@@ -9,7 +9,6 @@ export const env = createEnv({
       process.env.NODE_ENV === "production"
         ? z.string().min(1)
         : z.string().min(1).optional(),
-    CUSTOMER_APP_BASE_URL: z.string().min(1),
   },
   client: {},
   experimental__runtimeEnv: {},

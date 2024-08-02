@@ -2,6 +2,7 @@ import { authRouter } from "./router/auth.router";
 import { bookingRouter } from "./router/booking.router";
 import { centerRouter } from "./router/center.router";
 import { customerAddressRouter } from "./router/customer-address.router";
+import { earlyAccessUsersRouter } from "./router/early-access-users.router";
 import { geographyRouter } from "./router/geography.router";
 import { mapRouter } from "./router/map.router";
 import { petMedicalRecordRouter } from "./router/pet-medical-record.router";
@@ -27,6 +28,7 @@ export const appRouter = createTRPCRouter({
   customerAddress: customerAddressRouter,
   slot: slotRouter,
   booking: bookingRouter,
+  earlyAccessUsers: earlyAccessUsersRouter,
 });
 
 // export type definition of API

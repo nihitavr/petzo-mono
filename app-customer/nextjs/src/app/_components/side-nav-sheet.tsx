@@ -13,6 +13,7 @@ import {
 import { HiDocumentText } from "react-icons/hi";
 
 import { Avatar, AvatarFallback } from "@petzo/ui/components/avatar";
+import PartnerIcon from "@petzo/ui/components/icons/partner";
 import {
   Sheet,
   SheetClose,
@@ -127,8 +128,14 @@ export function SideNavSheet({
 
         <div className="absolute bottom-8 right-5 flex flex-col items-end gap-4">
           <SheetClose asChild>
-            <Link href={"/for-partners"} className="font-semibold md:hidden">
-              For Partners
+            <Link
+              href={"/partner-with-us"}
+              className="flex items-center gap-1 rounded-lg border px-3 py-1 font-semibold hover:bg-muted"
+            >
+              <span>For Partners</span>
+              <div className="w-7">
+                <PartnerIcon />
+              </div>
             </Link>
           </SheetClose>
           <ThemeToggle />

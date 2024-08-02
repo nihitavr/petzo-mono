@@ -18,6 +18,7 @@ export const env = createEnv({
     SLACK_WEBHOOK_URL: z.string().min(1),
     DATABASE_URL: z.string(),
     MAPBOX_ACCESS_TOKEN: z.string(),
+    CENTER_APP_BASE_URL: z.string().min(1),
   },
 
   /**
