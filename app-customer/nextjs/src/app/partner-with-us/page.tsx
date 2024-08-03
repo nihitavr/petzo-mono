@@ -1,6 +1,7 @@
 import type { Metadata, ResolvingMetadata } from "next";
 
 import { RecordEvent } from "~/web-analytics/react";
+import WhatsAppButton from "../_components/whats-app-contact-button";
 import HeroSection from "./_components/hero-section";
 import WhatYouGet from "./_components/what-you-get";
 
@@ -38,6 +39,7 @@ export default async function Page({
       />
       <HeroSection />
       <WhatYouGet />
+      <WhatsAppButton />
     </div>
   );
 }

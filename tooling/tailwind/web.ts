@@ -40,6 +40,14 @@ export default {
             opacity: "0",
           },
         },
+        "text-color-gradient": {
+          "0% 100%": {
+            backgroundPosition: "0% 50%",
+          },
+          "50%": {
+            backgroundPosition: "120% 50%",
+          },
+        },
         "fade-out": {
           "0%": { opacity: "1" },
           "100%": { opacity: "0", display: "none" },
@@ -87,6 +95,7 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         border: "border 4s ease infinite",
         "slide-up": "slide-up 0.5s ease-out forwards",
+        "text-color-gradient": "text-color-gradient 2s",
       },
     },
   },
