@@ -18,7 +18,7 @@ export default function WhatYouGet() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setSelectedTabIdx((prev) => (prev === 3 ? 1 : prev + 1));
+      setSelectedTabIdx((prev) => (prev === 4 ? 1 : prev + 1));
     }, 5000);
 
     return () => clearTimeout(timeout);
