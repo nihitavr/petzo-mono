@@ -37,10 +37,10 @@ export default function HeroSection() {
       <div className="relative col-span-2 grid grid-cols-2 rounded-2xl bg-foreground/10 px-5 py-6 md:p-6">
         <div className="col-span-2 flex flex-col gap-5 pb-4 pt-10 sm:col-span-1 sm:pb-8 sm:pt-8 md:gap-10">
           <span className="text-base md:text-lg">
-            Your one-stop to showcase all your{" "}
+            Your one-stop place to showcase all your{" "}
             <span className="font-semibold">pet care services</span>,{" "}
-            <span className="font-semibold">attract new customers</span>, and{" "}
-            <span className="font-semibold">streamline online bookings</span> -
+            <span className="font-semibold">reach new customers</span>, and{" "}
+            <span className="font-semibold">manage 24x7 online bookings</span> -
             all while focusing on what you do best: caring for pets.
           </span>
           {/* <a

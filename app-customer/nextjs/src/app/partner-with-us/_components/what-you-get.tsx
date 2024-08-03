@@ -50,14 +50,14 @@ export default function WhatYouGet() {
             selectedTabIdx={selectedTabIdx}
             setSelectedTabIdx={setSelectedTabIdx}
             title="Center Web/Mobile Dashboard"
-            subInfo="Manage all your bookings on your laptop or mobile"
+            subInfo="Manage all your bookings anytime, anywhere - from your laptop or mobile."
           />
           <InfoTab
             tabIdx={4}
             selectedTabIdx={selectedTabIdx}
             setSelectedTabIdx={setSelectedTabIdx}
             title="24/7 Booking Capability"
-            subInfo="Get bookings anytime, even outside business hours, ensuring you never lose a customer"
+            subInfo="Get bookings anytime, even outside business hours, ensuring you never lose a customer. Say goodbye to endless phone calls and WhatsApp messages."
           />
         </div>
         <div className="relative order-first col-span-7 h-52 w-full md:order-last md:col-span-4 md:h-full">
