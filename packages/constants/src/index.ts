@@ -70,7 +70,7 @@ export const SERVICES_CONFIG: Record<
     icon: "/icons/pet-grooming-icon.svg",
   },
   veterinary: {
-    name: "Veterinary",
+    name: "Vet Consultation",
     publicId: "veterinary",
     icon: "/icons/vet-consultation-icon.svg",
   },

@@ -8,6 +8,7 @@ import WipeAnimation from "@petzo/ui/components/animation/wipe-animation";
 import { Button } from "@petzo/ui/components/button";
 import { Input } from "@petzo/ui/components/input";
 import { Label } from "@petzo/ui/components/label";
+import Loader from "@petzo/ui/components/loader";
 import { toast } from "@petzo/ui/components/toast";
 
 import { api } from "~/trpc/react";
@@ -15,6 +16,8 @@ import { api } from "~/trpc/react";
 export default function HeroSection() {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const createEarlyAccessUser = api.earlyAccessUsers.create.useMutation();
 
@@ -48,7 +51,7 @@ export default function HeroSection() {
           >
             <Button className="w-fit">Register your center</Button>
           </a> */}
-          <div>
+          <div className="z-10">
             <Label className="text-sm md:text-base">
               Sign up to get early access*
             </Label>
@@ -66,8 +69,11 @@ export default function HeroSection() {
                 className="bg-background"
               />
               <Button
+                className="flex items-center gap-1"
+                disabled={isSubmitting}
                 onClick={async () => {
                   try {
+                    setIsSubmitting(true);
                     await createEarlyAccessUser.mutateAsync({
                       name: name,
                       phoneNumber: phoneNumber,
@@ -85,9 +91,11 @@ export default function HeroSection() {
                       );
                     }
                   }
+                  setIsSubmitting(false);
                 }}
               >
                 Get Early Access
+                <Loader className="size-5" show={isSubmitting} />
               </Button>
             </div>
           </div>
