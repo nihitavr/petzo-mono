@@ -4,15 +4,19 @@ import Image from "next/image";
 import { SERVICES_CONFIG } from "@petzo/constants";
 
 export default function ServiceFilter({
+  serviceTypes,
   selectedServices,
   setSelectedServices,
 }: {
+  serviceTypes?: string[];
   selectedServices: string[];
   setSelectedServices: (selectedServices: string[]) => void;
 }) {
   const allServiceTypes = useMemo(() => {
-    return Object.values(SERVICES_CONFIG).map((service) => service.publicId);
-  }, []);
+    return serviceTypes
+      ? serviceTypes
+      : Object.values(SERVICES_CONFIG).map((service) => service.publicId);
+  }, [serviceTypes]);
 
   const onClickServicesFilter = (servicePublicId: string) => {
     if (selectedServices.includes(servicePublicId)) {
@@ -25,15 +29,15 @@ export default function ServiceFilter({
   };
 
   return (
-    <div className="w-full overflow-hidden">
-      <div className="no-scrollbar mt-4 flex flex-wrap justify-center gap-2 overflow-x-auto">
+    <div className="mt-4 w-full  overflow-hidden ">
+      <div className="no-scrollbar flex gap-2 overflow-x-auto md:justify-center">
         {allServiceTypes.map((serviceType) => {
           const isFilterSelected = selectedServices.includes(serviceType);
           const serviceTypeInfo = SERVICES_CONFIG[serviceType];
           if (!serviceTypeInfo) return null;
           return (
             <button
-              className={`flex items-center gap-1 rounded-full border px-2 py-0.5 text-sm font-semibold md:py-2 ${isFilterSelected ? "bg-muted" : ""}`}
+              className={`flex shrink-0 items-center gap-1 rounded-full border px-2 py-1 text-sm font-semibold md:py-2 ${isFilterSelected ? "border-foreground/50 bg-foreground/10" : ""}`}
               key={serviceType}
               onClick={() => onClickServicesFilter(serviceType)}
             >

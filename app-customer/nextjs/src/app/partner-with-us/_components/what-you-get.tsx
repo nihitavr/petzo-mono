@@ -36,14 +36,14 @@ export default function WhatYouGet() {
             selectedTabIdx={selectedTabIdx}
             setSelectedTabIdx={setSelectedTabIdx}
             title="Listing on Furclub"
-            subInfo="Get discovered by new pet parents looking for pet care services on Furclub"
+            subInfo="Get discovered by new pet parents looking for pet care services on Furclub."
           />
           <InfoTab
             tabIdx={2}
             selectedTabIdx={selectedTabIdx}
             setSelectedTabIdx={setSelectedTabIdx}
             title="Professional Center Page"
-            subInfo="Showcase your pet care services online with a polished experience on web and mobile"
+            subInfo="Showcase your pet care services online with a polished experience on web and mobile."
           />
           <InfoTab
             tabIdx={3}
