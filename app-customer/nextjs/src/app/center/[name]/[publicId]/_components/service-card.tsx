@@ -27,16 +27,16 @@ export default function ServiceCard({
   const [openDetails, setOpenDetails] = useState(false);
 
   const getServicePetTypesComponent = () => {
-    const isCatType = service.petTypes?.every((type) => type.includes("cat"));
-    const isDogType = service.petTypes?.every((type) => type.includes("dog"));
+    const isCatType = service.petTypes?.some((type) => type.includes("cat"));
+    const isDogType = service.petTypes?.some((type) => type.includes("dog"));
 
     const ImageComp = ({ name, src }: { name: string; src: string }) => {
       return (
         <>
           <span className="opacity-70">{name} </span>
           <Image
-            width={16}
-            height={16}
+            width={19}
+            height={19}
             src={src}
             alt=""
             className="-mt-0.5 inline-block"
@@ -44,6 +44,8 @@ export default function ServiceCard({
         </>
       );
     };
+
+    console.log("services: ", service);
 
     if (
       !service.petTypes ||

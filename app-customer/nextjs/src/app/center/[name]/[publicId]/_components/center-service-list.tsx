@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import type { Center, CustomerUser } from "@petzo/db";
 import { SERVICES_CONFIG } from "@petzo/constants";
 
+import ServiceFilters from "~/app/_components/service-filter";
 import {
   getServicesTypesList,
   getServiceTypeToServicesByCenterMap,
@@ -33,11 +34,11 @@ export default function CenterServiceList({
   return (
     <div className="flex flex-col gap-3">
       {/* Service Type Filters */}
-      {/* <ServiceFilters
+      <ServiceFilters
         serviceTypes={serviceTypesProvidedByCenter}
         selectedServices={selectedServices}
         setSelectedServices={setSelectedServices}
-      /> */}
+      />
 
       {/* Services List */}
       <div className="flex flex-col gap-10 pb-5">
