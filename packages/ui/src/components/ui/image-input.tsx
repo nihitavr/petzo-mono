@@ -24,6 +24,7 @@ const ACCEPTED_IMAGE_TYPES = [
 const onFilesUpload = async (
   e: React.ChangeEvent<HTMLInputElement>,
   handleUploadUrl: string,
+  basePathname?: string,
 ) => {
   const files = e.target.files;
   if (files) {
@@ -31,7 +32,10 @@ const onFilesUpload = async (
     const blobPromises: Promise<PutBlobResult>[] = [];
 
     for (const file of fileArray) {
-      const newBlob = upload(file.name, file, {
+      const filePath = basePathname
+        ? `${basePathname}/${file.name}`
+        : file.name;
+      const newBlob = upload(filePath, file, {
         access: "public",
         handleUploadUrl: handleUploadUrl,
       });
@@ -81,6 +85,7 @@ function ImageButton<T>({
   value: fieldValue,
   maxFiles,
   handleUploadUrl,
+  basePathname,
 }: {
   clearErrors: (name?: T) => void;
   setError: (
@@ -97,6 +102,7 @@ function ImageButton<T>({
   value?: { url: string }[] | null;
   maxFiles: number;
   handleUploadUrl: string;
+  basePathname?: string;
 }) {
   fieldValue = fieldValue ?? [];
 
@@ -145,7 +151,11 @@ function ImageButton<T>({
           });
 
           onFieldChange([...fieldValue, ...emptyArray]);
-          const imageUrls = await onFilesUpload(e, handleUploadUrl);
+          const imageUrls = await onFilesUpload(
+            e,
+            handleUploadUrl,
+            basePathname,
+          );
           const imageUrlObjs = imageUrls?.map((url) => {
             return { url };
           });
@@ -176,6 +186,7 @@ export function ImageInput<T>({
   maxFiles,
   handleUploadUrl,
   className,
+  basePathname,
 }: {
   name: T;
   value?: { url: string }[] | null;
@@ -195,6 +206,7 @@ export function ImageInput<T>({
   ) => void;
   maxFiles: number;
   handleUploadUrl: string;
+  basePathname?: string;
 }) {
   const [showMore, setShowMore] = useState<boolean>(true);
   const [filteredValue, setFilteredValue] = useState(value);
@@ -225,6 +237,7 @@ export function ImageInput<T>({
               value={value}
               maxFiles={maxFiles}
               handleUploadUrl={handleUploadUrl}
+              basePathname={basePathname}
             />
           </AspectRatio>
         )}

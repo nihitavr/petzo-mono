@@ -5,9 +5,6 @@ import SignIn from "~/app/_components/sign-in";
 import { AddressForm } from "../../_components/form/address-form";
 
 export default async function AddAddressPage() {
-  // sleep 10 seconds
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-
   if (!(await auth())?.user) {
     return (
       <Unauthorised

@@ -1,7 +1,7 @@
-import type { CustomerAddresses } from "@petzo/db";
+import type { CenterAddress, CustomerAddresses } from "@petzo/db";
 
 export function getFullFormattedAddresses(
-  addresses?: CustomerAddresses | null,
+  addresses?: CustomerAddresses | CenterAddress | null,
 ) {
   let fullAddress = "";
 
@@ -16,7 +16,9 @@ export function getFullFormattedAddresses(
   return fullAddress;
 }
 
-export function getPlaceFormattedAddresses(addresses?: CustomerAddresses) {
+export function getPlaceFormattedAddresses(
+  addresses?: CustomerAddresses | CenterAddress,
+) {
   let placeAddress = "";
 
   if (addresses?.line1) placeAddress += `${addresses.line1}, `;

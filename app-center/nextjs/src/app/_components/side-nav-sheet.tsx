@@ -4,8 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSignals } from "@preact/signals-react/runtime";
+import { AiFillShop } from "react-icons/ai";
 import { BsPersonFill } from "react-icons/bs";
-import { FaAddressCard, FaCalendarAlt, FaUserCircle } from "react-icons/fa";
+import { FaAddressCard, FaCalendarAlt } from "react-icons/fa";
 import { TbLayoutDashboardFilled } from "react-icons/tb";
 
 import { Avatar, AvatarFallback } from "@petzo/ui/components/avatar";
@@ -102,10 +103,10 @@ export function SideNavSheet({
             />
             <hr />
             <NavItem
-              href={`${centerUrl}/edit`}
+              href={`${centerUrl}/manage`}
               text="Manage Center"
-              Icon={FaUserCircle}
-              isSelected={pathname == `${centerUrl}/edit`}
+              Icon={AiFillShop}
+              isSelected={pathname == `${centerUrl}/manage`}
             />
           </div>
         )}

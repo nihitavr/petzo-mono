@@ -1,8 +1,3 @@
-import { AiOutlineExclamationCircle } from "react-icons/ai";
-import { FiCheckCircle } from "react-icons/fi";
-import { IoTodayOutline } from "react-icons/io5";
-import { VscServerProcess } from "react-icons/vsc";
-
 import { Skeleton } from "@petzo/ui/components/skeleton";
 
 export default async function Loading() {

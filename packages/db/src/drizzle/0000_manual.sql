@@ -1,0 +1,1 @@
+CREATE INDEX center_address_geocode_gist_index ON center_address USING GIST (geocode)

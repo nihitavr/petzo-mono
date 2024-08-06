@@ -1,18 +1,20 @@
 import { relations, sql } from "drizzle-orm";
 import { integer, serial, timestamp, varchar } from "drizzle-orm/pg-core";
 
-import { pgTable, point } from "./_table";
+import { centerPgTable, point } from "./_table";
 import { areas } from "./area.schema";
 import { cities } from "./city.schema";
 import { states } from "./state.schema";
 
-export const centerAddresses = pgTable(
-  "center_address",
+export const centerAddresses = centerPgTable(
+  "address",
   {
     id: serial("id").primaryKey(),
-    line1: varchar("line1", { length: 256 }).notNull(),
+    houseNo: varchar("house_no", { length: 256 }).notNull(), // This is the house/flat/block number that the user can enter.
+    line1: varchar("line1", { length: 256 }).notNull(), // This is address string(neighbourhood) that we get from Reverse GeoCoding api.
+    line2: varchar("line2", { length: 256 }).notNull(), // This is optional area/road/appartment name that the user can enter.
     pincode: varchar("pincode", { length: 6 }).notNull(),
-    geocode: point("geocode"),
+    geocode: point("geocode").notNull(),
     areaId: integer("area_id")
       .notNull()
       .references(() => areas.id),
@@ -29,6 +31,8 @@ export const centerAddresses = pgTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
   },
+
+  // TODO: This index need to be added manually to the database 
   (centerAddresses) => ({
     centerAddressGeocodeGistIndex: sql`CREATE INDEX center_address_geocode_gist_index ON ${centerAddresses} USING GIST (${centerAddresses.geocode})`,
   }),

@@ -1,4 +1,3 @@
-import type { DAYS_TYPE } from "@petzo/constants";
 import { and, asc, eq, isNull, schema, sql } from "@petzo/db";
 import { centerApp } from "@petzo/validators";
 
@@ -36,71 +35,47 @@ export const centerRouter = {
     });
   }),
 
-  deleteService: protectedCenterProcedure
-    .input(centerApp.service.ServicePublicId)
+  deleteCenter: protectedCenterProcedure
+    .input(centerApp.center.CenterAuthorization)
     .mutation(({ ctx, input }) => {
       return ctx.db
-        .update(schema.services)
+        .update(schema.centers)
         .set({ deletedAt: sql`CURRENT_TIMESTAMP` })
-        .where(
-          and(
-            eq(schema.services.publicId, input.servicePublicId),
-            eq(schema.services.centerId, ctx.center.id),
-          ),
-        );
+        .where(and(eq(schema.centers.publicId, input.centerPublicId)));
     }),
 
-  createService: protectedCenterProcedure
-    .input(centerApp.service.ServiceSchema)
+  createCenter: protectedProcedure
+    .input(centerApp.center.CenterSchema)
     .mutation(async ({ ctx, input }) => {
       return (
         await ctx.db
-          .insert(schema.services)
+          .insert(schema.centers)
           .values({
-            name: input.name,
-            centerId: ctx.center.id,
             publicId: generateRandomPublicId(),
+            name: input.name,
             description: input.description,
-            serviceType: input.serviceType,
-            petTypes: input.petTypes,
-            config: input.config as {
-              operatingHours: Record<
-                DAYS_TYPE,
-                { startTime: string; startTimeEnd: string } | null
-              >;
-            },
-            price: input.price,
             images: input.images,
-            startTime: input.startTime,
-            duration: input.duration,
-            startTimeEnd: input.startTimeEnd,
+            phoneNumber: input.phoneNumber,
+            centerUserId: ctx.session.user.id,
           })
           .returning()
       )?.[0];
     }),
 
-  updateService: protectedCenterProcedure
-    .input(centerApp.service.ServiceSchema)
+  updateCenter: protectedProcedure
+    .input(centerApp.center.CenterSchema)
     .mutation(async ({ ctx, input }) => {
       return (
         await ctx.db
-          .update(schema.services)
+          .update(schema.centers)
           .set({
             name: input.name,
             description: input.description,
-            petTypes: input.petTypes,
-            price: input.price,
             images: input.images,
-            startTime: input.startTime,
-            duration: input.duration,
-            startTimeEnd: input.startTimeEnd,
+            phoneNumber: input.phoneNumber,
+            centerUserId: ctx.session.user.id,
           })
-          .where(
-            and(
-              eq(schema.services.publicId, input.publicId!),
-              eq(schema.services.centerId, ctx.center.id),
-            ),
-          )
+          .where(and(eq(schema.centers.publicId, input.publicId!)))
           .returning()
       )?.[0];
     }),

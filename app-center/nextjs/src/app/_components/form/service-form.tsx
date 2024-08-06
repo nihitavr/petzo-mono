@@ -1,8 +1,9 @@
 "use client";
 
-import type { Path, UseFormReturn } from "react-hook-form";
+import type { UseFormReturn } from "react-hook-form";
 import type { z } from "zod";
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { LuCheck, LuChevronsUpDown } from "react-icons/lu";
 
@@ -56,7 +57,7 @@ import { centerApp } from "@petzo/validators";
 
 import { DEFAULT_MAX_SERVICE_IMAGES } from "~/lib/constants";
 import { api } from "~/trpc/react";
-import FormSaveButton from "./form-save-button";
+import FormSaveButton from "../../_components/form/form-save-button";
 
 type ServiceSchema = z.infer<typeof centerApp.service.ServiceSchema>;
 
@@ -128,13 +129,13 @@ export function ServiceForm({
     if (service) {
       await updateService.mutateAsync(data, {
         onSuccess: (data) => {
-          onMutateSuccess(data, "Pet profile updated successfully!");
+          onMutateSuccess(data, "Service updated successfully!");
         },
       });
     } else {
       await createService.mutateAsync(data, {
         onSuccess: (data) => {
-          onMutateSuccess(data, "Pet profile created successfully!");
+          onMutateSuccess(data, "Service created successfully!");
         },
       });
     }
@@ -186,12 +187,18 @@ const MediaInformation = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
         name="images"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>
-              Images{" "}
-              <span className="!font-normal">
-                (max {DEFAULT_MAX_SERVICE_IMAGES} images)
-              </span>
-            </FormLabel>
+            <div>
+              <FormLabel>
+                Images{" "}
+                <span className="!font-normal">
+                  (max {DEFAULT_MAX_SERVICE_IMAGES} images)
+                </span>
+              </FormLabel>
+              <FormDescription>
+                Recommended Size: 500 x 500 px or 1:1 ratio
+              </FormDescription>
+            </div>
+
             <div className="flex items-center gap-2">
               <FormControl>
                 <ImageInput
@@ -203,7 +210,8 @@ const MediaInformation = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
                   setError={form.setError}
                   ratio={1}
                   maxFiles={DEFAULT_MAX_SERVICE_IMAGES}
-                  handleUploadUrl="/api/service-image/upload"
+                  handleUploadUrl="/api/upload-image"
+                  basePathname="images/services"
                 />
               </FormControl>
             </div>
@@ -492,7 +500,17 @@ const BasicDetails = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
                         value={value.publicId}
                         className="cursor-pointer"
                       >
-                        {value.name}
+                        <div className="flex !flex-row items-center gap-2">
+                          {value.icon && (
+                            <Image
+                              src={value.icon}
+                              height={20}
+                              width={20}
+                              alt=""
+                            />
+                          )}
+                          <span>{value.name}</span>
+                        </div>
                       </SelectItem>
                     );
                   })}

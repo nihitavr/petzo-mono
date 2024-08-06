@@ -1,0 +1,1 @@
+ALTER TABLE "center" ALTER COLUMN "center_address_id" DROP NOT NULL;
