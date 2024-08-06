@@ -9,6 +9,7 @@ import { cn } from "@petzo/ui/lib/utils";
 import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 import { auth } from "@petzo/auth-center-app";
 

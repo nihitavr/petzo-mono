@@ -19,10 +19,7 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col items-center gap-3">
       <h1 className="mt-6 text-3xl">
-        Hi,{" "}
-        <span className="font-semibold">
-          {user?.name ?? "Service Provider"}
-        </span>
+        Hello, <span className="font-semibold">{user?.name ?? ""}</span>
       </h1>
       <h2 className="text-center text-lg">
         Welcome to Furclub! The one-stop solution for managing your pet

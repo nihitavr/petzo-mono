@@ -1,0 +1,1 @@
+ALTER TABLE "center" RENAME COLUMN "service_config" TO "config";

@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { FiArrowUpRight } from "react-icons/fi";
 import { LuPencil } from "react-icons/lu";
 
+import type { Center } from "@petzo/db";
 import { auth } from "@petzo/auth-center-app";
 import { SERVICES_CONFIG } from "@petzo/constants";
-import { Center } from "@petzo/db";
 import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 import {
@@ -90,19 +91,21 @@ export default async function Page({
                 <TableCell className="text-right">
                   <a
                     href={`${env.CUSTOMER_APP_BASE_URL}${urlUtils.createServiceUrl(service, { publicId: centerPublicId, name: `preview ${centerPublicId}` } as Center)}`}
-                    className="flex items-center justify-start text-sm text-blue-700 hover:underline"
+                    className="group flex items-center justify-start text-sm hover:underline"
                     target="_blank"
                     rel="noreferrer"
                   >
                     <span>View</span>
+                    <FiArrowUpRight size={18} />
                   </a>
                 </TableCell>
                 <TableCell>
                   <Link
                     href={`/dashboard/${centerPublicId}/services/${service.publicId}/edit`}
-                    className="flex justify-end opacity-70 hover:opacity-50"
+                    className="flex items-center justify-end gap-1 hover:underline"
                   >
-                    <LuPencil strokeWidth={3} size={18} />
+                    <span>Edit</span>
+                    <LuPencil strokeWidth={2.5} size={14} />
                   </Link>
                 </TableCell>
               </TableRow>

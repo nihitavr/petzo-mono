@@ -46,7 +46,7 @@ export default async function Page({
       </div> */}
       <div className="py-3 text-center text-xl font-semibold md:text-2xl">
         <span className="block md:inline">Here&apos;s an overview of</span>{" "}
-        <span className="block md:inline">your bookings for the day!</span>
+        <span className="block md:inline">your bookings for Today!</span>
       </div>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <DashboardItem

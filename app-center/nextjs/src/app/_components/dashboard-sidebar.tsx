@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSignals } from "@preact/signals-react/runtime";
-import { FaAddressCard, FaCalendarAlt, FaUserCircle } from "react-icons/fa";
+import { AiFillShop } from "react-icons/ai";
+import { FaAddressCard, FaCalendarAlt } from "react-icons/fa";
 import { TbLayoutDashboardFilled } from "react-icons/tb";
 
 import { selectedCenterPublicId } from "~/lib/store/global-storage";
@@ -41,10 +42,10 @@ export default function DashboardSidebar() {
         />
         <hr />
         <NavItem
-          href={`${centerUrl}/edit`}
+          href={`${centerUrl}/manage`}
           text="Manage Center"
-          Icon={FaUserCircle}
-          isSelected={pathname == `${centerUrl}/edit`}
+          Icon={AiFillShop}
+          isSelected={pathname == `${centerUrl}/manage`}
         />
       </div>
     </div>

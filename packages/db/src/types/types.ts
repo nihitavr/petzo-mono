@@ -42,8 +42,9 @@ export type Center = InferResultType<"centers"> & {
 
 // Center Address Type
 export type CenterAddress = InferResultType<"centerAddresses"> & {
-  area: Area;
-  city: City;
+  area?: Area;
+  city?: City;
+  state?: State;
 };
 
 // Service Type

@@ -27,13 +27,15 @@ export const centers = pgTable(
     ratingCount: integer("rating_count").default(0).notNull(),
     reviewCount: integer("review_count").default(0).notNull(),
     phoneNumber: varchar("phone_number", { length: 15 }),
-    servicesConfig: json("service_config").$type<{
-      homeGrooming: { default: { noOfParallelServices: number } };
-      grooming: { default: { noOfParallelServices: number } };
+    config: json("config").$type<{
+      services: {
+        homeGrooming: { default: { noOfParallelServices: number } };
+        grooming: { default: { noOfParallelServices: number } };
+      };
     }>(),
-    centerAddressId: integer("center_address_id")
-      .notNull()
-      .references(() => centerAddresses.id),
+    centerAddressId: integer("center_address_id").references(
+      () => centerAddresses.id,
+    ),
     centerUserId: varchar("center_user_id", { length: 255 })
       .notNull()
       .references(() => centerUsers.id),

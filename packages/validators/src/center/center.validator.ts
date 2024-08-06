@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { REGEX } from "@petzo/constants";
+
 export const CenterAuthorization = z.object({ centerPublicId: z.string() });
 
 export const CenterSchema = z.object({
@@ -7,8 +9,8 @@ export const CenterSchema = z.object({
   name: z.string().min(1, "Name is required.").max(255, "Name is too long."),
   description: z.string().optional(),
   images: z.array(z.object({ url: z.string() })).optional(),
-  phoneNumber: z
-    .string()
-    .min(1, "Phone is required.")
-    .max(15, "Phone is too long."),
+  phoneNumber: z.string().regex(REGEX.mobileNumber, {
+    message:
+      "Invalid Phone Number. Please provide a valid 10 digits number eg. (9999999999)",
+  }),
 });

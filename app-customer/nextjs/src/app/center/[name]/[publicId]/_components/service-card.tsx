@@ -45,8 +45,6 @@ export default function ServiceCard({
       );
     };
 
-    console.log("services: ", service);
-
     if (
       !service.petTypes ||
       service.petTypes.length === 0 ||
