@@ -36,7 +36,7 @@ export type State = InferResultType<"states">;
 
 // Center Type
 export type Center = InferResultType<"centers"> & {
-  centerAddress?: CenterAddress;
+  centerAddress?: CenterAddress | null;
   services?: Service[];
 };
 

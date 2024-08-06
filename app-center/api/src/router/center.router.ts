@@ -28,6 +28,7 @@ export const centerRouter = {
           with: {
             area: true,
             city: true,
+            state: true,
           },
         },
       },
