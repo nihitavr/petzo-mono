@@ -106,7 +106,11 @@ export function SideNavSheet({
               href={`${centerUrl}/manage`}
               text="Manage Center"
               Icon={AiFillShop}
-              isSelected={pathname == `${centerUrl}/manage`}
+              isSelected={[
+                `${centerUrl}/manage`,
+                `${centerUrl}/edit`,
+                `${centerUrl}/address/edit`,
+              ].includes(pathname)}
             />
           </div>
         )}
