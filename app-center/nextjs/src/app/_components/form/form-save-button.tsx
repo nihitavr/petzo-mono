@@ -20,7 +20,7 @@ export default function FormSaveButton({
       <div className="flex w-full flex-col items-end">
         {label && <Label className="mr-2 text-sm">{label}</Label>}
         <Button
-          className="flex w-full items-center justify-center gap-2 md:w-32"
+          className="flex w-full items-center justify-center gap-2 md:min-w-32"
           type="submit"
           disabled={disabled || isSubmitting}
         >

@@ -2,7 +2,7 @@ import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/address
 import { FiPhone } from "react-icons/fi";
 import { GrLocation } from "react-icons/gr";
 
-import type { Booking, BookingItem } from "@petzo/db";
+import type { Booking, BookingItem, CustomerAddresses } from "@petzo/db";
 import { auth } from "@petzo/auth-center-app";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 import { Label } from "@petzo/ui/components/label";
@@ -45,12 +45,12 @@ export default async function Bookings({
     date = { startDate: today, endDate: today };
   }
 
-  const bookings = await api.booking.getBookingsForCenter({
+  const bookings = (await api.booking.getBookingsForCenter({
     centerPublicId: centerPublicId,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
     status: BOOKING_TYPE_TO_STATUS[type] as unknown as any,
     date: date,
-  });
+  })) as Booking[];
 
   return (
     <>
@@ -92,7 +92,7 @@ export default async function Bookings({
                       <div className="flex items-center gap-1">
                         <span>Phone Number:</span>{" "}
                         <a
-                          href={`tel:${booking.address?.phoneNumber ?? booking.user.phoneNumber}`}
+                          href={`tel:${booking.address?.phoneNumber ?? booking.user?.phoneNumber}`}
                           className="inline-flex items-center gap-1 font-medium text-blue-700 dark:text-blue-500"
                         >
                           <FiPhone />
@@ -109,7 +109,9 @@ export default async function Bookings({
                           rel="noreferrer"
                         >
                           <span className="font-medium text-blue-700 dark:text-blue-500">
-                            {getFullFormattedAddresses(booking.address)}
+                            {getFullFormattedAddresses(
+                              booking.address as CustomerAddresses,
+                            )}
                           </span>{" "}
                           <GrLocation
                             className="mb-0.5 inline text-blue-700 dark:text-blue-500"
@@ -129,7 +131,7 @@ export default async function Bookings({
                       <BookingItems
                         bookingItems={booking?.items as BookingItem[]}
                         centerPublicId={centerPublicId}
-                        booking={booking as Booking}
+                        booking={booking}
                         selectedType={type}
                       />
                     </div>

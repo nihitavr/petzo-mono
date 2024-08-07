@@ -38,7 +38,7 @@ export default function ParallelServicesConfig({
     JSON.stringify(center?.config) !== JSON.stringify(configState);
 
   return (
-    <div className="mt-2 rounded-md border p-3">
+    <div className="mt-2 rounded-md border  p-3">
       <div className="flex flex-col">
         <Label className="text-base">No of Parallel Services:</Label>
         <Label className="text-2sm font-normal text-muted-foreground">

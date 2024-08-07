@@ -3,7 +3,7 @@
 import type { Marker } from "mapbox-gl";
 import type { z } from "zod";
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signal } from "@preact/signals-react";
 import mapboxgl from "mapbox-gl";
@@ -23,6 +23,7 @@ import {
   FormMessage,
 } from "@petzo/ui/components/form";
 import { Input } from "@petzo/ui/components/input";
+import { Label } from "@petzo/ui/components/label";
 import Loader from "@petzo/ui/components/loader";
 import { toast } from "@petzo/ui/components/toast";
 import { centerApp } from "@petzo/validators";
@@ -51,6 +52,8 @@ export function AddressForm({
   centerAddress?: CenterAddress;
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isOnboarding = searchParams.get("onboarding");
 
   const marker = useRef<Marker | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -235,7 +238,13 @@ export function AddressForm({
 
     toast.success(message);
 
-    router.push(`/dashboard/${centerPublicId}/manage`);
+    if (isOnboarding) {
+      router.push(
+        `/dashboard/${centerPublicId}/services/create?onboarding=true`,
+      );
+    } else {
+      router.push(`/dashboard/${centerPublicId}/manage`);
+    }
     router.refresh();
   };
 
@@ -393,22 +402,27 @@ export function AddressForm({
           {/* Save Button */}
 
           <div className="flex w-full md:justify-end">
-            <Button
-              className="flex w-full min-w-32 items-center justify-center gap-2 md:w-fit"
-              type="submit"
-              disabled={
-                Object.keys(form.formState.dirtyFields).length == 0 ||
-                isSubmitting ||
-                isFetchingLocation
-              }
-            >
-              <span>Save</span>
-              {isSubmitting && (
-                <div>
-                  <Loader className="h-5 w-5 border-2 " show={isSubmitting} />
-                </div>
+            <div className="flex w-full flex-col items-end">
+              {isOnboarding && (
+                <Label className="mr-2 text-sm">Next: Add Service</Label>
               )}
-            </Button>
+              <Button
+                className="flex w-full min-w-32 items-center justify-center gap-2 md:w-fit"
+                type="submit"
+                disabled={
+                  Object.keys(form.formState.dirtyFields).length == 0 ||
+                  isSubmitting ||
+                  isFetchingLocation
+                }
+              >
+                <span>{isOnboarding ? "Save & Continue" : "Save"}</span>
+                {isSubmitting && (
+                  <div>
+                    <Loader className="h-5 w-5 border-2 " show={isSubmitting} />
+                  </div>
+                )}
+              </Button>
+            </div>
           </div>
         </div>
       </form>

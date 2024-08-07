@@ -61,7 +61,7 @@ export function CenterForm({ center }: { center?: Center }) {
 
     toast.success(message);
     if (!center?.centerAddressId) {
-      router.push(`/dashboard/${data.publicId}/address/add`);
+      router.push(`/dashboard/${data.publicId}/address/create?onboarding=true`);
     } else {
       router.push(`/dashboard/${data.publicId}`);
     }
