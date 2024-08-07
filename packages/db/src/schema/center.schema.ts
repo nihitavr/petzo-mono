@@ -3,6 +3,7 @@ import {
   index,
   integer,
   json,
+  pgEnum,
   real,
   serial,
   text,
@@ -10,11 +11,15 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-import { CenterConfig } from "../types/types";
+import { CENTER_STATUS } from "@petzo/constants";
+
+import type { CenterConfig } from "../types/types";
 import { pgTable } from "./_table";
 import { centerAddresses } from "./center-address.schema";
 import { centerUsers } from "./center-app-auth.schema";
 import { services } from "./service.schema";
+
+export const centerStatusEnum = pgEnum("center_status_type", CENTER_STATUS);
 
 export const centers = pgTable(
   "center",
@@ -27,6 +32,7 @@ export const centers = pgTable(
     averageRating: real("average_rating").default(0).notNull(),
     ratingCount: integer("rating_count").default(0).notNull(),
     reviewCount: integer("review_count").default(0).notNull(),
+    status: centerStatusEnum("status").default("created").notNull(),
     phoneNumber: varchar("phone_number", { length: 15 }),
     config: json("config").$type<CenterConfig>(),
     centerAddressId: integer("center_address_id").references(
@@ -46,6 +52,10 @@ export const centers = pgTable(
   (center) => ({
     centerPublicIdIdx: index("center_public_id_idx").on(center.publicId),
     centerUserIdIdx: index("center_user_idx").on(center.centerUserId),
+    centerAverageRatingIdx: index("center_status_average_rating_idx").on(
+      center.status,
+      center.averageRating,
+    ),
   }),
 );
 

@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS "center_average_rating_idx" ON "center" USING btree ("average_rating");

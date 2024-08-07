@@ -1,7 +1,6 @@
 import type { TRPCRouterRecord } from "@trpc/server";
-import { and, eq, gte, inArray, sql } from "drizzle-orm";
 
-import { schema } from "@petzo/db";
+import { and, desc, eq, gte, inArray, schema, sql } from "@petzo/db";
 import { centerValidator } from "@petzo/validators";
 
 import { publicCachedProcedure } from "../trpc";
@@ -37,14 +36,6 @@ export const centerRouter = {
     .meta({ cacheTTLInSeconds: 60 })
     .input(centerValidator.FindByFilters)
     .query(async ({ ctx, input }) => {
-      // Search Conditions
-      const searchConditions = input.search?.map(
-        (value) => sql`${schema.centers.name} ILIKE ${"%" + value + "%"}`,
-      );
-      const combinedConditions = searchConditions
-        ? sql.join(searchConditions, sql` AND `)
-        : undefined;
-
       // Get area ids from the input using the static areaMap.
       // const areaIds = input.area?.map((a) => AreaMap[a]! || -1);
       const areaIds = await geographyRouterUtils.getAreaIdsByPublicIds(
@@ -108,8 +99,11 @@ export const centerRouter = {
           .where(
             and(
               // If search is provided, filter center name by it.
-              combinedConditions,
+              input.search
+                ? sql`word_similarity(${schema.centers.name}, ${input.search}) > 0.3`
+                : undefined,
 
+              eq(schema.centers.status, "verified"),
               // If rating is provided, filter centers by averageRating greater than or equal to the given rating.
               input.ratingGte
                 ? gte(schema.centers.averageRating, input.ratingGte)

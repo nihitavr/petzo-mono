@@ -5,7 +5,7 @@ export default function Loading() {
     <div>
       {/* Your Pets */}
       <div className="flex w-full items-center justify-between gap-4 font-semibold">
-        <h1 className="text-xl">Add Addresses</h1>
+        <h1 className="text-xl">Edit Center</h1>
       </div>
       <div className="mt-4 flex flex-col gap-4">
         <Skeleton className="h-[230px] w-full rounded-lg md:h-[300px]" />

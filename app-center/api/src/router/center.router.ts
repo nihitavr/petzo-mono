@@ -23,6 +23,7 @@ export const centerRouter = {
       ? true
       : false;
   }),
+
   getCenter: protectedProcedure
     .input(centerApp.center.CenterAuthorization)
     .query(({ ctx, input }) => {
@@ -32,6 +33,15 @@ export const centerRouter = {
           eq(schema.centers.centerUserId, ctx.session.user.id),
           isNull(schema.centers.deletedAt),
         ),
+        with: {
+          centerAddress: {
+            with: {
+              area: true,
+              city: true,
+              state: true,
+            },
+          },
+        },
       });
     }),
 

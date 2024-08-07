@@ -1,7 +1,3 @@
-import Link from "next/link";
-import { LuPencil } from "react-icons/lu";
-
-import { SERVICES_CONFIG } from "@petzo/constants";
 import { Skeleton } from "@petzo/ui/components/skeleton";
 import {
   Table,
@@ -12,10 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "@petzo/ui/components/table";
-import { urlUtils } from "@petzo/utils";
-
-import { env } from "~/env";
-import { api } from "~/trpc/server";
 
 export default async function Loading() {
   return (

@@ -8,7 +8,17 @@ const MESSAGES = [
   "Looks like you're chasing your tail. You need to be part of the pack to see this content.",
 ];
 
-export default function Unauthorised({ comp }: { comp?: ReactNode }) {
+export default function Unauthorised({
+  comp,
+  children,
+}: {
+  comp?: ReactNode;
+  children?: ReactNode;
+}) {
+  if (children) {
+    comp = children;
+  }
+
   return (
     <div className="flex h-[80vh] w-full flex-col items-center justify-center gap-2">
       <div className="text-center text-2xl font-medium text-primary">

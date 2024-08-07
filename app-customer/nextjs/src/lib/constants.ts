@@ -48,7 +48,7 @@ export const DEFAULT_CENTER_FILTERS: {
     items: [
       {
         publicId: "nearby",
-        label: "Near By",
+        label: "Near By (Around 5 Km)",
         selected: false,
       },
     ],
