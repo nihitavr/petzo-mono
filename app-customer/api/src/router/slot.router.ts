@@ -63,7 +63,7 @@ export const slotRouter = {
             .where(
               and(
                 eq(schema.slots.serviceId, input.serviceId),
-                inArray(schema.slots.date, next7Dates),
+                inArray(schema.slots.date, Array.from(missingDates)),
               ),
             )
             .orderBy(asc(schema.slots.date), asc(schema.slots.startTime));

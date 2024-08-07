@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useSignals } from "@preact/signals-react/runtime";
-import { FaStar } from "react-icons/fa";
 import { GrLocation } from "react-icons/gr";
 
 import DogGroomingAnimation from "~/app/_components/dog-grooming-animation";

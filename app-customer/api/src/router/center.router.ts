@@ -1,7 +1,8 @@
 import type { TRPCRouterRecord } from "@trpc/server";
 
+import type { Center } from "@petzo/db";
 import { SERVICE_TYPE_VALUES } from "@petzo/constants";
-import { and, Center, desc, eq, gte, inArray, schema, sql } from "@petzo/db";
+import { and, desc, eq, gte, inArray, schema, sql } from "@petzo/db";
 import { centerValidator } from "@petzo/validators";
 
 import { publicCachedProcedure } from "../trpc";

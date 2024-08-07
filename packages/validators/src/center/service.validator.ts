@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { DAYS, REGEX } from "@petzo/constants";
+import { DAYS, REGEX, SERVICE_TYPE_VALUES } from "@petzo/constants";
 import { timeUtils } from "@petzo/utils";
 
 import { CenterAuthorization } from "./center.validator";
@@ -14,7 +14,7 @@ export const ServiceSchema = CenterAuthorization.extend({
   publicId: z.string().max(20).optional(),
   name: z.string().min(1, "Name is required.").max(255, "Name is too long."),
   description: z.string().optional(),
-  serviceType: z.enum(["veterinary", "grooming", "boarding", "home_grooming"], {
+  serviceType: z.enum(SERVICE_TYPE_VALUES, {
     errorMap: () => {
       return { message: "Type is required." };
     },

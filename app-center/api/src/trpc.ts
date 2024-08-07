@@ -17,7 +17,6 @@ import { centerApp } from "@petzo/validators";
 
 const DEFAULT_CACHE_TTL = 1800;
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 const cacheSingleton = new NodeCache();
 
 /**
@@ -144,7 +143,6 @@ export const publicCachedProcedure = t.procedure.use(
       key += JSON.stringify(rawInput).replace(/"/g, "'");
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     const cachedData = cacheSingleton.get(key);
     if (cachedData) {
       console.log(">>> Cache hit", { key });

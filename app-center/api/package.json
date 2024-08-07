@@ -15,6 +15,7 @@
     "dev": "tsc --watch",
     "clean": "rm -rf .turbo node_modules dist",
     "format": "prettier --check . --ignore-path ../../.gitignore",
+    "format:fix": "prettier --write .",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
