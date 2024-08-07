@@ -126,7 +126,8 @@ export default function Header({
       </nav>
 
       {(pathname.startsWith(`/${filtersStore.city.value}/explore`) ||
-        pathname.startsWith(`/${filtersStore.city.value}/centers`)) && (
+        pathname.startsWith(`/${filtersStore.city.value}/centers`) ||
+        pathname.startsWith(`/${filtersStore.city.value}/search`)) && (
         <div className="px-3 py-2 md:hidden md:pt-2">
           <GlobalSearchInput />
         </div>

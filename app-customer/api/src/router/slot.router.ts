@@ -63,7 +63,7 @@ export const slotRouter = {
             .where(
               and(
                 eq(schema.slots.serviceId, input.serviceId),
-                inArray(schema.slots.date, next7Dates),
+                inArray(schema.slots.date, Array.from(missingDates)),
               ),
             )
             .orderBy(asc(schema.slots.date), asc(schema.slots.startTime));
@@ -117,10 +117,10 @@ const slotRouterUtils = {
           serviceId: service.id,
           centerId: service.centerId,
           totalSlots:
-            service.center!.config?.services?.home_grooming
+            service.center!.config?.services[service.serviceType]
               ?.noOfParallelServices ?? 1,
           availableSlots:
-            service.center!.config?.services?.home_grooming
+            service.center!.config?.services[service.serviceType]
               ?.noOfParallelServices ?? 1,
           date: dateStr,
           startTime: time,

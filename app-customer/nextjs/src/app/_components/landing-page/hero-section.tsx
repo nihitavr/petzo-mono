@@ -14,11 +14,11 @@ export default function HeroSection({
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4 ">
         <HomePageServicesCard
-          name="Home Grooming"
+          name="Home/Mobile Grooming"
           // label="Home Grooming Centers near you"
           imageUrl="/pet-home-grooming-card-image-removebg-preview.png"
           // link={`/center/furclub-bengaluru/home-grooming`}
-          link={`/${cityPublicId}/centers?serviceType=home_grooming`}
+          link={`/${cityPublicId}/centers?serviceType=home_grooming,mobile_grooming`}
         />
 
         <HomePageServicesCard

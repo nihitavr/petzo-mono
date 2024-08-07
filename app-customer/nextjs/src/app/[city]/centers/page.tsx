@@ -73,16 +73,16 @@ export default async function Centers({
       />
       <div className="container-2">
         <div className="hidden items-end justify-between md:flex">
-          <div className="ml-auto h-min rounded-full border px-3 py-1 text-sm">
+          {/* <div className="ml-auto h-min rounded-full border px-3 py-1 text-sm">
             Sort (Top Rated)
-          </div>
+          </div> */}
         </div>
 
         <div className="flex gap-2 md:hidden">
           <MobileCenterFilters filters={filtersObj} />
-          <div className="h-min rounded-full border px-3 py-1 text-sm">
+          {/* <div className="h-min rounded-full border px-3 py-1 text-sm">
             Sort (Top Rated)
-          </div>
+          </div> */}
         </div>
 
         <div className="grid grid-cols-12 gap-3">
