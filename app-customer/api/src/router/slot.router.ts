@@ -118,10 +118,10 @@ const slotRouterUtils = {
           centerId: service.centerId,
           totalSlots:
             service.center!.config?.services?.home_grooming
-              .noOfParallelServices ?? 1,
+              ?.noOfParallelServices ?? 1,
           availableSlots:
             service.center!.config?.services?.home_grooming
-              .noOfParallelServices ?? 1,
+              ?.noOfParallelServices ?? 1,
           date: dateStr,
           startTime: time,
         } as unknown as Slot);
