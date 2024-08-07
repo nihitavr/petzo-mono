@@ -38,6 +38,7 @@ export type State = InferResultType<"states">;
 export type Center = InferResultType<"centers"> & {
   centerAddress?: CenterAddress | null;
   services?: Service[];
+  distanceInMeters?: number;
 };
 
 export interface CenterConfig {
@@ -46,6 +47,7 @@ export interface CenterConfig {
     grooming?: { noOfParallelServices: number };
     veterinary?: { noOfParallelServices: number };
     boarding?: { noOfParallelServices: number };
+    mobile_grooming?: { noOfParallelServices: number };
   };
 }
 

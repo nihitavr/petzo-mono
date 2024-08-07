@@ -58,7 +58,7 @@ export default function ParallelServicesConfig({
       <div className="mt-4 space-y-2">
         {serviceTypes.map((serviceType) => {
           const noOfParallelServices =
-            configState?.services?.[serviceType]?.noOfParallelServices;
+            configState?.services?.[serviceType]?.noOfParallelServices ?? 1;
 
           return (
             <div key={serviceType} className="flex items-center gap-3 text-sm">

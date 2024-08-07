@@ -8,6 +8,7 @@ import { GrLocation } from "react-icons/gr";
 
 import DogGroomingAnimation from "~/app/_components/dog-grooming-animation";
 import { MIN_SEARCH_TEXT_LENGTH } from "~/app/_components/global-search-input";
+import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { filtersStore } from "~/lib/storage/global-storage";
 import { getCenterUrl, getServicesNamesStr } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
@@ -75,12 +76,10 @@ export default function CenterSearchList() {
                       {center.name}
                     </h3>
                     <div className="flex items-center gap-2 text-xs text-foreground/80 md:text-sm">
-                      <div className="flex items-center gap-1">
-                        <FaStar className="size-3 text-yellow-600" />
-                        <span className="">
-                          {center.averageRating?.toFixed(1)}
-                        </span>
-                      </div>
+                      {!!center.averageRating && (
+                        <Rating rating={center.averageRating} />
+                      )}
+
                       <div className="h-1.5 w-1.5 rounded-full bg-foreground/80"></div>
                       <div className="flex cursor-pointer items-center gap-1 hover:underline">
                         <span>{center.reviewCount} reviews</span>

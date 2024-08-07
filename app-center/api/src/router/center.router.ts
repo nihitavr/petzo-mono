@@ -6,7 +6,9 @@ import { protectedCenterProcedure, protectedProcedure } from "../trpc";
 
 const DEFAULT_CENTER_CONFIG = {
   services: {
+    boarding: { noOfParallelServices: 1 },
     home_grooming: { noOfParallelServices: 1 },
+    mobile_grooming: { noOfParallelServices: 1 },
     grooming: { noOfParallelServices: 1 },
     veterinary: { noOfParallelServices: 1 },
   },

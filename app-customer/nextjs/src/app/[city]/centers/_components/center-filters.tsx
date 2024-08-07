@@ -121,7 +121,7 @@ export function CenterFilters({
             <Button
               size="sm"
               type="submit"
-              className="rounded-full"
+              className="mr-7 rounded-full md:mr-0"
               disabled={fetchingLocation}
             >
               <span>Apply</span>

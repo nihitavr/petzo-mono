@@ -12,19 +12,16 @@ import {
 } from "drizzle-orm/pg-core";
 
 import type { DAYS_TYPE } from "@petzo/constants";
+import { SERVICE_TYPE_VALUES } from "@petzo/constants";
 
 import { pgTable } from "./_table";
 import { centers } from "./center.schema";
 import { slots } from "./slot.schema";
 
-export const serviceTypeEnum = pgEnum("center_service_type", [
-  "veterinary",
-  "grooming",
-  "boarding",
-  "home_grooming",
-]);
-
-export const serviceTypeList = serviceTypeEnum.enumValues;
+export const serviceTypeEnum = pgEnum(
+  "center_service_type",
+  SERVICE_TYPE_VALUES,
+);
 
 export const services = pgTable(
   "service",
