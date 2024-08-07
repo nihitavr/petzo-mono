@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import type { SERVICE_TYPE } from "@petzo/constants";
 import type { Center, CenterConfig } from "@petzo/db";
@@ -20,6 +20,9 @@ export default function ParallelServicesConfig({
   serviceTypes: SERVICE_TYPE[];
   center?: Center;
 }) {
+  const searchParams = useSearchParams();
+  const isOnboarding = searchParams.get("onboarding");
+
   const [configState, setConfigState] = useState<CenterConfig>();
   const [isSaving, setIsSaving] = useState(false);
 
@@ -38,7 +41,9 @@ export default function ParallelServicesConfig({
     JSON.stringify(center?.config) !== JSON.stringify(configState);
 
   return (
-    <div className="mt-2 rounded-md border  p-3">
+    <div
+      className={`mt-2 rounded-md border p-3 ${isOnboarding ? "border-2 border-primary" : ""}`}
+    >
       <div className="flex flex-col">
         <Label className="text-base">No of Parallel Services:</Label>
         <Label className="text-2sm font-normal text-muted-foreground">
