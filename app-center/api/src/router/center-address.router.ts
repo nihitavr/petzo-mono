@@ -37,6 +37,8 @@ export const centerAddressRouter = {
             centerAddressId: address.id,
           })
           .where(eq(schema.centers.id, ctx.center.id));
+
+        return address;
       }
     }),
 
