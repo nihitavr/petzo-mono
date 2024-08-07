@@ -50,7 +50,7 @@ export default async function HomePage() {
             Start by creating a{" "}
             <span className="font-semibold">new center.</span>
           </span>
-          <Link href={"/center/create"}>
+          <Link href={"/dashboard/center/create"}>
             <Button>Create New Center</Button>
           </Link>
         </div>

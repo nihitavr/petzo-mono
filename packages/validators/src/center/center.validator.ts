@@ -14,3 +14,12 @@ export const CenterSchema = z.object({
       "Invalid Phone Number. Please provide a valid 10 digits number eg. (9999999999)",
   }),
 });
+
+export const CenterConfig = CenterAuthorization.extend({
+  services: z.object({
+    home_grooming: z.object({ noOfParallelServices: z.number() }).optional(),
+    grooming: z.object({ noOfParallelServices: z.number() }).optional(),
+    veterinary: z.object({ noOfParallelServices: z.number() }).optional(),
+    boarding: z.object({ noOfParallelServices: z.number() }).optional(),
+  }),
+});

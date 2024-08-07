@@ -5,11 +5,11 @@ import type { ErrorOption } from "react-hook-form";
 import React, { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 import { upload } from "@vercel/blob/client";
-import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { LuPlusCircle, LuX } from "react-icons/lu";
 
 import { cn } from "../../lib/utils";
 import { AspectRatio } from "./aspect-ratio";
+import ImageGrid from "./image-grid";
 import { Input } from "./input";
 import Loader from "./loader";
 
@@ -229,7 +229,7 @@ export function ImageInput<T>({
     <div className="w-full">
       <div className="grid w-full grid-cols-3 gap-2 md:grid-cols-6">
         {value && value?.length < maxFiles && (
-          <AspectRatio className="rounded-lg border" ratio={ratio}>
+          <AspectRatio className="col-span-1 rounded-lg border" ratio={ratio}>
             <ImageButton
               name={name}
               clearErrors={clearErrors}
@@ -242,76 +242,14 @@ export function ImageInput<T>({
             />
           </AspectRatio>
         )}
-        {filteredValue &&
-          filteredValue.length > 0 &&
-          filteredValue?.map((image, idx) => {
-            const leftArrow = idx !== 0;
-            const rightArrow = idx !== filteredValue.length - 1;
-
-            return (
-              <div key={idx} className={cn("col-span-1 w-full", className)}>
-                {image.url ? (
-                  <AspectRatio
-                    className="rounded-lg border bg-black"
-                    ratio={ratio}
-                  >
-                    <Image
-                      src={image.url}
-                      fill
-                      style={{ objectFit }}
-                      className="rounded-md"
-                      alt={`image ${idx + 1}`}
-                    />
-                    <LuX
-                      className={`absolute right-1 top-1 size-5 cursor-pointer rounded-full bg-slate-300 p-0.5 text-black/80 opacity-70 hover:opacity-100`}
-                      strokeWidth={2}
-                      onClick={() => {
-                        const newImages = filteredValue.filter(
-                          (_, index) => index !== idx,
-                        );
-                        onChange(newImages);
-                      }}
-                    />
-                    <div className="absolute bottom-1 right-1/2 flex translate-x-1/2 items-center gap-1">
-                      <FaArrowLeftLong
-                        className={`size-5 cursor-pointer rounded-sm bg-slate-300 p-0.5 text-black/80 opacity-70 hover:opacity-100 ${!leftArrow ? "pointer-events-none opacity-30" : ""}`}
-                        strokeWidth={0.5}
-                        onClick={() => {
-                          const img1 = filteredValue[idx];
-                          const img2 = filteredValue[idx - 1];
-                          filteredValue[idx] = img2!;
-                          filteredValue[idx - 1] = img1!;
-
-                          onChange(filteredValue);
-                        }}
-                      />
-                      <FaArrowRightLong
-                        className={`size-5 cursor-pointer rounded-sm bg-slate-300 p-0.5 text-black/80 opacity-70 hover:opacity-100 ${!rightArrow ? "pointer-events-none opacity-30" : ""}`}
-                        strokeWidth={1}
-                        onClick={() => {
-                          const img1 = filteredValue[idx];
-                          const img2 = filteredValue[idx + 1];
-                          filteredValue[idx] = img2!;
-                          filteredValue[idx + 1] = img1!;
-
-                          onChange(filteredValue);
-                        }}
-                      />
-                    </div>
-                  </AspectRatio>
-                ) : (
-                  <AspectRatio
-                    className="flex items-center justify-center rounded-md bg-slate-200"
-                    ratio={ratio}
-                  >
-                    <Loader show={true} />
-                  </AspectRatio>
-                )}
-              </div>
-            );
-          })}
+        <div className="col-span-2 md:col-span-5"></div>
+        <div className="col-span-3 md:col-span-6">
+          {filteredValue && filteredValue.length > 0 && (
+            <ImageGrid images={filteredValue} />
+          )}
+        </div>
       </div>
-      {value && value.length > 5 && (
+      {value && value.length > 6 && (
         <div className="mt-4 flex h-10 w-full justify-center">
           <button
             type="button"
@@ -320,7 +258,7 @@ export function ImageInput<T>({
           >
             <span className="text-center text-2sm text-foreground/70">
               {showMore ? "Show More" : "Show Less"} ({showMore ? "+" : "-"}
-              {value.length - 5})
+              {value.length - 6})
             </span>
           </button>
         </div>

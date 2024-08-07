@@ -7,6 +7,8 @@ import { auth } from "@petzo/auth-center-app";
 import { SERVICES_CONFIG } from "@petzo/constants";
 import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
+import { Input } from "@petzo/ui/components/input";
+import { Label } from "@petzo/ui/components/label";
 import {
   Table,
   TableBody,
@@ -21,6 +23,7 @@ import { urlUtils } from "@petzo/utils";
 import SignIn from "~/app/_components/sign-in";
 import { env } from "~/env";
 import { api } from "~/trpc/server";
+import ParallelServicesConfig from "../../_components/parallel_services_config";
 
 export default async function Page({
   params: { centerPublicId },
@@ -43,7 +46,12 @@ export default async function Page({
     );
   }
 
+  const center = await api.center.getCenter({ centerPublicId });
   const services = await api.service.getServices({ centerPublicId });
+
+  const serviceTypes = Array.from(
+    new Set(services?.map((service) => service.serviceType)),
+  );
 
   return (
     <div>
@@ -58,69 +66,77 @@ export default async function Page({
           </Button>
         </Link>
       </div>
+      <div className="mt-4">
+        <h3 className="font-medium">Config</h3>
+        <ParallelServicesConfig serviceTypes={serviceTypes} center={center} />
+      </div>
 
-      {services.length ? (
-        <Table className="mt-4">
-          <TableCaption>List of all services.</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[20px]"></TableHead>
-              <TableHead className="min-w-[100px]">Service Name</TableHead>
-              <TableHead className="min-w-[100px]">Service Type</TableHead>
-              <TableHead className="min-w-[100px]">Price</TableHead>
-              <TableHead className="">Preview</TableHead>
-              <TableHead className="text-right">Edit</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {services?.map((service, idx) => (
-              <TableRow key={idx}>
-                <TableCell className="font-medium">
-                  <Link
-                    className="cursor-pointer hover:underline"
-                    href={`/dashboard/pets/${service.id}`}
-                  >
-                    {idx + 1}
-                  </Link>
-                </TableCell>
-                <TableCell>{service?.name}</TableCell>
-                <TableCell>
-                  {SERVICES_CONFIG[service?.serviceType]?.name}
-                </TableCell>
-                <TableCell>&#8377; {service?.price}</TableCell>
-                <TableCell className="text-right">
-                  <a
-                    href={`${env.CUSTOMER_APP_BASE_URL}${urlUtils.createServiceUrl(service, { publicId: centerPublicId, name: `preview ${centerPublicId}` } as Center)}`}
-                    className="group flex items-center justify-start text-sm hover:underline"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <span>View</span>
-                    <FiArrowUpRight size={18} />
-                  </a>
-                </TableCell>
-                <TableCell>
-                  <Link
-                    href={`/dashboard/${centerPublicId}/services/${service.publicId}/edit`}
-                    className="flex items-center justify-end gap-1 hover:underline"
-                  >
-                    <span>Edit</span>
-                    <LuPencil strokeWidth={2.5} size={14} />
-                  </Link>
-                </TableCell>
+      <div className="mt-5">
+        <h3 className="font-medium">Services List</h3>
+
+        {services.length ? (
+          <Table className="mt-2">
+            <TableCaption>List of all services.</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[20px]"></TableHead>
+                <TableHead className="min-w-[100px]">Service Name</TableHead>
+                <TableHead className="min-w-[100px]">Service Type</TableHead>
+                <TableHead className="min-w-[100px]">Price</TableHead>
+                <TableHead className="">Preview</TableHead>
+                <TableHead className="text-right">Edit</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      ) : (
-        <div className="flex h-[80vh] w-full flex-col items-center justify-center gap-2 py-2 text-center text-lg text-foreground/80">
-          <span>
-            No <span className="font-semibold">Services</span> added yet. Click{" "}
-            <span className="font-semibold">Add New Service</span> to create a
-            new service.
-          </span>
-        </div>
-      )}
+            </TableHeader>
+            <TableBody>
+              {services?.map((service, idx) => (
+                <TableRow key={idx}>
+                  <TableCell className="font-medium">
+                    <Link
+                      className="cursor-pointer hover:underline"
+                      href={`/dashboard/pets/${service.id}`}
+                    >
+                      {idx + 1}
+                    </Link>
+                  </TableCell>
+                  <TableCell>{service?.name}</TableCell>
+                  <TableCell>
+                    {SERVICES_CONFIG[service?.serviceType]?.name}
+                  </TableCell>
+                  <TableCell>&#8377; {service?.price}</TableCell>
+                  <TableCell className="text-right">
+                    <a
+                      href={`${env.CUSTOMER_APP_BASE_URL}${urlUtils.createServiceUrl(service, { publicId: centerPublicId, name: `preview ${centerPublicId}` } as Center)}`}
+                      className="group flex items-center justify-start text-sm hover:underline"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span>View</span>
+                      <FiArrowUpRight size={18} />
+                    </a>
+                  </TableCell>
+                  <TableCell>
+                    <Link
+                      href={`/dashboard/${centerPublicId}/services/${service.publicId}/edit`}
+                      className="flex items-center justify-end gap-1 hover:underline"
+                    >
+                      <span>Edit</span>
+                      <LuPencil strokeWidth={2.5} size={14} />
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <div className="flex h-[80vh] w-full flex-col items-center justify-center gap-2 py-2 text-center text-lg text-foreground/80">
+            <span>
+              No <span className="font-semibold">Services</span> added yet.
+              Click <span className="font-semibold">Add New Service</span> to
+              create a new service.
+            </span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

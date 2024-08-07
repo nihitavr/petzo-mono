@@ -54,6 +54,12 @@ export const PET_TYPE_CONFIG = {
 
 export const SLOT_DURATION_IN_MINS = 30;
 
+export type SERVICE_TYPE =
+  | "home_grooming"
+  | "grooming"
+  | "veterinary"
+  | "boarding";
+
 export const SERVICES_CONFIG: Record<
   string,
   { name: string; publicId: string; icon?: string; travelTimeInMins?: number }
