@@ -10,7 +10,7 @@ export default function RatingInput({
   rating?: number;
   setRating: (rating: number) => void;
 }) {
-  const [hoveredRating, setHoveredRating] = useState(0);
+  const [hoveredRating] = useState(0);
 
   return (
     <div className="flex items-center">

@@ -3,7 +3,6 @@
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { LuX } from "react-icons/lu";
-import { boolean } from "zod";
 
 import { cn } from "@petzo/ui/lib/utils";
 

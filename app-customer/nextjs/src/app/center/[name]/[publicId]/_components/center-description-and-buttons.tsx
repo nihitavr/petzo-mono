@@ -1,14 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { FiPhoneOutgoing } from "react-icons/fi";
-import { GrLocation } from "react-icons/gr";
-import { LuShare } from "react-icons/lu";
 
 import type { Center } from "@petzo/db";
-import { Button } from "@petzo/ui/components/button";
-import Share from "@petzo/ui/components/share";
-import { getGoogleLocationLink } from "@petzo/utils";
 
 export default function CenterDescriptionAndButtons({
   center,
@@ -17,8 +11,8 @@ export default function CenterDescriptionAndButtons({
 }) {
   const ctaButtonsContainerRef = useRef<HTMLDivElement>(null);
   const [showMoreDetails, setShowMoreDetails] = useState(false);
-  const [shareUrl, setShareUrl] = useState("");
-  const [fixedATC, setFixedATC] = useState(false);
+  const [, setShareUrl] = useState("");
+  const [, setFixedATC] = useState(false);
 
   useEffect(() => {
     // Access the current page URL using window.location.href
@@ -92,51 +86,51 @@ export default function CenterDescriptionAndButtons({
   );
 }
 
-function AtcButtons({
-  centerName,
-  shareUrl,
-  phoneNumber,
-  geocode,
-}: {
-  centerName: string;
-  shareUrl: string;
-  phoneNumber?: string | null;
-  geocode?: { latitude: number; longitude: number } | null;
-}) {
-  return (
-    <>
-      {phoneNumber && (
-        <Button size="md" variant="secondary" className="flex-1">
-          <a className="flex items-center gap-1" href={`tel:${phoneNumber}`}>
-            <span className="text-sm md:text-sm">Call</span>
-            <FiPhoneOutgoing
-              strokeWidth="2"
-              className="size-4 cursor-pointer hover:text-foreground/80"
-            />
-          </a>
-        </Button>
-      )}
-      {geocode && (
-        <Button size="md" variant="outline" className="flex-1">
-          <a
-            className="flex items-center gap-1"
-            href={getGoogleLocationLink(geocode)}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span className="text-sm md:text-sm">Get Direction</span>
-            <GrLocation className="size-4 cursor-pointer hover:text-foreground/80" />
-          </a>
-        </Button>
-      )}
-      <Share
-        shareInfo={{
-          title: centerName,
-          url: shareUrl,
-        }}
-      >
-        <LuShare className="size-6 cursor-pointer hover:text-foreground/80" />
-      </Share>
-    </>
-  );
-}
+// function AtcButtons({
+//   centerName,
+//   shareUrl,
+//   phoneNumber,
+//   geocode,
+// }: {
+//   centerName: string;
+//   shareUrl: string;
+//   phoneNumber?: string | null;
+//   geocode?: { latitude: number; longitude: number } | null;
+// }) {
+//   return (
+//     <>
+//       {phoneNumber && (
+//         <Button size="md" variant="secondary" className="flex-1">
+//           <a className="flex items-center gap-1" href={`tel:${phoneNumber}`}>
+//             <span className="text-sm md:text-sm">Call</span>
+//             <FiPhoneOutgoing
+//               strokeWidth="2"
+//               className="size-4 cursor-pointer hover:text-foreground/80"
+//             />
+//           </a>
+//         </Button>
+//       )}
+//       {geocode && (
+//         <Button size="md" variant="outline" className="flex-1">
+//           <a
+//             className="flex items-center gap-1"
+//             href={getGoogleLocationLink(geocode)}
+//             target="_blank"
+//             rel="noreferrer"
+//           >
+//             <span className="text-sm md:text-sm">Get Direction</span>
+//             <GrLocation className="size-4 cursor-pointer hover:text-foreground/80" />
+//           </a>
+//         </Button>
+//       )}
+//       <Share
+//         shareInfo={{
+//           title: centerName,
+//           url: shareUrl,
+//         }}
+//       >
+//         <LuShare className="size-6 cursor-pointer hover:text-foreground/80" />
+//       </Share>
+//     </>
+//   );
+// }

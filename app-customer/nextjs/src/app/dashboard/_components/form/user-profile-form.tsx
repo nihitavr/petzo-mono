@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { Button } from "@petzo/ui/components/button";
 import {
   Form,
   FormControl,
@@ -15,7 +14,6 @@ import {
   FormMessage,
 } from "@petzo/ui/components/form";
 import { Input } from "@petzo/ui/components/input";
-import Loader from "@petzo/ui/components/loader";
 import { toast } from "@petzo/ui/components/toast";
 
 import { api } from "~/trpc/react";
