@@ -51,7 +51,7 @@ export default function CenterCard({ center }: { center: Center }) {
           <div className="flex items-center gap-1">
             <GrLocation />
             <span className="line-clamp-1 text-2sm font-medium capitalize md:text-sm">
-              {center.centerAddress?.area.name}
+              {center.centerAddress?.area?.name}
             </span>
           </div>
 

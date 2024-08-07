@@ -50,7 +50,7 @@ export const CenterInfo = ({
       >
         <GrLocation className="!h-4 !w-4" />
         <span className="line-clamp-2 text-2sm font-medium capitalize md:text-sm">
-          {center.centerAddress?.line1}, {center.centerAddress?.area.name}
+          {center.centerAddress?.line1}, {center.centerAddress?.area?.name}
         </span>
       </a>
 

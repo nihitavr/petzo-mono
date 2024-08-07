@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { TRPCClientError } from "@trpc/client";
 
-import WipeAnimation from "@petzo/ui/components/animation/wipe-animation";
 import { Button } from "@petzo/ui/components/button";
 import { Input } from "@petzo/ui/components/input";
 import { Label } from "@petzo/ui/components/label";

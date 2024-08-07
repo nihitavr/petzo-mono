@@ -24,7 +24,7 @@ export default function WipeBottomUpAnimation({
           animationFillMode: "forwards",
           animationIterationCount: loop ? "infinite" : 1,
         }}
-        className="animate-wipe-bottom-up inline-block"
+        className="inline-block animate-wipe-bottom-up"
       >
         {children}
       </div>

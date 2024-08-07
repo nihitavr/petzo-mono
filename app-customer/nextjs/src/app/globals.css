@@ -10,7 +10,6 @@ input[type="file"] {
   display: none;
 }
 
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -59,7 +58,6 @@ input[type="file"] {
   }
 }
 
-
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -67,11 +65,11 @@ input[type="file"] {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .container-2 {
   /* @apply flex flex-col gap-4 md:mt-0 mt-1.5; */
-  @apply flex flex-col gap-4 mt-[3.5rem] md:mt-0;
+  @apply mt-[3.5rem] flex flex-col gap-4 md:mt-0;
 }

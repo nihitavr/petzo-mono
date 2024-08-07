@@ -96,8 +96,8 @@ export default function CentersDropdown({ centers }: { centers?: Center[] }) {
                         {center.name}
                       </span>
                       <span className="line-clamp-1 break-all text-2xs md:text-xs">
-                        {center.centerAddress?.area.name},{" "}
-                        {center.centerAddress?.city.name}
+                        {center.centerAddress?.area?.name},{" "}
+                        {center.centerAddress?.city?.name}
                       </span>{" "}
                     </div>
                   </div>

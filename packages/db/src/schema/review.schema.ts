@@ -32,9 +32,10 @@ export const reviews = pgTable(
       .notNull(),
   },
   (review) => ({
-    reviewsUserCenterIdx: index(
-      "reviews_center_id_user_id_index",
-    ).on(review.centerId, review.customerUserId),
+    reviewsUserCenterIdx: index("reviews_center_id_user_id_index").on(
+      review.centerId,
+      review.customerUserId,
+    ),
     reviewsParentReviewId: index("reviews_center_id_parent_review_id_index").on(
       review.centerId,
       review.parentReviewId,

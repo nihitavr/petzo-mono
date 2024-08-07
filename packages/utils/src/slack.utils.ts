@@ -36,7 +36,6 @@ export async function sendSlackMessage({
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const result = await response.text();
     console.log("Slack message sent successfully");
   } catch (error) {
     console.error("Error sending message:", error);
