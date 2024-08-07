@@ -7,8 +7,6 @@ import { auth } from "@petzo/auth-center-app";
 import { SERVICES_CONFIG } from "@petzo/constants";
 import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
-import { Input } from "@petzo/ui/components/input";
-import { Label } from "@petzo/ui/components/label";
 import {
   Table,
   TableBody,
@@ -66,13 +64,16 @@ export default async function Page({
           </Button>
         </Link>
       </div>
-      <div className="mt-4">
-        <h3 className="font-medium">Config</h3>
-        <ParallelServicesConfig serviceTypes={serviceTypes} center={center} />
-      </div>
+
+      {services.length > 0 && (
+        <div className="mt-4">
+          <h3 className="font-medium">Config</h3>
+          <ParallelServicesConfig serviceTypes={serviceTypes} center={center} />
+        </div>
+      )}
 
       <div className="mt-5">
-        <h3 className="font-medium">Services List</h3>
+        {services.length > 0 && <h3 className="font-medium">Services List</h3>}
 
         {services.length ? (
           <Table className="mt-2">
@@ -131,8 +132,8 @@ export default async function Page({
           <div className="flex h-[80vh] w-full flex-col items-center justify-center gap-2 py-2 text-center text-lg text-foreground/80">
             <span>
               No <span className="font-semibold">Services</span> added yet.
-              Click <span className="font-semibold">Add New Service</span> to
-              create a new service.
+              Click <span className="font-semibold">New Service</span> to create
+              a new service.
             </span>
           </div>
         )}

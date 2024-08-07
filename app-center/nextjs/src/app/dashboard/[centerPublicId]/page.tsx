@@ -2,9 +2,11 @@ import Link from "next/link";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { FiCheckCircle } from "react-icons/fi";
 import { IoTodayOutline } from "react-icons/io5";
+import { RiInformationFill } from "react-icons/ri";
 import { VscServerProcess } from "react-icons/vsc";
 
 import { auth } from "@petzo/auth-center-app";
+import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 
 import SignIn from "~/app/_components/sign-in";
@@ -33,6 +35,10 @@ export default async function Page({
 
   // You can await this here if you don't want to show Suspense fallback below
   const stats = await api.booking.getDashboardBookingStats({
+    centerPublicId,
+  });
+
+  const hasAnyService = await api.center.doesAnyServiceExist({
     centerPublicId,
   });
 
@@ -83,6 +89,28 @@ export default async function Page({
           total={stats.completed}
         />
       </div>
+
+      {!hasAnyService && (
+        <div className="flex flex-col items-center justify-center gap-2 rounded-lg border p-2">
+          <div className="flex items-start justify-center gap-1 text-center text-sm font-medium text-foreground/70">
+            <span className="text-start text-red-800">
+              <RiInformationFill className="inline size-6 h-min text-primary" />{" "}
+              Seems like you haven&apos;t created any Services yet. Click{" "}
+              <span className="font-bold">Add New Service.</span>
+            </span>{" "}
+          </div>
+
+          <Link href={`/dashboard/${centerPublicId}/services/create`}>
+            <Button
+              variant="primary"
+              size={"sm"}
+              className="flex items-center justify-center gap-1"
+            >
+              Add New Service
+            </Button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

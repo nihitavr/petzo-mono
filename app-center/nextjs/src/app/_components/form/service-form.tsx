@@ -4,7 +4,7 @@ import type { UseFormReturn } from "react-hook-form";
 import type { z } from "zod";
 import { useMemo, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { LuCheck, LuChevronsUpDown } from "react-icons/lu";
 
 import type { DAYS_TYPE } from "@petzo/constants";
@@ -70,6 +70,9 @@ export function ServiceForm({
 }) {
   const router = useRouter();
 
+  const searchParams = useSearchParams();
+  const isOnboarding = searchParams.get("onboarding");
+
   const form = useForm({
     schema: centerApp.service.ServiceSchema,
     defaultValues: {
@@ -116,7 +119,13 @@ export function ServiceForm({
     }
 
     toast.success(message);
-    router.push(`/dashboard/${centerPublicId}/services`);
+
+    if (isOnboarding) {
+      router.push(`/dashboard/${centerPublicId}/services?onboarding=true`);
+    } else {
+      router.push(`/dashboard/${centerPublicId}/services`);
+    }
+
     router.refresh();
   };
 
@@ -296,13 +305,13 @@ const TimeFormField = ({
                         >
                           <LuCheck
                             className={cn(
-                              "mr-2 h-4 w-4",
+                              "h-4 w-4",
                               time24h === field.value
                                 ? "opacity-100"
                                 : "opacity-0",
                             )}
                           />
-                          {time12h}
+                          <span className="w-full text-end">{time12h}</span>
                           <div className="h-1 w-4" />
                         </CommandItem>
                       );

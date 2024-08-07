@@ -13,6 +13,16 @@ const DEFAULT_CENTER_CONFIG = {
 };
 
 export const centerRouter = {
+  doesAnyServiceExist: protectedCenterProcedure.query(async ({ ctx }) => {
+    return (await ctx.db.query.services.findFirst({
+      where: and(
+        eq(schema.services.centerId, ctx.center.id),
+        isNull(schema.services.deletedAt),
+      ),
+    }))
+      ? true
+      : false;
+  }),
   getCenter: protectedProcedure
     .input(centerApp.center.CenterAuthorization)
     .query(({ ctx, input }) => {
