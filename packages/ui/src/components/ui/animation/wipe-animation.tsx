@@ -19,7 +19,6 @@ export default function WipeAnimation({
         animationDelay: `${animationDelay}s`,
         animationDuration: `${animationDuration}s`,
         animationFillMode: "forwards",
-        
       }}
       className={cn(
         className,

@@ -81,12 +81,8 @@
           "name": "area_city_id_city_id_fk",
           "tableFrom": "area",
           "tableTo": "city",
-          "columnsFrom": [
-            "city_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["city_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -96,24 +92,17 @@
         "area_public_id_unique": {
           "name": "area_public_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "public_id"
-          ]
+          "columns": ["public_id"]
         },
         "area_external_id_unique": {
           "name": "area_external_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "external_id"
-          ]
+          "columns": ["external_id"]
         },
         "city_id_area_idx_idx": {
           "name": "city_id_area_idx_idx",
           "nullsNotDistinct": false,
-          "columns": [
-            "city_id",
-            "public_id"
-          ]
+          "columns": ["city_id", "public_id"]
         }
       }
     },
@@ -202,12 +191,8 @@
           "name": "booking_items_booking_id_booking_id_fk",
           "tableFrom": "booking_items",
           "tableTo": "booking",
-          "columnsFrom": [
-            "booking_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["booking_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -215,12 +200,8 @@
           "name": "booking_items_pet_id_pet_id_fk",
           "tableFrom": "booking_items",
           "tableTo": "pet",
-          "columnsFrom": [
-            "pet_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["pet_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -228,12 +209,8 @@
           "name": "booking_items_slot_id_slot_id_fk",
           "tableFrom": "booking_items",
           "tableTo": "slot",
-          "columnsFrom": [
-            "slot_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["slot_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -241,12 +218,8 @@
           "name": "booking_items_service_id_service_id_fk",
           "tableFrom": "booking_items",
           "tableTo": "service",
-          "columnsFrom": [
-            "service_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["service_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -360,12 +333,8 @@
           "name": "booking_customer_user_id_customer_user_id_fk",
           "tableFrom": "booking",
           "tableTo": "customer_user",
-          "columnsFrom": [
-            "customer_user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["customer_user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -373,12 +342,8 @@
           "name": "booking_address_id_customer_address_id_fk",
           "tableFrom": "booking",
           "tableTo": "customer_address",
-          "columnsFrom": [
-            "address_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["address_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -386,12 +351,8 @@
           "name": "booking_center_id_center_id_fk",
           "tableFrom": "booking",
           "tableTo": "center",
-          "columnsFrom": [
-            "center_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["center_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -466,12 +427,8 @@
           "name": "center_address_area_id_area_id_fk",
           "tableFrom": "center_address",
           "tableTo": "area",
-          "columnsFrom": [
-            "area_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["area_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -479,12 +436,8 @@
           "name": "center_address_city_id_city_id_fk",
           "tableFrom": "center_address",
           "tableTo": "city",
-          "columnsFrom": [
-            "city_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["city_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -492,12 +445,8 @@
           "name": "center_address_state_id_state_id_fk",
           "tableFrom": "center_address",
           "tableTo": "state",
-          "columnsFrom": [
-            "state_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["state_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -604,10 +553,7 @@
       "compositePrimaryKeys": {
         "center_account_provider_providerAccountId_pk": {
           "name": "center_account_provider_providerAccountId_pk",
-          "columns": [
-            "provider",
-            "providerAccountId"
-          ]
+          "columns": ["provider", "providerAccountId"]
         }
       },
       "uniqueConstraints": {}
@@ -752,10 +698,7 @@
       "compositePrimaryKeys": {
         "center_verificationToken_identifier_token_pk": {
           "name": "center_verificationToken_identifier_token_pk",
-          "columns": [
-            "identifier",
-            "token"
-          ]
+          "columns": ["identifier", "token"]
         }
       },
       "uniqueConstraints": {}
@@ -897,12 +840,8 @@
           "name": "center_center_address_id_center_address_id_fk",
           "tableFrom": "center",
           "tableTo": "center_address",
-          "columnsFrom": [
-            "center_address_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["center_address_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -910,12 +849,8 @@
           "name": "center_center_user_id_center_user_id_fk",
           "tableFrom": "center",
           "tableTo": "center_user",
-          "columnsFrom": [
-            "center_user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["center_user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -925,9 +860,7 @@
         "center_public_id_unique": {
           "name": "center_public_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "public_id"
-          ]
+          "columns": ["public_id"]
         }
       }
     },
@@ -979,12 +912,8 @@
           "name": "city_state_id_state_id_fk",
           "tableFrom": "city",
           "tableTo": "state",
-          "columnsFrom": [
-            "state_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["state_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -994,24 +923,17 @@
         "city_public_id_unique": {
           "name": "city_public_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "public_id"
-          ]
+          "columns": ["public_id"]
         },
         "city_external_id_unique": {
           "name": "city_external_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "external_id"
-          ]
+          "columns": ["external_id"]
         },
         "city_public_id_state_idx": {
           "name": "city_public_id_state_idx",
           "nullsNotDistinct": false,
-          "columns": [
-            "public_id",
-            "state_id"
-          ]
+          "columns": ["public_id", "state_id"]
         }
       }
     },
@@ -1134,12 +1056,8 @@
           "name": "customer_address_customer_user_id_customer_user_id_fk",
           "tableFrom": "customer_address",
           "tableTo": "customer_user",
-          "columnsFrom": [
-            "customer_user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["customer_user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1147,12 +1065,8 @@
           "name": "customer_address_area_id_area_id_fk",
           "tableFrom": "customer_address",
           "tableTo": "area",
-          "columnsFrom": [
-            "area_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["area_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1160,12 +1074,8 @@
           "name": "customer_address_city_id_city_id_fk",
           "tableFrom": "customer_address",
           "tableTo": "city",
-          "columnsFrom": [
-            "city_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["city_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1173,12 +1083,8 @@
           "name": "customer_address_state_id_state_id_fk",
           "tableFrom": "customer_address",
           "tableTo": "state",
-          "columnsFrom": [
-            "state_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["state_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1285,10 +1191,7 @@
       "compositePrimaryKeys": {
         "customer_account_provider_providerAccountId_pk": {
           "name": "customer_account_provider_providerAccountId_pk",
-          "columns": [
-            "provider",
-            "providerAccountId"
-          ]
+          "columns": ["provider", "providerAccountId"]
         }
       },
       "uniqueConstraints": {}
@@ -1433,10 +1336,7 @@
       "compositePrimaryKeys": {
         "customer_verificationToken_identifier_token_pk": {
           "name": "customer_verificationToken_identifier_token_pk",
-          "columns": [
-            "identifier",
-            "token"
-          ]
+          "columns": ["identifier", "token"]
         }
       },
       "uniqueConstraints": {}
@@ -1546,12 +1446,8 @@
           "name": "pet_medical_record_pet_id_pet_id_fk",
           "tableFrom": "pet_medical_record",
           "tableTo": "pet",
-          "columnsFrom": [
-            "pet_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["pet_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1559,12 +1455,8 @@
           "name": "pet_medical_record_center_id_center_id_fk",
           "tableFrom": "pet_medical_record",
           "tableTo": "center",
-          "columnsFrom": [
-            "center_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["center_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1572,12 +1464,8 @@
           "name": "pet_medical_record_customer_user_id_customer_user_id_fk",
           "tableFrom": "pet_medical_record",
           "tableTo": "customer_user",
-          "columnsFrom": [
-            "customer_user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["customer_user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1688,12 +1576,8 @@
           "name": "pet_customer_user_id_customer_user_id_fk",
           "tableFrom": "pet",
           "tableTo": "customer_user",
-          "columnsFrom": [
-            "customer_user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["customer_user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1703,9 +1587,7 @@
         "pet_public_id_unique": {
           "name": "pet_public_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "public_id"
-          ]
+          "columns": ["public_id"]
         }
       }
     },
@@ -1780,12 +1662,8 @@
           "name": "rating_customer_user_id_customer_user_id_fk",
           "tableFrom": "rating",
           "tableTo": "customer_user",
-          "columnsFrom": [
-            "customer_user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["customer_user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1793,12 +1671,8 @@
           "name": "rating_center_id_center_id_fk",
           "tableFrom": "rating",
           "tableTo": "center",
-          "columnsFrom": [
-            "center_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["center_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1904,12 +1778,8 @@
           "name": "review_customer_user_id_customer_user_id_fk",
           "tableFrom": "review",
           "tableTo": "customer_user",
-          "columnsFrom": [
-            "customer_user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["customer_user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1917,12 +1787,8 @@
           "name": "review_center_id_center_id_fk",
           "tableFrom": "review",
           "tableTo": "center",
-          "columnsFrom": [
-            "center_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["center_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -2060,12 +1926,8 @@
           "name": "service_center_id_center_id_fk",
           "tableFrom": "service",
           "tableTo": "center",
-          "columnsFrom": [
-            "center_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["center_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -2075,9 +1937,7 @@
         "service_public_id_unique": {
           "name": "service_public_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "public_id"
-          ]
+          "columns": ["public_id"]
         }
       }
     },
@@ -2170,12 +2030,8 @@
           "name": "slot_service_id_service_id_fk",
           "tableFrom": "slot",
           "tableTo": "service",
-          "columnsFrom": [
-            "service_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["service_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -2183,12 +2039,8 @@
           "name": "slot_center_id_center_id_fk",
           "tableFrom": "slot",
           "tableTo": "center",
-          "columnsFrom": [
-            "center_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["center_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -2198,11 +2050,7 @@
         "slots_service_id_date_starttime_idx": {
           "name": "slots_service_id_date_starttime_idx",
           "nullsNotDistinct": false,
-          "columns": [
-            "service_id",
-            "date",
-            "start_time"
-          ]
+          "columns": ["service_id", "date", "start_time"]
         }
       }
     },
@@ -2277,12 +2125,8 @@
           "name": "staff_center_user_id_center_user_id_fk",
           "tableFrom": "staff",
           "tableTo": "center_user",
-          "columnsFrom": [
-            "center_user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["center_user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -2290,12 +2134,8 @@
           "name": "staff_center_id_center_id_fk",
           "tableFrom": "staff",
           "tableTo": "center",
-          "columnsFrom": [
-            "center_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["center_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -2362,9 +2202,7 @@
         "state_external_id_unique": {
           "name": "state_external_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "external_id"
-          ]
+          "columns": ["external_id"]
         }
       }
     },
@@ -2439,12 +2277,8 @@
           "name": "vet_center_user_id_center_user_id_fk",
           "tableFrom": "vet",
           "tableTo": "center_user",
-          "columnsFrom": [
-            "center_user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["center_user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -2452,12 +2286,8 @@
           "name": "vet_center_id_center_id_fk",
           "tableFrom": "vet",
           "tableTo": "center",
-          "columnsFrom": [
-            "center_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["center_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -2482,29 +2312,17 @@
     "public.gender_enum_type": {
       "name": "gender_enum_type",
       "schema": "public",
-      "values": [
-        "male",
-        "female"
-      ]
+      "values": ["male", "female"]
     },
     "public.pet_type_enum_type": {
       "name": "pet_type_enum_type",
       "schema": "public",
-      "values": [
-        "cat",
-        "small_dog",
-        "big_dog"
-      ]
+      "values": ["cat", "small_dog", "big_dog"]
     },
     "public.center_service_type": {
       "name": "center_service_type",
       "schema": "public",
-      "values": [
-        "veterinary",
-        "grooming",
-        "boarding",
-        "home_grooming"
-      ]
+      "values": ["veterinary", "grooming", "boarding", "home_grooming"]
     }
   },
   "schemas": {},

@@ -30,7 +30,6 @@ input[type="file"] {
     --ring: 240 5% 64.9%;
     --radius: 0.5rem;
     --ring: 192 37% 59%;
-
   }
 
   .dark {
@@ -63,10 +62,10 @@ input[type="file"] {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .container-main {
-  @apply px-3 py-[4rem] pb-[5.4rem] md:py-[4.8rem] lg:px-24 xl:px-48
+  @apply px-3 py-[4rem] pb-[5.4rem] md:py-[4.8rem] lg:px-24 xl:px-48;
 }

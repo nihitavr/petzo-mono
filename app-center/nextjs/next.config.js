@@ -7,17 +7,17 @@ createJiti(fileURLToPath(import.meta.url))("./src/env");
 /** @type {import("next").NextConfig} */
 const config = {
   images: {
-    remotePatterns:[
+    remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '8gyw0ohnixyehwla.public.blob.vercel-storage.com',
-        pathname: '**',
+        protocol: "https",
+        hostname: "8gyw0ohnixyehwla.public.blob.vercel-storage.com",
+        pathname: "**",
       },
       {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com',
-        pathname: '**',
-      }
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        pathname: "**",
+      },
     ],
   },
   reactStrictMode: true,
@@ -35,11 +35,13 @@ const config = {
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
   webpack: (config, { webpack }) => {
-    config.plugins.push(new webpack.IgnorePlugin({
+    config.plugins.push(
+      new webpack.IgnorePlugin({
         resourceRegExp: /^pg-native$|^cloudflare:sockets$/,
-    }))
+      }),
+    );
 
-    return config
+    return config;
   },
 };
 

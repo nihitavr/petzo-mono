@@ -32,7 +32,7 @@ export const centerAddresses = centerPgTable(
       .notNull(),
   },
 
-  // TODO: This index need to be added manually to the database 
+  // TODO: This index need to be added manually to the database
   (centerAddresses) => ({
     centerAddressGeocodeGistIndex: sql`CREATE INDEX center_address_geocode_gist_index ON ${centerAddresses} USING GIST (${centerAddresses.geocode})`,
   }),

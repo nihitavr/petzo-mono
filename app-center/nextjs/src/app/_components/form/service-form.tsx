@@ -181,7 +181,7 @@ export function ServiceForm({
           disabled={Object.keys(form.formState.dirtyFields).length == 0}
           isSubmitting={isSubmitting}
           name="Save & Continue"
-          label= "Next: Update Service Config"
+          label="Next: Update Service Config"
         />
       </form>
     </Form>
@@ -296,7 +296,7 @@ const TimeFormField = ({
                               (key) => {
                                 const day = key as DAYS_TYPE;
                                 if (config.operatingHours[day]) {
-                                  config.operatingHours[day][name] = time24h;
+                                  config.operatingHours[day]![name] = time24h;
                                 }
                               },
                             );

@@ -21,7 +21,7 @@ export default function HomePageCenterButton({ center }: { center: Center }) {
     >
       <span className="font-semibold">{center.name}</span>
       <span className="text-xs md:text-2sm">
-        {center.centerAddress?.area.name}, {center.centerAddress?.city.name}
+        {center.centerAddress?.area?.name}, {center.centerAddress?.city?.name}
       </span>
     </Link>
   );
