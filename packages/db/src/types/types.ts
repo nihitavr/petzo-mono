@@ -40,6 +40,15 @@ export type Center = InferResultType<"centers"> & {
   services?: Service[];
 };
 
+export interface CenterConfig {
+  services: {
+    home_grooming?: { noOfParallelServices: number };
+    grooming?: { noOfParallelServices: number };
+    veterinary?: { noOfParallelServices: number };
+    boarding?: { noOfParallelServices: number };
+  };
+}
+
 // Center Address Type
 export type CenterAddress = InferResultType<"centerAddresses"> & {
   area?: Area;

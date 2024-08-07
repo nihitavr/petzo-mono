@@ -10,6 +10,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
+import { CenterConfig } from "../types/types";
 import { pgTable } from "./_table";
 import { centerAddresses } from "./center-address.schema";
 import { centerUsers } from "./center-app-auth.schema";
@@ -27,12 +28,7 @@ export const centers = pgTable(
     ratingCount: integer("rating_count").default(0).notNull(),
     reviewCount: integer("review_count").default(0).notNull(),
     phoneNumber: varchar("phone_number", { length: 15 }),
-    config: json("config").$type<{
-      services: {
-        homeGrooming: { default: { noOfParallelServices: number } };
-        grooming: { default: { noOfParallelServices: number } };
-      };
-    }>(),
+    config: json("config").$type<CenterConfig>(),
     centerAddressId: integer("center_address_id").references(
       () => centerAddresses.id,
     ),

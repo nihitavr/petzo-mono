@@ -4,6 +4,14 @@ import { centerApp } from "@petzo/validators";
 import { generateRandomPublicId } from "../../../../packages/utils/src/string.utils";
 import { protectedCenterProcedure, protectedProcedure } from "../trpc";
 
+const DEFAULT_CENTER_CONFIG = {
+  services: {
+    home_grooming: { noOfParallelServices: 1 },
+    grooming: { noOfParallelServices: 1 },
+    veterinary: { noOfParallelServices: 1 },
+  },
+};
+
 export const centerRouter = {
   getCenter: protectedProcedure
     .input(centerApp.center.CenterAuthorization)
@@ -58,6 +66,7 @@ export const centerRouter = {
             images: input.images,
             phoneNumber: input.phoneNumber,
             centerUserId: ctx.session.user.id,
+            config: DEFAULT_CENTER_CONFIG,
           })
           .returning()
       )?.[0];
@@ -76,7 +85,26 @@ export const centerRouter = {
             phoneNumber: input.phoneNumber,
             centerUserId: ctx.session.user.id,
           })
-          .where(and(eq(schema.centers.publicId, input.publicId!)))
+          .where(
+            and(
+              eq(schema.centers.publicId, input.publicId!),
+              eq(schema.centers.centerUserId, ctx.session.user.id),
+            ),
+          )
+          .returning()
+      )?.[0];
+    }),
+
+  updateCenterConfig: protectedCenterProcedure
+    .input(centerApp.center.CenterConfig)
+    .mutation(async ({ ctx, input }) => {
+      return (
+        await ctx.db
+          .update(schema.centers)
+          .set({
+            config: { services: input.services },
+          })
+          .where(and(eq(schema.centers.publicId, input.centerPublicId)))
           .returning()
       )?.[0];
     }),
