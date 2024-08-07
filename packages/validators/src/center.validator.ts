@@ -5,13 +5,13 @@ export const FindByPublicId = z.object({ publicId: z.string() });
 export const FindByFilters = z.object({
   search: z
     .string()
-    .optional()
-    .transform((val) =>
-      val
-        ?.trim()
-        .split(" ")
-        .map((v) => `${v.trim()}`),
-    ),
+    .optional(),
+    // .transform((val) =>
+    //   val
+    //     ?.trim()
+    //     .split(" ")
+    //     .map((v) => `${v.trim()}`),
+    // ),
   city: z.string(),
   serviceType: z
     .string()

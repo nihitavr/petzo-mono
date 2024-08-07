@@ -42,6 +42,10 @@ export default async function Page({
     centerPublicId,
   });
 
+  const center = await api.center.getCenter({
+    centerPublicId,
+  });
+
   const centerUrl = `/dashboard/${centerPublicId}`;
 
   return (
@@ -90,17 +94,43 @@ export default async function Page({
         />
       </div>
 
+      {!center?.centerAddressId && (
+        <div className="flex flex-col items-center justify-center gap-2 rounded-lg border p-2">
+          <div className="flex items-center justify-center gap-1 text-center text-sm font-medium text-foreground/70">
+            <span className="text-center">
+              <RiInformationFill className="inline size-5 h-min animate-bounce text-red-800" />{" "}
+              Seems like you haven&apos;t added address yet. Click{" "}
+              <span className="font-bold">Add New Address.</span>
+            </span>{" "}
+          </div>
+
+          <Link
+            href={`/dashboard/${centerPublicId}/address/create?onboarding=true`}
+          >
+            <Button
+              variant="primary"
+              size={"sm"}
+              className="flex items-center justify-center gap-1"
+            >
+              Add Address
+            </Button>
+          </Link>
+        </div>
+      )}
+
       {!hasAnyService && (
         <div className="flex flex-col items-center justify-center gap-2 rounded-lg border p-2">
-          <div className="flex items-start justify-center gap-1 text-center text-sm font-medium text-foreground/70">
-            <span className="text-start text-red-800">
-              <RiInformationFill className="inline size-6 h-min text-primary" />{" "}
-              Seems like you haven&apos;t created any Services yet. Click{" "}
+          <div className="flex items-center justify-center gap-1 text-center text-sm font-medium text-foreground/70">
+            <span className="text-center">
+              <RiInformationFill className="inline size-5 h-min animate-bounce text-red-800" />{" "}
+              Seems like you haven&apos;t added any service yet. Click{" "}
               <span className="font-bold">Add New Service.</span>
             </span>{" "}
           </div>
 
-          <Link href={`/dashboard/${centerPublicId}/services/create`}>
+          <Link
+            href={`/dashboard/${centerPublicId}/services/create?onboarding=true`}
+          >
             <Button
               variant="primary"
               size={"sm"}

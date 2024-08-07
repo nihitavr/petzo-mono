@@ -18,6 +18,40 @@ export const PET_GENDER_CONFIG = {
   female: "Female",
 };
 
+export const CENTER_STATUS = [
+  "created",
+  "verification_started",
+  "verified",
+  "verification_rejected",
+] as const;
+
+export const CENTER_STATUS_CONFIG = {
+  created: {
+    name: "Not Verified",
+    bgColor: "#CA8A04",
+    textColor: "#ffffff",
+    id: "created",
+  },
+  verification_started: {
+    name: "Verification Started",
+    bgColor: "#2563EB",
+    textColor: "#ffffff",
+    id: "verification_started",
+  },
+  verified: {
+    name: "Verified",
+    bgColor: "#00A34A",
+    textColor: "#ffffff",
+    id: "verified",
+  },
+  verification_rejected: {
+    name: "Verification Rejected",
+    bgColor: "#EF4444",
+    textColor: "#ffffff",
+    id: "verification_rejected",
+  },
+};
+
 // Booking Status
 export const BOOKING_STATUS = [
   "booked",

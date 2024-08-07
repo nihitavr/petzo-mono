@@ -46,9 +46,12 @@ export default function ParallelServicesConfig({
     >
       <div className="flex flex-col">
         <Label className="text-base">No of Parallel Services:</Label>
-        <Label className="text-2sm font-normal text-muted-foreground">
-          Number of services that can be booked at the same time for each
-          service type.
+        <Label
+          className={`text-2sm font-normal ${isOnboarding ? "font-semibold text-muted-foreground" : "text-muted-foreground"}`}
+        >
+          {isOnboarding
+            ? "Number of services that can be booked at the same time for each service type. Please update this if you have multiple staff working on the same service type parallely."
+            : "Number of services that can be booked at the same time for each service type."}
         </Label>
       </div>
 
@@ -59,13 +62,13 @@ export default function ParallelServicesConfig({
 
           return (
             <div key={serviceType} className="flex items-center gap-3 text-sm">
-              <span className="col-span-3 w-36 shrink-0">
+              <span className="w-36">
                 {SERVICES_CONFIG[serviceType]?.name}:{" "}
               </span>
               <Input
                 type="number"
                 min={1}
-                className="col-span-1 w-20 px-1 text-center md:h-8"
+                className="w-12 px-1 text-center md:h-8"
                 defaultValue={noOfParallelServices}
                 value={noOfParallelServices}
                 onChange={(e) => {
@@ -85,28 +88,35 @@ export default function ParallelServicesConfig({
           );
         })}
       </div>
-      <div className="mt-3 flex justify-end">
-        <Button
-          onClick={async () => {
-            try {
-              setIsSaving(true);
-              await updateCenterConfig.mutateAsync({
-                centerPublicId: center!.publicId,
-                services: configState!.services,
-              });
-              router.refresh();
-            } catch (error) {
-              console.error(error);
-            }
-            setIsSaving(false);
-          }}
-          disabled={!shouldSave || isSaving}
-          className="flex items-center gap-1"
-        >
-          <span>Save</span>
-          {isSaving && <Loader show={true} className="size-5" />}
-        </Button>
-      </div>
+      {(shouldSave || isOnboarding) && (
+        <div className="mt-3 flex justify-end">
+          <Button
+            onClick={async () => {
+              try {
+                setIsSaving(true);
+                await updateCenterConfig.mutateAsync({
+                  centerPublicId: center!.publicId,
+                  services: configState!.services,
+                });
+
+                if (isOnboarding) {
+                  router.push(`/dashboard/${center!.publicId}/manage`);
+                }
+
+                router.refresh();
+              } catch (error) {
+                console.error(error);
+              }
+              setIsSaving(false);
+            }}
+            disabled={isSaving}
+            className="flex items-center gap-1"
+          >
+            <span>{isOnboarding ? "Finish Onboarding" : "Save"}</span>
+            {isSaving && <Loader show={true} className="size-5" />}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

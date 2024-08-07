@@ -180,6 +180,8 @@ export function ServiceForm({
         <FormSaveButton
           disabled={Object.keys(form.formState.dirtyFields).length == 0}
           isSubmitting={isSubmitting}
+          name="Save & Continue"
+          label= "Next: Update Service Config"
         />
       </form>
     </Form>
