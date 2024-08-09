@@ -1,3 +1,4 @@
+import { getFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
 import { GrLocation } from "react-icons/gr";
 
 import type { Center } from "@petzo/db";
@@ -50,7 +51,7 @@ export const CenterInfo = ({
       >
         <GrLocation className="!h-4 !w-4" />
         <span className="line-clamp-2 text-2sm font-medium capitalize md:text-sm">
-          {center.centerAddress?.line1}, {center.centerAddress?.area?.name}
+          {getFormattedAddresses(center?.centerAddress, ["line1", "area"])}
         </span>
       </a>
 

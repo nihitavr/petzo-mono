@@ -17,11 +17,27 @@ export function getFullFormattedAddresses(
 }
 
 export function getPlaceFormattedAddresses(
-  addresses?: CustomerAddresses | CenterAddress,
+  addresses?: CustomerAddresses | CenterAddress | null,
 ) {
   let placeAddress = "";
 
   if (addresses?.line1) placeAddress += `${addresses.line1}, `;
+  if (addresses?.area) placeAddress += `${addresses.area.name}, `;
+  if (addresses?.city) placeAddress += `${addresses.city.name}, `;
+  if (addresses?.state) placeAddress += `${addresses.state.name} `;
+  if (addresses?.pincode) placeAddress += `${addresses.pincode}`;
+
+  return placeAddress;
+}
+
+export function getFormattedAddresses(
+  addresses?: CustomerAddresses | CenterAddress | null,
+  fields?: ("line1" | "area" | "city" | "state" | "pincode")[],
+) {
+  let placeAddress = "";
+
+  if (fields?.includes("line1") && addresses?.line1)
+    placeAddress += `${addresses.line1}, `;
   if (addresses?.area) placeAddress += `${addresses.area.name}, `;
   if (addresses?.city) placeAddress += `${addresses.city.name}, `;
   if (addresses?.state) placeAddress += `${addresses.state.name} `;

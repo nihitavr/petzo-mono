@@ -16,7 +16,7 @@ export const ServiceSchema = CenterAuthorization.extend({
   description: z.string().optional(),
   serviceType: z.enum(SERVICE_TYPE_VALUES, {
     errorMap: () => {
-      return { message: "Type is required." };
+      return { message: "Service Type is required." };
     },
   }),
   config: z.object({

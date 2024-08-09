@@ -35,8 +35,7 @@ export const centerRouter = {
     }),
 
   findByFilters: publicCachedProcedure
-    .meta({ cacheTTLInSeconds: 1 })
-    // .meta({ cacheTTLInSeconds: 60 })
+    .meta({ cacheTTLInSeconds: 60 })
     .input(centerValidator.FindByFilters)
     .query(async ({ ctx, input }) => {
       // Get area ids from the input using the static areaMap.

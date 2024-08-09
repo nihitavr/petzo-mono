@@ -16,6 +16,7 @@ export default {
     },
     extend: {
       fontSize: {
+        "2base": ["0.94rem", "1.32rem"],
         "2sm": ["0.82rem", "1.15rem"],
         "2xs": ["0.7rem", "1rem"],
         "3xs": ["0.65rem", "1rem"],

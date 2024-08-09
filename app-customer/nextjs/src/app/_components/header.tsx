@@ -8,6 +8,7 @@ import { useSignals } from "@preact/signals-react/runtime";
 
 import type { Session } from "@petzo/auth-customer-app";
 import type { City } from "@petzo/db";
+import { Button } from "@petzo/ui/components/button";
 import { cn } from "@petzo/ui/lib/utils";
 
 import { filtersStore } from "~/lib/storage/global-storage";
@@ -42,7 +43,8 @@ export default function Header({
       currentScrollPos > lastScrollTop &&
       currentScrollPos > scrollUpThreshold &&
       !pathname.startsWith("/dashboard") &&
-      !pathname.startsWith("/checkout")
+      !pathname.startsWith("/checkout") &&
+      !pathname.startsWith("/partner-with-us")
     ) {
       // Scroll Up
       setHeaderVisible(false);
@@ -103,7 +105,7 @@ export default function Header({
           </Link>
         </div>
         <div className="hidden items-center justify-center md:flex">
-          <GlobalSearchInput />
+          {!pathname.endsWith("/partner-with-us") && <GlobalSearchInput />}
         </div>
 
         <div className="flex items-center justify-end gap-2">
@@ -115,8 +117,24 @@ export default function Header({
               For Partners
             </Link>
           )}
+          {pathname.endsWith("/partner-with-us") && (
+            <Link
+              href={"#demo-section"}
+              className="relative font-medium hover:text-foreground/80 md:mr-2 md:inline"
+            >
+              <Button
+                size="sm"
+                className="rounded-full px-2 text-2xs md:h-10 md:px-3 md:text-sm"
+              >
+                Get Free Demo
+              </Button>
+            </Link>
+          )}
           {/* <CartSideSheet /> */}
-          <CityDropdown cities={cities} />
+          {!pathname.endsWith("/partner-with-us") && (
+            <CityDropdown cities={cities} />
+          )}
+
           <SideNavSheet
             isSignedIn={!!session?.user}
             image={session?.user?.image}
