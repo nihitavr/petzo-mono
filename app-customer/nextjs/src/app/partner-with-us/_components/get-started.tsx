@@ -73,7 +73,7 @@ export default function GetStarted() {
         Get started in 3 easy steps!
       </h1>
 
-      <div className="mt-8 flex items-center justify-center gap-3 md:gap-10">
+      <div className="mt-10 flex items-center justify-center gap-3 md:gap-10">
         {[0, 1, 2].map((tabIdx) => (
           <Fragment key={tabIdx}>
             {tabIdx != 0 && (
@@ -116,12 +116,12 @@ const StepsSection = ({
       onClick={() => setSelectedTabIdx(tabIdx)}
       onPointerEnter={() => setIsHovered(true)}
       onPointerLeave={() => setIsHovered(false)}
-      className="flex cursor-pointer flex-col items-center gap-3"
+      className="flex cursor-pointer flex-col items-center gap-2"
     >
       <span
         className={`flex size-10 shrink-0 items-center justify-center rounded-full border border-foreground/30 transition-all duration-100 ${selectedTabIdx >= tabIdx ? "border-primary bg-primary/10 text-primary" : ""} ${selectedTabIdx == tabIdx ? "scale-125" : ""}`}
       >
-        {tabIdx}
+        {tabIdx + 1}
       </span>
     </div>
   );
