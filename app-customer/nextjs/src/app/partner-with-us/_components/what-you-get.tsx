@@ -7,8 +7,8 @@ import Image from "next/image";
 const IMAGES = {
   1: "/partner-page/listing-on-furclub.png",
   2: "/partner-page/professional-center-page.png",
-  3: "/partner-page/center-dashboard.png",
-  4: "/partner-page/24-7-booking.png",
+  3: "/partner-page/24-7-booking.png",
+  4: "/partner-page/center-dashboard.png",
   // 5: "/partner-page/increased-exposure.png",
   // 4: "/partner-page/business-growth-insights.png",
 } as Record<number, string>;
@@ -52,7 +52,6 @@ export default function WhatYouGet() {
                 <span className="font-semibold">grow your business</span>.
               </span>
             }
-            // subInfo="Get discovered by new pet parents looking for pet care services on Furclub. Reach new customers and grow your business."
           />
           <InfoTab
             tabIdx={2}
@@ -62,24 +61,9 @@ export default function WhatYouGet() {
             title="Professional Center Page"
             subInfo="Showcase your pet care services online with a polished experience on web and mobile."
           />
+
           <InfoTab
             tabIdx={3}
-            selectedTabIdx={selectedTabIdx}
-            setSelectedTabIdx={setSelectedTabIdx}
-            setIsHovered={setIsHovered}
-            title="Center Web/Mobile Dashboard"
-            // subInfo="Manage all your bookings anytime, anywhere - from your laptop or mobile."
-            subInfo={
-              <span>
-                <span className="font-semibold">Manage all your bookings</span>{" "}
-                anytime, anywhere - from your{" "}
-                <span className="font-semibold">laptop</span> or{" "}
-                <span className="font-semibold">mobile</span>.
-              </span>
-            }
-          />
-          <InfoTab
-            tabIdx={4}
             selectedTabIdx={selectedTabIdx}
             setSelectedTabIdx={setSelectedTabIdx}
             setIsHovered={setIsHovered}
@@ -93,6 +77,22 @@ export default function WhatYouGet() {
                 ensuring you
                 <span className="font-semibold"> never lose a customer</span>.
                 Say goodbye to endless phone calls and WhatsApp messages.
+              </span>
+            }
+          />
+          <InfoTab
+            tabIdx={4}
+            selectedTabIdx={selectedTabIdx}
+            setSelectedTabIdx={setSelectedTabIdx}
+            setIsHovered={setIsHovered}
+            title="Center Web/Mobile Dashboard"
+            // subInfo="Manage all your bookings anytime, anywhere - from your laptop or mobile."
+            subInfo={
+              <span>
+                <span className="font-semibold">Manage all your bookings</span>{" "}
+                anytime, anywhere - from your{" "}
+                <span className="font-semibold">laptop</span> or{" "}
+                <span className="font-semibold">mobile</span>.
               </span>
             }
           />
@@ -137,7 +137,7 @@ const InfoTab = ({
       className="flex cursor-pointer items-start gap-3"
     >
       <span
-        className={`flex size-10 shrink-0 items-center justify-center rounded-full border ${selectedTabIdx == tabIdx ? "border-primary bg-primary/10 text-primary" : ""}`}
+        className={`flex size-10 shrink-0 items-center justify-center rounded-full border border-foreground/15 ${selectedTabIdx == tabIdx ? "border-primary bg-primary/10 text-primary" : ""}`}
       >
         {tabIdx}
       </span>
