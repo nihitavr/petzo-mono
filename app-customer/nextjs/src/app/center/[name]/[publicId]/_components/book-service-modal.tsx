@@ -706,7 +706,11 @@ function ServiceBookingForm({
               </div>
             ) : (
               <div className="flex flex-col items-center gap-1">
-                <span>Login to select pet</span>
+                <span className="text-center">
+                  We need log in to <span className="font-semibold">save</span>{" "}
+                  and <span className="font-semibold">manage</span> your{" "}
+                  <span className="font-semibold">pet&apos;s information.</span>
+                </span>
                 <SignIn
                   onClick={() => {
                     trackCustom("click_login_service_booking");

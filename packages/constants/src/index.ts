@@ -110,7 +110,7 @@ export const SERVICES_CONFIG: Record<
   mobile_grooming: {
     name: "Mobile Grooming",
     publicId: "mobile_grooming",
-    icon: "/icons/home-grooming-icon.svg",
+    icon: "/icons/mobile-grooming-icon.svg",
     travelTimeInMins: 30,
   },
   home_grooming: {

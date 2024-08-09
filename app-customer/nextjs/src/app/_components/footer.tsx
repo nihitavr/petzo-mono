@@ -15,7 +15,7 @@ export default function Footer() {
     return null;
 
   return (
-    <footer className="relative -mt-10 flex flex-col items-start justify-start gap-5 bg-muted px-3 pb-20 pt-10 md:justify-between md:pb-[4.8rem] lg:px-24 xl:px-48">
+    <footer className="relative flex flex-col items-start justify-start gap-5 bg-muted px-3 pb-20 pt-10 md:justify-between md:pb-[5.8rem] lg:px-24 xl:px-48">
       <div className="flex w-full flex-col items-start justify-between gap-6 md:flex-row-reverse">
         <div className="flex flex-col gap-1">
           <h3 className="text-base font-bold">For Partners</h3>

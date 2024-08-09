@@ -188,48 +188,198 @@ export function ServiceForm({
   );
 }
 
-const MediaInformation = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
+const BasicDetails = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
   return (
     <div className="space-y-2">
-      <Label className="text-center text-lg font-bold">Media</Label>
-      {/* Images */}
-      <FormField
-        control={form.control}
-        name="images"
-        render={({ field }) => (
-          <FormItem>
-            <div>
-              <FormLabel>
-                Images{" "}
-                <span className="!font-normal">
-                  (max {DEFAULT_MAX_SERVICE_IMAGES} images)
-                </span>
-              </FormLabel>
-              <FormDescription>
-                Recommended Size: 500 x 500 px or 1:1 ratio
-              </FormDescription>
-            </div>
+      <Label className="text-lg font-bold">Basic Details</Label>
 
-            <div className="flex items-center gap-2">
+      <div className="space-y-5">
+        <FormField
+          control={form.control}
+          name="serviceType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Service Type*</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a service type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {Object.entries(SERVICES_CONFIG).map(([key, value]) => {
+                    return (
+                      <SelectItem
+                        key={`service-${key}`}
+                        value={value.publicId}
+                        className="cursor-pointer"
+                      >
+                        <div className="flex !flex-row items-center gap-2">
+                          {value.icon && (
+                            <Image
+                              src={value.icon}
+                              height={20}
+                              width={20}
+                              alt=""
+                            />
+                          )}
+                          <span>{value.name}</span>
+                        </div>
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Service Name */}
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name*</FormLabel>
               <FormControl>
-                <ImageInput
-                  name={field.name}
-                  value={field.value}
-                  onChange={field.onChange}
-                  objectFit="cover"
-                  clearErrors={form.clearErrors}
-                  setError={form.setError}
-                  ratio={1}
-                  maxFiles={DEFAULT_MAX_SERVICE_IMAGES}
-                  handleUploadUrl="/api/upload-image"
-                  basePathname="images/services"
+                <Input placeholder="Name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Price */}
+        <FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Price (In rupees)*</FormLabel>
+              <FormControl>
+                <Input type="number" placeholder="Price" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Description Name */}
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea
+                  {...field}
+                  className="min-h-28 w-full md:min-h-36"
+                  placeholder={"Details about this service."}
                 />
               </FormControl>
-            </div>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+    </div>
+  );
+};
+
+const TimingInformation = ({
+  form,
+}: {
+  form: UseFormReturn<ServiceSchema>;
+}) => {
+  return (
+    <div className="space-y-2">
+      <Label className="text-lg font-bold">Timing Details</Label>
+
+      <div className="space-y-5">
+        {/* Duration */}
+        <FormField
+          control={form.control}
+          name="duration"
+          render={({ field }) => (
+            <FormItem>
+              <div>
+                <FormLabel>Duration*</FormLabel>
+                <FormDescription>
+                  Duration of the service in minutes.
+                </FormDescription>
+              </div>
+              <FormControl>
+                <Input type="number" placeholder="Minutes" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="config"
+          render={({ field }) => (
+            <FormItem>
+              <div>
+                <FormLabel>Days*</FormLabel>
+                <FormDescription>
+                  Select the days the service is available
+                </FormDescription>
+              </div>
+              <FormControl>
+                <div className="flex flex-wrap items-center gap-2">
+                  {DAYS.map((day) => {
+                    const dayObj = field.value?.operatingHours[day];
+
+                    return (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const config = field.value;
+
+                          if (config.operatingHours[day]) {
+                            config.operatingHours[day] = null;
+                          } else {
+                            config.operatingHours[day] = {
+                              startTime: form.getValues().startTime,
+                              startTimeEnd: form.getValues().startTimeEnd,
+                            };
+                          }
+
+                          field.onChange({ ...config });
+                        }}
+                        key={`day-${day}`}
+                        className={`rounded-md border px-2 py-1 text-sm ${dayObj ? "bg-primary/30" : ""}`}
+                      >
+                        {DAYS_CONFIG[day]}
+                      </button>
+                    );
+                  })}
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="flex gap-7">
+          <TimeFormField
+            form={form}
+            name="startTime"
+            label="First Slot Time*"
+            description="This is the first slot time for the service."
+          />
+          <TimeFormField
+            form={form}
+            name="startTimeEnd"
+            label="Last Slot Time*"
+            description="This is the last slot time for the service."
+          />
+        </div>
+      </div>
     </div>
   );
 };
@@ -330,101 +480,6 @@ const TimeFormField = ({
   );
 };
 
-const TimingInformation = ({
-  form,
-}: {
-  form: UseFormReturn<ServiceSchema>;
-}) => {
-  return (
-    <div className="space-y-2">
-      <Label className="text-lg font-bold">Timing Details</Label>
-
-      <div className="space-y-5">
-        {/* Duration */}
-        <FormField
-          control={form.control}
-          name="duration"
-          render={({ field }) => (
-            <FormItem>
-              <div>
-                <FormLabel>Duration*</FormLabel>
-                <FormDescription>
-                  Duration of the service in minutes.
-                </FormDescription>
-              </div>
-              <FormControl>
-                <Input type="number" placeholder="Minutes" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="config"
-          render={({ field }) => (
-            <FormItem>
-              <div>
-                <FormLabel>Days*</FormLabel>
-                <FormDescription>
-                  Select the days the service is available
-                </FormDescription>
-              </div>
-              <FormControl>
-                <div className="flex flex-wrap items-center gap-2">
-                  {DAYS.map((day) => {
-                    const dayObj = field.value?.operatingHours[day];
-
-                    return (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const config = field.value;
-
-                          if (config.operatingHours[day]) {
-                            config.operatingHours[day] = null;
-                          } else {
-                            config.operatingHours[day] = {
-                              startTime: form.getValues().startTime,
-                              startTimeEnd: form.getValues().startTimeEnd,
-                            };
-                          }
-
-                          field.onChange({ ...config });
-                        }}
-                        key={`day-${day}`}
-                        className={`rounded-md border px-2 py-1 text-sm ${dayObj ? "bg-primary/30" : ""}`}
-                      >
-                        {DAYS_CONFIG[day]}
-                      </button>
-                    );
-                  })}
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <div className="flex gap-7">
-          <TimeFormField
-            form={form}
-            name="startTime"
-            label="First Slot Time*"
-            description="This is the first slot time for the service."
-          />
-          <TimeFormField
-            form={form}
-            name="startTimeEnd"
-            label="Last Slot Time*"
-            description="This is the last slot time for the service."
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
 const PetInformation = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
   return (
     <div className="space-y-2">
@@ -485,102 +540,48 @@ const PetInformation = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
   );
 };
 
-const BasicDetails = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
+const MediaInformation = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
   return (
     <div className="space-y-2">
-      <Label className="text-lg font-bold">Basic Details</Label>
+      <Label className="text-center text-lg font-bold">Media</Label>
+      {/* Images */}
+      <FormField
+        control={form.control}
+        name="images"
+        render={({ field }) => (
+          <FormItem>
+            <div>
+              <FormLabel>
+                Images{" "}
+                <span className="!font-normal">
+                  (max {DEFAULT_MAX_SERVICE_IMAGES} images)
+                </span>
+              </FormLabel>
+              <FormDescription>
+                Recommended Size: 500 x 500 px or 1:1 ratio
+              </FormDescription>
+            </div>
 
-      <div className="space-y-5">
-        <FormField
-          control={form.control}
-          name="serviceType"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Service Type*</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a service type" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {Object.entries(SERVICES_CONFIG).map(([key, value]) => {
-                    return (
-                      <SelectItem
-                        key={`service-${key}`}
-                        value={value.publicId}
-                        className="cursor-pointer"
-                      >
-                        <div className="flex !flex-row items-center gap-2">
-                          {value.icon && (
-                            <Image
-                              src={value.icon}
-                              height={20}
-                              width={20}
-                              alt=""
-                            />
-                          )}
-                          <span>{value.name}</span>
-                        </div>
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Service Name */}
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name*</FormLabel>
+            <div className="flex items-center gap-2">
               <FormControl>
-                <Input placeholder="Name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Price */}
-        <FormField
-          control={form.control}
-          name="price"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Price (In rupees)*</FormLabel>
-              <FormControl>
-                <Input type="number" placeholder="Price" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Description Name */}
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea
-                  {...field}
-                  className="min-h-28 w-full md:min-h-36"
-                  placeholder={"Details about this service."}
+                <ImageInput
+                  name={field.name}
+                  value={field.value}
+                  onChange={field.onChange}
+                  objectFit="cover"
+                  clearErrors={form.clearErrors}
+                  setError={form.setError}
+                  ratio={1}
+                  maxFiles={DEFAULT_MAX_SERVICE_IMAGES}
+                  handleUploadUrl="/api/upload-image"
+                  basePathname="images/services"
                 />
               </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
+            </div>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </div>
   );
 };
