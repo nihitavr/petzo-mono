@@ -1,11 +1,7 @@
 import type { Metadata, ResolvingMetadata } from "next";
 
-import {
-  getCenterUrl,
-  getMetadataDescription,
-  getMetadataKeywords,
-  getMetadataTitle,
-} from "~/lib/utils/center.utils";
+import { centerUtils } from "@petzo/utils";
+
 import { api } from "~/trpc/server";
 import { RecordEvent } from "~/web-analytics/react";
 import CenterPage from "./_components/center-page";
@@ -32,11 +28,11 @@ export async function generateMetadata(
     };
   }
 
-  const title = getMetadataTitle(center);
-  const description = getMetadataDescription(center);
-  const keywords = getMetadataKeywords(center);
+  const title = centerUtils.getMetadataTitle(center);
+  const description = centerUtils.getMetadataDescription(center);
+  const keywords = centerUtils.getMetadataKeywords(center);
   const imageUrl = center.images?.[0]?.url;
-  const centerUrlPathname = getCenterUrl(center);
+  const centerUrlPathname = centerUtils.getCenterUrl(center);
 
   return {
     title: title,

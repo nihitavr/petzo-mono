@@ -50,7 +50,7 @@ import { RadioGroup, RadioGroupItem } from "@petzo/ui/components/radio-group";
 import { Skeleton } from "@petzo/ui/components/skeleton";
 import { toast } from "@petzo/ui/components/toast";
 import { cn, iOS } from "@petzo/ui/lib/utils";
-import { timeUtils } from "@petzo/utils";
+import { centerUtils, timeUtils } from "@petzo/utils";
 import {
   convertTime24To12,
   isAfternoon,
@@ -65,7 +65,6 @@ import {
   addItemToServicesCart,
   servicesCart,
 } from "~/lib/storage/service-cart-storage";
-import { getCenterUrl, getServiceBookingUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
 import { trackCustom } from "~/web-analytics/react";
 
@@ -82,8 +81,11 @@ export function BookServiceDialog({
   service: Service;
   user?: CustomerUser;
 }) {
-  const serviceUrl = useMemo(() => getServiceBookingUrl(service, center), []);
-  const centerUrl = useMemo(() => getCenterUrl(center), []);
+  const serviceUrl = useMemo(
+    () => centerUtils.getServiceBookingUrl(service, center),
+    [],
+  );
+  const centerUrl = useMemo(() => centerUtils.getCenterUrl(center), []);
 
   const pathname = usePathname();
 

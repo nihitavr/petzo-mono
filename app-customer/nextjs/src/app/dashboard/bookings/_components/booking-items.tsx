@@ -1,8 +1,7 @@
 import { format, parse } from "date-fns";
 
 import type { BookingItem } from "@petzo/db";
-
-import Price from "~/app/_components/price";
+import Price from "@petzo/ui/components/price";
 
 export type Items = BookingItem[];
 

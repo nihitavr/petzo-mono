@@ -18,11 +18,12 @@ import {
 } from "@petzo/ui/components/accordion";
 import { Button } from "@petzo/ui/components/button";
 import { Label } from "@petzo/ui/components/label";
+import Price from "@petzo/ui/components/price";
 import { Skeleton } from "@petzo/ui/components/skeleton";
 import { cn } from "@petzo/ui/lib/utils";
+import { centerUtils } from "@petzo/utils";
 
 import type { ServiceCartItem } from "~/lib/storage/service-cart-storage";
-import Price from "~/app/_components/price";
 import NewAddessModal from "~/app/center/[name]/[publicId]/_components/add-address-modal";
 import { filtersStore } from "~/lib/storage/global-storage";
 import {
@@ -31,7 +32,6 @@ import {
   servicesCart,
   setAddressToServiceCart,
 } from "~/lib/storage/service-cart-storage";
-import { getCenterUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
 import { RecordEvent, trackCustom } from "~/web-analytics/react";
 import BookServicesButton from "./book-services-button";
@@ -108,7 +108,7 @@ export default function ServicesCheckoutPage() {
               <div>
                 <Label className="text-xs text-foreground/80">Center</Label>
                 <Link
-                  href={getCenterUrl(servicesCart.value?.center)}
+                  href={centerUtils.getCenterUrl(servicesCart.value?.center)}
                   className="flex cursor-pointer flex-nowrap items-center gap-1 hover:opacity-80"
                 >
                   <FaArrowLeft className="size-3.5" />
@@ -119,7 +119,7 @@ export default function ServicesCheckoutPage() {
               </div>
               {centerImage && (
                 <Link
-                  href={getCenterUrl(servicesCart.value?.center)}
+                  href={centerUtils.getCenterUrl(servicesCart.value?.center)}
                   className="relative aspect-square h-10 overflow-hidden rounded-md border"
                 >
                   <Image
@@ -214,7 +214,7 @@ const CartServiceDetails = ({
       if (!servicesCart.value?.center?.id) {
         router.push("/");
       } else if (!servicesCart.value?.items?.length) {
-        router.push(getCenterUrl(servicesCart.value?.center));
+        router.push(centerUtils.getCenterUrl(servicesCart.value?.center));
       }
     }
   }, [servicesCart.value?.items?.length, servicesCart.value?.center?.id]);

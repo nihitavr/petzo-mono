@@ -7,10 +7,10 @@ import { CENTER_STATUS_CONFIG } from "@petzo/constants";
 import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 import { Label } from "@petzo/ui/components/label";
-import { getGoogleLocationLink } from "@petzo/utils";
+import { centerUtils, getGoogleLocationLink } from "@petzo/utils";
 
 import SignIn from "~/app/_components/sign-in";
-import { getServicesNamesStr } from "~/lib/utils/center.utils";
+import { env } from "~/env";
 import { api } from "~/trpc/server";
 
 export default async function Page({
@@ -50,27 +50,48 @@ export default async function Page({
   return (
     <div className="flex w-full flex-col gap-2">
       <h1 className="text-lg font-semibold">Manage Center</h1>
-      <div className="flex gap-2">
-        <Link
-          href={`/dashboard/${centerPublicId}/edit`}
-          className="flex w-full items-center justify-center rounded-lg font-semibold hover:bg-muted"
+      <div>
+        <div className="flex gap-2">
+          <Link
+            href={`/dashboard/${centerPublicId}/edit`}
+            className="flex w-full items-center justify-center rounded-lg font-semibold hover:bg-muted"
+          >
+            <Button className="w-full" variant="primary">
+              Edit Details
+            </Button>
+          </Link>
+          <Link
+            href={`/dashboard/${centerPublicId}/address/edit`}
+            className="flex w-full items-center justify-center rounded-lg font-semibold hover:bg-muted"
+          >
+            <Button className="w-full" variant="primary">
+              Edit Address
+            </Button>
+          </Link>
+        </div>
+        <a
+          href={centerUtils.getCenterUrl(center, env.CUSTOMER_APP_BASE_URL)}
+          className="mt-3 flex w-full items-center justify-center rounded-lg font-semibold hover:bg-muted"
+          target="_blank"
+          rel="noreferrer"
         >
-          <Button className="w-full">Edit Details</Button>
-        </Link>
-        <Link
-          href={`/dashboard/${centerPublicId}/address/edit`}
-          className="flex w-full items-center justify-center rounded-lg font-semibold hover:bg-muted"
-        >
-          <Button className="w-full">Edit Address</Button>
-        </Link>
+          <Button className="w-full" variant="outline">
+            <span>Preview Center Page</span>
+            <FiArrowUpRight className="inline" size={18} />
+          </Button>
+        </a>
       </div>
       <div className="mt-2">
         <Label className="text-base">Center Details</Label>
         <div className="flex flex-col gap-2 rounded-lg border p-2">
           <CenterDetailsItem label="Center Name" text={center?.name} />
           <CenterDetailsItem
-            label="Services"
-            text={getServicesNamesStr(services)}
+            label={
+              services.length
+                ? `Services (Total: ${services.length})`
+                : "Services"
+            }
+            text={centerUtils.getServiceTypeNamesStr(services)}
           />
           <CenterDetailsItem
             label="Address"

@@ -4,19 +4,18 @@ import { GrLocation } from "react-icons/gr";
 
 import type { Center } from "@petzo/db";
 import { SERVICES_CONFIG } from "@petzo/constants";
+import { centerUtils, serviceUtils } from "@petzo/utils";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
-import { getCenterUrl, getServicesNamesStr } from "~/lib/utils/center.utils";
-import { getLowertCostService } from "~/lib/utils/service.utils";
 
 export default function CenterCard({ center }: { center: Center }) {
   const thumbnail = center.images?.[0]?.url;
-  const lowestPriceService = getLowertCostService(center);
+  const lowestPriceService = serviceUtils.getLowertCostService(center);
 
   return (
     <Link
-      href={getCenterUrl(center)}
+      href={centerUtils.getCenterUrl(center)}
       className="flex animate-fade-in flex-row rounded-xl bg-muted md:border md:shadow-sm"
     >
       <div className="flex h-44 w-full gap-1 md:h-60">
@@ -57,7 +56,7 @@ export default function CenterCard({ center }: { center: Center }) {
 
           {/* Services Provided */}
           <span className="line-clamp-1 break-all text-2sm font-semibold capitalize text-primary md:text-sm">
-            {getServicesNamesStr(center)}
+            {centerUtils.getServiceTypeNamesStr(center.services)}
           </span>
 
           {/* Lowest Service Price */}

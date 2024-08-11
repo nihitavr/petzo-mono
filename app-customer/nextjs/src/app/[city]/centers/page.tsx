@@ -1,13 +1,72 @@
 import { Suspense } from "react";
 
-import { CENTERS_LIST_PAGE_LIMIT } from "~/lib/constants";
-import { getCenterFilters } from "~/lib/utils/center.utils";
+import {
+  CENTERS_LIST_PAGE_LIMIT,
+  DEFAULT_CENTER_FILTERS,
+} from "~/lib/constants";
 import { api } from "~/trpc/server";
 import { RecordEvent } from "~/web-analytics/react";
 import { CenterFilterList } from "./_components/center-filter-list";
 import { CenterFilters } from "./_components/center-filters";
 import { MobileCenterFilters } from "./_components/mobile-center-filters";
 import { LoadingCentersList } from "./loading";
+
+export async function getCenterFilters(
+  {
+    serviceType,
+    area,
+    ratingGte,
+    nearby,
+  }: {
+    serviceType: string;
+    area: string;
+    ratingGte: string;
+    nearby: boolean;
+  },
+  data: Record<
+    string,
+    {
+      publicId: string;
+      name: string;
+    }[]
+  > = {},
+) {
+  const serviceTypeQueryParamList = serviceType ? serviceType.split(",") : [];
+  const areaQueryParamList = area ? area.split(",") : [];
+  const ratingGteQueryParam = ratingGte;
+
+  const filters = structuredClone(DEFAULT_CENTER_FILTERS);
+
+  filters.map((filter) => {
+    switch (filter.publicId) {
+      case "distance":
+        filter.items.map((item) => {
+          item.selected = nearby ? item.publicId === "nearby" : false;
+        });
+        break;
+      case "serviceType":
+        filter.items.map((item) => {
+          item.selected = serviceTypeQueryParamList.includes(item.publicId);
+        });
+        break;
+      case "ratingGte":
+        filter.items.map((item) => {
+          item.selected = ratingGteQueryParam === item.publicId;
+        });
+        break;
+      case "area":
+        filter.items =
+          data.area?.map((area) => ({
+            publicId: area.publicId,
+            label: area.name,
+            selected: areaQueryParamList.includes(area.publicId),
+          })) ?? [];
+        break;
+    }
+  });
+
+  return filters;
+}
 
 export default async function Centers({
   searchParams,

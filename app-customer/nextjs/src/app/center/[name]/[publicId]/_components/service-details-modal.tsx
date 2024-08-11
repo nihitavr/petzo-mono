@@ -18,11 +18,11 @@ import {
   DrawerTrigger,
 } from "@petzo/ui/components/drawer";
 import { Label } from "@petzo/ui/components/label";
+import Price from "@petzo/ui/components/price";
 import { iOS } from "@petzo/ui/lib/utils";
+import { centerUtils } from "@petzo/utils";
 
-import Price from "~/app/_components/price";
 import { useMediaQuery } from "~/lib/hooks/screen.hooks";
-import { getCenterUrl, getServiceUrl } from "~/lib/utils/center.utils";
 import { trackCustom } from "~/web-analytics/react";
 import { BookServiceDialog } from "./book-service-modal";
 import ServiceImagesCasousel from "./service-images-carousel";
@@ -40,8 +40,11 @@ export function ServiceDetailsModal({
   setOpen: (open: boolean) => void;
   user?: CustomerUser;
 }) {
-  const serviceUrl = useMemo(() => getServiceUrl(service, center), []);
-  const centerUrl = useMemo(() => getCenterUrl(center), []);
+  const serviceUrl = useMemo(
+    () => centerUtils.getServiceDetailsUrl(service, center),
+    [],
+  );
+  const centerUrl = useMemo(() => centerUtils.getCenterUrl(center), []);
 
   const pathname = usePathname();
   const isDesktop = useMediaQuery("(min-width: 768px)");

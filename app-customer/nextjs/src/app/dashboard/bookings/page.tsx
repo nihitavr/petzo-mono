@@ -7,11 +7,11 @@ import { auth } from "@petzo/auth-customer-app";
 import { BOOKING_STATUS_CONFIG } from "@petzo/constants";
 import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
+import Price from "@petzo/ui/components/price";
+import { centerUtils } from "@petzo/utils";
 
 import type { Items } from "./_components/booking-items";
-import Price from "~/app/_components/price";
 import SignIn from "~/app/_components/sign-in";
-import { getCenterUrl } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/server";
 import BookingItems from "./_components/booking-items";
 import { CancelBookingButton } from "./_components/cancel-booking-button";
@@ -44,7 +44,9 @@ export default async function Page() {
           <>
             <hr className="mb-5 mt-2 border-foreground/20" />
             {bookings.map((booking) => {
-              const centerUrl = getCenterUrl(booking?.center as Center);
+              const centerUrl = centerUtils.getCenterUrl(
+                booking?.center as Center,
+              );
 
               return (
                 <Fragment key={booking.id}>

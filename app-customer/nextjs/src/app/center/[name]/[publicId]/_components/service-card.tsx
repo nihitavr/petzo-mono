@@ -4,10 +4,10 @@ import { useState } from "react";
 import Image from "next/image";
 
 import type { Center, CustomerUser, Service } from "@petzo/db";
+import Price from "@petzo/ui/components/price";
 import { cn } from "@petzo/ui/lib/utils";
 import { timeUtils } from "@petzo/utils";
 
-import Price from "~/app/_components/price";
 import { COLOR_MAP } from "~/lib/constants";
 import { trackCustom } from "~/web-analytics/react";
 import { BookServiceDialog } from "./book-service-modal";

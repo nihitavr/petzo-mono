@@ -3,9 +3,8 @@ import { GrLocation } from "react-icons/gr";
 
 import type { Center } from "@petzo/db";
 import { cn } from "@petzo/ui/lib/utils";
-import { getGoogleLocationLink } from "@petzo/utils";
+import { centerUtils, getGoogleLocationLink } from "@petzo/utils";
 
-import { getServicesNamesStr } from "~/lib/utils/center.utils";
 import CenterDescriptionAndButtons from "./center-description-and-buttons";
 import CenterInfoShareButton from "./center-info-share-button";
 import Rating from "./rating-display";
@@ -38,7 +37,7 @@ export const CenterInfo = ({
       <span className="space-x-1 text-2sm md:text-sm">
         <span className="font-medium text-foreground/80">Services:</span>
         <span className="line-clamp-2 inline font-semibold capitalize text-primary md:text-sm">
-          {getServicesNamesStr(center)}
+          {centerUtils.getServiceTypeNamesStr(center.services)}
         </span>
       </span>
 

@@ -178,7 +178,7 @@ const BasicDetails = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name*</FormLabel>
+              <FormLabel>Center Name*</FormLabel>
               <FormControl>
                 <Input placeholder="Enter center name" {...field} />
               </FormControl>
@@ -198,7 +198,7 @@ const BasicDetails = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
                 <Textarea
                   {...field}
                   className="min-h-28 w-full md:min-h-36"
-                  placeholder={"Tell the world about center."}
+                  placeholder={"Tell the world about center"}
                 />
               </FormControl>
               <FormMessage />
@@ -211,7 +211,7 @@ const BasicDetails = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
           name="phoneNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone Number</FormLabel>
+              <FormLabel>Phone Number*</FormLabel>
               <FormControl>
                 <Input
                   className="placeholder:text-secondary-foreground/40"
