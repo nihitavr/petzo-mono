@@ -2,7 +2,6 @@ import Link from "next/link";
 import { FiArrowUpRight } from "react-icons/fi";
 import { LuPencil } from "react-icons/lu";
 
-import type { Center } from "@petzo/db";
 import { auth } from "@petzo/auth-center-app";
 import { SERVICES_CONFIG } from "@petzo/constants";
 import { Button } from "@petzo/ui/components/button";
@@ -16,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@petzo/ui/components/table";
-import { urlUtils } from "@petzo/utils";
+import { centerUtils } from "@petzo/utils";
 
 import SignIn from "~/app/_components/sign-in";
 import { env } from "~/env";
@@ -117,7 +116,7 @@ export default async function Page({
                     <TableCell>&#8377; {service?.price}</TableCell>
                     <TableCell className="text-right">
                       <a
-                        href={`${env.CUSTOMER_APP_BASE_URL}${urlUtils.createServiceUrl(service, { publicId: centerPublicId, name: `preview ${centerPublicId}` } as Center)}`}
+                        href={`${centerUtils.getServiceDetailsUrl(service, center!, env.CUSTOMER_APP_BASE_URL)}`}
                         className="group flex items-center justify-start text-sm hover:underline"
                         target="_blank"
                         rel="noreferrer"

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
+import { FaQrcode } from "react-icons/fa6";
 import { FiArrowUpRight } from "react-icons/fi";
 
 import { auth } from "@petzo/auth-center-app";
@@ -69,17 +70,28 @@ export default async function Page({
             </Button>
           </Link>
         </div>
-        <a
-          href={centerUtils.getCenterUrl(center, env.CUSTOMER_APP_BASE_URL)}
-          className="mt-3 flex w-full items-center justify-center rounded-lg font-semibold hover:bg-muted"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <Button className="w-full" variant="outline">
-            <span>Preview Center Page</span>
-            <FiArrowUpRight className="inline" size={18} />
-          </Button>
-        </a>
+        <div className="mt-3 flex gap-2 ">
+          <a
+            href={centerUtils.getCenterUrl(center, env.CUSTOMER_APP_BASE_URL)}
+            className="flex w-full items-center justify-center rounded-lg font-semibold hover:bg-muted"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button className="w-full" variant="outline">
+              <span>Preview Center Page</span>
+              <FiArrowUpRight className="inline" size={18} />
+            </Button>
+          </a>
+          <Link
+            href={`/dashboard/${centerPublicId}/qr-code`}
+            className="flex w-full items-center justify-center rounded-lg font-semibold hover:bg-muted"
+          >
+            <Button className="w-full" variant="outline">
+              <span>Center Qr Code</span>
+              <FaQrcode className="ml-1 inline" size={15} />
+            </Button>
+          </Link>
+        </div>
       </div>
       <div className="mt-2">
         <Label className="text-base">Center Details</Label>
