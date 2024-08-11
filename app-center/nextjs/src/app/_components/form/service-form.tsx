@@ -354,7 +354,8 @@ const TimingInformation = ({
                         key={`day-${day}`}
                         className={`rounded-md border px-2 py-1 text-sm ${dayObj ? "bg-primary/30" : ""}`}
                       >
-                        {DAYS_CONFIG[day]}
+                        {DAYS_CONFIG[day]}{" "}
+                        {dayObj ? <span className="font-bold">✓</span> : ""}
                       </button>
                     );
                   })}
