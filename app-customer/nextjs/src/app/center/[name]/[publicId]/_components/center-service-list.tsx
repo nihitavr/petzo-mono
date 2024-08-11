@@ -4,12 +4,9 @@ import { useMemo, useState } from "react";
 
 import type { Center, CustomerUser } from "@petzo/db";
 import { SERVICES_CONFIG } from "@petzo/constants";
+import { centerUtils } from "@petzo/utils";
 
 import ServiceFilters from "~/app/_components/service-filter";
-import {
-  getServicesTypesList,
-  getServiceTypeToServicesByCenterMap,
-} from "~/lib/utils/center.utils";
 import ServicesSection from "./center-service-section";
 
 export default function CenterServiceList({
@@ -20,7 +17,7 @@ export default function CenterServiceList({
   user?: CustomerUser;
 }) {
   const serviceTypesProvidedByCenter = useMemo(() => {
-    return getServicesTypesList(center);
+    return centerUtils.getServicesTypes(center.services);
   }, [center]);
 
   const [selectedServices, setSelectedServices] = useState<string[]>(
@@ -28,7 +25,7 @@ export default function CenterServiceList({
   );
 
   const serviceMap = useMemo(() => {
-    return getServiceTypeToServicesByCenterMap(center);
+    return centerUtils.getServiceTypeToServicesMap(center.services);
   }, [center]);
 
   return (

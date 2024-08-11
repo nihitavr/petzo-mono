@@ -6,10 +6,10 @@ import type { Booking, BookingItem, CustomerAddresses } from "@petzo/db";
 import { auth } from "@petzo/auth-center-app";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 import { Label } from "@petzo/ui/components/label";
+import Price from "@petzo/ui/components/price";
 import { getGoogleLocationLink } from "@petzo/utils";
 import { getDateString } from "@petzo/utils/time";
 
-import Price from "~/app/_components/price";
 import SignIn from "~/app/_components/sign-in";
 import { BOOKING_TYPE_TO_STATUS } from "~/lib/constants";
 import { api } from "~/trpc/server";

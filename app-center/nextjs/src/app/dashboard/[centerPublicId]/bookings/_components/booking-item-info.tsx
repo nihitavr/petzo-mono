@@ -6,8 +6,7 @@ import {
   PET_TYPE_CONFIG,
   SERVICES_CONFIG,
 } from "@petzo/constants";
-
-import Price from "~/app/_components/price";
+import Price from "@petzo/ui/components/price";
 
 const BookingItemInfo = ({ bookingItem }: { bookingItem: BookingItem }) => {
   return (

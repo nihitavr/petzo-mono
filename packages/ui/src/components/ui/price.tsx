@@ -1,8 +1,7 @@
 "use client";
 
 import { cn } from "@petzo/ui/lib/utils";
-
-import { getCommaPrice, getDiscountedPrice } from "~/lib/utils/price.utils";
+import { priceUtils } from "@petzo/utils";
 
 export default function Price({
   className,
@@ -22,11 +21,14 @@ export default function Price({
           className,
         )}
       >
-        &#8377; {getCommaPrice(price)}
+        &#8377; {priceUtils.getCommaPrice(price)}
       </span>
       {!!discount && (
         <span className={cn("font-semibold", className)}>
-          &#8377; {getCommaPrice(getDiscountedPrice(price, discount))}
+          &#8377;{" "}
+          {priceUtils.getCommaPrice(
+            priceUtils.getDiscountedPrice(price, discount),
+          )}
         </span>
       )}
     </div>

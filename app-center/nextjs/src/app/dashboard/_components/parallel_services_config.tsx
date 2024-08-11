@@ -38,6 +38,7 @@ export default function ParallelServicesConfig({
   const updateCenterConfig = api.center.updateCenterConfig.useMutation();
 
   const shouldSave =
+    configState &&
     JSON.stringify(center?.config) !== JSON.stringify(configState);
 
   return (
@@ -54,7 +55,6 @@ export default function ParallelServicesConfig({
             : "Number of services that can be booked at the same time for each service type."}
         </Label>
       </div>
-
       <div className="mt-4 space-y-2">
         {serviceTypes.map((serviceType) => {
           const noOfParallelServices =
@@ -69,7 +69,6 @@ export default function ParallelServicesConfig({
                 type="number"
                 min={1}
                 className="w-12 px-1 text-center md:h-8"
-                defaultValue={noOfParallelServices}
                 value={noOfParallelServices}
                 onChange={(e) => {
                   setConfigState((configState) => {
@@ -88,6 +87,7 @@ export default function ParallelServicesConfig({
           );
         })}
       </div>
+      {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
       {(shouldSave || isOnboarding) && (
         <div className="mt-3 flex justify-end">
           <Button

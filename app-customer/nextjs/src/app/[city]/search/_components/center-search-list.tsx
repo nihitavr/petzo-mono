@@ -5,11 +5,12 @@ import Link from "next/link";
 import { useSignals } from "@preact/signals-react/runtime";
 import { GrLocation } from "react-icons/gr";
 
+import { centerUtils } from "@petzo/utils";
+
 import DogGroomingAnimation from "~/app/_components/dog-grooming-animation";
 import { MIN_SEARCH_TEXT_LENGTH } from "~/app/_components/global-search-input";
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { filtersStore } from "~/lib/storage/global-storage";
-import { getCenterUrl, getServicesNamesStr } from "~/lib/utils/center.utils";
 import { api } from "~/trpc/react";
 import { CenterSearchListLoading } from "./center-search-list-loading";
 
@@ -48,11 +49,13 @@ export default function CenterSearchList() {
           {!!filtersStore.city.value &&
             centers?.map((center) => {
               const thumbnail = center?.images?.[0]?.url;
-              const serviceNames = getServicesNamesStr(center);
+              const serviceNames = centerUtils.getServiceTypeNamesStr(
+                center.services,
+              );
 
               return (
                 <Link
-                  href={getCenterUrl(center)}
+                  href={centerUtils.getCenterUrl(center)}
                   key={center.publicId}
                   className="grid grid-cols-6 gap-2 rounded-lg hover:bg-muted/80"
                 >

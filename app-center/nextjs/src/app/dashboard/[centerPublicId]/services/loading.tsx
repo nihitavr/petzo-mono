@@ -17,6 +17,12 @@ export default async function Loading() {
         <Skeleton className="h-9 w-28 rounded-full" />
       </div>
 
+      <h3 className="mt-4 font-medium">Config</h3>
+
+      <Skeleton className="mt-3 h-44 w-full rounded-lg" />
+
+      <h3 className="mt-4 font-medium">Services List</h3>
+
       <Table className="mt-4">
         <TableCaption>List of all services.</TableCaption>
         <TableHeader>

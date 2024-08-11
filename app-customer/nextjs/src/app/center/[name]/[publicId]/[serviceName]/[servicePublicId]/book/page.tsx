@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
 
 import type { Center } from "@petzo/db";
+import { serviceUtils } from "@petzo/utils";
 
-import {
-  getMetadataDescription,
-  getMetadataKeywords,
-  getMetadataTitle,
-} from "~/lib/utils/service.utils";
 import { api } from "~/trpc/server";
 import { RecordEvent } from "~/web-analytics/react";
 import CenterPage from "../../../_components/center-page";
@@ -32,9 +28,9 @@ export async function generateMetadata({
     };
   }
 
-  const title = getMetadataTitle(service, center);
-  const description = getMetadataDescription(service, center);
-  const keywords = getMetadataKeywords(service, center);
+  const title = serviceUtils.getMetadataTitle(service, center);
+  const description = serviceUtils.getMetadataDescription(service, center);
+  const keywords = serviceUtils.getMetadataKeywords(service, center);
 
   const imageUrl = service.images?.[0]?.url;
 
