@@ -311,7 +311,10 @@ const TimingInformation = ({
                 </FormDescription>
               </div>
               <FormControl>
-                <Input type="number" placeholder="Minutes" {...field} />
+                <div className="flex items-center gap-2">
+                  <Input type="number" placeholder="Minutes" {...field} />
+                  <span className="font-semibold">minutes</span>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -354,7 +357,8 @@ const TimingInformation = ({
                         key={`day-${day}`}
                         className={`rounded-md border px-2 py-1 text-sm ${dayObj ? "bg-primary/30" : ""}`}
                       >
-                        {DAYS_CONFIG[day]}
+                        {DAYS_CONFIG[day]}{" "}
+                        {dayObj ? <span className="font-bold">✓</span> : ""}
                       </button>
                     );
                   })}
