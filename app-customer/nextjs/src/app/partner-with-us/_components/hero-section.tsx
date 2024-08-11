@@ -22,7 +22,6 @@ export default function HeroSection({
         {/* <h1 className="text-6xl font-bold">Grow Your Business With Us</h1> */}
         <h4 className="mt-2 text-lg text-foreground/80">
           For In-store Grooming, Home/Mobile Grooming, and Vet Consultation.
-          Reduce your no-shows, walk ins, and phone calls.
         </h4>
       </div>
       <div className="relative col-span-2 mt-44 grid grid-cols-2 rounded-2xl bg-foreground/10 px-5 py-6 sm:mt-0 md:p-6">
