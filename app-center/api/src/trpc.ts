@@ -13,7 +13,10 @@ import { ZodError } from "zod";
 
 import type { Session } from "@petzo/auth-customer-app";
 import { and, db, eq, schema } from "@petzo/db";
+import { adminUtils } from "@petzo/utils";
 import { centerApp } from "@petzo/validators";
+
+import { env } from "./env";
 
 const DEFAULT_CACHE_TTL = 1800;
 
@@ -172,10 +175,14 @@ export const protectedCenterProcedure = t.procedure
       throw new TRPCError({ code: "UNAUTHORIZED" });
     }
 
+    const isAdmin = adminUtils.isAdmin(ctx.session.user.id, env.ADMIN_USER_IDS);
+
     const center = await ctx.db.query.centers.findFirst({
       where: and(
         eq(schema.centers.publicId, input.centerPublicId),
-        eq(schema.centers.centerUserId, ctx.session.user.id),
+        !isAdmin
+          ? eq(schema.centers.centerUserId, ctx.session.user.id)
+          : undefined,
       ),
     });
 

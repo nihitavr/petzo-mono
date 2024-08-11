@@ -1,7 +1,9 @@
 import { and, asc, eq, isNull, schema, sql } from "@petzo/db";
+import { adminUtils } from "@petzo/utils";
 import { centerApp } from "@petzo/validators";
 
 import { generateRandomPublicId } from "../../../../packages/utils/src/string.utils";
+import { env } from "../env";
 import { protectedCenterProcedure, protectedProcedure } from "../trpc";
 
 const DEFAULT_CENTER_CONFIG = {
@@ -32,7 +34,9 @@ export const centerRouter = {
       return ctx.db.query.centers.findFirst({
         where: and(
           eq(schema.centers.publicId, input.centerPublicId),
-          eq(schema.centers.centerUserId, ctx.session.user.id),
+          !adminUtils.isAdmin(ctx.session.user.id, env.ADMIN_USER_IDS)
+            ? eq(schema.centers.centerUserId, ctx.session.user.id)
+            : undefined,
           isNull(schema.centers.deletedAt),
         ),
         with: {

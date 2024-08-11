@@ -131,3 +131,4 @@ export * as urlUtils from "./url.utils";
 export * as centerUtils from "./center.utils";
 export * as serviceUtils from "./service.utils";
 export * as priceUtils from "./price.utils";
+export * as adminUtils from "./admin.utils";
