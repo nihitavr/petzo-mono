@@ -241,7 +241,7 @@ const BasicDetails = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name*</FormLabel>
+              <FormLabel>Service Name*</FormLabel>
               <FormControl>
                 <Input placeholder="Name" {...field} />
               </FormControl>
