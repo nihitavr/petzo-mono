@@ -311,7 +311,10 @@ const TimingInformation = ({
                 </FormDescription>
               </div>
               <FormControl>
-                <Input type="number" placeholder="Minutes" {...field} />
+                <div className="flex items-center gap-2">
+                  <Input type="number" placeholder="Minutes" {...field} />
+                  <span className="font-semibold">minutes</span>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
