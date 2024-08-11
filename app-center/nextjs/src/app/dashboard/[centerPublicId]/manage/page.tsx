@@ -78,7 +78,7 @@ export default async function Page({
             rel="noreferrer"
           >
             <Button className="w-full" variant="outline">
-              <span>Preview Center Page</span>
+              <span>Preview Center</span>
               <FiArrowUpRight className="inline" size={18} />
             </Button>
           </a>
