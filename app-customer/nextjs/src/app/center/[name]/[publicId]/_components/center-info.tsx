@@ -42,17 +42,19 @@ export const CenterInfo = ({
       </span>
 
       {/* Address */}
-      <a
-        href={getGoogleLocationLink(center.centerAddress?.geocode)}
-        target="_blank"
-        rel="noreferrer"
-        className="flex items-center gap-1 hover:underline"
-      >
-        <GrLocation className="!h-4 !w-4" />
-        <span className="line-clamp-2 text-2sm font-medium capitalize md:text-sm">
-          {getFormattedAddresses(center?.centerAddress, ["line1", "area"])}
-        </span>
-      </a>
+      {centerUtils.hasAtCenterServices(center.services) && (
+        <a
+          href={getGoogleLocationLink(center.centerAddress?.geocode)}
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center gap-1 hover:underline"
+        >
+          <GrLocation className="!h-4 !w-4" />
+          <span className="line-clamp-2 text-2sm font-medium capitalize md:text-sm">
+            {getFormattedAddresses(center?.centerAddress, ["line1", "area"])}
+          </span>
+        </a>
+      )}
 
       {/* Center Description */}
       <CenterDescriptionAndButtons center={center} />

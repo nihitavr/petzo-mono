@@ -105,7 +105,7 @@ export type SERVICE_TYPE =
 
 export const SERVICES_CONFIG: Record<
   string,
-  { name: string; publicId: string; icon?: string; travelTimeInMins?: number }
+  { name: string; publicId: string; icon?: string; travelTimeInMins?: number;  }
 > = {
   mobile_grooming: {
     name: "Mobile Grooming",
