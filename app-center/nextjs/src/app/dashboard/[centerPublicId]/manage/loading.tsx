@@ -5,9 +5,15 @@ export default async function Loading() {
   return (
     <div className="flex w-full flex-col gap-2">
       <h1 className="text-lg font-semibold">Manage Center</h1>
-      <div className="flex gap-2">
-        <Skeleton className="h-10 w-full rounded-full" />
-        <Skeleton className="h-10 w-full rounded-full" />
+      <div>
+        <div className="flex gap-2">
+          <Skeleton className="h-10 w-full rounded-full" />
+          <Skeleton className="h-10 w-full rounded-full" />
+        </div>
+        <div className="mt-2 flex gap-2">
+          <Skeleton className="h-10 w-full rounded-full" />
+          <Skeleton className="h-10 w-full rounded-full" />
+        </div>
       </div>
       <div className="mt-2">
         <Label className="text-base">Center Details</Label>

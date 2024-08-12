@@ -49,6 +49,26 @@ export function getServiceDetailsUrl(
   return basePath ? `${basePath}${bookingUrl}` : bookingUrl;
 }
 
+export function getServiceNamesStr(services?: Service[]): string {
+  const serviceTypesProvided: string[] = [];
+
+  services?.forEach((service) => {
+    serviceTypesProvided.push(service.name);
+  });
+
+  return serviceTypesProvided.join(", ");
+}
+
+export function getServiceNamePriceStr(services?: Service[]): string {
+  const serviceTypesProvided: string[] = [];
+
+  services?.forEach((service) => {
+    serviceTypesProvided.push(`${service.name} (${service.price})`);
+  });
+
+  return serviceTypesProvided.join(", ");
+}
+
 export function getServiceTypeNamesStr(services?: Service[]): string {
   const serviceTypesProvided: string[] = [];
 
