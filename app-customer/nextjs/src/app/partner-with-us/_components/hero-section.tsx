@@ -48,7 +48,11 @@ export default function HeroSection({
                     Get Free Demo
                   </Button>
                 </Link>
-                <a href={`${centerAppBaseUrl}`}>
+                <a
+                  href={`${centerAppBaseUrl}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <Button className="w-full text-xs md:text-2sm  xl:text-sm">
                     Register your center
                   </Button>
