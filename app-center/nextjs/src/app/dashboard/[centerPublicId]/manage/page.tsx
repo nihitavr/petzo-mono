@@ -57,7 +57,7 @@ export default async function Page({
             href={`/dashboard/${centerPublicId}/edit`}
             className="flex w-full items-center justify-center rounded-lg font-semibold hover:bg-muted"
           >
-            <Button className="w-full" variant="primary">
+            <Button className="w-full text-2sm md:text-sm" variant="primary">
               Edit Details
             </Button>
           </Link>
@@ -65,7 +65,7 @@ export default async function Page({
             href={`/dashboard/${centerPublicId}/address/edit`}
             className="flex w-full items-center justify-center rounded-lg font-semibold hover:bg-muted"
           >
-            <Button className="w-full" variant="primary">
+            <Button className="w-full text-2sm md:text-sm" variant="primary">
               Edit Address
             </Button>
           </Link>
@@ -77,7 +77,7 @@ export default async function Page({
             target="_blank"
             rel="noreferrer"
           >
-            <Button className="w-full" variant="outline">
+            <Button className="w-full text-2sm md:text-sm" variant="outline">
               <span>Preview Center</span>
               <FiArrowUpRight className="inline" size={18} />
             </Button>
@@ -86,8 +86,8 @@ export default async function Page({
             href={`/dashboard/${centerPublicId}/qr-code`}
             className="flex w-full items-center justify-center rounded-lg font-semibold hover:bg-muted"
           >
-            <Button className="w-full" variant="outline">
-              <span>Center Qr Code</span>
+            <Button className="w-full text-2sm md:text-sm" variant="outline">
+              <span>Center QrCode</span>
               <FaQrcode className="ml-1 inline" size={15} />
             </Button>
           </Link>
@@ -95,16 +95,55 @@ export default async function Page({
       </div>
       <div className="mt-2">
         <Label className="text-base">Center Details</Label>
-        <div className="flex flex-col gap-2 rounded-lg border p-2">
+        <div className="flex flex-col gap-3 rounded-lg border p-2">
           <CenterDetailsItem label="Center Name" text={center?.name} />
+
+          <div>
+            <CenterDetailsItem label="Verification Status">
+              <span
+                style={{
+                  backgroundColor: CENTER_STATUS_CONFIG[center.status].bgColor,
+                  color: CENTER_STATUS_CONFIG[center.status].textColor,
+                }}
+                className="rounded-md p-1 text-2sm font-medium md:text-sm"
+              >
+                {CENTER_STATUS_CONFIG[center.status].name}
+              </span>
+            </CenterDetailsItem>
+            {center.status === "created" && (
+              <div className="mt-0.5 text-xs text-destructive md:text-2sm">
+                Your center is not yet verified. Please wait for the
+                verification process to complete.
+              </div>
+            )}
+          </div>
+
+          <CenterDetailsItem
+            label={"Services Types"}
+            text={centerUtils.getServiceTypeNamesStr(services)}
+          />
           <CenterDetailsItem
             label={
               services.length
                 ? `Services (Total: ${services.length})`
                 : "Services"
             }
-            text={centerUtils.getServiceTypeNamesStr(services)}
-          />
+          >
+            <ol className="ml-5 list-inside list-decimal space-y-1">
+              {services.map((service) => (
+                <li
+                  key={service.id}
+                  className="cursor-pointer text-sm font-medium hover:underline md:text-base"
+                >
+                  <Link
+                    href={`/dashboard/${center.publicId}/services/${service.publicId}/edit`}
+                  >
+                    {service.name} (₹ {service.price})
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </CenterDetailsItem>
           <CenterDetailsItem
             label="Address"
             text={getFullFormattedAddresses(center?.centerAddress)}
@@ -122,26 +161,6 @@ export default async function Page({
               </a>
             )}
           </CenterDetailsItem>
-
-          <div>
-            <CenterDetailsItem label="Verification Status">
-              <span
-                style={{
-                  backgroundColor: CENTER_STATUS_CONFIG[center.status].bgColor,
-                  color: CENTER_STATUS_CONFIG[center.status].textColor,
-                }}
-                className="cursor-pointer rounded-md p-1 text-2sm font-medium hover:underline md:text-sm"
-              >
-                {CENTER_STATUS_CONFIG[center.status].name}
-              </span>
-            </CenterDetailsItem>
-            {center.status === "created" && (
-              <div className="mt-0.5 text-xs text-destructive md:text-2sm">
-                Your center is not yet verified. Please wait for the
-                verification process to complete.
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </div>
