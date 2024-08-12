@@ -37,24 +37,26 @@ export default function CenterDescriptionAndButtons({
   return (
     <div>
       {/* Center Description */}
-      <div className="flex w-full flex-col justify-start gap-1">
-        <div
-          onClick={() => setShowMoreDetails(true)}
-          aria-hidden="true"
-          className={`${showMoreDetails ? "" : "line-clamp-2 cursor-pointer md:line-clamp-6"} whitespace-pre-wrap text-2sm md:text-sm`}
-        >
-          {center.description}
-        </div>
-        <div className="flex w-full justify-between">
-          <span
-            onClick={() => setShowMoreDetails(!showMoreDetails)}
-            className="h-min w-min cursor-pointer whitespace-nowrap py-1 text-2sm font-semibold text-foreground/90 md:text-sm"
+      {center.description && (
+        <div className="flex w-full flex-col justify-start gap-1">
+          <div
+            onClick={() => setShowMoreDetails(true)}
             aria-hidden="true"
+            className={`${showMoreDetails ? "" : "line-clamp-2 cursor-pointer md:line-clamp-6"} whitespace-pre-wrap text-2sm md:text-sm`}
           >
-            {showMoreDetails ? "Show Less" : "More Details >"}
-          </span>
+            {center.description}
+          </div>
+          <div className="flex w-full justify-between">
+            <span
+              onClick={() => setShowMoreDetails(!showMoreDetails)}
+              className="h-min w-min cursor-pointer whitespace-nowrap py-1 text-2sm font-semibold text-foreground/90 md:text-sm"
+              aria-hidden="true"
+            >
+              {showMoreDetails ? "Show Less" : "More Details >"}
+            </span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Center Call and location Buttons */}
       {/* <div

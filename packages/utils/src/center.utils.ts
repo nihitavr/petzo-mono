@@ -108,13 +108,38 @@ export function getServiceTypeToServicesMap(
   return servicesMap;
 }
 
+export function hasAtHomeServices(services?: Service[]) {
+  const servicesProvided = getServicesTypes(services);
+
+  return servicesProvided.some((service) =>
+    ["home_grooming", "mobile_grooming"].includes(service),
+  );
+}
+
+export function hasAtCenterServices(services?: Service[]) {
+  const servicesProvided = getServicesTypes(services);
+
+  return servicesProvided.some((service) =>
+    ["grooming", "veterinary", "boarding"].includes(service),
+  );
+}
+
 export function getMetadataTitle(center: Center) {
   const servicesProvided = getServicesTypes(center.services);
+
+  const hasHomeOrMobileGrooing = hasAtHomeServices(center.services);
+
+  const hasAnyOtherServiceType = hasAtCenterServices(center.services);
+
   const servicesProvidedStr = servicesProvided
     .map((serviceName) => `${SERVICES_CONFIG[serviceName]?.name}`)
     .join(", ");
 
-  return `${center.name} in ${center.centerAddress?.area?.name}, ${center.centerAddress?.city?.name} - ${servicesProvidedStr} services | Furclub`;
+  if (hasHomeOrMobileGrooing && !hasAnyOtherServiceType) {
+    return `${center.name} | ${servicesProvidedStr} services | ${center.centerAddress?.city?.name} | Furclub`;
+  } else {
+    return `${center.name} at ${center.centerAddress?.area?.name}, ${center.centerAddress?.city?.name} - ${servicesProvidedStr} services | Furclub`;
+  }
 }
 
 export function getMetadataDescription(center: Center) {
