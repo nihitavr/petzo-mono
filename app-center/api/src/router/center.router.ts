@@ -1,5 +1,5 @@
 import { and, asc, eq, isNull, schema, sql } from "@petzo/db";
-import { adminUtils } from "@petzo/utils";
+import { adminUtils, centerUtils } from "@petzo/utils";
 import { centerApp } from "@petzo/validators";
 
 import { generateRandomPublicId } from "../../../../packages/utils/src/string.utils";
@@ -114,7 +114,10 @@ export const centerRouter = {
           .where(
             and(
               eq(schema.centers.publicId, input.publicId!),
-              eq(schema.centers.centerUserId, ctx.session.user.id),
+              // Admins can update any center.
+              !adminUtils.isAdmin(ctx.session.user.id, env.ADMIN_USER_IDS)
+                ? eq(schema.centers.centerUserId, ctx.session.user.id)
+                : undefined,
             ),
           )
           .returning()
