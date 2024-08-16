@@ -109,7 +109,6 @@ export const centerRouter = {
             description: input.description,
             images: input.images,
             phoneNumber: input.phoneNumber,
-            centerUserId: ctx.session.user.id,
           })
           .where(
             and(
