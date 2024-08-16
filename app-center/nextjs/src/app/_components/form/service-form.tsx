@@ -180,8 +180,8 @@ export function ServiceForm({
         <FormSaveButton
           disabled={Object.keys(form.formState.dirtyFields).length == 0}
           isSubmitting={isSubmitting}
-          name="Save & Continue"
-          label="Next: Update Service Config"
+          name={isOnboarding ? "Save & Continue" : "Save"}
+          label={isOnboarding ? "Next: Update Service Config" : ""}
         />
       </form>
     </Form>
@@ -311,9 +311,16 @@ const TimingInformation = ({
                 </FormDescription>
               </div>
               <FormControl>
-                <div className="flex items-center gap-2">
-                  <Input type="number" placeholder="Minutes" {...field} />
-                  <span className="font-semibold">minutes</span>
+                <div className="relative flex items-center gap-2">
+                  <Input
+                    className="pr-24"
+                    type="number"
+                    placeholder="Minutes"
+                    {...field}
+                  />
+                  <span className="absolute right-4 font-semibold">
+                    minutes
+                  </span>
                 </div>
               </FormControl>
               <FormMessage />
