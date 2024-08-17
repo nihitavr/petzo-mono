@@ -81,9 +81,9 @@ export const BOOKING_STATUS_CONFIG = {
 // Pet Type
 export const PET_TYPE = ["cat", "small_dog", "big_dog"] as const;
 export const PET_TYPE_CONFIG = {
-  cat: "Cat",
-  small_dog: "Small Dog",
-  big_dog: "Big Dog",
+  cat: { name: "Cat", type: "cat" },
+  small_dog: { name: "Small Dog", type: "dog" },
+  big_dog: { name: "Big Dog", type: "dog" },
 };
 
 export const SLOT_DURATION_IN_MINS = 30;

@@ -54,7 +54,8 @@ const BookingItemInfo = ({ bookingItem }: { bookingItem: BookingItem }) => {
       <span className="text-sm text-foreground/70 md:text-base">
         Booking for:{" "}
         <span className="font-medium">
-          {bookingItem?.pet?.name} ({PET_TYPE_CONFIG[bookingItem.pet!.type!]})
+          {bookingItem?.pet?.name} (
+          {PET_TYPE_CONFIG[bookingItem.pet!.type!].name})
         </span>
       </span>
     </div>

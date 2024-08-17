@@ -45,12 +45,12 @@ export default function CenterServiceList({
           const servicesForCats =
             serviceMap[serviceType]
               ?.filter((service) => service.petTypes?.includes("cat"))
-              .sort((a, b) => a.price - b.price) ?? [];
+              .sort((a, b) => b.price - a.price) ?? [];
 
           const servicesForOthers =
             serviceMap[serviceType]
               ?.filter((service) => !service.petTypes?.includes("cat"))
-              .sort((a, b) => a.price - b.price) ?? [];
+              .sort((a, b) => b.price - a.price) ?? [];
 
           const services = [...servicesForOthers, ...servicesForCats];
 

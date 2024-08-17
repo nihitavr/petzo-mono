@@ -3,6 +3,7 @@
 import type { Center, CustomerUser, Review } from "@petzo/db";
 
 import SignIn from "~/app/_components/sign-in";
+import { trackCustom } from "~/web-analytics/react";
 import Rating from "./rating-display";
 import ReviewDisplay from "./review-display";
 import ReviewInput from "./review-input";
@@ -33,9 +34,15 @@ export default function CenterReviews({
             currentUserReview={currentUserReview}
           />
         ) : (
-          <div className="flex flex-col items-center gap-1 py-3">
-            <span>Sign in to leave a review</span>
-            <SignIn />
+          <div className="flex flex-col items-center gap-1 rounded-lg border py-3">
+            <span className="px-5 text-center text-sm">
+              Help your pet care provider{" "}
+              <span className="font-semibold">grow</span>{" "}
+            </span>
+            <span className="px-5 text-center text-sm">
+              Please Sign in to <span className="font-semibold">review</span>
+            </span>
+            <SignIn onClick={() => trackCustom("click_login_review")} />
           </div>
         )}
 
