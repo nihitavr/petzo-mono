@@ -63,7 +63,7 @@ export function CenterForm({ center }: { center?: Center }) {
     if (!center?.centerAddressId) {
       router.push(`/dashboard/${data.publicId}/address/create?onboarding=true`);
     } else {
-      router.push(`/dashboard/${data.publicId}`);
+      router.push(`/dashboard/${data.publicId}/manage`);
     }
     router.refresh();
   };

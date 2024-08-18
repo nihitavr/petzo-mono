@@ -256,10 +256,11 @@ export function ImageInput<T>({
                     ratio={ratio}
                   >
                     <Image
+                      key={`${idx}_${image.url}`}
                       src={image.url}
                       fill
                       style={{ objectFit }}
-                      className="rounded-md"
+                      className="animate-fade-in rounded-md"
                       alt={`image ${idx + 1}`}
                     />
                     <LuX

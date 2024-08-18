@@ -214,3 +214,12 @@ export function convertMinutesToHoursAndMinutes(totalMinutes: number) {
 
   return durationStr;
 }
+
+/* 
+
+ */
+export function getDayFromDate(dateString: string, dayFormat = "EEE") {
+  const date = new Date(dateString);
+  const dayName = format(date, dayFormat);
+  return dayName.toLowerCase();
+}
