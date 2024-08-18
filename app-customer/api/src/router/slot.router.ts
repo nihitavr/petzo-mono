@@ -4,6 +4,7 @@ import { z } from "zod";
 import type { Service, Slot } from "@petzo/db";
 import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
 import { and, asc, eq, inArray, schema } from "@petzo/db";
+import { timeUtils } from "@petzo/utils";
 import { getNextNDaysString } from "@petzo/utils/time";
 
 import { publicProcedure } from "../trpc";
@@ -35,6 +36,7 @@ export const slotRouter = {
 
       // Populate dateToSlotsMap and track missing dates in one loop
       const missingDates = new Set(next7Dates);
+
       for (const slot of slots) {
         const date = slot.date.toString();
         if (!dateToSlotsMap.has(date)) {
@@ -42,6 +44,21 @@ export const slotRouter = {
           missingDates.delete(date);
         }
         dateToSlotsMap.get(date)!.push(slot);
+      }
+
+      const availableDays = new Set(
+        Object.entries(service.config?.operatingHours ?? {})
+          .filter(([, value]) => {
+            return value !== null;
+          })
+          .map(([key]) => key),
+      );
+
+      // Remove dates that are not available
+      for (const date of missingDates) {
+        if (!availableDays.has(timeUtils.getDayFromDate(date))) {
+          missingDates.delete(date);
+        }
       }
 
       // Create new slots if necessary

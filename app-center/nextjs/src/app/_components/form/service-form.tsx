@@ -508,39 +508,41 @@ const PetInformation = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
               </FormDescription>
             </div>
             <div className="flex gap-6">
-              {Object.entries(PET_TYPE_CONFIG).map(([petType, label]) => (
-                <FormField
-                  key={petType}
-                  control={form.control}
-                  name="petTypes"
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={petType}
-                        className="flex cursor-pointer flex-row items-center space-x-1 space-y-0"
-                      >
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(petType)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value!, petType])
-                                : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== petType,
-                                    ),
-                                  );
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel className="cursor-pointer font-normal">
-                          {label}
-                        </FormLabel>
-                      </FormItem>
-                    );
-                  }}
-                />
-              ))}
+              {Object.entries(PET_TYPE_CONFIG).map(
+                ([petType, petTypeConfig]) => (
+                  <FormField
+                    key={petType}
+                    control={form.control}
+                    name="petTypes"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={petType}
+                          className="flex cursor-pointer flex-row items-center space-x-1 space-y-0"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(petType)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value!, petType])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== petType,
+                                      ),
+                                    );
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="cursor-pointer font-normal">
+                            {petTypeConfig.name}
+                          </FormLabel>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                ),
+              )}
             </div>
 
             <FormMessage />

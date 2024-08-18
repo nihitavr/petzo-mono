@@ -174,31 +174,33 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
                     value={field.value ?? ""}
                     className="flex flex-row items-center gap-3"
                   >
-                    {Object.entries(PET_TYPE_CONFIG).map(([petType, label]) => {
-                      let Icon = Cat;
-                      if (petType == "small_dog") Icon = SmallDog;
-                      if (petType == "big_dog") Icon = BigDog;
+                    {Object.entries(PET_TYPE_CONFIG).map(
+                      ([petType, petTypeConfig]) => {
+                        let Icon = Cat;
+                        if (petType == "small_dog") Icon = SmallDog;
+                        if (petType == "big_dog") Icon = BigDog;
 
-                      return (
-                        <FormItem key={petType} className="space-y-0">
-                          <FormControl>
-                            <RadioGroupItem
-                              value={petType}
-                              className="peer hidden"
-                            />
-                          </FormControl>
-                          <FormLabel
-                            className={`flex h-9 cursor-pointer items-center gap-1 rounded-md border p-2 font-normal ${field.value == petType ? "bg-primary/30" : "hover:bg-primary/10"}`}
-                          >
-                            {" "}
-                            <span className="whitespace-nowrap">
-                              {label}
-                            </span>{" "}
-                            <Icon />
-                          </FormLabel>{" "}
-                        </FormItem>
-                      );
-                    })}
+                        return (
+                          <FormItem key={petType} className="space-y-0">
+                            <FormControl>
+                              <RadioGroupItem
+                                value={petType}
+                                className="peer hidden"
+                              />
+                            </FormControl>
+                            <FormLabel
+                              className={`flex h-9 cursor-pointer items-center gap-1 rounded-md border p-2 font-normal ${field.value == petType ? "bg-primary/30" : "hover:bg-primary/10"}`}
+                            >
+                              {" "}
+                              <span className="whitespace-nowrap">
+                                {petTypeConfig.name}
+                              </span>{" "}
+                              <Icon />
+                            </FormLabel>{" "}
+                          </FormItem>
+                        );
+                      },
+                    )}
                   </RadioGroup>
                 </FormControl>
                 <FormMessage />

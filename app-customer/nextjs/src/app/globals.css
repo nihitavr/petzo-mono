@@ -73,3 +73,34 @@ input[type="file"] {
   /* @apply flex flex-col gap-4 md:mt-0 mt-1.5; */
   @apply mt-[3.5rem] flex flex-col gap-4 md:mt-0;
 }
+
+.markdown-content ul {
+  @apply list-inside list-disc;
+}
+
+.markdown-content ol {
+  @apply list-inside list-decimal;
+}
+
+.markdown-content ul ul,
+.markdown-content ol ul {
+  @apply ml-4 list-inside list-disc;
+}
+
+.markdown-content ul ol,
+.markdown-content ol ol {
+  @apply ml-4 list-inside list-decimal;
+}
+
+/* Add other styles as needed */
+.markdown-content h1 {
+  @apply mb-2 text-2xl font-bold;
+}
+
+.markdown-content h2 {
+  @apply mb-2 text-xl font-bold;
+}
+
+.markdown-content p {
+  @apply mb-4;
+}

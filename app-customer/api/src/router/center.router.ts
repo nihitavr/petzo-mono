@@ -14,7 +14,7 @@ const DEFAULT_PAGE_SIZE = 10;
 
 export const centerRouter = {
   findByPublicId: publicCachedProcedure
-    .meta({ cacheTTLInSeconds: 60 })
+    .meta({ cacheTTLInSeconds: 1 })
     .input(centerValidator.FindByPublicId)
     .query(async ({ ctx, input }) => {
       const center = await ctx.db.query.centers.findFirst({

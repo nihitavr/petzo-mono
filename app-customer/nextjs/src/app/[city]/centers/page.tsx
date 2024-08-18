@@ -11,63 +11,6 @@ import { CenterFilters } from "./_components/center-filters";
 import { MobileCenterFilters } from "./_components/mobile-center-filters";
 import { LoadingCentersList } from "./loading";
 
-export async function getCenterFilters(
-  {
-    serviceType,
-    area,
-    ratingGte,
-    nearby,
-  }: {
-    serviceType: string;
-    area: string;
-    ratingGte: string;
-    nearby: boolean;
-  },
-  data: Record<
-    string,
-    {
-      publicId: string;
-      name: string;
-    }[]
-  > = {},
-) {
-  const serviceTypeQueryParamList = serviceType ? serviceType.split(",") : [];
-  const areaQueryParamList = area ? area.split(",") : [];
-  const ratingGteQueryParam = ratingGte;
-
-  const filters = structuredClone(DEFAULT_CENTER_FILTERS);
-
-  filters.map((filter) => {
-    switch (filter.publicId) {
-      case "distance":
-        filter.items.map((item) => {
-          item.selected = nearby ? item.publicId === "nearby" : false;
-        });
-        break;
-      case "serviceType":
-        filter.items.map((item) => {
-          item.selected = serviceTypeQueryParamList.includes(item.publicId);
-        });
-        break;
-      case "ratingGte":
-        filter.items.map((item) => {
-          item.selected = ratingGteQueryParam === item.publicId;
-        });
-        break;
-      case "area":
-        filter.items =
-          data.area?.map((area) => ({
-            publicId: area.publicId,
-            label: area.name,
-            selected: areaQueryParamList.includes(area.publicId),
-          })) ?? [];
-        break;
-    }
-  });
-
-  return filters;
-}
-
 export default async function Centers({
   searchParams,
   params,
@@ -166,4 +109,61 @@ export default async function Centers({
       </div>
     </>
   );
+}
+
+async function getCenterFilters(
+  {
+    serviceType,
+    area,
+    ratingGte,
+    nearby,
+  }: {
+    serviceType: string;
+    area: string;
+    ratingGte: string;
+    nearby: boolean;
+  },
+  data: Record<
+    string,
+    {
+      publicId: string;
+      name: string;
+    }[]
+  > = {},
+) {
+  const serviceTypeQueryParamList = serviceType ? serviceType.split(",") : [];
+  const areaQueryParamList = area ? area.split(",") : [];
+  const ratingGteQueryParam = ratingGte;
+
+  const filters = structuredClone(DEFAULT_CENTER_FILTERS);
+
+  filters.map((filter) => {
+    switch (filter.publicId) {
+      case "distance":
+        filter.items.map((item) => {
+          item.selected = nearby ? item.publicId === "nearby" : false;
+        });
+        break;
+      case "serviceType":
+        filter.items.map((item) => {
+          item.selected = serviceTypeQueryParamList.includes(item.publicId);
+        });
+        break;
+      case "ratingGte":
+        filter.items.map((item) => {
+          item.selected = ratingGteQueryParam === item.publicId;
+        });
+        break;
+      case "area":
+        filter.items =
+          data.area?.map((area) => ({
+            publicId: area.publicId,
+            label: area.name,
+            selected: areaQueryParamList.includes(area.publicId),
+          })) ?? [];
+        break;
+    }
+  });
+
+  return filters;
 }
