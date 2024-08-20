@@ -27,12 +27,11 @@ export default function QrCodeComponent({ data }: { data: string }) {
   return (
     <div
       ref={svgContainerRef}
-      className="flex h-[80vh] w-full flex-col items-center justify-center gap-3"
+      className="flex w-full flex-col items-center justify-center gap-3"
     >
-      <h3 className="text-center text-2xl">Thank you for reviewing us!</h3>
       <QRCodeSVG
         bgColor={"transparent"}
-        className="size-80"
+        className="h-full w-full max-w-80"
         value={data}
         size={512}
         fgColor={"#000000"}
@@ -47,7 +46,6 @@ export default function QrCodeComponent({ data }: { data: string }) {
           excavate: false,
         }}
       />
-      <span className="w-80 break-words">{data}</span>
       {/* <Button className="w-80 md:w-80" onClick={downloadSvg}>
         Download
       </Button> */}
