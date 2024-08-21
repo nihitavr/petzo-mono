@@ -31,6 +31,8 @@ export const petRouter = {
             name: input.name,
             publicId: generateRandomPublicId(),
             customerUserId: ctx.session.user.id,
+            description: input.description,
+            behaviourTags: input.behaviourTags,
             type: input.type,
             gender: input.gender,
             images: input.images,
@@ -51,6 +53,8 @@ export const petRouter = {
             name: input.name,
             type: input.type,
             gender: input.gender,
+            description: input.description,
+            behaviourTags: input.behaviourTags,
             images: input.images,
             breed: input.breed,
             dateOfBirth: input.dateOfBirth,
@@ -78,7 +82,7 @@ export const petRouter = {
   getPetProfile: protectedProcedure
     .input(
       z.object({
-        publicId: z.string().length(20),
+        publicId: z.string().max(20),
       }),
     )
     .query(({ ctx, input }) => {

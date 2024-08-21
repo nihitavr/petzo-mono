@@ -4,6 +4,7 @@ import {
   json,
   pgEnum,
   serial,
+  text,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
@@ -26,9 +27,11 @@ export const pets = pgTable(
       .notNull()
       .references(() => customerUsers.id),
     name: varchar("name", { length: 256 }).notNull(),
+    description: text("description"),
     type: petTypeEnum("type"),
     gender: genderEnum("gender"),
     images: json("images").$type<{ url: string }[]>(),
+    behaviourTags: json("behaviour_tags").$type<string[]>(),
     breed: varchar("breed", { length: 256 }),
     dateOfBirth: timestamp("date_of_birth"),
     createdAt: timestamp("created_at")

@@ -1,13 +1,15 @@
 import { z } from "zod";
 
 export const ProfileSchema = z.object({
-  publicId: z.string().length(20).optional(),
+  publicId: z.string().max(20).optional(),
   name: z.string().min(1, "Name is required.").max(255, "Name is too long."),
+  description: z.string().optional(),
   type: z.enum(["cat", "small_dog", "big_dog"], {
     errorMap: () => {
       return { message: "Type is required." };
     },
   }),
+  behaviourTags: z.array(z.string()),
   gender: z
     .enum(["male", "female"], {
       errorMap: () => {

@@ -5,9 +5,9 @@ import { use, useEffect, useRef, useState } from "react";
 import type { Center } from "@petzo/db";
 import { useInView } from "@petzo/ui/components/in-view";
 
+import CenterCardHorizontal from "~/app/_components/center-card-horizontal";
 import { CENTERS_LIST_PAGE_LIMIT } from "~/lib/constants";
 import { api } from "~/trpc/react";
-import CenterCard from "../../../_components/center-card";
 import { LoadingCentersList } from "../loading";
 import NoCentersFound from "./no-centers.found";
 
@@ -83,10 +83,14 @@ export const CenterFilterList = ({
   if (initialCenters.length === 0) return <NoCentersFound />;
 
   return (
-    <div className="flex w-full flex-col gap-4">
+    <div className="flex w-full flex-col gap-6 md:gap-4">
       {centers.length > 0 &&
         centers.map((center) => {
-          return <CenterCard key={`center-${center.id}`} center={center} />;
+          return (
+            <div key={`center-${center.id}`}>
+              <CenterCardHorizontal center={center} />
+            </div>
+          );
         })}
 
       {!isLastPage && <LoadingCentersList ref={loadingRef} noOfItems={2} />}

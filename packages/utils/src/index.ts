@@ -49,7 +49,7 @@ export function getTimePassed(startDate?: Date | null) {
   return result.trim();
 }
 
-export function titleCase(str: string) {
+export function titleCase(str?: string | null) {
   if (!str) return "";
 
   return str[0]?.toUpperCase() + str.slice(1);

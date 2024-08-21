@@ -57,7 +57,7 @@ export default function CenterSearchList() {
                 <Link
                   href={centerUtils.getCenterUrl(center)}
                   key={center.publicId}
-                  className="grid grid-cols-6 gap-2 rounded-lg hover:bg-muted/80"
+                  className="grid grid-cols-6 gap-2 rounded-lg bg-muted hover:bg-muted/80"
                 >
                   <div className="relative col-span-2 min-h-28 w-full md:min-h-32">
                     {thumbnail ? (

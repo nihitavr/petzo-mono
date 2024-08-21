@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { LoadingCentersList } from "~/app/[city]/centers/loading";
 import { api } from "~/trpc/react";
-import CenterCard from "../center-card";
+import CenterCardHorizontal from "../center-card-horizontal";
 
 export default function BestCentersInCity({
   cityPublicId,
@@ -77,7 +77,7 @@ export default function BestCentersInCity({
                 className="flex-shrink-0 basis-[95%] py-3 md:basis-[40%]"
                 key={center.id}
               >
-                <CenterCard center={center} />
+                <CenterCardHorizontal center={center} />
               </div>
             ))}
             <div className="flex items-center justify-center whitespace-nowrap py-4">
