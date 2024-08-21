@@ -2,6 +2,7 @@ import { sql } from "drizzle-orm";
 import {
   index,
   integer,
+  json,
   serial,
   text,
   timestamp,
@@ -17,6 +18,7 @@ export const reviews = pgTable(
   {
     id: serial("id").primaryKey(),
     parentReviewId: integer("parent_review_id"),
+    images: json("images").$type<{ url: string }[]>(),
     customerUserId: varchar("customer_user_id", { length: 255 })
       .notNull()
       .references(() => customerUsers.id),

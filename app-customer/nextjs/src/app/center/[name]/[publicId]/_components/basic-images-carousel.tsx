@@ -13,14 +13,16 @@ import {
 } from "@petzo/ui/components/carousel";
 import { cn } from "@petzo/ui/lib/utils";
 
-export default function ServiceImagesCasousel({
+export default function BasicImagesCasousel({
   images,
+  startIndex,
   defaultImage = "",
   className,
   imageClassName,
 }: {
   images: string[];
   defaultImage?: string;
+  startIndex?: number;
   className?: string;
   imageClassName?: string;
   autoplay?: boolean;
@@ -28,7 +30,7 @@ export default function ServiceImagesCasousel({
 }) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState(startIndex ?? 0);
 
   useEffect(() => {
     if (!carouselApi) {
@@ -52,6 +54,7 @@ export default function ServiceImagesCasousel({
     <Carousel
       opts={{
         loop: true,
+        startIndex: startIndex ?? 0,
       }}
       className="h-full w-full"
       setApi={setCarouselApi}

@@ -87,6 +87,7 @@ export const reviewsRouter = {
       z.object({
         centerId: z.number(),
         reviewText: z.string(),
+        images: z.array(z.object({ url: z.string() })).optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -107,6 +108,7 @@ export const reviewsRouter = {
           .update(schema.reviews)
           .set({
             text: input.reviewText,
+            images: input.images,
           })
           .where(
             and(
@@ -124,6 +126,7 @@ export const reviewsRouter = {
             centerId: input.centerId,
             customerUserId: ctx.session.user.id,
             text: input.reviewText,
+            images: input.images,
           })
           .returning();
       }

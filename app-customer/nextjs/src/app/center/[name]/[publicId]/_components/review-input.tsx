@@ -8,6 +8,7 @@ import { BsPersonFill } from "react-icons/bs";
 import type { CustomerUser, Rating, Review } from "@petzo/db";
 import { Avatar, AvatarFallback } from "@petzo/ui/components/avatar";
 import { Button } from "@petzo/ui/components/button";
+import { ImageInput } from "@petzo/ui/components/image-input";
 import Loader from "@petzo/ui/components/loader";
 import { Textarea } from "@petzo/ui/components/textarea";
 import { toast } from "@petzo/ui/components/toast";
@@ -32,6 +33,9 @@ export default function ReviewInput({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [isEditing, setIsEditing] = useState(!currentUserReview);
+  const [images, setImages] = useState<{ url: string }[]>(
+    currentUserReview?.images ?? [],
+  );
 
   const [rating, setRating] = useState(currentUserReview?.rating?.rating ?? 0);
 
@@ -108,10 +112,13 @@ export default function ReviewInput({
       );
     }
 
-    if (input && input.trim() !== currentUserReviewState?.text) {
+    if (
+      (input && input.trim() !== currentUserReviewState?.text) ||
+      JSON.stringify(images) !== JSON.stringify(currentUserReviewState?.images)
+    ) {
       setIsSubmitting(true);
       reviewMutation.mutate(
-        { centerId, reviewText: input.trim() },
+        { centerId, reviewText: input.trim(), images: images },
         {
           onSuccess: (data) => onSuccess({ review: data }),
           onError: () => onError("review"),
@@ -142,6 +149,24 @@ export default function ReviewInput({
             <RatingInput rating={rating} setRating={setRating} />
           </div>
         </div>
+
+        <span className="-mb-1 text-2sm">Max 4 Images</span>
+        <ImageInput
+          name={"review-images"}
+          value={images}
+          className="md:col-span-1"
+          onChange={(e) => setImages(e)}
+          objectFit="cover"
+          clearErrors={() => null}
+          setError={(name, { message }) => {
+            toast.error(message);
+          }}
+          ratio={1}
+          maxFiles={4}
+          handleUploadUrl="/api/upload-image"
+          basePathname="images/reviews"
+          showArrows={false}
+        />
         <Textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -171,7 +196,9 @@ export default function ReviewInput({
             <Button
               disabled={
                 (rating === currentUserReviewState?.rating?.rating &&
-                  currentUserReviewState?.text === input) ||
+                  currentUserReviewState?.text === input &&
+                  JSON.stringify(images) ===
+                    JSON.stringify(currentUserReviewState?.images)) ||
                 isSubmitting
               }
               onClick={() => onClickSubmit()}

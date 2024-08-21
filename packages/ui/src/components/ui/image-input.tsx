@@ -118,7 +118,7 @@ function ImageButton<T>({
         className="flex size-full flex-col items-center justify-center rounded-lg border"
       >
         <LuPlusCircle className="size-12 cursor-pointer text-gray-300 hover:text-gray-400 md:size-14" />
-        <span className="text-sm font-semibold text-foreground/50">
+        <span className="text-center text-2sm font-semibold text-foreground/50 md:text-sm">
           Add Image
         </span>
       </label>
@@ -188,6 +188,7 @@ export function ImageInput<T>({
   handleUploadUrl,
   className,
   basePathname,
+  showArrows = true,
 }: {
   name: T;
   value?: { url: string }[] | null;
@@ -208,6 +209,7 @@ export function ImageInput<T>({
   maxFiles: number;
   handleUploadUrl: string;
   basePathname?: string;
+  showArrows?: boolean;
 }) {
   const [showMore, setShowMore] = useState<boolean>(true);
   const [filteredValue, setFilteredValue] = useState(value);
@@ -227,20 +229,22 @@ export function ImageInput<T>({
 
   return (
     <div className="w-full">
-      <div className="grid w-full grid-cols-3 gap-2 md:grid-cols-6">
+      <div className="grid w-full grid-cols-6 gap-2 md:grid-cols-12">
         {value && value?.length < maxFiles && (
-          <AspectRatio className="rounded-lg border" ratio={ratio}>
-            <ImageButton
-              name={name}
-              clearErrors={clearErrors}
-              setError={setFieldError}
-              onChange={onChange}
-              value={value}
-              maxFiles={maxFiles}
-              handleUploadUrl={handleUploadUrl}
-              basePathname={basePathname}
-            />
-          </AspectRatio>
+          <div className={cn("col-span-2", className)}>
+            <AspectRatio className="rounded-lg border" ratio={ratio}>
+              <ImageButton
+                name={name}
+                clearErrors={clearErrors}
+                setError={setFieldError}
+                onChange={onChange}
+                value={value}
+                maxFiles={maxFiles}
+                handleUploadUrl={handleUploadUrl}
+                basePathname={basePathname}
+              />
+            </AspectRatio>
+          </div>
         )}
         {filteredValue &&
           filteredValue.length > 0 &&
@@ -249,7 +253,7 @@ export function ImageInput<T>({
             const rightArrow = idx !== filteredValue.length - 1;
 
             return (
-              <div key={idx} className={cn("col-span-1 w-full", className)}>
+              <div key={idx} className={cn("col-span-2 w-full", className)}>
                 {image.url ? (
                   <AspectRatio
                     className="rounded-lg border bg-black"
@@ -273,32 +277,34 @@ export function ImageInput<T>({
                         onChange(newImages);
                       }}
                     />
-                    <div className="absolute bottom-1 right-1/2 flex translate-x-1/2 items-center gap-1">
-                      <FaArrowLeftLong
-                        className={`size-5 cursor-pointer rounded-sm bg-slate-300 p-0.5 text-black/80 opacity-70 hover:opacity-100 ${!leftArrow ? "pointer-events-none opacity-30" : ""}`}
-                        strokeWidth={0.5}
-                        onClick={() => {
-                          const img1 = filteredValue[idx];
-                          const img2 = filteredValue[idx - 1];
-                          filteredValue[idx] = img2!;
-                          filteredValue[idx - 1] = img1!;
+                    {showArrows && (
+                      <div className="absolute bottom-1 right-1/2 flex translate-x-1/2 items-center gap-1">
+                        <FaArrowLeftLong
+                          className={`size-5 cursor-pointer rounded-sm bg-slate-300 p-0.5 text-black/80 opacity-70 hover:opacity-100 ${!leftArrow ? "pointer-events-none opacity-30" : ""}`}
+                          strokeWidth={0.5}
+                          onClick={() => {
+                            const img1 = filteredValue[idx];
+                            const img2 = filteredValue[idx - 1];
+                            filteredValue[idx] = img2!;
+                            filteredValue[idx - 1] = img1!;
 
-                          onChange(filteredValue);
-                        }}
-                      />
-                      <FaArrowRightLong
-                        className={`size-5 cursor-pointer rounded-sm bg-slate-300 p-0.5 text-black/80 opacity-70 hover:opacity-100 ${!rightArrow ? "pointer-events-none opacity-30" : ""}`}
-                        strokeWidth={1}
-                        onClick={() => {
-                          const img1 = filteredValue[idx];
-                          const img2 = filteredValue[idx + 1];
-                          filteredValue[idx] = img2!;
-                          filteredValue[idx + 1] = img1!;
+                            onChange(filteredValue);
+                          }}
+                        />
+                        <FaArrowRightLong
+                          className={`size-5 cursor-pointer rounded-sm bg-slate-300 p-0.5 text-black/80 opacity-70 hover:opacity-100 ${!rightArrow ? "pointer-events-none opacity-30" : ""}`}
+                          strokeWidth={1}
+                          onClick={() => {
+                            const img1 = filteredValue[idx];
+                            const img2 = filteredValue[idx + 1];
+                            filteredValue[idx] = img2!;
+                            filteredValue[idx + 1] = img1!;
 
-                          onChange(filteredValue);
-                        }}
-                      />
-                    </div>
+                            onChange(filteredValue);
+                          }}
+                        />
+                      </div>
+                    )}
                   </AspectRatio>
                 ) : (
                   <AspectRatio

@@ -4,7 +4,7 @@ import { SERVICES_CONFIG } from "@petzo/constants";
 export function convertToUrlFriendlyText(text: string): string {
   // Remove special characters, collapse multiple spaces into a single space, trim leading and trailing spaces, convert to lowercase, and replace spaces with dashes
   return text
-    .replace(/[^a-zA-Z0-9\s]/g, "")
+    ?.replace(/[^a-zA-Z0-9\s]/g, "")
     .replace(/\s+/g, " ")
     .trim()
     .toLowerCase()

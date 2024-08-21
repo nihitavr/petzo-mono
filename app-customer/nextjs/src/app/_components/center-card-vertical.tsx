@@ -7,7 +7,7 @@ import { centerUtils, serviceUtils } from "@petzo/utils";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
-import ServiceImagesCasousel from "../center/[name]/[publicId]/_components/service-images-carousel";
+import BasicImagesCasousel from "../center/[name]/[publicId]/_components/basic-images-carousel";
 
 export default function CenterCardVertical({ center }: { center: Center }) {
   const thumbnail = center.images?.[0]?.url;
@@ -22,7 +22,7 @@ export default function CenterCardVertical({ center }: { center: Center }) {
         {/* Center Image */}
         <div className="relative aspect-[6/4] w-full cursor-pointer overflow-hidden rounded-t-xl border-b">
           {thumbnail ? (
-            <ServiceImagesCasousel
+            <BasicImagesCasousel
               images={
                 center.images?.slice(0, 8)?.map((image) => image.url) ?? []
               }

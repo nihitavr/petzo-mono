@@ -13,7 +13,7 @@ import Share from "@petzo/ui/components/share";
 import { getTimePassed, titleCase } from "@petzo/utils";
 
 import { api } from "~/trpc/server";
-import ServiceImagesCasousel from "../center/[name]/[publicId]/_components/service-images-carousel";
+import BasicImagesCasousel from "../center/[name]/[publicId]/_components/basic-images-carousel";
 
 interface Props {
   id: string;
@@ -33,7 +33,7 @@ export default async function PetProfile({ id }: Props) {
       <div className="w-screen lg:w-2/5 ">
         {/* Image Section */}
         <div className="-mt-3.5">
-          <ServiceImagesCasousel
+          <BasicImagesCasousel
             images={pet.images?.map((image) => image.url) ?? []}
             className="aspect-square w-full"
             imageClassName="rounded-none"
