@@ -24,8 +24,8 @@ import { centerUtils } from "@petzo/utils";
 
 import { useMediaQuery } from "~/lib/hooks/screen.hooks";
 import { trackCustom } from "~/web-analytics/react";
+import BasicImagesCasousel from "./basic-images-carousel";
 import { BookServiceDialog } from "./book-service-modal";
-import ServiceImagesCasousel from "./service-images-carousel";
 
 export function ServiceDetailsModal({
   service,
@@ -101,7 +101,7 @@ export function ServiceDetailsModal({
         <DialogContent className="max-h-[80vh] rounded-xl p-0 pb-[50px] sm:max-w-[425px] ">
           <div className="max-h-[80vh] overflow-y-auto p-3 md:p-4">
             <div className="flex flex-col">
-              <ServiceImagesCasousel
+              <BasicImagesCasousel
                 images={imageUrls}
                 className="aspect-square w-full"
                 imageClassName="rounded-md border-none"
@@ -151,7 +151,7 @@ export function ServiceDetailsModal({
       <DrawerContent className="h-[83vh] min-h-[50vh] rounded-t-3xl border-none p-0">
         <div className=" overflow-y-auto rounded-t-3xl md:p-4">
           <div className="flex flex-col">
-            <ServiceImagesCasousel
+            <BasicImagesCasousel
               images={imageUrls}
               className="aspect-square w-full "
               imageClassName="border-none rounded-t-3xl"
