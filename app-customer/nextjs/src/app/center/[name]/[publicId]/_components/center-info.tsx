@@ -31,7 +31,10 @@ export const CenterInfo = ({
       {/* Rating and Reviews */}
       {!!center.averageRating && (
         <a href="#reviews">
-          <Rating rating={center.averageRating} />
+          <Rating
+            rating={center.averageRating}
+            ratingCount={center.ratingCount}
+          />
         </a>
       )}
 

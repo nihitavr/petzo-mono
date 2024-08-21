@@ -50,7 +50,12 @@ export default function CenterCardHorizontal({ center }: { center: Center }) {
           </div>
 
           {/* Rating and Reviews */}
-          {!!center.averageRating && <Rating rating={center.averageRating} />}
+          {!!center.averageRating && (
+            <Rating
+              rating={center.averageRating}
+              ratingCount={center.ratingCount}
+            />
+          )}
 
           {/* Area */}
           <div className="flex items-center gap-1">

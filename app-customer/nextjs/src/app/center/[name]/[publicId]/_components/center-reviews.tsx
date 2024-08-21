@@ -21,10 +21,17 @@ export default function CenterReviews({
 }) {
   return (
     <div id={"reviews"} className="flex flex-col gap-4">
-      <h2 className="text-base font-semibold md:text-lg">
-        Rating and Reviews
-        {!!center.averageRating && <Rating rating={center.averageRating} />}
-      </h2>
+      <div className="flex flex-col gap-1">
+        <h2 className="text-base font-semibold md:text-lg">
+          Rating and Reviews
+        </h2>
+        {!!center.averageRating && (
+          <Rating
+            rating={center.averageRating}
+            ratingCount={center.ratingCount}
+          />
+        )}
+      </div>
 
       <div className="flex flex-col gap-5">
         {user ? (
