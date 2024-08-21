@@ -84,6 +84,7 @@ export default function ReviewDisplay({
                       }}
                       src={image.url}
                       alt="Review Image"
+                      className="object-cover"
                       fill
                     />
                   </AspectRatio>
