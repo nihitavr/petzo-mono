@@ -238,7 +238,11 @@ const CarouselPrevious = React.forwardRef<
             : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
           className,
         )}
-        onClick={scrollPrev}
+        onClick={(e) => {
+          scrollPrev();
+          e.preventDefault();
+          e.stopPropagation();
+        }}
         {...props}
       >
         <LuChevronLeft />
@@ -279,7 +283,11 @@ const CarouselNext = React.forwardRef<
       <Button
         ref={ref}
         variant={variant}
-        onClick={scrollNext}
+        onClick={(e) => {
+          scrollNext();
+          e.preventDefault();
+          e.stopPropagation();
+        }}
         size={size}
         disabled={!canScrollNext}
         className={cn(

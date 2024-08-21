@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { GrLocation } from "react-icons/gr";
 
@@ -8,8 +7,9 @@ import { centerUtils, serviceUtils } from "@petzo/utils";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
+import ServiceImagesCasousel from "../center/[name]/[publicId]/_components/service-images-carousel";
 
-export default function CenterCard({ center }: { center: Center }) {
+export default function CenterCardHorizontal({ center }: { center: Center }) {
   const thumbnail = center.images?.[0]?.url;
   const lowestPriceService = serviceUtils.getLowertCostService(center);
 
@@ -22,8 +22,14 @@ export default function CenterCard({ center }: { center: Center }) {
         {/* Center Image */}
         <div className="relative h-full w-2/5 cursor-pointer overflow-hidden rounded-xl">
           {thumbnail ? (
-            <Image src={thumbnail} alt="" fill style={{ objectFit: "cover" }} />
+            <ServiceImagesCasousel
+              images={
+                center.images?.slice(0, 5)?.map((image) => image.url) ?? []
+              }
+              className="h-44 w-full md:h-60"
+            />
           ) : (
+            // <Image src={thumbnail} alt="" fill style={{ objectFit: "cover" }} />
             <div
               className={`flex size-full items-center justify-center rounded-md text-center ${COLOR_MAP[center.name[0]!.toLowerCase()]?.bgColor} bg-opacity-75`}
             >
@@ -66,7 +72,7 @@ export default function CenterCard({ center }: { center: Center }) {
                 <span className="text-xs capitalize text-foreground/80 md:text-sm">
                   {SERVICES_CONFIG[lowestPriceService.serviceType]?.name}
                 </span>
-                <span className="text-sm md:text-base">Starting at </span>
+                <span className="text-2sm md:text-sm">Starting at </span>
               </div>
               <div className="text-md flex items-center justify-between md:text-lg">
                 <span className="text-base font-semibold md:text-lg">

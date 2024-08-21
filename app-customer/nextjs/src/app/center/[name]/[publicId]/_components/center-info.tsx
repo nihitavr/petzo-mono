@@ -17,7 +17,9 @@ export const CenterInfo = ({
   className?: string;
 }) => {
   return (
-    <div className={cn("flex flex-col gap-1 overflow-y-auto pt-0", className)}>
+    <div
+      className={cn("flex flex-col gap-1.5 overflow-y-auto pt-0", className)}
+    >
       {/* Center name */}
       <div className="flex items-start justify-between">
         <h1 className="line-clamp-2 text-base font-semibold md:text-lg">
@@ -35,7 +37,6 @@ export const CenterInfo = ({
 
       {/* Services Provided */}
       <span className="space-x-1 text-2sm md:text-sm">
-        <span className="font-medium text-foreground/80">Services:</span>
         <span className="line-clamp-2 inline font-semibold capitalize text-primary md:text-sm">
           {centerUtils.getServiceTypeNamesStr(center.services)}
         </span>
@@ -49,7 +50,7 @@ export const CenterInfo = ({
           rel="noreferrer"
           className="flex items-center gap-1 hover:underline"
         >
-          <GrLocation className="!h-4 !w-4" />
+          <GrLocation className="!h-4 !w-4 shrink-0" />
           <span className="line-clamp-2 text-2sm font-medium capitalize md:text-sm">
             {getFormattedAddresses(center?.centerAddress, ["line1", "area"])}
           </span>

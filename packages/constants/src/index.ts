@@ -81,9 +81,9 @@ export const BOOKING_STATUS_CONFIG = {
 // Pet Type
 export const PET_TYPE = ["cat", "small_dog", "big_dog"] as const;
 export const PET_TYPE_CONFIG = {
-  cat: { name: "Cat", type: "cat" },
-  small_dog: { name: "Small Dog", type: "dog" },
-  big_dog: { name: "Big Dog", type: "dog" },
+  cat: { name: "Cat", type: "cat", category: "Cat" },
+  small_dog: { name: "Small Dog", type: "dog", category: "Dog" },
+  big_dog: { name: "Big Dog", type: "dog", category: "Dog" },
 };
 
 export const SLOT_DURATION_IN_MINS = 30;
@@ -151,4 +151,205 @@ export const REGEX = {
   // Time: HH:MM in 24-hour format
   time24Hour: /^([01][0-9]|2[0-3]):[0-5][0-9]:00$/,
   mobileNumber: /^[56789]\d{9}$/,
+};
+
+export const PET_BEHAVIOUR_TAGS: Record<
+  string,
+  { label: string; badgeClassname: string; value: string }
+> = {
+  vaccinated: {
+    value: "vaccinated",
+    label: "Vaccinated",
+    badgeClassname: "bg-green-100 text-green-800",
+  },
+  neat: {
+    value: "neat",
+    label: "Neat",
+    badgeClassname: "bg-green-100 text-green-800",
+  },
+  friendly: {
+    value: "friendly",
+    label: "Friendly",
+    badgeClassname: "bg-blue-100 text-blue-800",
+  },
+  cute: {
+    value: "cute",
+    label: "Cute",
+    badgeClassname: "bg-yellow-100 text-yellow-800",
+  },
+  calm: {
+    value: "calm",
+    label: "Calm",
+    badgeClassname: "bg-purple-100 text-purple-800",
+  },
+  playful: {
+    value: "playful",
+    label: "Playful",
+    badgeClassname: "bg-pink-100 text-pink-800",
+  },
+  active: {
+    value: "active",
+    label: "Active",
+    badgeClassname: "bg-red-100 text-red-800",
+  },
+  loyal: {
+    value: "loyal",
+    label: "Loyal",
+    badgeClassname: "bg-gray-100 text-gray-800",
+  },
+  protective: {
+    value: "protective",
+    label: "Protective",
+    badgeClassname: "bg-black text-white",
+  },
+  smart: {
+    value: "smart",
+    label: "Smart",
+    badgeClassname: "bg-blue-100 text-blue-800",
+  },
+  independent: {
+    value: "independent",
+    label: "Independent",
+    badgeClassname: "bg-green-100 text-green-800",
+  },
+  quiet: {
+    value: "quiet",
+    label: "Quiet",
+    badgeClassname: "bg-gray-100 text-gray-800",
+  },
+  loud: {
+    value: "loud",
+    label: "Loud",
+    badgeClassname: "bg-yellow-100 text-yellow-800",
+  },
+  energetic: {
+    value: "energetic",
+    label: "Energetic",
+    badgeClassname: "bg-red-100 text-red-800",
+  },
+  lazy: {
+    value: "lazy",
+    label: "Lazy",
+    badgeClassname: "bg-purple-100 text-purple-800",
+  },
+  aggressive: {
+    value: "aggressive",
+    label: "Aggressive",
+    badgeClassname: "bg-black text-white",
+  },
+  shy: {
+    value: "shy",
+    label: "Shy",
+    badgeClassname: "bg-blue-100 text-blue-800",
+  },
+  fearful: {
+    value: "fearful",
+    label: "Fearful",
+    badgeClassname: "bg-yellow-100 text-yellow-800",
+  },
+  anxious: {
+    value: "anxious",
+    label: "Anxious",
+    badgeClassname: "bg-red-100 text-red-800",
+  },
+  affectionate: {
+    value: "affectionate",
+    label: "Affectionate",
+    badgeClassname: "bg-pink-100 text-pink-800",
+  },
+  curious: {
+    value: "curious",
+    label: "Curious",
+    badgeClassname: "bg-green-100 text-green-800",
+  },
+  stubborn: {
+    value: "stubborn",
+    label: "Stubborn",
+    badgeClassname: "bg-gray-100 text-gray-800",
+  },
+  obedient: {
+    value: "obedient",
+    label: "Obedient",
+    badgeClassname: "bg-blue-100 text-blue-800",
+  },
+  mischievous: {
+    value: "mischievous",
+    label: "Mischievous",
+    badgeClassname: "bg-yellow-100 text-yellow-800",
+  },
+  destructive: {
+    value: "destructive",
+    label: "Destructive",
+    badgeClassname: "bg-red-100 text-red-800",
+  },
+  intelligent: {
+    value: "intelligent",
+    label: "Intelligent",
+    badgeClassname: "bg-purple-100 text-purple-800",
+  },
+  loving: {
+    value: "loving",
+    label: "Loving",
+    badgeClassname: "bg-pink-100 text-pink-800",
+  },
+  cuddly: {
+    value: "cuddly",
+    label: "Cuddly",
+    badgeClassname: "bg-green-100 text-green-800",
+  },
+  adventurous: {
+    value: "adventurous",
+    label: "Adventurous",
+    badgeClassname: "bg-yellow-100 text-yellow-800",
+  },
+  bold: {
+    value: "bold",
+    label: "Bold",
+    badgeClassname: "bg-black text-white",
+  },
+  sensitive: {
+    value: "sensitive",
+    label: "Sensitive",
+    badgeClassname: "bg-red-100 text-red-800",
+  },
+  clever: {
+    value: "clever",
+    label: "Clever",
+    badgeClassname: "bg-purple-100 text-purple-800",
+  },
+  brave: {
+    value: "brave",
+    label: "Brave",
+    badgeClassname: "bg-red-100 text-red-800",
+  },
+  good_with_kids: {
+    value: "good_with_kids",
+    label: "Good with kids",
+    badgeClassname: "bg-blue-100 text-blue-800",
+  },
+  bad_with_other_pets: {
+    value: "bad_with_other_pets",
+    label: "Bad with other pets",
+    badgeClassname: "bg-red-100 text-red-800",
+  },
+  bad_with_kids: {
+    value: "bad_with_kids",
+    label: "Bad with kids",
+    badgeClassname: "bg-red-100 text-red-800",
+  },
+  good_with_other_pets: {
+    value: "good_with_other_pets",
+    label: "Good with other pets",
+    badgeClassname: "bg-blue-100 text-blue-800",
+  },
+  good_with_other_dogs: {
+    value: "good_with_other_dogs",
+    label: "Good with other dogs",
+    badgeClassname: "bg-blue-100 text-blue-800",
+  },
+  bad_with_other_dogs: {
+    value: "bad_with_other_dogs",
+    label: "Bad with other dogs",
+    badgeClassname: "bg-red-100 text-red-800",
+  },
 };

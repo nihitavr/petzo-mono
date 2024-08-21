@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns";
+import { FiArrowUpRight } from "react-icons/fi";
 
 import type { Pet } from "@petzo/db";
 import { Button } from "@petzo/ui/components/button";
@@ -87,12 +88,20 @@ export default async function PetsList({ pets }: { pets: Pet[] }) {
                 )}
               </div>
 
-              <div className="mt-1 flex w-full flex-col">
+              <div className="mt-1 flex w-full gap-5">
                 <Link
                   className="cursor-pointer text-xs font-medium text-primary hover:underline md:text-sm"
                   href={`/dashboard/medical-records?petId=${pet.publicId}`}
                 >
                   Medical Records
+                </Link>
+                <Link
+                  className="flex cursor-pointer items-center text-xs font-medium hover:underline md:text-sm"
+                  href={`/pet/${pet.publicId}`}
+                  target="_blank"
+                >
+                  <span>View Profile</span>
+                  <FiArrowUpRight className="inline" size={16} />
                 </Link>
               </div>
             </div>

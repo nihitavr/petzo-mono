@@ -13,7 +13,7 @@ export const userRouter = {
   getUserProfile: publicProcedure
     .input(
       z.object({
-        id: z.string().cuid(),
+        id: z.string(),
       }),
     )
     .query(({ ctx, input: { id } }) => {

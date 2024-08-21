@@ -1,11 +1,15 @@
+"use client";
+
 import { FaRegStar, FaStar } from "react-icons/fa";
 
 export default function Rating({
   rating,
+  ratingCount,
   isGoogleRating = false,
   withValue = true,
 }: {
   rating: number;
+  ratingCount?: number;
   isGoogleRating?: boolean;
   withValue?: boolean;
 }) {
@@ -49,10 +53,9 @@ export default function Rating({
           </div>
         </div>
       </div>
+      {!!ratingCount && <span className="font-medium">({ratingCount})</span>}
       {isGoogleRating && (
-        <span className="line-clamp-1 text-sm font-semibold">
-          (Google Rating)
-        </span>
+        <span className="line-clamp-1 text-2xs">[Includes Google Rating]</span>
       )}
     </div>
   );

@@ -1,14 +1,14 @@
 "use client";
 
-import type { z } from "zod";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { LuCalendar } from "react-icons/lu";
 import { TbGenderFemale, TbGenderMale } from "react-icons/tb";
+import { z } from "zod";
 
 import type { Pet } from "@petzo/db";
-import { PET_TYPE_CONFIG } from "@petzo/constants";
+import { PET_BEHAVIOUR_TAGS, PET_TYPE_CONFIG } from "@petzo/constants";
 import { Button } from "@petzo/ui/components/button";
 import { Calendar } from "@petzo/ui/components/calendar";
 import {
@@ -26,12 +26,14 @@ import SmallDog from "@petzo/ui/components/icons/small-dog";
 import { ImageInput } from "@petzo/ui/components/image-input";
 import { Input } from "@petzo/ui/components/input";
 import { Label } from "@petzo/ui/components/label";
+import MultipleSelector from "@petzo/ui/components/multiple-selector";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@petzo/ui/components/popover";
 import { RadioGroup, RadioGroupItem } from "@petzo/ui/components/radio-group";
+import { Textarea } from "@petzo/ui/components/textarea";
 import { toast } from "@petzo/ui/components/toast";
 import { cn } from "@petzo/ui/lib/utils";
 import { petValidator } from "@petzo/validators";
@@ -40,16 +42,29 @@ import { DEFAULT_MAX_PET_PROFILE_IMAGES } from "~/lib/constants";
 import { api } from "~/trpc/react";
 import FormSaveButton from "../form-save-button";
 
-type PetProfileSchema = z.infer<typeof petValidator.ProfileSchema>;
+const ProfileFormSchema = petValidator.ProfileSchema.extend({
+  behaviourTags: z.array(
+    z.object({
+      label: z.string(),
+      value: z.string(),
+      disable: z.boolean().optional(),
+    }),
+  ),
+});
+
+type ProfileFormType = z.infer<typeof ProfileFormSchema>;
 
 export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
   const router = useRouter();
 
   const form = useForm({
-    schema: petValidator.ProfileSchema,
+    schema: ProfileFormSchema,
     defaultValues: {
       publicId: petProfile?.publicId,
       name: petProfile?.name ?? "",
+      description: petProfile?.description ?? "",
+      behaviourTags:
+        petProfile?.behaviourTags?.map((tag) => PET_BEHAVIOUR_TAGS[tag]) ?? [],
       gender: petProfile?.gender ?? undefined,
       images: petProfile?.images ?? [],
       breed: petProfile?.breed ?? "",
@@ -81,7 +96,14 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (values: unknown) => {
-    const data = values as PetProfileSchema;
+    const originalData = values as ProfileFormType;
+
+    const data = {
+      ...originalData,
+      behaviourTags: originalData?.behaviourTags?.map((tag) => tag.value),
+    } as z.infer<typeof petValidator.ProfileSchema>;
+
+    data.behaviourTags;
 
     setIsSubmitting(true);
 
@@ -208,6 +230,25 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
             )}
           />
 
+          {/* Pet Description */}
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    className="h-32"
+                    placeholder="Tell us a bit about your pet."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           {/* Pet Gender */}
           <FormField
             control={form.control}
@@ -310,6 +351,31 @@ export function PetProfileForm({ petProfile }: { petProfile?: Pet }) {
                     />
                   </PopoverContent>
                 </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="behaviourTags"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tags</FormLabel>
+                <FormControl>
+                  <MultipleSelector
+                    value={field.value}
+                    onChange={field.onChange}
+                    defaultOptions={Object.values(PET_BEHAVIOUR_TAGS)}
+                    maxSelected={10}
+                    placeholder="Select tags that describes your pet..."
+                    emptyIndicator={
+                      <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                        no results found.
+                      </p>
+                    }
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

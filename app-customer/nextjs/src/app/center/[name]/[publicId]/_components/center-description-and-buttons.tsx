@@ -42,7 +42,7 @@ export default function CenterDescriptionAndButtons({
           <div
             onClick={() => setShowMoreDetails(true)}
             aria-hidden="true"
-            className={`${showMoreDetails ? "" : "line-clamp-2 cursor-pointer md:line-clamp-6"} whitespace-pre-wrap text-2sm md:text-sm`}
+            className={`${showMoreDetails ? "" : "line-clamp-3 cursor-pointer md:line-clamp-6"} whitespace-pre-wrap text-2sm md:text-sm`}
           >
             {center.description}
           </div>

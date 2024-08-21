@@ -49,7 +49,13 @@ export default function ServiceImagesCasousel({
   }, [carouselApi]);
 
   return (
-    <Carousel className="h-full w-full" setApi={setCarouselApi}>
+    <Carousel
+      opts={{
+        loop: true,
+      }}
+      className="h-full w-full"
+      setApi={setCarouselApi}
+    >
       <CarouselContent className="space-x-3">
         {images.map((imageUrl, index) => {
           return (
@@ -66,12 +72,12 @@ export default function ServiceImagesCasousel({
           );
         })}
       </CarouselContent>
-      <div className="absolute bottom-5 left-1/2 flex w-full -translate-x-1/2 flex-wrap justify-center gap-2 px-5">
+      <div className="absolute bottom-5 left-1/2 flex w-full -translate-x-1/2 flex-wrap justify-center gap-2 px-3">
         {images.length > 1 &&
           images.map((_, idx) => {
             return (
               <div
-                className={`h-2 w-2 rounded-full ${
+                className={`size-1.5 rounded-full md:size-2 ${
                   idx === current ? "bg-primary" : "bg-gray-300"
                 }`}
                 key={idx}
