@@ -39,7 +39,10 @@ export function ReviewDetailsModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="max-h-[80vh] p-0 sm:max-w-[425px] ">
+      <DialogContent
+        overlayClassName="bg-black/80"
+        className="max-h-[80vh] border-0 p-0 sm:max-w-[425px]"
+      >
         <div className="max-h-[80vh] overflow-y-auto">
           <div className="flex flex-col">
             <BasicImagesCasousel
