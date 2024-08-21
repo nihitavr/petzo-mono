@@ -58,12 +58,14 @@ export default function CenterCardHorizontal({ center }: { center: Center }) {
           )}
 
           {/* Area */}
-          <div className="flex items-center gap-1">
-            <GrLocation />
-            <span className="line-clamp-1 text-2sm font-medium capitalize md:text-sm">
-              {center.centerAddress?.area?.name}
-            </span>
-          </div>
+          {centerUtils.hasAtCenterServices(center.services) && (
+            <div className="flex items-center gap-1">
+              <GrLocation />
+              <span className="line-clamp-1 text-2sm font-medium capitalize md:text-sm">
+                {center.centerAddress?.area?.name}
+              </span>
+            </div>
+          )}
 
           {/* Services Provided */}
           <span className="line-clamp-1 break-all text-2sm font-semibold capitalize text-primary md:text-sm">
