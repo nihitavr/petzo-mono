@@ -1,12 +1,8 @@
-"use client";
-
-import { useRef } from "react";
 import Link from "next/link";
 import { GrLocation } from "react-icons/gr";
 
 import type { Center } from "@petzo/db";
 import { SERVICES_CONFIG } from "@petzo/constants";
-import { useInView } from "@petzo/ui/components/in-view";
 import { centerUtils, serviceUtils } from "@petzo/utils";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
@@ -26,14 +22,10 @@ export default function CenterCardVertical({
     serviceTypes,
   );
 
-  const cardRef = useRef<HTMLAnchorElement>(null);
-  const cardVisible = useInView(cardRef, { amount: "all" });
-
   return (
     <Link
       href={centerUtils.getCenterUrl(center)}
-      className="flex animate-fade-in flex-row rounded-2xl border shadow-md"
-      ref={cardRef}
+      className="flex animate-fade-in flex-row overflow-hidden rounded-2xl border shadow-md "
     >
       <div className="flex h-full w-full flex-col gap-0">
         {/* Center Image */}
@@ -44,7 +36,7 @@ export default function CenterCardVertical({
                 center.images?.slice(0, 5)?.map((image) => image.url) ?? []
               }
               className="aspect-square w-full"
-              autoplay={cardVisible}
+              autoplay={true}
             />
           ) : (
             // <Image src={thumbnail} alt="" fill style={{ objectFit: "cover" }} />
