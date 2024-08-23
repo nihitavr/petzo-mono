@@ -38,21 +38,35 @@ export const LoadingCentersList = forwardRef<
   const arr = Array.from({ length: noOfItems });
 
   return (
-    <div ref={ref} className="flex w-full flex-col gap-3">
+    <div ref={ref} className="flex w-full flex-col gap-5">
       {arr.map((_, index) => (
-        <Skeleton
-          key={`skeleton-${index}`}
-          className="flex h-44 rounded-lg md:h-60"
-        >
-          <Skeleton className="h-full w-2/5 rounded-lg bg-muted-foreground/15" />
-          <div className="flex w-3/5 flex-col gap-1 p-2">
-            <Skeleton className="h-6 w-1/2 rounded-md bg-muted-foreground/15" />
-            <Skeleton className="h-4 w-3/4 rounded-md bg-muted-foreground/15" />
-            <Skeleton className="h-4 w-1/2 rounded-md bg-muted-foreground/15" />
-            <Skeleton className="h-4 w-3/4 rounded-md bg-muted-foreground/15" />
-            <Skeleton className="mt-auto h-12 w-full rounded-r-full bg-muted-foreground/15 bg-gradient-to-r from-muted/10" />
-          </div>
-        </Skeleton>
+        <div key={`skeleton-${index}`}>
+          <Skeleton className="hidden overflow-hidden rounded-lg md:flex md:h-60">
+            <Skeleton className="h-full w-2/5 rounded-lg bg-muted-foreground/15" />
+            <div className="flex w-3/5 flex-col gap-1 p-2">
+              <Skeleton className="h-6 w-1/2 rounded-md bg-muted-foreground/15" />
+              <Skeleton className="h-4 w-3/4 rounded-md bg-muted-foreground/15" />
+              <Skeleton className="h-4 w-1/2 rounded-md bg-muted-foreground/15" />
+              <Skeleton className="h-4 w-3/4 rounded-md bg-muted-foreground/15" />
+              <Skeleton className="mt-auto h-12 w-full rounded-r-full bg-muted-foreground/15 bg-gradient-to-r from-muted/10" />
+            </div>
+          </Skeleton>
+          <Skeleton className="flex flex-col overflow-hidden rounded-2xl md:hidden">
+            <Skeleton className="block aspect-[13/9] h-full w-full rounded-t-2xl bg-muted-foreground/15" />
+            <div className="flex items-center justify-between gap-1 py-1.5">
+              <div className="flex w-2/3 flex-col gap-1 p-2">
+                <Skeleton className="h-5 w-3/4 rounded-md bg-muted-foreground/15" />
+                <Skeleton className="h-4 w-1/2 rounded-md bg-muted-foreground/15" />
+                <Skeleton className="h-4 w-4/5 rounded-md bg-muted-foreground/15" />
+              </div>
+              <Skeleton className="flex h-full w-1/3 flex-col gap-1 rounded-l-lg bg-muted-foreground/10 bg-gradient-to-r from-muted/10 p-2">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-4/5" />
+                <Skeleton className="h-4 w-3/5" />
+              </Skeleton>
+            </div>
+          </Skeleton>
+        </div>
       ))}
     </div>
   );
