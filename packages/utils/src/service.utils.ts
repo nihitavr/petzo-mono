@@ -22,18 +22,26 @@ export function getMetadataKeywords(service: Service, center: Center) {
   return keywords.join(", ");
 }
 
-export const getLowertCostService = (center: Center) => {
-  return center.services?.reduce(
-    (acc, service) => {
-      if (
-        (!acc || service.price < acc?.price) &&
-        SERVICES_CONFIG[service.serviceType]
-      ) {
-        return service;
-      }
+export const getLowestCostService = (
+  services?: Service[],
+  serviceTypes?: string[],
+) => {
+  return services
+    ?.filter((service) => {
+      if (serviceTypes) return serviceTypes.includes(service.serviceType);
+      return true;
+    })
+    ?.reduce(
+      (acc, service) => {
+        if (
+          (!acc || service.price < acc?.price) &&
+          SERVICES_CONFIG[service.serviceType]
+        ) {
+          return service;
+        }
 
-      return acc;
-    },
-    undefined as Service | undefined,
-  );
+        return acc;
+      },
+      undefined as Service | undefined,
+    );
 };
