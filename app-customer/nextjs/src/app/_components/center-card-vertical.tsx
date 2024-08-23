@@ -67,7 +67,7 @@ export default function CenterCardVertical({
             <div className="flex items-start justify-between">
               <div className="flex flex-col items-start gap-1">
                 <div className="flex items-center justify-between">
-                  <div className="line-clamp-2 cursor-pointer text-base font-semibold hover:underline">
+                  <div className="line-clamp-2 cursor-pointer text-2base font-semibold hover:underline">
                     {center.name}
                   </div>
                 </div>
