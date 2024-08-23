@@ -79,13 +79,11 @@ export default function CenterSearchList() {
                     </h3>
                     <div className="flex items-center gap-2 text-xs text-foreground/80 md:text-sm">
                       {!!center.averageRating && (
-                        <Rating rating={center.averageRating} />
+                        <Rating
+                          rating={center.averageRating}
+                          ratingCount={center.ratingCount}
+                        />
                       )}
-
-                      <div className="h-1.5 w-1.5 rounded-full bg-foreground/80"></div>
-                      <div className="flex cursor-pointer items-center gap-1 hover:underline">
-                        <span>{center.reviewCount} reviews</span>
-                      </div>
                     </div>
                     <div className="flex items-center gap-1">
                       <GrLocation />
