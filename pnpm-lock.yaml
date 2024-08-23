@@ -616,12 +616,15 @@ importers:
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
+      embla-carousel-autoplay:
+        specifier: ^8.2.0
+        version: 8.2.0(embla-carousel@8.2.0)
       embla-carousel-react:
         specifier: ^8.0.2
         version: 8.0.2(react@18.2.0)
       embla-carousel-wheel-gestures:
         specifier: 8.0.0-rc05
-        version: 8.0.0-rc05(embla-carousel@8.0.2)
+        version: 8.0.0-rc05(embla-carousel@8.2.0)
       framer-motion:
         specifier: ^11.1.7
         version: 11.1.7(react-dom@18.2.0)(react@18.2.0)
@@ -5644,6 +5647,14 @@ packages:
     resolution: {integrity: sha512-t/MXMzFKQC3UfMDpw7V5wdB/UAB8dWx4hEsy+fpPYJWW3gqh3u5T1uXp6vR+H6dGCPBxkRo+YBcapBLvbGQHRw==}
     dev: false
 
+  /embla-carousel-autoplay@8.2.0(embla-carousel@8.2.0):
+    resolution: {integrity: sha512-+u5I5h27tnEl9D5IiY4n3Q5DrT2XuNggZ6P/785cETYZslEVGHPevbyzuryxGNi1taXfrgvwrbMnisfUyUmytw==}
+    peerDependencies:
+      embla-carousel: 8.2.0
+    dependencies:
+      embla-carousel: 8.2.0
+    dev: false
+
   /embla-carousel-react@8.0.2(react@18.2.0):
     resolution: {integrity: sha512-RHe1GKLulOW8EDN+cJgbFbVVfRXcaLT2/89dyVw3ONGgVpZjD19wB87I1LUZ1aCzOSrTccx0PFSQanK4OOfGPA==}
     peerDependencies:
@@ -5662,18 +5673,22 @@ packages:
       embla-carousel: 8.0.2
     dev: false
 
-  /embla-carousel-wheel-gestures@8.0.0-rc05(embla-carousel@8.0.2):
+  /embla-carousel-wheel-gestures@8.0.0-rc05(embla-carousel@8.2.0):
     resolution: {integrity: sha512-KfPlGuOvMterlg01FDd+Iws5wefInkyks4ai3p4n4B5WAiyel+DHs4AFu09UmshcnHpIH5cLJQ6VJCbp/kyy1A==}
     engines: {node: '>=10'}
     peerDependencies:
       embla-carousel: ^8.0.0 || ~8.0.0-rc03
     dependencies:
-      embla-carousel: 8.0.2
+      embla-carousel: 8.2.0
       wheel-gestures: 2.2.5
     dev: false
 
   /embla-carousel@8.0.2:
     resolution: {integrity: sha512-bogsDO8xosuh/l3PxIvA5AMl3+BnRVAse9sDW/60amzj4MbGS5re4WH5eVEXiuH8G1/3G7QUAX2QNr3Yx8z5rA==}
+    dev: false
+
+  /embla-carousel@8.2.0:
+    resolution: {integrity: sha512-rf2GIX8rab9E6ZZN0Uhz05746qu2KrDje9IfFyHzjwxLwhvGjUt6y9+uaY1Sf+B0OPSa3sgas7BE2hWZCtopTA==}
     dev: false
 
   /emoji-regex@8.0.0:

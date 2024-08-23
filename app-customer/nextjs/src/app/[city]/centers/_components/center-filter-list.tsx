@@ -4,8 +4,10 @@ import { use, useEffect, useRef, useState } from "react";
 
 import type { Center } from "@petzo/db";
 import { useInView } from "@petzo/ui/components/in-view";
+import { stringUtils } from "@petzo/utils";
 
 import CenterCardHorizontal from "~/app/_components/center-card-horizontal";
+import CenterCardVertical from "~/app/_components/center-card-vertical";
 import { CENTERS_LIST_PAGE_LIMIT } from "~/lib/constants";
 import { api } from "~/trpc/react";
 import { LoadingCentersList } from "../loading";
@@ -88,7 +90,18 @@ export const CenterFilterList = ({
         centers.map((center) => {
           return (
             <div key={`center-${center.id}`}>
-              <CenterCardHorizontal center={center} />
+              <div className="hidden md:block">
+                <CenterCardHorizontal
+                  center={center}
+                  serviceTypes={stringUtils.getListFromStr(serviceType)}
+                />
+              </div>
+              <div className="md:hidden">
+                <CenterCardVertical
+                  center={center}
+                  serviceTypes={stringUtils.getListFromStr(serviceType)}
+                />
+              </div>
             </div>
           );
         })}

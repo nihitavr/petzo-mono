@@ -16,3 +16,13 @@ export function generateRandomPublicId(size = 20) {
 export function generateRandomSessionId() {
   return nanoid(20);
 }
+
+export function getListFromStr(
+  str?: string,
+  delimiter = ",",
+): string[] | undefined {
+  return str
+    ?.split(delimiter)
+    .map((v) => v.trim())
+    .filter((v) => !!v);
+}

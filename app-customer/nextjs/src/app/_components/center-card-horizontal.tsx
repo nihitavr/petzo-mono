@@ -9,9 +9,18 @@ import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
 import BasicImagesCasousel from "../center/[name]/[publicId]/_components/basic-images-carousel";
 
-export default function CenterCardHorizontal({ center }: { center: Center }) {
+export default function CenterCardHorizontal({
+  center,
+  serviceTypes,
+}: {
+  center: Center;
+  serviceTypes?: string[];
+}) {
   const thumbnail = center.images?.[0]?.url;
-  const lowestPriceService = serviceUtils.getLowertCostService(center);
+  const lowestPriceService = serviceUtils.getLowestCostService(
+    center.services,
+    serviceTypes,
+  );
 
   return (
     <Link

@@ -1,37 +1,55 @@
+"use client";
+
+import { useRef } from "react";
 import Link from "next/link";
 import { GrLocation } from "react-icons/gr";
 
 import type { Center } from "@petzo/db";
 import { SERVICES_CONFIG } from "@petzo/constants";
+import { useInView } from "@petzo/ui/components/in-view";
 import { centerUtils, serviceUtils } from "@petzo/utils";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
 import BasicImagesCasousel from "../center/[name]/[publicId]/_components/basic-images-carousel";
 
-export default function CenterCardVertical({ center }: { center: Center }) {
+export default function CenterCardVertical({
+  center,
+  serviceTypes,
+}: {
+  center: Center;
+  serviceTypes?: string[];
+}) {
   const thumbnail = center.images?.[0]?.url;
-  const lowestPriceService = serviceUtils.getLowertCostService(center);
+  const lowestPriceService = serviceUtils.getLowestCostService(
+    center.services,
+    serviceTypes,
+  );
+
+  const cardRef = useRef<HTMLAnchorElement>(null);
+  const cardVisible = useInView(cardRef, { amount: "all" });
 
   return (
     <Link
       href={centerUtils.getCenterUrl(center)}
-      className="flex animate-fade-in flex-row rounded-xl border shadow-md"
+      className="flex animate-fade-in flex-row rounded-2xl border shadow-md"
+      ref={cardRef}
     >
-      <div className="flex h-full w-full flex-col gap-1">
+      <div className="flex h-full w-full flex-col gap-0">
         {/* Center Image */}
-        <div className="relative aspect-[6/4] w-full cursor-pointer overflow-hidden rounded-t-xl border-b">
+        <div className="relative aspect-[13/9] w-full cursor-pointer overflow-hidden rounded-t-2xl border-b object-center">
           {thumbnail ? (
             <BasicImagesCasousel
               images={
-                center.images?.slice(0, 8)?.map((image) => image.url) ?? []
+                center.images?.slice(0, 5)?.map((image) => image.url) ?? []
               }
               className="aspect-square w-full"
+              autoplay={cardVisible}
             />
           ) : (
             // <Image src={thumbnail} alt="" fill style={{ objectFit: "cover" }} />
             <div
-              className={`flex size-full items-center justify-center rounded-t-xl text-center ${COLOR_MAP[center.name[0]!.toLowerCase()]?.bgColor} bg-opacity-75`}
+              className={`flex size-full items-center justify-center rounded-t-2xl text-center ${COLOR_MAP[center.name[0]!.toLowerCase()]?.bgColor} bg-opacity-75`}
             >
               <div
                 className={`text-7xl ${COLOR_MAP[center.name[0]!.toLowerCase()]?.textColor}`}
@@ -45,26 +63,64 @@ export default function CenterCardVertical({ center }: { center: Center }) {
         {/* Center Details */}
         <div className="flex w-full flex-col gap-1">
           {/* Center Name */}
-          <div className="flex flex-col gap-1.5 px-2.5 py-1">
-            <div className="line-clamp-2 cursor-pointer text-base font-semibold hover:underline">
-              {center.name}
-            </div>
+          <div className="flex flex-col gap-1 px-2.5 py-1.5 pb-2">
+            <div className="flex items-start justify-between">
+              <div className="flex flex-col items-start gap-1">
+                <div className="flex items-center justify-between">
+                  <div className="line-clamp-2 cursor-pointer text-2base font-semibold hover:underline">
+                    {center.name}
+                  </div>
+                </div>
 
-            {/* Rating and Reviews */}
-            {!!center.averageRating && <Rating rating={center.averageRating} />}
+                {/* Rating and Reviews */}
+                {!!center.averageRating && (
+                  <Rating
+                    rating={center.averageRating}
+                    ratingCount={center.ratingCount}
+                  />
+                )}
 
-            {/* Area */}
-            <div className="flex items-center gap-1">
-              <GrLocation />
-              <span className="line-clamp-1 text-2sm font-medium capitalize">
-                {center.centerAddress?.area?.name}
-              </span>
+                {/* Area */}
+                {centerUtils.hasAtCenterServices(center.services) ? (
+                  <div className="flex items-center gap-1">
+                    <GrLocation />
+                    <span className="line-clamp-1 text-2sm font-medium capitalize">
+                      {center.centerAddress?.area?.name}
+                    </span>
+                  </div>
+                ) : (
+                  <span className="line-clamp-2 break-all text-2sm font-semibold capitalize text-primary md:text-sm">
+                    {centerUtils.getServiceTypeNamesStr(center.services)}
+                  </span>
+                )}
+              </div>
+
+              {/* Pricing Details */}
+              {lowestPriceService && (
+                <div className="my-auto -mr-2.5 flex flex-col justify-between rounded-l-xl bg-gradient-to-r from-primary/5 via-primary/15 to-primary/25 px-2 py-1">
+                  <div className="flex flex-col">
+                    <span className="whitespace-nowrap text-2xs capitalize text-foreground/80">
+                      {SERVICES_CONFIG[lowestPriceService.serviceType]?.name}
+                    </span>
+                    <span className="whitespace-nowrap text-sm">
+                      Starting at{" "}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-base">
+                    <span className="text-2base font-semibold md:text-lg">
+                      &#8377; {lowestPriceService.price} /-
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Services Provided */}
-            <span className="line-clamp-1 break-all text-2sm font-semibold capitalize text-primary md:text-sm">
-              {centerUtils.getServiceTypeNamesStr(center.services)}
-            </span>
+            {centerUtils.hasAtCenterServices(center.services) && (
+              <span className="line-clamp-2 break-all text-2sm font-semibold capitalize text-primary md:text-sm">
+                {centerUtils.getServiceTypeNamesStr(center.services)}
+              </span>
+            )}
 
             {/* <div className="flex items-center gap-1 text-2sm font-medium">
               <span>Includes</span>
@@ -85,23 +141,6 @@ export default function CenterCardVertical({ center }: { center: Center }) {
               <span>Pharmacy</span>
             </div> */}
           </div>
-
-          {/* Lowest Service Price */}
-          {lowestPriceService && (
-            <div className="mt-auto flex justify-between rounded-b-xl border-t border-dashed bg-primary/10 px-2.5 py-2">
-              <div className="flex flex-col">
-                <span className="text-xs capitalize text-foreground/80 md:text-sm">
-                  {SERVICES_CONFIG[lowestPriceService.serviceType]?.name}
-                </span>
-                <span className="text-sm">Starting at </span>
-              </div>
-              <div className="flex items-center justify-between text-base">
-                <span className="text-base font-semibold md:text-lg">
-                  &#8377; {lowestPriceService.price}
-                </span>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </Link>

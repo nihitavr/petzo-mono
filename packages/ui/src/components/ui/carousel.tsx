@@ -2,6 +2,7 @@
 
 import type { UseEmblaCarouselType } from "embla-carousel-react";
 import * as React from "react";
+import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
@@ -232,7 +233,7 @@ const CarouselPrevious = React.forwardRef<
         size={size}
         disabled={!canScrollPrev}
         className={cn(
-          "absolute ml-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border bg-muted",
+          "absolute ml-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border bg-muted hover:scale-110",
           orientation === "horizontal"
             ? "top-1/2 -translate-x-1/2 -translate-y-1/2"
             : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
@@ -291,7 +292,7 @@ const CarouselNext = React.forwardRef<
         size={size}
         disabled={!canScrollNext}
         className={cn(
-          "absolute right-0 mr-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border bg-muted",
+          "absolute right-0 mr-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border bg-muted hover:scale-110",
           orientation === "horizontal"
             ? "right-0 top-1/2 -translate-y-1/2 translate-x-1/2"
             : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
@@ -313,4 +314,5 @@ export {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
+  Autoplay as CarouselAutoplay,
 };

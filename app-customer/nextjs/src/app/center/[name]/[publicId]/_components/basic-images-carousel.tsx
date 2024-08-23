@@ -6,6 +6,7 @@ import Image from "next/image";
 import type { CarouselApi } from "@petzo/ui/components/carousel";
 import {
   Carousel,
+  CarouselAutoplay,
   CarouselContent,
   CarouselItem,
   CarouselNext,
@@ -18,6 +19,8 @@ export default function BasicImagesCasousel({
   startIndex,
   defaultImage = "",
   className,
+  autoplay = false,
+  autoPlayDelay = 3000,
   imageClassName,
 }: {
   images: string[];
@@ -52,11 +55,22 @@ export default function BasicImagesCasousel({
 
   return (
     <Carousel
+      plugins={
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        autoplay
+          ? ([
+              CarouselAutoplay({
+                delay: autoPlayDelay,
+              }),
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ] as any)
+          : []
+      }
       opts={{
         loop: true,
         startIndex: startIndex ?? 0,
       }}
-      className="h-full w-full"
+      className="size-full"
       setApi={setCarouselApi}
     >
       <CarouselContent className="space-x-3">
@@ -67,8 +81,7 @@ export default function BasicImagesCasousel({
                 src={imageUrl ? imageUrl : defaultImage}
                 alt="Center Image"
                 fill
-                style={{ objectFit: "cover" }}
-                className={imageClassName}
+                className={cn("object-cover object-center", imageClassName)}
                 loading="lazy"
               />
             </CarouselItem>

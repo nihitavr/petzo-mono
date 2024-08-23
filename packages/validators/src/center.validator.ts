@@ -1,15 +1,12 @@
 import { z } from "zod";
 
+import { stringUtils } from "@petzo/utils";
+
 export const FindByPublicId = z.object({ publicId: z.string() });
 
 export const FindByFilters = z.object({
   search: z.string().optional(),
-  // .transform((val) =>
-  //   val
-  //     ?.trim()
-  //     .split(" ")
-  //     .map((v) => `${v.trim()}`),
-  // ),
+
   city: z.string(),
   serviceType: z
     .string()
@@ -19,7 +16,7 @@ export const FindByFilters = z.object({
   area: z
     .string()
     .optional()
-    .transform((val) => val?.split(",")),
+    .transform((val) => stringUtils.getListFromStr(val)),
   geoCode: z
     .object({
       latitude: z.number(),
