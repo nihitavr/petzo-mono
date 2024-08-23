@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 import type { CarouselApi } from "@petzo/ui/components/carousel";
@@ -12,6 +12,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@petzo/ui/components/carousel";
+import { useInView } from "@petzo/ui/components/in-view";
 import { cn } from "@petzo/ui/lib/utils";
 
 export default function BasicImagesCasousel({
@@ -32,24 +33,23 @@ export default function BasicImagesCasousel({
   autoPlayDelay?: number;
 }) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
-  useState<CarouselApi>();
   const [current, setCurrent] = useState(startIndex ?? 0);
 
+  const cardRef = useRef<HTMLDivElement>(null);
+  const cardVisible = useInView(cardRef, {
+    amount: "all",
+    margin: "-5% 0px -5% 0px",
+  });
+
   useEffect(() => {
-    if (!carouselApi) {
-      return;
-    }
+    if (!carouselApi) return;
 
     carouselApi.on("select", () => {
-      const mainSnappedIndex = carouselApi.selectedScrollSnap();
-
-      setCurrent(mainSnappedIndex);
+      setCurrent(carouselApi.selectedScrollSnap());
     });
 
     return () => {
-      carouselApi.off("select", () => {
-        return;
-      });
+      carouselApi.off("select", () => undefined);
     };
   }, [carouselApi]);
 
@@ -61,6 +61,8 @@ export default function BasicImagesCasousel({
           ? ([
               CarouselAutoplay({
                 delay: autoPlayDelay,
+                jump: false,
+                active: cardVisible,
               }),
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ] as any)
@@ -72,6 +74,7 @@ export default function BasicImagesCasousel({
       }}
       className="size-full"
       setApi={setCarouselApi}
+      ref={cardRef}
     >
       <CarouselContent className="space-x-3">
         {images.map((imageUrl, index) => {
