@@ -33,7 +33,7 @@ export default function CenterCardVertical({
           {thumbnail ? (
             <BasicImagesCasousel
               images={
-                center.images?.slice(0, 5)?.map((image) => image.url) ?? []
+                center.images?.slice(0, 8)?.map((image) => image.url) ?? []
               }
               className="aspect-square w-full"
               autoplay={true}
