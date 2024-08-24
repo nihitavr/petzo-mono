@@ -28,6 +28,8 @@ export default function ServiceFilter({
     }
   };
 
+  if (allServiceTypes?.length < 2) return null;
+
   return (
     <div className="mt-4 w-full  overflow-hidden ">
       <div className="no-scrollbar flex gap-2 overflow-x-auto md:justify-center">
