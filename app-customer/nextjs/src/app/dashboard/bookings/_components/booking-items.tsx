@@ -40,7 +40,7 @@ const BookingItems = ({ items }: { items: Items }) => {
           <div className="flex flex-col items-center">
             <Price
               className="text-2sm font-semibold md:text-sm"
-              price={item.service!.price}
+              price={item.amount}
             />
           </div>
         </div>

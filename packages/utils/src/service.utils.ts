@@ -34,7 +34,7 @@ export const getLowestCostService = (
     ?.reduce(
       (acc, service) => {
         if (
-          (!acc || service.price < acc?.price) &&
+          (!acc || service.discountedPrice < acc?.discountedPrice) &&
           SERVICES_CONFIG[service.serviceType]
         ) {
           return service;

@@ -89,6 +89,7 @@ export const centerRouter = {
             publicId: generateRandomPublicId(),
             name: input.name,
             description: input.description,
+            features: input.features,
             images: input.images,
             phoneNumber: input.phoneNumber,
             centerUserId: ctx.session.user.id,
@@ -107,6 +108,7 @@ export const centerRouter = {
           .set({
             name: input.name,
             description: input.description,
+            features: input.features,
             images: input.images,
             phoneNumber: input.phoneNumber,
           })

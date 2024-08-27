@@ -25,6 +25,7 @@ export default async function Centers({
     ratingGte: string;
     latitude: string;
     longitude: string;
+    ref: string;
   };
 }) {
   const {
@@ -70,8 +71,12 @@ export default async function Centers({
   return (
     <>
       <RecordEvent
-        name="screenview_city_explore_centers_page"
-        data={{ city }}
+        name={
+          searchParams?.ref
+            ? "screenview_city_explore_centers_page_ref"
+            : "screenview_city_explore_centers_page"
+        }
+        data={{ city, ref: searchParams?.ref }}
       />
       <div className="container-2">
         <div className="hidden items-end justify-between md:flex">

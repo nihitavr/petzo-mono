@@ -175,13 +175,13 @@ export function BookServiceDialog({
       </DrawerTrigger>
       <DrawerContent className="h-[83vh] rounded-t-3xl pb-16">
         <DrawerHeader className="text-left">
-          <p className="text-xs">Booking</p>
+          <span className="text-xs">Booking</span>
           <div className="flex items-center justify-between">
-            <div>
+            <div className="flex flex-col gap-1">
               <DrawerTitle className="text-base leading-none">
                 {service.name}
               </DrawerTitle>
-              <span className="-mt-1 text-sm font-semibold text-primary">
+              <span className="line-clamp-1 text-sm font-semibold text-primary">
                 at {center.name}
               </span>
             </div>
@@ -710,7 +710,7 @@ function ServiceBookingForm({
               <div className="flex flex-col items-center gap-1">
                 <span className="text-center">
                   We need log in to <span className="font-semibold">save</span>{" "}
-                  and <span className="font-semibold">manage</span> your{" "}
+                  your{" "}
                   <span className="font-semibold">pet&apos;s information.</span>
                 </span>
                 <SignIn

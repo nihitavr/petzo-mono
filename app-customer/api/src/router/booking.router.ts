@@ -74,7 +74,7 @@ export const bookingRouter = {
           bookingId = await ctx.db.transaction(
             async (tx) => {
               const totalBookingAmount = bookingItems.reduce(
-                (acc, item) => acc + (item?.service.price ?? 0),
+                (acc, item) => acc + (item?.service.discountedPrice ?? 0),
                 0,
               );
 
@@ -144,7 +144,7 @@ export const bookingRouter = {
                   serviceId: item!.service.id,
                   slotId: item!.slot.id,
                   petId: item!.pet.id,
-                  amount: item!.service.price,
+                  amount: item!.service.discountedPrice,
                 });
               }
 

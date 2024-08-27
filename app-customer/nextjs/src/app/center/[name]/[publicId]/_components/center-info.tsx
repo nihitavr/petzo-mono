@@ -51,9 +51,9 @@ export const CenterInfo = ({
           href={getGoogleLocationLink(center.centerAddress?.geocode)}
           target="_blank"
           rel="noreferrer"
-          className="flex items-center gap-1 hover:underline"
+          className="flex items-start gap-1 hover:underline"
         >
-          <GrLocation className="!h-4 !w-4 shrink-0" />
+          <GrLocation className="mt-0.5 !size-4 shrink-0" />
           <span className="line-clamp-2 text-2sm font-medium capitalize md:text-sm">
             {getFormattedAddresses(center?.centerAddress, ["line1", "area"])}
           </span>

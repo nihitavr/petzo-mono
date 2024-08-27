@@ -75,32 +75,36 @@ input[type="file"] {
 }
 
 .markdown-content ul {
-  @apply list-inside list-disc;
+  @apply my-2 list-inside list-disc;
 }
 
 .markdown-content ol {
-  @apply list-inside list-decimal;
+  @apply my-2 list-inside list-decimal;
 }
 
 .markdown-content ul ul,
 .markdown-content ol ul {
-  @apply ml-4 list-inside list-disc;
+  @apply list-inside list-disc;
 }
 
 .markdown-content ul ol,
 .markdown-content ol ol {
-  @apply ml-4 list-inside list-decimal;
+  @apply my-2 list-inside list-decimal;
 }
 
 /* Add other styles as needed */
 .markdown-content h1 {
-  @apply mb-2 text-2xl font-bold;
+  @apply my-2 text-sm font-semibold md:text-2base;
 }
 
 .markdown-content h2 {
-  @apply mb-2 text-xl font-bold;
+  @apply text-sm font-semibold md:text-2base;
+}
+
+.markdown-content h3 {
+  @apply text-sm font-semibold md:text-2base;
 }
 
 .markdown-content p {
-  @apply mb-4;
+  @apply my-2;
 }

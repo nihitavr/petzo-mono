@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Markdown from "react-markdown";
 
 import type { Center } from "@petzo/db";
 
@@ -39,12 +40,15 @@ export default function CenterDescriptionAndButtons({
       {/* Center Description */}
       {center.description && (
         <div className="flex w-full flex-col justify-start gap-1">
+          <hr className="border-dashed border-foreground/30" />
           <div
             onClick={() => setShowMoreDetails(true)}
             aria-hidden="true"
-            className={`${showMoreDetails ? "" : "line-clamp-3 cursor-pointer md:line-clamp-6"} whitespace-pre-wrap text-2sm md:text-sm`}
+            className={`${showMoreDetails ? "" : "line-clamp-3 cursor-pointer md:line-clamp-6"} text-2sm md:text-sm`}
           >
-            {center.description}
+            <Markdown className="markdown-content">
+              {center.description}
+            </Markdown>
           </div>
           <div className="flex w-full justify-between">
             <span

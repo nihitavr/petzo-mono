@@ -18,6 +18,13 @@ export const PET_GENDER_CONFIG = {
   female: "Female",
 };
 
+export type CENTER_FEATURES_TYPE = "store" | "pharmacy";
+export const CENTER_FEATURES = ["store", "pharmacy"] as const;
+export const CENTER_FEATURES_CONFIG = {
+  store: { name: "Pet Store", icon: "/icons/pet-store-icon.svg" },
+  pharmacy: { name: "Pet Pharmacy", icon: "/icons/pet-pharmacy-icon.svg" },
+};
+
 export const CENTER_STATUS = [
   "created",
   "verification_started",

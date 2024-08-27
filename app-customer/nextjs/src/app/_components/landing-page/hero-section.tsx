@@ -23,7 +23,7 @@ export default function HeroSection({
 
         <HomePageServicesCard
           name="Vet Cosultation"
-          disabled={true}
+          disabled={false}
           imageUrl="/vet-consultation-card-image-removebg-preview.png"
           link={`/${cityPublicId}/centers?serviceType=veterinary`}
           disabledToastText="Vet Consultation is coming soon. Stay tuned!"
@@ -32,7 +32,7 @@ export default function HeroSection({
         <HomePageServicesCard
           name="In-store Grooming"
           // label="Grooming Centers near you"
-          disabled={true}
+          disabled={false}
           imageUrl="/pet-grooming-card-image-removebg-preview.png"
           link={`/${cityPublicId}/centers?serviceType=grooming`}
           disabledToastText="In-store Grooming is coming soon. Stay tuned!"
