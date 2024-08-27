@@ -94,16 +94,15 @@ input[type="file"] {
 
 /* Add other styles as needed */
 .markdown-content h1 {
-  @apply my-2 md:text-2base text-sm font-semibold;
+  @apply my-2 text-sm font-semibold md:text-2base;
 }
 
 .markdown-content h2 {
-  @apply font-semibold text-sm md:text-2base;
+  @apply text-sm font-semibold md:text-2base;
 }
 
-
 .markdown-content h3 {
-  @apply font-semibold text-sm md:text-2base;
+  @apply text-sm font-semibold md:text-2base;
 }
 
 .markdown-content p {
