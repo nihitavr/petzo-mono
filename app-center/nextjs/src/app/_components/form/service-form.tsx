@@ -84,6 +84,7 @@ export function ServiceForm({
       serviceType: service?.serviceType,
       petTypes: service?.petTypes ?? Array.from(PET_TYPE),
       price: service?.price,
+      discountedPrice: service?.discountedPrice,
       duration: service?.duration,
 
       config: service?.config ?? {
@@ -132,6 +133,7 @@ export function ServiceForm({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (values: unknown) => {
     const data = values as ServiceSchema;
+    console.log("d price: ", data.discountedPrice);
 
     setIsSubmitting(true);
 
@@ -263,6 +265,36 @@ const BasicDetails = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
               <FormMessage />
             </FormItem>
           )}
+        />
+
+        {/* Discounted Price */}
+        <FormField
+          control={form.control}
+          name="discountedPrice"
+          render={({ field }) => {
+            console.log("discountedPrice: ", field.value);
+
+            return (
+              <FormItem>
+                <div>
+                  <FormLabel>Price after discount (In rupees)*</FormLabel>
+                  <FormDescription>
+                    This is the price after giving a discount. If there is no
+                    discount, enter the same price as above.
+                  </FormDescription>
+                </div>
+
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Price after giving discount"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
         />
 
         {/* Description Name */}

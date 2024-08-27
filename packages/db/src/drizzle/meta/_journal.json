@@ -78,6 +78,13 @@
       "when": 1723209830860,
       "tag": "0010_clumsy_tarot",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1724790546310,
+      "tag": "0011_crazy_loa",
+      "breakpoints": true
     }
   ]
 }

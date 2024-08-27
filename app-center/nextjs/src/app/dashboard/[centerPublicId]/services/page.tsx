@@ -94,6 +94,9 @@ export default async function Page({
                   <TableHead className="min-w-[100px]">Service Name</TableHead>
                   <TableHead className="min-w-[100px]">Service Type</TableHead>
                   <TableHead className="min-w-[100px]">Price</TableHead>
+                  <TableHead className="min-w-[100px]">
+                    Discounted Price
+                  </TableHead>
                   <TableHead className="">Preview</TableHead>
                   <TableHead className="text-right">Edit</TableHead>
                 </TableRow>
@@ -114,6 +117,7 @@ export default async function Page({
                       {SERVICES_CONFIG[service?.serviceType]?.name}
                     </TableCell>
                     <TableCell>&#8377; {service?.price}</TableCell>
+                    <TableCell>&#8377; {service?.discountedPrice}</TableCell>
                     <TableCell className="text-right">
                       <a
                         href={`${centerUtils.getServiceDetailsUrl(service, center!, env.CUSTOMER_APP_BASE_URL)}`}

@@ -32,6 +32,8 @@ export const ServiceSchema = CenterAuthorization.extend({
   }),
   petTypes: z.array(z.string()).optional(),
   price: z.coerce.number().min(1),
+  discountedPrice: z.coerce.number().min(1),
+
   images: z.array(z.object({ url: z.string() })).optional(),
   startTime: z
     .string()
@@ -46,42 +48,47 @@ export const ServiceSchema = CenterAuthorization.extend({
       "Invalid time format. Use HH:MM in 24-hour format.",
     ),
   duration: z.coerce.number().min(1),
-}).superRefine((input, ctx) => {
-  const { config } = input;
-  const operatingHours = config?.operatingHours;
+})
+  .superRefine((input, ctx) => {
+    const { config } = input;
+    const operatingHours = config?.operatingHours;
 
-  // Check if the last slot time is after the first slot time
-  Object.values(operatingHours).forEach((operatingTime) => {
-    if (
-      operatingTime &&
-      !timeUtils.isTimeBefore(
-        operatingTime.startTime,
-        operatingTime.startTimeEnd,
-      )
-    ) {
+    // Check if the last slot time is after the first slot time
+    Object.values(operatingHours).forEach((operatingTime) => {
+      if (
+        operatingTime &&
+        !timeUtils.isTimeBefore(
+          operatingTime.startTime,
+          operatingTime.startTimeEnd,
+        )
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.too_small,
+          minimum: 1,
+          type: "string",
+          inclusive: false,
+          message: "Last slot time should be after first slot time.",
+          path: ["startTimeEnd"],
+        });
+      }
+    });
+
+    // Check if atleast one operating day is selected
+    const hasNoOperatingDays = Object.values(operatingHours).every(
+      (operatingTime) => !operatingTime,
+    );
+
+    if (hasNoOperatingDays) {
       ctx.addIssue({
-        code: z.ZodIssueCode.too_small,
-        minimum: 1,
-        type: "string",
-        inclusive: false,
-        message: "Last slot time should be after first slot time.",
-        path: ["startTimeEnd"],
+        code: z.ZodIssueCode.invalid_type,
+        expected: "object",
+        received: "undefined",
+        message: "Atleast one operating day is required.",
+        path: ["config"],
       });
     }
+  })
+  .refine((data) => data.discountedPrice < data.price, {
+    message: "This must be less or equal to the Price above",
+    path: ["discountedPrice"], // This specifies which field the error is associated with
   });
-
-  // Check if atleast one operating day is selected
-  const hasNoOperatingDays = Object.values(operatingHours).every(
-    (operatingTime) => !operatingTime,
-  );
-
-  if (hasNoOperatingDays) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.invalid_type,
-      expected: "object",
-      received: "undefined",
-      message: "Atleast one operating day is required.",
-      path: ["config"],
-    });
-  }
-});
