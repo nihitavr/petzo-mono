@@ -195,7 +195,10 @@ const CartServiceDetails = ({
       let isAnySlotUnavailable = false;
 
       items.forEach((item) => {
-        slotIdToAvailabilityMap[item.slot.id]--;
+        if (slotIdToAvailabilityMap?.[item.slot.id]) {
+          slotIdToAvailabilityMap[item.slot.id]--;
+        }
+
         item.slot.availableSlots = slotIdToAvailabilityMap[item.slot.id]!;
 
         if (slotIdToAvailabilityMap[item.slot.id]! < 0) {
@@ -259,8 +262,9 @@ const CartServiceDetails = ({
             </div>
             <div className="flex flex-col items-center">
               <Price
-                className="text-2sm font-semibold md:text-sm"
+                className="flex flex-col-reverse gap-0 text-2sm font-semibold md:text-sm"
                 price={item.service.price}
+                discountedPrice={item.service.discountedPrice}
               />
               <MdDelete
                 className={`size-5 cursor-pointer hover:opacity-70 ${isSlotUnavailable ? "text-destructive/80" : "text-foreground/50"}`}
@@ -277,7 +281,7 @@ const CartServiceDetails = ({
 const BillDetails = () => {
   const total =
     servicesCart.value?.items?.reduce(
-      (acc, item) => acc + item.service.price,
+      (acc, item) => acc + item.service.discountedPrice,
       0,
     ) ?? 0;
 

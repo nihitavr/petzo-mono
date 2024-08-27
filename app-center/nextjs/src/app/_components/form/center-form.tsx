@@ -3,9 +3,11 @@
 import type { UseFormReturn } from "react-hook-form";
 import type { z } from "zod";
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import type { Center } from "@petzo/db";
+import { CENTER_FEATURES, CENTER_FEATURES_CONFIG } from "@petzo/constants";
 import {
   Form,
   FormControl,
@@ -40,6 +42,7 @@ export function CenterForm({ center }: { center?: Center }) {
       description: center?.description ?? "",
       images: center?.images ?? [],
       phoneNumber: center?.phoneNumber ?? "",
+      features: center?.features ?? [],
     },
   });
 
@@ -197,7 +200,7 @@ const BasicDetails = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
               <FormControl>
                 <Textarea
                   {...field}
-                  className="min-h-28 w-full md:min-h-36"
+                  className="min-h-36 w-full md:min-h-56"
                   placeholder={"Tell the world about center"}
                 />
               </FormControl>
@@ -218,6 +221,62 @@ const BasicDetails = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
                   placeholder="Phone Number - 10 digits eg. (9999999999)"
                   {...field}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="features"
+          render={({ field }) => (
+            <FormItem>
+              <div>
+                <FormLabel>Features*</FormLabel>
+                <FormDescription>
+                  Does your center offer any of the following?
+                </FormDescription>
+              </div>
+              <FormControl>
+                <div className="flex flex-wrap items-center gap-2">
+                  {CENTER_FEATURES.map((feature) => {
+                    const includesFeature = field.value?.includes(feature);
+                    return (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          let value = field.value;
+
+                          if (includesFeature) {
+                            value = value.filter((v) => v !== feature);
+                          } else {
+                            value = [...value, feature];
+                          }
+
+                          field.onChange([...value]);
+                        }}
+                        key={`day-${feature}`}
+                        className={`rounded-md border px-2 py-1 text-sm ${includesFeature ? "bg-primary/30" : ""}`}
+                      >
+                        <div className="flex items-center gap-1">
+                          <Image
+                            width={18}
+                            height={18}
+                            src={CENTER_FEATURES_CONFIG[feature].icon}
+                            alt="pet store"
+                          />
+                          <span>{CENTER_FEATURES_CONFIG[feature].name} </span>
+                          {includesFeature ? (
+                            <span className="font-bold">✓</span>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

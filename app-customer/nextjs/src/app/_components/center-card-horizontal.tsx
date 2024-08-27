@@ -3,11 +3,13 @@ import { GrLocation } from "react-icons/gr";
 
 import type { Center } from "@petzo/db";
 import { SERVICES_CONFIG } from "@petzo/constants";
+import Price from "@petzo/ui/components/price";
 import { centerUtils, serviceUtils } from "@petzo/utils";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
 import BasicImagesCasousel from "../center/[name]/[publicId]/_components/basic-images-carousel";
+import Features from "./center-features";
 
 export default function CenterCardHorizontal({
   center,
@@ -81,6 +83,9 @@ export default function CenterCardHorizontal({
             {centerUtils.getServiceTypeNamesStr(center.services)}
           </span>
 
+          {/* Center Features */}
+          <Features features={center.features} />
+
           {/* Lowest Service Price */}
           {lowestPriceService && (
             <div className="mt-auto flex justify-between rounded-r-full bg-gradient-to-r from-background to-primary/40 px-2 py-1">
@@ -92,7 +97,10 @@ export default function CenterCardHorizontal({
               </div>
               <div className="text-md flex items-center justify-between md:text-lg">
                 <span className="text-base font-semibold md:text-lg">
-                  &#8377; {lowestPriceService.price}
+                  <Price
+                    price={lowestPriceService.price}
+                    discountedPrice={lowestPriceService.discountedPrice}
+                  />
                 </span>
               </div>
             </div>

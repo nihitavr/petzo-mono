@@ -62,6 +62,7 @@ export const serviceRouter = {
               >;
             },
             price: input.price,
+            discountedPrice: input.price,
             images: input.images,
             duration: input.duration,
             startTime: input.startTime,
@@ -89,6 +90,7 @@ export const serviceRouter = {
               >;
             },
             price: input.price,
+            discountedPrice: input.price,
             images: input.images,
             duration: input.duration,
             startTime: input.startTime,

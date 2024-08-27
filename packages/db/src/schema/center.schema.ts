@@ -11,6 +11,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
+import type { CENTER_FEATURES_TYPE } from "@petzo/constants";
 import { CENTER_STATUS } from "@petzo/constants";
 
 import type { CenterConfig } from "../types/types";
@@ -34,6 +35,7 @@ export const centers = pgTable(
     reviewCount: integer("review_count").default(0).notNull(),
     status: centerStatusEnum("status").default("created").notNull(),
     phoneNumber: varchar("phone_number", { length: 15 }),
+    features: json("features").default([]).$type<CENTER_FEATURES_TYPE[]>(),
     config: json("config").$type<CenterConfig>(),
     centerAddressId: integer("center_address_id").references(
       () => centerAddresses.id,

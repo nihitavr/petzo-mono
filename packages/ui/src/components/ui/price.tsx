@@ -6,31 +6,30 @@ import { priceUtils } from "@petzo/utils";
 export default function Price({
   className,
   price,
-  discount,
+  discountedPrice,
 }: {
   className?: string;
   price: number;
-  discount?: number;
+  discountedPrice?: number;
 }) {
+  const hasDiscount = discountedPrice && discountedPrice != price;
+
   return (
-    <div className={cn("flex items-center gap-2", className)}>
+    <div className={cn("flex items-center gap-1 whitespace-nowrap", className)}>
+      {hasDiscount && (
+        <span className={cn("font-semibold", className)}>
+          &#8377; {priceUtils.getCommaPrice(discountedPrice)}
+        </span>
+      )}
       <span
         className={cn(
-          "whitespace-nowrap",
-          discount ? "line-through" : "",
+          "whitespace-nowrap font-semibold",
           className,
+          hasDiscount ? "scale-90 font-normal line-through opacity-80" : "",
         )}
       >
         &#8377; {priceUtils.getCommaPrice(price)}
       </span>
-      {!!discount && (
-        <span className={cn("font-semibold", className)}>
-          &#8377;{" "}
-          {priceUtils.getCommaPrice(
-            priceUtils.getDiscountedPrice(price, discount),
-          )}
-        </span>
-      )}
     </div>
   );
 }

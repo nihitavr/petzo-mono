@@ -1,13 +1,16 @@
+import Image from "next/image";
 import Link from "next/link";
 import { GrLocation } from "react-icons/gr";
 
 import type { Center } from "@petzo/db";
 import { SERVICES_CONFIG } from "@petzo/constants";
+import Price from "@petzo/ui/components/price";
 import { centerUtils, serviceUtils } from "@petzo/utils";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
 import BasicImagesCasousel from "../center/[name]/[publicId]/_components/basic-images-carousel";
+import Features from "./center-features";
 
 export default function CenterCardVertical({
   center,
@@ -100,7 +103,10 @@ export default function CenterCardVertical({
                   </div>
                   <div className="flex items-center justify-between text-base">
                     <span className="text-2base font-semibold md:text-lg">
-                      &#8377; {lowestPriceService.price} /-
+                      <Price
+                        price={lowestPriceService.price}
+                        discountedPrice={lowestPriceService.discountedPrice}
+                      />
                     </span>
                   </div>
                 </div>
@@ -114,24 +120,8 @@ export default function CenterCardVertical({
               </span>
             )}
 
-            {/* <div className="flex items-center gap-1 text-2sm font-medium">
-              <span>Includes</span>
-              <Image
-                width={18}
-                height={18}
-                src={"/icons/pet-store-icon.svg"}
-                alt="pet store"
-              ></Image>
-              <span>Pet Store</span>
-              <span>&</span>
-              <Image
-                width={18}
-                height={18}
-                src={"/icons/pet-pharmacy-icon.svg"}
-                alt="pet pharmacy"
-              ></Image>
-              <span>Pharmacy</span>
-            </div> */}
+            {/* Center Features */}
+            <Features features={center.features} />
           </div>
         </div>
       </div>

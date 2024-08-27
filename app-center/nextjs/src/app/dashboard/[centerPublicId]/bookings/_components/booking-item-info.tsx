@@ -10,7 +10,7 @@ import Price from "@petzo/ui/components/price";
 
 const BookingItemInfo = ({ bookingItem }: { bookingItem: BookingItem }) => {
   return (
-    <div className={`flex w-full animate-fade-in flex-col gap-0.5 pr-3`}>
+    <div className={`flex w-full animate-fade-in flex-col gap-0.5`}>
       <div className="flex items-center justify-between text-2sm md:text-sm">
         <span className="text-2sm text-foreground/70 md:text-sm">
           Booking Item Id: <span className="font-medium">{bookingItem.id}</span>
@@ -29,7 +29,7 @@ const BookingItemInfo = ({ bookingItem }: { bookingItem: BookingItem }) => {
         </span>
         <Price
           className="text-sm font-semibold md:text-base"
-          price={bookingItem.service!.price}
+          price={bookingItem.amount}
         />
       </div>
       <span className="text-sm text-foreground/70 md:text-base">

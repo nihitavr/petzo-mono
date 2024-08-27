@@ -33,6 +33,7 @@ export const services = pgTable(
     serviceType: serviceTypeEnum("service_type").notNull(),
     petTypes: json("pet_types").$type<string[]>(),
     price: integer("price").notNull(),
+    discountedPrice: integer("discounted_price").default(0).notNull(),
     images: json("images").$type<{ url: string }[]>(),
     config: json("config")
       .$type<{

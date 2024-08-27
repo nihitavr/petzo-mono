@@ -168,6 +168,7 @@ export function ServiceDetailsModal({
                   <div className="mt-1">
                     <Price
                       price={service.price}
+                      discountedPrice={service.discountedPrice}
                       className="text-lg font-semibold"
                     />
                   </div>

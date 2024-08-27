@@ -82,8 +82,11 @@ export default function ServiceCard({
 
           <span>{getServicePetTypesComponent()}</span>
 
-          <span className="text-base font-semibold">
-            <Price price={service.price} className="text-primary" />
+          <span className="text-2base">
+            <Price
+              price={service.price}
+              discountedPrice={service.discountedPrice}
+            />
           </span>
         </div>
 
