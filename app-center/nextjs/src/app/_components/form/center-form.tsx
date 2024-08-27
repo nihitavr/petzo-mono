@@ -233,7 +233,7 @@ const BasicDetails = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
           render={({ field }) => (
             <FormItem>
               <div>
-                <FormLabel>Features*</FormLabel>
+                <FormLabel>Features</FormLabel>
                 <FormDescription>
                   Does your center offer any of the following?
                 </FormDescription>
