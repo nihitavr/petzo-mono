@@ -31,6 +31,7 @@ export default function ImagesCasousel({
   const [thumbnailsCarouselApi, setThumbnailsCarouselApi] =
     useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [objectCover, setObjectCover] = useState(true);
 
   useEffect(() => {
     if (!carouselApi) {
@@ -57,7 +58,11 @@ export default function ImagesCasousel({
 
   return (
     <div className="flex w-full flex-col gap-1">
-      <Carousel setApi={setCarouselApi}>
+      <Carousel
+        onClick={() => setObjectCover(!objectCover)}
+        setApi={setCarouselApi}
+        className={objectCover ? "" : "rounded-xl border"}
+      >
         <CarouselContent>
           {images.map((imageUrl, index) => (
             <CarouselItem className={cn("relative", className)} key={index}>
@@ -65,8 +70,11 @@ export default function ImagesCasousel({
                 src={imageUrl ? imageUrl : defaultImage}
                 alt="Center Image"
                 fill
-                style={{ objectFit: "cover" }}
-                className={imageClassName}
+                className={cn(
+                  "object-center transition-all duration-300",
+                  objectCover ? "object-cover" : "object-contain",
+                  imageClassName,
+                )}
                 loading="lazy"
                 sizes="(min-width: 1280px) calc(40vw - 166px), (min-width: 1040px) calc(40vw - 89px), (min-width: 780px) calc(40vw - 22px), calc(100vw - 40px)"
               />

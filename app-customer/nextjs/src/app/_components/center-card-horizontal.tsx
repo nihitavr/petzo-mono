@@ -61,10 +61,12 @@ export default function CenterCardHorizontal({
           </div>
 
           {/* Rating and Reviews */}
-          {!!center.averageRating && (
+          {(!!center.averageRating || !!center.googleRating) && (
             <Rating
               rating={center.averageRating}
               ratingCount={center.ratingCount}
+              googleRating={center.googleRating}
+              googleRatingCount={center.googleRatingCount}
             />
           )}
 

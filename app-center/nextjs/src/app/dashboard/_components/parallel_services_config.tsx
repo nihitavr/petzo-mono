@@ -41,6 +41,8 @@ export default function ParallelServicesConfig({
     configState &&
     JSON.stringify(center?.config) !== JSON.stringify(configState);
 
+  if (!serviceTypes.length) return null;
+
   return (
     <div
       className={`mt-2 rounded-md border p-3 ${isOnboarding ? "border-2 border-primary" : ""}`}

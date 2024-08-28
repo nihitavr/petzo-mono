@@ -5,7 +5,7 @@ import { LuShare as ShareLucid } from "react-icons/lu";
 
 interface ShareInfo {
   title: string;
-  url: string;
+  url?: string;
   text?: string;
 }
 
@@ -21,6 +21,8 @@ export default function Share({
   children,
   ...props
 }: Props) {
+  if (!shareInfo.url) return null;
+
   const handleShare = async () => {
     if (navigator.share) {
       try {

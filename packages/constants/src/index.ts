@@ -1,3 +1,7 @@
+export const WHATSAPP_URL = "https://wa.me";
+
+export const INDIA_COUNTRY_CODE = "+91";
+
 export type DAYS_TYPE = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
 export const DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as const;
 
@@ -16,6 +20,13 @@ export const PET_GENDER = ["male", "female"] as const;
 export const PET_GENDER_CONFIG = {
   male: "Male",
   female: "Female",
+};
+
+export type CENTER_CTA_BUTTONS_TYPE = "call" | "whatsapp";
+export const CENTER_CTA_BUTTONS = ["call", "whatsapp"] as const;
+export const CENTER_CTA_BUTTONS_CONFIG = {
+  call: { name: "Call Button" },
+  whatsapp: { name: "Whatsapp Button" },
 };
 
 export type CENTER_FEATURES_TYPE = "store" | "pharmacy";

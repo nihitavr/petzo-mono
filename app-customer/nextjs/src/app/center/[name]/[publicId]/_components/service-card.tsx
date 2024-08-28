@@ -82,27 +82,32 @@ export default function ServiceCard({
 
           <span>{getServicePetTypesComponent()}</span>
 
-          <span className="text-2base">
+          {service.isBookingEnabled && (
             <Price
+              className="text-2base"
               price={service.price}
               discountedPrice={service.discountedPrice}
             />
-          </span>
+          )}
         </div>
 
-        <span className="text-xs md:text-2sm">
-          Duration:{" "}
-          <span className="font-medium">
-            {timeUtils.convertMinutesToHoursAndMinutes(service.duration)}
+        {service.isBookingEnabled && (
+          <span className="text-xs md:text-2sm">
+            Duration:{" "}
+            <span className="font-medium">
+              {timeUtils.convertMinutesToHoursAndMinutes(service.duration)}
+            </span>
           </span>
-        </span>
+        )}
 
         {/* TODO: Description has been removed as we currently only have  */}
-        {/* <span className="mt-1 line-clamp-2 whitespace-pre-wrap text-xs md:line-clamp-3 md:text-sm">
-          {service.description}
-        </span> */}
+        {!service.isBookingEnabled && (
+          <span className="line-clamp-2 whitespace-pre-wrap text-xs opacity-70 md:text-sm">
+            {service.description}
+          </span>
+        )}
 
-        <div className="mt-0.5">
+        <div className="mt-auto">
           <ServiceDetailsModal
             service={service}
             center={center}
@@ -131,16 +136,24 @@ export default function ServiceCard({
             sizes="(min-width: 780px) 160px, 128px"
           />
         ) : (
-          <div
+          <button
+            onClick={() => {
+              trackCustom("click_service_details_image", {
+                servicePublicId: service.publicId,
+              });
+              setOpenDetails(true);
+            }}
             className={`relative flex size-full min-h-32 items-center justify-center rounded-xl text-center text-5xl md:min-h-40 md:w-40 ${COLOR_MAP[service.name[0]!.toLowerCase()]?.textColor} ${COLOR_MAP[service.name[0]!.toLowerCase()]?.bgColor} bg-opacity-75`}
           >
             {service.name[0]}
-          </div>
+          </button>
         )}
 
         {/* TODO:  */}
         <div className="absolute bottom-0 flex w-full translate-y-1/2 justify-center">
-          <BookServiceDialog service={service} center={center} user={user} />
+          {service.isBookingEnabled && (
+            <BookServiceDialog service={service} center={center} user={user} />
+          )}
         </div>
       </div>
     </div>

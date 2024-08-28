@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { CENTER_FEATURES, REGEX } from "@petzo/constants";
+import { CENTER_CTA_BUTTONS, CENTER_FEATURES, REGEX } from "@petzo/constants";
 
 export const CenterAuthorization = z.object({ centerPublicId: z.string() });
 
@@ -10,6 +10,7 @@ export const CenterSchema = z.object({
   description: z.string().optional(),
   images: z.array(z.object({ url: z.string() })).optional(),
   features: z.array(z.enum(CENTER_FEATURES)),
+  ctaButtons: z.array(z.enum(CENTER_CTA_BUTTONS)),
   phoneNumber: z.string().regex(REGEX.mobileNumber, {
     message:
       "Invalid Phone Number. Please provide a valid 10 digits number eg. (9999999999)",

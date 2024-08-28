@@ -82,6 +82,8 @@ export default function CenterSearchList() {
                         <Rating
                           rating={center.averageRating}
                           ratingCount={center.ratingCount}
+                          googleRating={center.googleRating}
+                          googleRatingCount={center.googleRatingCount}
                         />
                       )}
                     </div>
