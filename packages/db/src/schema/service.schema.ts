@@ -1,5 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import {
+  boolean,
   index,
   integer,
   json,
@@ -32,6 +33,7 @@ export const services = pgTable(
     description: text("description"),
     serviceType: serviceTypeEnum("service_type").notNull(),
     petTypes: json("pet_types").$type<string[]>(),
+    isBookingEnabled: boolean("is_booking_enabled").default(false).notNull(),
     price: integer("price").notNull(),
     discountedPrice: integer("discounted_price").default(0).notNull(),
     images: json("images").$type<{ url: string }[]>(),

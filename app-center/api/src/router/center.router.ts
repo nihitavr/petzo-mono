@@ -90,6 +90,7 @@ export const centerRouter = {
             name: input.name,
             description: input.description,
             features: input.features,
+            ctaButtons: input.ctaButtons,
             images: input.images,
             phoneNumber: input.phoneNumber,
             centerUserId: ctx.session.user.id,
@@ -109,6 +110,7 @@ export const centerRouter = {
             name: input.name,
             description: input.description,
             features: input.features,
+            ctaButtons: input.ctaButtons,
             images: input.images,
             phoneNumber: input.phoneNumber,
           })

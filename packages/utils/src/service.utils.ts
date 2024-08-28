@@ -28,8 +28,12 @@ export const getLowestCostService = (
 ) => {
   return services
     ?.filter((service) => {
-      if (serviceTypes) return serviceTypes.includes(service.serviceType);
-      return true;
+      if (serviceTypes)
+        return (
+          serviceTypes.includes(service.serviceType) && service.isBookingEnabled
+        );
+
+      return service.isBookingEnabled;
     })
     ?.reduce(
       (acc, service) => {

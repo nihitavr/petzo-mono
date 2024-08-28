@@ -29,6 +29,8 @@ export default function CenterReviews({
           <Rating
             rating={center.averageRating}
             ratingCount={center.ratingCount}
+            googleRating={center.googleRating}
+            googleRatingCount={center.googleRatingCount}
           />
         )}
       </div>

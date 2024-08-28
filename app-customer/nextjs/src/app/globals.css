@@ -69,6 +69,10 @@ input[type="file"] {
   scrollbar-width: none; /* Firefox */
 }
 
+.container-main {
+  @apply px-3 py-[4rem] pb-[5.4rem] md:py-[4.8rem] lg:px-24 xl:px-48;
+}
+
 .container-2 {
   /* @apply flex flex-col gap-4 md:mt-0 mt-1.5; */
   @apply mt-[3.5rem] flex flex-col gap-4 md:mt-0;
@@ -107,4 +111,16 @@ input[type="file"] {
 
 .markdown-content p {
   @apply my-2;
+}
+
+.markdown-content ul.contains-task-list {
+  @apply list-none pl-0;
+}
+
+.markdown-content ul.contains-task-list li {
+  @apply mb-2 flex items-center;
+}
+
+.markdown-content ul.contains-task-list input[type="checkbox"] {
+  @apply mr-2 h-4 w-4;
 }

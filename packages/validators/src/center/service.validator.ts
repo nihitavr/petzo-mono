@@ -24,15 +24,16 @@ export const ServiceSchema = CenterAuthorization.extend({
       z.enum(DAYS),
       z
         .object({
-          startTime: z.string(),
-          startTimeEnd: z.string(),
+          startTime: z.string().optional(),
+          startTimeEnd: z.string().optional(),
         })
         .nullable(),
     ),
   }),
   petTypes: z.array(z.string()).optional(),
-  price: z.coerce.number().min(1),
-  discountedPrice: z.coerce.number().min(1),
+  price: z.coerce.number().min(0),
+  discountedPrice: z.coerce.number().min(0),
+  isBookingEnabled: z.boolean(),
 
   images: z.array(z.object({ url: z.string() })).optional(),
   startTime: z
@@ -40,14 +41,16 @@ export const ServiceSchema = CenterAuthorization.extend({
     .regex(
       REGEX.time24Hour,
       "Invalid time format. Use HH:MM in 24-hour format.",
-    ),
+    )
+    .optional(),
   startTimeEnd: z
     .string()
     .regex(
       REGEX.time24Hour,
       "Invalid time format. Use HH:MM in 24-hour format.",
-    ),
-  duration: z.coerce.number().min(1),
+    )
+    .optional(),
+  duration: z.coerce.number().min(0),
 })
   .superRefine((input, ctx) => {
     const { config } = input;
@@ -56,7 +59,8 @@ export const ServiceSchema = CenterAuthorization.extend({
     // Check if the last slot time is after the first slot time
     Object.values(operatingHours).forEach((operatingTime) => {
       if (
-        operatingTime &&
+        operatingTime?.startTime &&
+        operatingTime?.startTimeEnd &&
         !timeUtils.isTimeBefore(
           operatingTime.startTime,
           operatingTime.startTimeEnd,
@@ -78,7 +82,7 @@ export const ServiceSchema = CenterAuthorization.extend({
       (operatingTime) => !operatingTime,
     );
 
-    if (hasNoOperatingDays) {
+    if (input.isBookingEnabled && hasNoOperatingDays) {
       ctx.addIssue({
         code: z.ZodIssueCode.invalid_type,
         expected: "object",
@@ -88,7 +92,20 @@ export const ServiceSchema = CenterAuthorization.extend({
       });
     }
   })
-  .refine((data) => data.discountedPrice < data.price, {
+  .refine((data) => data.discountedPrice <= data.price, {
     message: "This must be less or equal to the Price above",
     path: ["discountedPrice"], // This specifies which field the error is associated with
+  })
+  .refine((data) => (data.isBookingEnabled ? data.duration > 0 : true), {
+    message: "Duration must be greater than zero when booking is enabled",
+    path: ["duration"],
+  })
+  .refine((data) => (data.isBookingEnabled ? data.price > 0 : true), {
+    message: "Price must be greater than zero when booking is enabled",
+    path: ["price"],
+  })
+  .refine((data) => (data.isBookingEnabled ? data.discountedPrice > 0 : true), {
+    message:
+      "Price after discount must be greater than zero when booking is enabled",
+    path: ["discountedPrice"],
   });

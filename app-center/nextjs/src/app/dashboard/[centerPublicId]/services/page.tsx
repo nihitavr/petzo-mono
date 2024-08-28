@@ -49,7 +49,11 @@ export default async function Page({
   const services = await api.service.getServices({ centerPublicId });
 
   const serviceTypes = Array.from(
-    new Set(services?.map((service) => service.serviceType)),
+    new Set(
+      services
+        ?.filter((service) => service.isBookingEnabled)
+        .map((service) => service.serviceType),
+    ),
   );
 
   const hasAnyService = services?.length > 0;
@@ -72,7 +76,7 @@ export default async function Page({
         )}
       </div>
 
-      {services.length > 0 && (
+      {serviceTypes?.length > 0 && (
         <div className="mt-4">
           <h3 className="font-medium">Config</h3>
           <ParallelServicesConfig serviceTypes={serviceTypes} center={center} />
@@ -93,6 +97,9 @@ export default async function Page({
                   <TableHead className="w-[20px]"></TableHead>
                   <TableHead className="min-w-[100px]">Service Name</TableHead>
                   <TableHead className="min-w-[100px]">Service Type</TableHead>
+                  <TableHead className="min-w-[100px]">
+                    Booking Enabled?
+                  </TableHead>
                   <TableHead className="min-w-[100px]">Price</TableHead>
                   <TableHead className="min-w-[100px]">
                     Discounted Price
@@ -115,6 +122,13 @@ export default async function Page({
                     <TableCell>{service?.name}</TableCell>
                     <TableCell>
                       {SERVICES_CONFIG[service?.serviceType]?.name}
+                    </TableCell>
+                    <TableCell>
+                      <span
+                        className={`font-semibold ${service.isBookingEnabled ? "text-green-600" : "text-red-600"}`}
+                      >
+                        {service?.isBookingEnabled ? "Yes" : "No"}
+                      </span>
                     </TableCell>
                     <TableCell>&#8377; {service?.price}</TableCell>
                     <TableCell>&#8377; {service?.discountedPrice}</TableCell>

@@ -83,9 +83,10 @@ export function ServiceForm({
       images: service?.images ?? [],
       serviceType: service?.serviceType,
       petTypes: service?.petTypes ?? Array.from(PET_TYPE),
-      price: service?.price,
-      discountedPrice: service?.discountedPrice,
-      duration: service?.duration,
+      price: service?.price ?? 0,
+      discountedPrice: service?.discountedPrice ?? 0,
+      isBookingEnabled: service?.isBookingEnabled,
+      duration: service?.duration ?? 0,
 
       config: service?.config ?? {
         operatingHours: {
@@ -121,7 +122,7 @@ export function ServiceForm({
 
     toast.success(message);
 
-    if (isOnboarding) {
+    if (isOnboarding && data.isBookingEnabled) {
       router.push(`/dashboard/${centerPublicId}/services?onboarding=true`);
     } else {
       router.push(`/dashboard/${centerPublicId}/services`);
@@ -133,7 +134,6 @@ export function ServiceForm({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (values: unknown) => {
     const data = values as ServiceSchema;
-    console.log("d price: ", data.discountedPrice);
 
     setIsSubmitting(true);
 
@@ -174,9 +174,9 @@ export function ServiceForm({
           <hr className="!mt-7 border" />
           <PetInformation form={form} />
           <hr className="!mt-7 border" />
-          <TimingInformation form={form} />
-          <hr className="!mt-7 border" />
           <MediaInformation form={form} />
+          <hr className="!mt-7 border" />
+          <BookingInformation form={form} />
         </div>
 
         <FormSaveButton
@@ -189,6 +189,85 @@ export function ServiceForm({
     </Form>
   );
 }
+
+const BookingInformation = ({
+  form,
+}: {
+  form: UseFormReturn<ServiceSchema>;
+}) => {
+  return (
+    <div className="space-y-2">
+      <Label className="text-lg font-bold">Booking Information</Label>
+      <div className="space-y-5 rounded-lg border p-3">
+        <BookingEnabled form={form} />
+        <div
+          className={`space-y-5 ${
+            form.getValues("isBookingEnabled")
+              ? "animate-fade-in"
+              : "pointer-events-none animate-fade-out opacity-50"
+          }`}
+        >
+          <PricingDetails form={form} />
+          <hr className="!mt-7 border" />
+          <TimingInformation form={form} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const PricingDetails = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
+  return (
+    <div className="space-y-2">
+      <Label className="text-lg font-bold">Pricing Details</Label>
+
+      <div className="space-y-5">
+        {/* Price */}
+        <FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Price (In rupees)*</FormLabel>
+              <FormControl>
+                <Input type="number" placeholder="Price" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Discounted Price */}
+        <FormField
+          control={form.control}
+          name="discountedPrice"
+          render={({ field }) => {
+            return (
+              <FormItem>
+                <div>
+                  <FormLabel>Price after discount (In rupees)*</FormLabel>
+                  <FormDescription>
+                    This is the price after giving a discount. If there is no
+                    discount, enter the same price as above.
+                  </FormDescription>
+                </div>
+
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Price after giving discount"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        />
+      </div>
+    </div>
+  );
+};
 
 const BasicDetails = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
   return (
@@ -252,51 +331,6 @@ const BasicDetails = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
           )}
         />
 
-        {/* Price */}
-        <FormField
-          control={form.control}
-          name="price"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Price (In rupees)*</FormLabel>
-              <FormControl>
-                <Input type="number" placeholder="Price" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Discounted Price */}
-        <FormField
-          control={form.control}
-          name="discountedPrice"
-          render={({ field }) => {
-            console.log("discountedPrice: ", field.value);
-
-            return (
-              <FormItem>
-                <div>
-                  <FormLabel>Price after discount (In rupees)*</FormLabel>
-                  <FormDescription>
-                    This is the price after giving a discount. If there is no
-                    discount, enter the same price as above.
-                  </FormDescription>
-                </div>
-
-                <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="Price after giving discount"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
-
         {/* Description Name */}
         <FormField
           control={form.control}
@@ -317,6 +351,28 @@ const BasicDetails = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
         />
       </div>
     </div>
+  );
+};
+
+const BookingEnabled = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
+  return (
+    <FormField
+      control={form.control}
+      name="isBookingEnabled"
+      render={({ field }) => (
+        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+          <FormControl>
+            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+          </FormControl>
+          <div className="space-y-1 leading-none">
+            <FormLabel className="cursor-pointer">Enable Booking</FormLabel>
+            <FormDescription>
+              Once enabled, customers can book this service.
+            </FormDescription>
+          </div>
+        </FormItem>
+      )}
+    />
   );
 };
 

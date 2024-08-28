@@ -165,22 +165,26 @@ export function ServiceDetailsModal({
                   <div className="-mt-0.5 text-sm font-semibold text-primary md:text-base">
                     at {center?.name}
                   </div>
-                  <div className="mt-1">
-                    <Price
-                      price={service.price}
-                      discountedPrice={service.discountedPrice}
-                      className="text-lg font-semibold"
-                    />
-                  </div>
+                  {service.isBookingEnabled && (
+                    <div className="mt-1">
+                      <Price
+                        price={service.price}
+                        discountedPrice={service.discountedPrice}
+                        className="text-lg font-semibold"
+                      />
+                    </div>
+                  )}
                 </div>
 
-                <div className="mt-2 flex flex-col items-center gap-1">
-                  <BookServiceDialog
-                    service={service}
-                    center={center}
-                    user={user}
-                  />
-                </div>
+                {service.isBookingEnabled && (
+                  <div className="mt-2 flex flex-col items-center gap-1">
+                    <BookServiceDialog
+                      service={service}
+                      center={center}
+                      user={user}
+                    />
+                  </div>
+                )}
               </div>
 
               <DrawerDescription className="whitespace-pre-wrap">

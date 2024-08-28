@@ -21,7 +21,7 @@ export default function BasicImagesCasousel({
   defaultImage = "",
   className,
   autoplay = false,
-  autoPlayDelay = 3000,
+  autoPlayDelay = 4000,
   imageClassName,
 }: {
   images: string[];
@@ -34,6 +34,7 @@ export default function BasicImagesCasousel({
 }) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(startIndex ?? 0);
+  const [objectCover, setObjectCover] = useState(true);
 
   const cardRef = useRef<HTMLDivElement>(null);
   const cardVisible = useInView(cardRef, {
@@ -75,6 +76,7 @@ export default function BasicImagesCasousel({
       className="size-full"
       setApi={setCarouselApi}
       ref={cardRef}
+      onClick={() => setObjectCover(!objectCover)}
     >
       <CarouselContent className="space-x-3">
         {images.map((imageUrl, index) => {
@@ -84,7 +86,11 @@ export default function BasicImagesCasousel({
                 src={imageUrl ? imageUrl : defaultImage}
                 alt="Center Image"
                 fill
-                className={cn("object-cover object-center", imageClassName)}
+                className={cn(
+                  "object-center",
+                  objectCover ? "object-cover" : "object-contain",
+                  imageClassName,
+                )}
                 loading="lazy"
               />
             </CarouselItem>

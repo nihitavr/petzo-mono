@@ -61,6 +61,7 @@ export const serviceRouter = {
                 { startTime: string; startTimeEnd: string } | null
               >;
             },
+            isBookingEnabled: input.isBookingEnabled,
             price: input.price,
             discountedPrice: input.discountedPrice,
             images: input.images,
@@ -75,8 +76,6 @@ export const serviceRouter = {
   updateService: protectedCenterProcedure
     .input(centerApp.service.ServiceSchema)
     .mutation(async ({ ctx, input }) => {
-      console.log("discounted price: ", input.discountedPrice);
-
       return (
         await ctx.db
           .update(schema.services)
@@ -91,6 +90,7 @@ export const serviceRouter = {
                 { startTime: string; startTimeEnd: string } | null
               >;
             },
+            isBookingEnabled: input.isBookingEnabled,
             price: input.price,
             discountedPrice: input.discountedPrice,
             images: input.images,

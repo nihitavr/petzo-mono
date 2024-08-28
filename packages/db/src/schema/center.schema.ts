@@ -1,5 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import {
+  boolean,
   index,
   integer,
   json,
@@ -11,7 +12,10 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-import type { CENTER_FEATURES_TYPE } from "@petzo/constants";
+import type {
+  CENTER_CTA_BUTTONS_TYPE,
+  CENTER_FEATURES_TYPE,
+} from "@petzo/constants";
 import { CENTER_STATUS } from "@petzo/constants";
 
 import type { CenterConfig } from "../types/types";
@@ -29,12 +33,18 @@ export const centers = pgTable(
     publicId: varchar("public_id", { length: 20 }).notNull().unique(),
     name: varchar("name", { length: 256 }).notNull(),
     description: text("description"),
+    isClaimed: boolean("is_claimed").default(false).notNull(),
     images: json("images").$type<{ url: string }[]>(),
+    googleRating: real("google_rating").default(0).notNull(),
+    googleRatingCount: integer("google_rating_count").default(0).notNull(),
     averageRating: real("average_rating").default(0).notNull(),
     ratingCount: integer("rating_count").default(0).notNull(),
     reviewCount: integer("review_count").default(0).notNull(),
     status: centerStatusEnum("status").default("created").notNull(),
     phoneNumber: varchar("phone_number", { length: 15 }),
+    ctaButtons: json("cta_buttons")
+      .default([])
+      .$type<CENTER_CTA_BUTTONS_TYPE[]>(),
     features: json("features").default([]).$type<CENTER_FEATURES_TYPE[]>(),
     config: json("config").$type<CenterConfig>(),
     centerAddressId: integer("center_address_id").references(

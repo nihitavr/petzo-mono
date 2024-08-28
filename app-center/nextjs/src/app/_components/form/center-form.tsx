@@ -7,7 +7,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import type { Center } from "@petzo/db";
-import { CENTER_FEATURES, CENTER_FEATURES_CONFIG } from "@petzo/constants";
+import {
+  CENTER_CTA_BUTTONS,
+  CENTER_CTA_BUTTONS_CONFIG,
+  CENTER_FEATURES,
+  CENTER_FEATURES_CONFIG,
+} from "@petzo/constants";
 import {
   Form,
   FormControl,
@@ -43,6 +48,7 @@ export function CenterForm({ center }: { center?: Center }) {
       images: center?.images ?? [],
       phoneNumber: center?.phoneNumber ?? "",
       features: center?.features ?? [],
+      ctaButtons: center?.ctaButtons ?? [],
     },
   });
 
@@ -267,6 +273,58 @@ const BasicDetails = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
                             alt="pet store"
                           />
                           <span>{CENTER_FEATURES_CONFIG[feature].name} </span>
+                          {includesFeature ? (
+                            <span className="font-bold">✓</span>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="ctaButtons"
+          render={({ field }) => (
+            <FormItem>
+              <div>
+                <FormLabel>Cta Buttons</FormLabel>
+                <FormDescription>
+                  Which buttons would you like to show on your center page?
+                </FormDescription>
+              </div>
+              <FormControl>
+                <div className="flex flex-wrap items-center gap-2">
+                  {CENTER_CTA_BUTTONS.map((feature) => {
+                    const includesFeature = field.value?.includes(feature);
+                    return (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          let value = field.value;
+
+                          if (includesFeature) {
+                            value = value.filter((v) => v !== feature);
+                          } else {
+                            value = [...value, feature];
+                          }
+
+                          field.onChange([...value]);
+                        }}
+                        key={`day-${feature}`}
+                        className={`rounded-md border px-2 py-1 text-sm ${includesFeature ? "bg-primary/30" : ""}`}
+                      >
+                        <div className="flex items-center gap-1">
+                          <span>
+                            {CENTER_CTA_BUTTONS_CONFIG[feature].name}{" "}
+                          </span>
                           {includesFeature ? (
                             <span className="font-bold">✓</span>
                           ) : (

@@ -4,7 +4,7 @@ import { GrLocation } from "react-icons/gr";
 import type { Center } from "@petzo/db";
 import { SERVICES_CONFIG } from "@petzo/constants";
 import Price from "@petzo/ui/components/price";
-import { centerUtils, serviceUtils } from "@petzo/utils";
+import { centerUtils, mapUtils, serviceUtils } from "@petzo/utils";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
@@ -17,6 +17,10 @@ export default function CenterCardVertical({
 }: {
   center: Center;
   serviceTypes?: string[];
+  userGeoCode?: {
+    latitude: number;
+    longitude: number;
+  };
 }) {
   const thumbnail = center.images?.[0]?.url;
   const lowestPriceService = serviceUtils.getLowestCostService(
@@ -67,20 +71,33 @@ export default function CenterCardVertical({
                 </div>
 
                 {/* Rating and Reviews */}
-                {!!center.averageRating && (
+                {(!!center.averageRating || !!center.googleRating) && (
                   <Rating
                     rating={center.averageRating}
                     ratingCount={center.ratingCount}
+                    googleRating={center.googleRating}
+                    googleRatingCount={center.googleRatingCount}
                   />
                 )}
 
                 {/* Area */}
                 {centerUtils.hasAtCenterServices(center.services) ? (
-                  <div className="flex items-center gap-1">
-                    <GrLocation />
-                    <span className="line-clamp-1 text-2sm font-medium capitalize">
-                      {center.centerAddress?.area?.name}
-                    </span>
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
+                      <GrLocation />
+                      <span className="line-clamp-1 text-2sm font-medium capitalize">
+                        {center.centerAddress?.area?.name}
+                      </span>
+                    </div>
+                    {!!center.distanceInMeters && (
+                      <>
+                        <div className="size-1.5 rounded-full bg-foreground/50" />
+                        <div className="text-2sm font-medium">
+                          Around{" "}
+                          {mapUtils.metersToKilometers(center.distanceInMeters)}
+                        </div>
+                      </>
+                    )}
                   </div>
                 ) : (
                   <span className="line-clamp-2 break-all text-2sm font-semibold capitalize text-primary md:text-sm">

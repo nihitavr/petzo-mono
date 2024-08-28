@@ -160,6 +160,10 @@ export const centerRouter = {
 
       // First get all centerIds given the filter parameters.
       const centerIds = centerIdsData.map((c) => c.id);
+      const centerIdToDistance = centerIdsData.reduce(
+        (acc, c) => ({ ...acc, [c.id]: c.distance }),
+        {},
+      ) as Record<number, number>;
 
       if (!centerIds.length) return [];
 
@@ -179,6 +183,13 @@ export const centerRouter = {
         orderBy: sql.raw(
           `ARRAY_POSITION(ARRAY[${centerIds.join(",")}], ${schema.centers.id.name})`,
         ),
+      });
+
+      // Add distance to the center object.
+      centers.forEach((center) => {
+        if (centerIdToDistance[center.id]) {
+          center.distanceInMeters = centerIdToDistance[center.id];
+        }
       });
 
       return centers;
