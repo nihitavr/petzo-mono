@@ -36,7 +36,13 @@ import FormSaveButton from "./form-save-button";
 
 type CenterSchema = z.infer<typeof centerApp.center.CenterSchema>;
 
-export function CenterForm({ center }: { center?: Center }) {
+export function CenterForm({
+  center,
+  isAdmin,
+}: {
+  center?: Center;
+  isAdmin?: boolean;
+}) {
   const router = useRouter();
 
   const form = useForm({
@@ -46,6 +52,8 @@ export function CenterForm({ center }: { center?: Center }) {
       name: center?.name,
       description: center?.description ?? "",
       images: center?.images ?? [],
+      googleRating: center?.googleRating,
+      googleRatingCount: center?.googleRatingCount,
       phoneNumber: center?.phoneNumber ?? "",
       features: center?.features ?? [],
       ctaButtons: center?.ctaButtons ?? [],
@@ -117,6 +125,12 @@ export function CenterForm({ center }: { center?: Center }) {
           <BasicDetails form={form} />
           <hr className="!mt-7 border" />
           <MediaInformation form={form} />
+          {isAdmin && (
+            <>
+              <hr className="!mt-7 border" />
+              <AdminInformation form={form} />
+            </>
+          )}
         </div>
 
         <FormSaveButton
@@ -129,51 +143,6 @@ export function CenterForm({ center }: { center?: Center }) {
     </Form>
   );
 }
-
-const MediaInformation = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
-  return (
-    <div className="space-y-2">
-      <Label className="text-center text-lg font-bold">Media</Label>
-      {/* Images */}
-      <FormField
-        control={form.control}
-        name="images"
-        render={({ field }) => (
-          <FormItem>
-            <div>
-              <FormLabel>
-                Images{" "}
-                <span className="!font-normal">
-                  (max {DEFAULT_MAX_SERVICE_IMAGES} images)
-                </span>
-              </FormLabel>
-              <FormDescription>
-                Recommended Size: 500 x 500 px or 1:1 ratio
-              </FormDescription>
-            </div>
-            <div className="flex items-center gap-2">
-              <FormControl>
-                <ImageInput
-                  name={field.name}
-                  value={field.value}
-                  onChange={field.onChange}
-                  objectFit="cover"
-                  clearErrors={form.clearErrors}
-                  setError={form.setError}
-                  ratio={1}
-                  maxFiles={DEFAULT_MAX_SERVICE_IMAGES}
-                  handleUploadUrl="/api/upload-image"
-                  basePathname="images/centers"
-                />
-              </FormControl>
-            </div>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    </div>
-  );
-};
 
 const BasicDetails = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
   return (
@@ -270,7 +239,7 @@ const BasicDetails = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
                             width={18}
                             height={18}
                             src={CENTER_FEATURES_CONFIG[feature].icon}
-                            alt="pet store"
+                            alt={CENTER_FEATURES_CONFIG[feature].name}
                           />
                           <span>{CENTER_FEATURES_CONFIG[feature].name} </span>
                           {includesFeature ? (
@@ -341,6 +310,92 @@ const BasicDetails = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
           )}
         />
       </div>
+    </div>
+  );
+};
+
+const MediaInformation = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
+  return (
+    <div className="space-y-2">
+      <Label className="text-center text-lg font-bold">Media</Label>
+      {/* Images */}
+      <FormField
+        control={form.control}
+        name="images"
+        render={({ field }) => (
+          <FormItem>
+            <div>
+              <FormLabel>
+                Images{" "}
+                <span className="!font-normal">
+                  (max {DEFAULT_MAX_SERVICE_IMAGES} images)
+                </span>
+              </FormLabel>
+              <FormDescription>
+                Recommended Size: 500 x 500 px or 1:1 ratio
+              </FormDescription>
+            </div>
+            <div className="flex items-center gap-2">
+              <FormControl>
+                <ImageInput
+                  name={field.name}
+                  value={field.value}
+                  onChange={field.onChange}
+                  objectFit="cover"
+                  clearErrors={form.clearErrors}
+                  setError={form.setError}
+                  ratio={1}
+                  maxFiles={DEFAULT_MAX_SERVICE_IMAGES}
+                  handleUploadUrl="/api/upload-image"
+                  basePathname="images/centers"
+                />
+              </FormControl>
+            </div>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+};
+
+const AdminInformation = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
+  return (
+    <div className="space-y-2 rounded-xl border border-red-500 p-3">
+      <Label className="text-center text-lg font-bold">
+        Google Information (Only Admins)
+      </Label>
+      {/* Images */}
+      <FormField
+        control={form.control}
+        name="googleRating"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Google Rating</FormLabel>
+            <FormControl>
+              <Input type="number" placeholder="Google Rating" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="googleRatingCount"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Google Rating Count</FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                placeholder="Google Rating Count"
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </div>
   );
 };

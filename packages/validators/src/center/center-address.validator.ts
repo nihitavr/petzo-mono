@@ -17,7 +17,7 @@ export const CenterAddressForm = z.object({
   cityId: z.number().int(),
   stateId: z.number().int(),
   geocode: z.object({
-    latitude: z.number(),
-    longitude: z.number(),
+    latitude: z.coerce.number(),
+    longitude: z.coerce.number(),
   }),
 });

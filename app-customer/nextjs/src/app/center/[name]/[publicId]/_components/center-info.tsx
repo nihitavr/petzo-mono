@@ -18,7 +18,12 @@ export const CenterInfo = ({
   className?: string;
 }) => {
   return (
-    <div className={cn("flex flex-col gap-1 overflow-y-auto pt-0", className)}>
+    <div
+      className={cn(
+        "flex flex-col gap-1 overflow-y-auto pt-0 transition-all duration-300",
+        className,
+      )}
+    >
       {/* Center name */}
       <div className="flex items-start justify-between">
         <h1 className="line-clamp-2 text-base font-semibold md:text-lg">

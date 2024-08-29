@@ -190,19 +190,233 @@ export function ServiceForm({
   );
 }
 
+const BasicDetails = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
+  return (
+    <div className="space-y-2">
+      <Label className="text-lg font-bold">Basic Details</Label>
+
+      <div className="space-y-5">
+        <FormField
+          control={form.control}
+          name="serviceType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Service Type*</FormLabel>
+              <Select
+                value={field.value}
+                onValueChange={(value) => {
+                  // TODO:
+                  // Disable booking for boarding services as we currently don't support booking for boarding services
+                  if (value == "boarding") {
+                    form.setValue("isBookingEnabled", false);
+                  }
+
+                  if (form.getValues().publicId) {
+                    toast.error(
+                      "Service type cannot be changed for existing services.",
+                    );
+                    return;
+                  }
+
+                  field.onChange(value);
+                }}
+                defaultValue={field.value}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a service type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {Object.entries(SERVICES_CONFIG).map(([key, value]) => {
+                    return (
+                      <SelectItem
+                        key={`service-${key}`}
+                        value={value.publicId}
+                        className="cursor-pointer"
+                      >
+                        <div className="flex !flex-row items-center gap-2">
+                          {value.icon && (
+                            <Image
+                              src={value.icon}
+                              height={20}
+                              width={20}
+                              alt=""
+                            />
+                          )}
+                          <span>{value.name}</span>
+                        </div>
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+      {/* Service Name */}
+      <FormField
+        control={form.control}
+        name="name"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Service Name*</FormLabel>
+            <FormControl>
+              <Input placeholder="Name" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      {/* Description Name */}
+      <FormField
+        control={form.control}
+        name="description"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Description</FormLabel>
+            <FormControl>
+              <Textarea
+                {...field}
+                className="min-h-28 w-full md:min-h-36"
+                placeholder={"Details about this service."}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+};
+
+const PetInformation = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
+  return (
+    <div className="space-y-2">
+      <Label className="text-lg font-bold">Pet Information</Label>
+      {/* Pet Types */}
+      <FormField
+        control={form.control}
+        name="petTypes"
+        render={() => (
+          <FormItem>
+            <div>
+              <FormLabel>Pet Types*</FormLabel>
+              <FormDescription>
+                Select the type of pets this service is for.
+              </FormDescription>
+            </div>
+            <div className="flex gap-6">
+              {Object.entries(PET_TYPE_CONFIG).map(
+                ([petType, petTypeConfig]) => (
+                  <FormField
+                    key={petType}
+                    control={form.control}
+                    name="petTypes"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={petType}
+                          className="flex cursor-pointer flex-row items-center space-x-1 space-y-0"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(petType)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value!, petType])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== petType,
+                                      ),
+                                    );
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="cursor-pointer font-normal">
+                            {petTypeConfig.name}
+                          </FormLabel>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                ),
+              )}
+            </div>
+
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+};
+
+const MediaInformation = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
+  return (
+    <div className="space-y-2">
+      <Label className="text-center text-lg font-bold">Media</Label>
+      {/* Images */}
+      <FormField
+        control={form.control}
+        name="images"
+        render={({ field }) => (
+          <FormItem>
+            <div>
+              <FormLabel>
+                Images{" "}
+                <span className="!font-normal">
+                  (max {DEFAULT_MAX_SERVICE_IMAGES} images)
+                </span>
+              </FormLabel>
+              <FormDescription>
+                Recommended Size: 500 x 500 px or 1:1 ratio
+              </FormDescription>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <FormControl>
+                <ImageInput
+                  name={field.name}
+                  value={field.value}
+                  onChange={field.onChange}
+                  objectFit="cover"
+                  clearErrors={form.clearErrors}
+                  setError={form.setError}
+                  ratio={1}
+                  maxFiles={DEFAULT_MAX_SERVICE_IMAGES}
+                  handleUploadUrl="/api/upload-image"
+                  basePathname="images/services"
+                />
+              </FormControl>
+            </div>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+};
+
 const BookingInformation = ({
   form,
 }: {
   form: UseFormReturn<ServiceSchema>;
 }) => {
+  const bookingDisabled = form.watch("serviceType") === "boarding";
+
   return (
-    <div className="space-y-2">
+    <div className={"space-y-2"}>
       <Label className="text-lg font-bold">Booking Information</Label>
-      <div className="space-y-5 rounded-lg border p-3">
+      <div
+        className={cn("rounded-lg border", bookingDisabled ? "opacity-60" : "")}
+      >
         <BookingEnabled form={form} />
         <div
-          className={`space-y-5 ${
-            form.getValues("isBookingEnabled")
+          className={`space-y-5 p-3 ${
+            form.watch("isBookingEnabled")
               ? "animate-fade-in"
               : "pointer-events-none animate-fade-out opacity-50"
           }`}
@@ -269,105 +483,34 @@ const PricingDetails = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
   );
 };
 
-const BasicDetails = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
-  return (
-    <div className="space-y-2">
-      <Label className="text-lg font-bold">Basic Details</Label>
-
-      <div className="space-y-5">
-        <FormField
-          control={form.control}
-          name="serviceType"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Service Type*</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a service type" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {Object.entries(SERVICES_CONFIG).map(([key, value]) => {
-                    return (
-                      <SelectItem
-                        key={`service-${key}`}
-                        value={value.publicId}
-                        className="cursor-pointer"
-                      >
-                        <div className="flex !flex-row items-center gap-2">
-                          {value.icon && (
-                            <Image
-                              src={value.icon}
-                              height={20}
-                              width={20}
-                              alt=""
-                            />
-                          )}
-                          <span>{value.name}</span>
-                        </div>
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Service Name */}
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Service Name*</FormLabel>
-              <FormControl>
-                <Input placeholder="Name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Description Name */}
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea
-                  {...field}
-                  className="min-h-28 w-full md:min-h-36"
-                  placeholder={"Details about this service."}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
-    </div>
-  );
-};
-
 const BookingEnabled = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
+  const bookingDisabled = form.watch("serviceType") === "boarding";
+
   return (
     <FormField
       control={form.control}
       name="isBookingEnabled"
       render={({ field }) => (
-        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+        <FormItem
+          onClick={(e) => {
+            if (bookingDisabled) {
+              toast.error(
+                "Boarding services do not support booking at the moment.",
+              );
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          }}
+          className={`flex flex-row items-start space-x-3 space-y-0 rounded-md ${field.value ? "border-b" : ""} bg-muted p-3`}
+        >
           <FormControl>
             <Checkbox checked={field.value} onCheckedChange={field.onChange} />
           </FormControl>
           <div className="space-y-1 leading-none">
             <FormLabel className="cursor-pointer">Enable Booking</FormLabel>
             <FormDescription>
-              Once enabled, customers can book this service.
+              Once enabled, customers can book this service from the Furclub
+              App.
             </FormDescription>
           </div>
         </FormItem>
@@ -576,113 +719,5 @@ const TimeFormField = ({
         </FormItem>
       )}
     />
-  );
-};
-
-const PetInformation = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
-  return (
-    <div className="space-y-2">
-      <Label className="text-lg font-bold">Pet Information</Label>
-      {/* Pet Types */}
-      <FormField
-        control={form.control}
-        name="petTypes"
-        render={() => (
-          <FormItem>
-            <div>
-              <FormLabel>Pet Types*</FormLabel>
-              <FormDescription>
-                Select the type of pets this service is for.
-              </FormDescription>
-            </div>
-            <div className="flex gap-6">
-              {Object.entries(PET_TYPE_CONFIG).map(
-                ([petType, petTypeConfig]) => (
-                  <FormField
-                    key={petType}
-                    control={form.control}
-                    name="petTypes"
-                    render={({ field }) => {
-                      return (
-                        <FormItem
-                          key={petType}
-                          className="flex cursor-pointer flex-row items-center space-x-1 space-y-0"
-                        >
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value?.includes(petType)}
-                              onCheckedChange={(checked) => {
-                                return checked
-                                  ? field.onChange([...field.value!, petType])
-                                  : field.onChange(
-                                      field.value?.filter(
-                                        (value) => value !== petType,
-                                      ),
-                                    );
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel className="cursor-pointer font-normal">
-                            {petTypeConfig.name}
-                          </FormLabel>
-                        </FormItem>
-                      );
-                    }}
-                  />
-                ),
-              )}
-            </div>
-
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    </div>
-  );
-};
-
-const MediaInformation = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
-  return (
-    <div className="space-y-2">
-      <Label className="text-center text-lg font-bold">Media</Label>
-      {/* Images */}
-      <FormField
-        control={form.control}
-        name="images"
-        render={({ field }) => (
-          <FormItem>
-            <div>
-              <FormLabel>
-                Images{" "}
-                <span className="!font-normal">
-                  (max {DEFAULT_MAX_SERVICE_IMAGES} images)
-                </span>
-              </FormLabel>
-              <FormDescription>
-                Recommended Size: 500 x 500 px or 1:1 ratio
-              </FormDescription>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <FormControl>
-                <ImageInput
-                  name={field.name}
-                  value={field.value}
-                  onChange={field.onChange}
-                  objectFit="cover"
-                  clearErrors={form.clearErrors}
-                  setError={form.setError}
-                  ratio={1}
-                  maxFiles={DEFAULT_MAX_SERVICE_IMAGES}
-                  handleUploadUrl="/api/upload-image"
-                  basePathname="images/services"
-                />
-              </FormControl>
-            </div>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    </div>
   );
 };

@@ -23,6 +23,7 @@ export default function BasicImagesCasousel({
   autoplay = false,
   autoPlayDelay = 4000,
   imageClassName,
+  enableZoomOut = true,
 }: {
   images: string[];
   defaultImage?: string;
@@ -31,10 +32,11 @@ export default function BasicImagesCasousel({
   imageClassName?: string;
   autoplay?: boolean;
   autoPlayDelay?: number;
+  enableZoomOut?: boolean;
 }) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(startIndex ?? 0);
-  const [objectCover, setObjectCover] = useState(true);
+  const [objectContain, setObjectContain] = useState(false);
 
   const cardRef = useRef<HTMLDivElement>(null);
   const cardVisible = useInView(cardRef, {
@@ -76,7 +78,7 @@ export default function BasicImagesCasousel({
       className="size-full"
       setApi={setCarouselApi}
       ref={cardRef}
-      onClick={() => setObjectCover(!objectCover)}
+      onClick={() => setObjectContain(enableZoomOut && !objectContain)}
     >
       <CarouselContent className="space-x-3">
         {images.map((imageUrl, index) => {
@@ -88,7 +90,7 @@ export default function BasicImagesCasousel({
                 fill
                 className={cn(
                   "object-center",
-                  objectCover ? "object-cover" : "object-contain",
+                  objectContain ? "object-contain" : "object-cover",
                   imageClassName,
                 )}
                 loading="lazy"

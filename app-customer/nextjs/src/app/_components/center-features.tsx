@@ -29,7 +29,10 @@ const Features = ({
   const lastFeature = features.pop()!;
 
   const featuresComp = features.map((feature, idx) => (
-    <div key={feature} className="inline-flex items-center gap-1 text-2sm">
+    <div
+      key={feature}
+      className="inline-flex items-center gap-1 whitespace-nowrap text-2sm"
+    >
       {idx == 0 && <span>Includes</span>}
       <Image
         width={16}
@@ -54,7 +57,9 @@ const Features = ({
     </div>,
   );
 
-  return <div className="flex items-center gap-1">{featuresComp}</div>;
+  return (
+    <div className="flex flex-wrap items-center gap-1">{featuresComp}</div>
+  );
 };
 
 export default Features;

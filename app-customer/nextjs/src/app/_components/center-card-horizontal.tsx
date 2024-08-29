@@ -35,9 +35,10 @@ export default function CenterCardHorizontal({
           {thumbnail ? (
             <BasicImagesCasousel
               images={
-                center.images?.slice(0, 5)?.map((image) => image.url) ?? []
+                center.images?.slice(0, 8)?.map((image) => image.url) ?? []
               }
               className="h-44 w-full md:h-60"
+              enableZoomOut={false}
             />
           ) : (
             // <Image src={thumbnail} alt="" fill style={{ objectFit: "cover" }} />

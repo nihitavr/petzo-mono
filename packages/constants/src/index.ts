@@ -29,11 +29,18 @@ export const CENTER_CTA_BUTTONS_CONFIG = {
   whatsapp: { name: "Whatsapp Button" },
 };
 
-export type CENTER_FEATURES_TYPE = "store" | "pharmacy";
-export const CENTER_FEATURES = ["store", "pharmacy"] as const;
+export type CENTER_FEATURES_TYPE = "store" | "pharmacy" | "cafe" | "petCafe";
+export const CENTER_FEATURES = [
+  "store",
+  "pharmacy",
+  "cafe",
+  "petCafe",
+] as const;
 export const CENTER_FEATURES_CONFIG = {
   store: { name: "Pet Store", icon: "/icons/pet-store-icon.svg" },
-  pharmacy: { name: "Pet Pharmacy", icon: "/icons/pet-pharmacy-icon.svg" },
+  pharmacy: { name: "Pharmacy", icon: "/icons/pet-pharmacy-icon.svg" },
+  cafe: { name: "Cafe", icon: "/icons/cafe-icon.svg" },
+  petCafe: { name: "Pet Cafe", icon: "/icons/pet-cafe-icon.svg" },
 };
 
 export const CENTER_STATUS = [
@@ -147,11 +154,11 @@ export const SERVICES_CONFIG: Record<
     publicId: "veterinary",
     icon: "/icons/vet-consultation-icon.svg",
   },
-  // boarding: {
-  //   name: "Pet Boarding",
-  //   publicId: "boarding",
-  //   icon: "/icons/pet-boarding-icon.svg",
-  // },
+  boarding: {
+    name: "Pet Boarding",
+    publicId: "boarding",
+    icon: "/icons/pet-boarding-icon.svg",
+  },
 };
 
 export const REGEX = {

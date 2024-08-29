@@ -9,7 +9,9 @@ export default async function AddAddressPage({
 }: {
   params: { centerPublicId: string };
 }) {
-  if (!(await auth())?.user) {
+  const user = (await auth())?.user;
+
+  if (!user) {
     return (
       <Unauthorised
         comp={
@@ -25,5 +27,10 @@ export default async function AddAddressPage({
     );
   }
 
-  return <AddressForm centerPublicId={centerPublicId} />;
+  return (
+    <AddressForm
+      centerPublicId={centerPublicId}
+      isAdmin={user.role === "admin"}
+    />
+  );
 }

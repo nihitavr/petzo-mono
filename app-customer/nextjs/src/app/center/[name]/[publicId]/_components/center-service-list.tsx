@@ -38,7 +38,7 @@ export default function CenterServiceList({
       />
 
       {/* Services List */}
-      <div className="flex flex-col gap-10 pb-5">
+      <div className="flex flex-col gap-6 pb-5">
         {serviceTypesProvidedByCenter.map((serviceType, idx) => {
           const isServiceTypeSelected = selectedServices.includes(serviceType);
 

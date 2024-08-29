@@ -13,13 +13,16 @@ import { centerUtils, getGoogleLocationLink } from "@petzo/utils";
 import SignIn from "~/app/_components/sign-in";
 import { env } from "~/env";
 import { api } from "~/trpc/server";
+import AdminVerifyCenter from "../../_components/admin-verify-center";
 
 export default async function Page({
   params: { centerPublicId },
 }: {
   params: { centerPublicId: string };
 }) {
-  if (!(await auth())?.user) {
+  const user = (await auth())?.user;
+
+  if (!user) {
     return (
       <Unauthorised>
         <div className="flex flex-col items-center justify-center gap-2">
@@ -93,9 +96,16 @@ export default async function Page({
           </Link>
         </div>
       </div>
+      {user.role == "admin" && (
+        <AdminVerifyCenter
+          centerPublicId={center.publicId}
+          verified={center.status === "verified"}
+        />
+      )}
+
       <div className="mt-2">
         <Label className="text-base">Center Details</Label>
-        <div className="flex flex-col gap-3 rounded-lg border p-2">
+        <div className="flex flex-col gap-2 rounded-lg border p-2">
           <CenterDetailsItem label="Center Name" text={center?.name} />
 
           <div>
