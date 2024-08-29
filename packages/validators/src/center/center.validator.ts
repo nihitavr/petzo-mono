@@ -23,8 +23,8 @@ export const CenterSchema = z
       z.enum(DAYS),
       z
         .object({
-          startTime: z.string(),
-          endTime: z.string(),
+          startTime: z.string().optional(),
+          endTime: z.string().optional(),
         })
         .nullable(),
     ),
@@ -40,20 +40,38 @@ export const CenterSchema = z
       .regex(
         REGEX.time24Hour,
         "Invalid time format. Use HH:MM in 24-hour format.",
-      ),
+      )
+      .optional(),
     endTime: z
       .string()
       .regex(
         REGEX.time24Hour,
         "Invalid time format. Use HH:MM in 24-hour format.",
-      ),
+      )
+      .optional(),
   })
   .superRefine((input, ctx) => {
     const { operatingHours } = input;
 
     // Check if the last slot time is after the first slot time
     Object.values(operatingHours).forEach((operatingTime) => {
-      if (
+      if (operatingTime && !operatingTime?.startTime) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.invalid_type,
+          expected: "object",
+          received: "undefined",
+          message: "Start time is required when day is selected.",
+          path: ["startTime"],
+        });
+      } else if (operatingTime && !operatingTime?.endTime) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.invalid_type,
+          expected: "object",
+          received: "undefined",
+          message: "End time is required when day is selected.",
+          path: ["endTime"],
+        });
+      } else if (
         operatingTime?.startTime &&
         operatingTime?.endTime &&
         !timeUtils.isTimeBefore(operatingTime.startTime, operatingTime.endTime)
@@ -68,21 +86,6 @@ export const CenterSchema = z
         });
       }
     });
-
-    // Check if atleast one operating day is selected
-    const hasNoOperatingDays = Object.values(operatingHours).every(
-      (operatingTime) => !operatingTime,
-    );
-
-    if (hasNoOperatingDays) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.invalid_type,
-        expected: "object",
-        received: "undefined",
-        message: "Atleast one operating day is required.",
-        path: ["operatingHours"],
-      });
-    }
   });
 
 export const CenterConfig = CenterAuthorization.extend({

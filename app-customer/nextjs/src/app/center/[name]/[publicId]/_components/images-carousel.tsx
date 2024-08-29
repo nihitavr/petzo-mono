@@ -65,14 +65,14 @@ export default function ImagesCasousel({
       >
         <CarouselContent>
           {images.map((imageUrl, index) => (
-            <CarouselItem className={cn("relative", className)} key={index}>
+            <CarouselItem className={cn("relative ", className)} key={index}>
               <Image
                 src={imageUrl ? imageUrl : defaultImage}
                 alt="Center Image"
                 fill
                 className={cn(
                   "object-center transition-all duration-300",
-                  objectCover ? "object-cover" : "object-contain",
+                  objectCover ? "object-cover" : "bg-black object-contain",
                   imageClassName,
                 )}
                 loading="lazy"

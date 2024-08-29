@@ -79,9 +79,12 @@ export const CenterInfo = ({
       {/* Center Description */}
       <CenterDescriptionAndButtons center={center} />
 
-      <hr className="mb-1 border-dashed border-foreground/40" />
-
-      <CenterCTAButtons center={center} />
+      {!!center.ctaButtons?.length && (
+        <>
+          <hr className="mb-1 border-dashed border-foreground/40" />
+          <CenterCTAButtons center={center} />
+        </>
+      )}
     </div>
   );
 };
