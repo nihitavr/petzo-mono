@@ -104,7 +104,8 @@ export const BOOKING_STATUS_CONFIG = {
 };
 
 // Pet Type
-export const PET_TYPE = ["cat", "small_dog", "big_dog"] as const;
+export type PET_TYPE = "cat" | "small_dog" | "big_dog";
+export const PET_TYPE_VALUES = ["cat", "small_dog", "big_dog"] as const;
 export const PET_TYPE_CONFIG = {
   cat: { name: "Cat", type: "cat", category: "Cat" },
   small_dog: { name: "Small Dog", type: "dog", category: "Dog" },

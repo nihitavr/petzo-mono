@@ -7,13 +7,13 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { LuCheck, LuChevronsUpDown } from "react-icons/lu";
 
-import type { DAYS_TYPE } from "@petzo/constants";
+import type { DAYS_TYPE, PET_TYPE } from "@petzo/constants";
 import type { Service } from "@petzo/db";
 import {
   DAYS,
   DAYS_CONFIG,
-  PET_TYPE,
   PET_TYPE_CONFIG,
+  PET_TYPE_VALUES,
   SERVICES_CONFIG,
 } from "@petzo/constants";
 import { Button } from "@petzo/ui/components/button";
@@ -82,7 +82,7 @@ export function ServiceForm({
       description: service?.description ?? "",
       images: service?.images ?? [],
       serviceType: service?.serviceType,
-      petTypes: service?.petTypes ?? Array.from(PET_TYPE),
+      petTypes: service?.petTypes ?? Array.from(PET_TYPE_VALUES),
       price: service?.price ?? 0,
       discountedPrice: service?.discountedPrice ?? 0,
       isBookingEnabled: service?.isBookingEnabled,
@@ -323,7 +323,9 @@ const PetInformation = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
                         >
                           <FormControl>
                             <Checkbox
-                              checked={field.value?.includes(petType)}
+                              checked={field.value?.includes(
+                                petType as PET_TYPE,
+                              )}
                               onCheckedChange={(checked) => {
                                 return checked
                                   ? field.onChange([...field.value!, petType])
