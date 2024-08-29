@@ -5,7 +5,9 @@ import { CenterForm } from "~/app/_components/form/center-form";
 import SignIn from "~/app/_components/sign-in";
 
 export default async function Page() {
-  if (!(await auth())?.user) {
+  const user = (await auth())?.user;
+
+  if (!user) {
     return (
       <Unauthorised
         comp={
@@ -21,5 +23,5 @@ export default async function Page() {
     );
   }
 
-  return <CenterForm />;
+  return <CenterForm isAdmin={user.role === "admin"} />;
 }
