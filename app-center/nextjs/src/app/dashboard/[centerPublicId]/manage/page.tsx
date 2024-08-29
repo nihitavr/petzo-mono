@@ -100,12 +100,6 @@ export default async function Page({
           </Link>
         </div>
       </div>
-      {user.role == "admin" && (
-        <AdminVerifyCenter
-          centerPublicId={center.publicId}
-          verified={center.status === "verified"}
-        />
-      )}
 
       <div className="mt-2">
         <Label className="text-base">Center Summary</Label>
@@ -238,6 +232,13 @@ export default async function Page({
           </CenterDetailsItem>
         </div>
       </div>
+
+      {user.role == "admin" && (
+        <AdminVerifyCenter
+          centerPublicId={center.publicId}
+          verified={center.status === "verified"}
+        />
+      )}
     </div>
   );
 }
