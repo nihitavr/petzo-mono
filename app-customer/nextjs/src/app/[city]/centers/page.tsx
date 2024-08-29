@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { Metadata } from "next";
 
 import {
   CENTERS_LIST_PAGE_LIMIT,
@@ -10,6 +11,15 @@ import { CenterFilterList } from "./_components/center-filter-list";
 import { CenterFilters } from "./_components/center-filters";
 import { MobileCenterFilters } from "./_components/mobile-center-filters";
 import { LoadingCentersList } from "./loading";
+
+export const metadata: Metadata = {
+  openGraph: {
+    images: "/meta/discover-best-petcare.png",
+  },
+  twitter: {
+    images: "/meta/discover-best-petcare.png",
+  },
+};
 
 export default async function Centers({
   searchParams,
