@@ -23,7 +23,7 @@ export default function CenterCTAButtons({ center }: { center: Center }) {
   );
 
   const ctaButtonsContainerRef = useRef<HTMLDivElement>(null);
-  const [, setShareUrl] = useState("");
+  const [shareUrl, setShareUrl] = useState("");
   const [, setFixedATC] = useState(false);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function CenterCTAButtons({ center }: { center: Center }) {
   return (
     <>
       {/* CTA Buttons */}
-      <div className="-mt-0.5 flex flex-col rounded-xl bg-muted p-2">
+      <div className="-mt-0.5 flex flex-col rounded-xl">
         <p className="text-xs font-medium">
           Call or Message to know more about the services
         </p>
@@ -64,6 +64,7 @@ export default function CenterCTAButtons({ center }: { center: Center }) {
             centerName={center.name}
             centerPublicId={center.publicId}
             ctaButtons={center.ctaButtons}
+            shareUrl={shareUrl}
             phoneNumber={center.phoneNumber}
           />
         </div>
@@ -122,7 +123,6 @@ function AtcButtons({
                   centerPublicId: centerPublicId,
                 });
               }}
-              size="md"
               variant={varient}
               className="w-full"
             >
@@ -130,7 +130,7 @@ function AtcButtons({
                 className="flex items-center gap-1"
                 href={`tel:${phoneNumber}`}
               >
-                <span className="text-sm md:text-sm">Call</span>
+                <span className="text-2sm md:text-sm">Call</span>
                 <FiPhoneOutgoing
                   strokeWidth="2"
                   className="size-4 cursor-pointer hover:text-foreground/80"
@@ -154,7 +154,7 @@ function AtcButtons({
                 rel="noopener noreferrer"
                 className="flex items-center gap-1"
               >
-                <span className="truncate">Message</span>
+                <span className="text-2sm md:text-sm">Message</span>
                 <div className="relative size-4">
                   <Image
                     src={"/icons/whatsapp-icon-home-page.svg"}

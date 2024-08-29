@@ -18,7 +18,6 @@ export default function CenterDescriptionAndButtons({
       {/* Center Description */}
       {center.description && (
         <div className="flex w-full flex-col justify-start gap-1">
-          <hr className="my-1 border-dashed border-foreground/40" />
           <div
             onClick={() => setShowMoreDetails(true)}
             aria-hidden="true"

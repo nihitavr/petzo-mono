@@ -165,9 +165,16 @@ export function AddressForm({
       form.setValue("cityId", addressData.context.city.id);
       form.setValue("stateId", addressData.context.state.id);
       form.setValue("pincode", addressData.context.pincode.name);
-      form.setValue("geocode", geocode, {
-        shouldDirty: true,
-      });
+      form.setValue(
+        "geocode",
+        {
+          latitude: geocode.latitude,
+          longitude: geocode.longitude,
+        },
+        {
+          shouldDirty: true,
+        },
+      );
     }
 
     setIsFetchingLocation(false);
