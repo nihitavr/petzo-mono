@@ -32,9 +32,12 @@ export function getPlaceFormattedAddresses(
 
 export function getFormattedAddresses(
   addresses?: CustomerAddresses | CenterAddress | null,
-  fields?: ("line1" | "area" | "city" | "state" | "pincode")[],
+  fields?: ("line2" | "line1" | "area" | "city" | "state" | "pincode")[],
 ) {
   let placeAddress = "";
+
+  if (fields?.includes("line2") && addresses?.line2)
+    placeAddress += `${addresses.line2}, `;
 
   if (fields?.includes("line1") && addresses?.line1)
     placeAddress += `${addresses.line1}, `;
