@@ -15,7 +15,10 @@ import {
 } from "date-fns";
 import { format as formatTz, toZonedTime } from "date-fns-tz";
 
+import type { DAYS_TYPE } from "@petzo/constants";
 import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
+
+import { stringUtils } from ".";
 
 /**
  * Get all slots start times before and after the booked time within the given duration.
@@ -51,7 +54,11 @@ export function getSurroundingTime(time: string, duration: number): string[] {
   return slots;
 }
 
-export function isTimeBefore(time1: string, time2: string): boolean {
+export function isTimeBefore(time1?: string, time2?: string): boolean {
+  if (!time1 || !time2) {
+    return false;
+  }
+
   const date1 = parse(time1, "HH:mm:ss", new Date());
   const date2 = parse(time2, "HH:mm:ss", new Date());
 
@@ -79,16 +86,67 @@ export function isTimeAfterOrEqual(time1: string, time2: string): boolean {
   return isAfter(date1, date2) || isEqual(date1, date2);
 }
 
-export function convertTime24To12(time24?: string): string {
-  if (!time24) {
-    return "";
+function sortDays(days: DAYS_TYPE[]): DAYS_TYPE[] {
+  const order = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+
+  return days.sort((a, b) => {
+    return order.indexOf(a) - order.indexOf(b);
+  });
+}
+
+// Get string like this Mon - Wed, Fri - Sun : 09:00 AM - 05:00 PM
+export function getTimings(
+  operatingHours?: Record<
+    DAYS_TYPE,
+    { startTime: string; endTime: string } | undefined | null
+  > | null,
+) {
+  if (!operatingHours) return "";
+
+  const days = sortDays(Object.keys(operatingHours) as DAYS_TYPE[]);
+
+  const dayRanges = [];
+  let currentRange = { start: days[0], end: days[0] };
+
+  for (let i = 1; i < days.length; i++) {
+    const currentDay = days[i]!;
+    const previousDay = days[i - 1]!;
+
+    if (
+      isTimeBefore(
+        operatingHours[currentDay]?.startTime,
+        operatingHours[previousDay]?.endTime,
+      )
+    ) {
+      currentRange.end = currentDay;
+    } else {
+      dayRanges.push(currentRange);
+      currentRange = { start: currentDay, end: currentDay };
+    }
   }
+
+  dayRanges.push(currentRange);
+
+  const timings = dayRanges
+    .filter((range) => !!operatingHours[range.start!]?.startTime)
+    .map((range) => {
+      const startTime = convertTime24To12(
+        operatingHours[range.start!]?.startTime,
+      );
+      const endTime = convertTime24To12(operatingHours[range.end!]?.endTime);
+
+      return `${stringUtils.titleCase(range.start)} - ${stringUtils.titleCase(range.end)} | ${startTime} - ${endTime}`;
+    });
+
+  return timings.join(", ");
+}
+
+export function convertTime24To12(time24?: string): string {
+  if (!time24) return "";
 
   const [hours, minutes] = time24.split(":").map(Number);
 
-  if (hours == undefined || minutes == undefined) {
-    return "";
-  }
+  if (hours == undefined || minutes == undefined) return "";
 
   const suffix = hours >= 12 ? "PM" : "AM";
 

@@ -4,7 +4,7 @@ import { GrLocation } from "react-icons/gr";
 import type { Center } from "@petzo/db";
 import { SERVICES_CONFIG } from "@petzo/constants";
 import Price from "@petzo/ui/components/price";
-import { centerUtils, serviceUtils } from "@petzo/utils";
+import { centerUtils, serviceUtils, timeUtils } from "@petzo/utils";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
@@ -88,6 +88,15 @@ export default function CenterCardHorizontal({
 
           {/* Center Features */}
           <Features features={center.features} />
+
+          <div>
+            <span className="text-2sm font-medium opacity-80 md:text-sm">
+              Timings:{" "}
+            </span>
+            <span className="text-2sm font-medium md:text-sm">
+              {timeUtils.getTimings(center.operatingHours)}
+            </span>
+          </div>
 
           {/* Lowest Service Price */}
           {lowestPriceService && (

@@ -1,3 +1,4 @@
+import type { DAYS_TYPE } from "@petzo/constants";
 import { and, asc, eq, isNull, schema, sql } from "@petzo/db";
 import { adminUtils } from "@petzo/utils";
 import { centerApp } from "@petzo/validators";
@@ -91,11 +92,46 @@ export const centerRouter = {
             description: input.description,
             features: input.features,
             ctaButtons: input.ctaButtons,
+            operatingHours: input.operatingHours as Record<
+              DAYS_TYPE,
+              { startTime: string; endTime: string }
+            >,
             images: input.images,
             phoneNumber: input.phoneNumber,
             centerUserId: ctx.session.user.id,
             config: DEFAULT_CENTER_CONFIG,
           })
+          .returning()
+      )?.[0];
+    }),
+
+  updateCenter: protectedProcedure
+    .input(centerApp.center.CenterSchema)
+    .mutation(async ({ ctx, input }) => {
+      return (
+        await ctx.db
+          .update(schema.centers)
+          .set({
+            name: input.name,
+            description: input.description,
+            features: input.features,
+            operatingHours: input.operatingHours as Record<
+              DAYS_TYPE,
+              { startTime: string; endTime: string }
+            >,
+            ctaButtons: input.ctaButtons,
+            images: input.images,
+            phoneNumber: input.phoneNumber,
+          })
+          .where(
+            and(
+              eq(schema.centers.publicId, input.publicId!),
+              // Admins can update any center.
+              !adminUtils.isAdmin(ctx.session.user.id, env.ADMIN_USER_IDS)
+                ? eq(schema.centers.centerUserId, ctx.session.user.id)
+                : undefined,
+            ),
+          )
           .returning()
       )?.[0];
     }),
@@ -114,33 +150,6 @@ export const centerRouter = {
             status: input.status,
           })
           .where(eq(schema.centers.publicId, input.centerPublicId))
-          .returning()
-      )?.[0];
-    }),
-
-  updateCenter: protectedProcedure
-    .input(centerApp.center.CenterSchema)
-    .mutation(async ({ ctx, input }) => {
-      return (
-        await ctx.db
-          .update(schema.centers)
-          .set({
-            name: input.name,
-            description: input.description,
-            features: input.features,
-            ctaButtons: input.ctaButtons,
-            images: input.images,
-            phoneNumber: input.phoneNumber,
-          })
-          .where(
-            and(
-              eq(schema.centers.publicId, input.publicId!),
-              // Admins can update any center.
-              !adminUtils.isAdmin(ctx.session.user.id, env.ADMIN_USER_IDS)
-                ? eq(schema.centers.centerUserId, ctx.session.user.id)
-                : undefined,
-            ),
-          )
           .returning()
       )?.[0];
     }),

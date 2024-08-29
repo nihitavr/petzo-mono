@@ -2,17 +2,28 @@
 
 import type { UseFormReturn } from "react-hook-form";
 import type { z } from "zod";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { LuCheck, LuChevronsUpDown } from "react-icons/lu";
 
+import type { DAYS_TYPE } from "@petzo/constants";
 import type { Center } from "@petzo/db";
 import {
   CENTER_CTA_BUTTONS,
   CENTER_CTA_BUTTONS_CONFIG,
   CENTER_FEATURES,
   CENTER_FEATURES_CONFIG,
+  DAYS,
+  DAYS_CONFIG,
 } from "@petzo/constants";
+import { Button } from "@petzo/ui/components/button";
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "@petzo/ui/components/command";
 import {
   Form,
   FormControl,
@@ -26,8 +37,15 @@ import {
 import { ImageInput } from "@petzo/ui/components/image-input";
 import { Input } from "@petzo/ui/components/input";
 import { Label } from "@petzo/ui/components/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@petzo/ui/components/popover";
 import { Textarea } from "@petzo/ui/components/textarea";
 import { toast } from "@petzo/ui/components/toast";
+import { cn } from "@petzo/ui/lib/utils";
+import { timeUtils } from "@petzo/utils";
 import { centerApp } from "@petzo/validators";
 
 import { DEFAULT_MAX_SERVICE_IMAGES } from "~/lib/constants";
@@ -45,18 +63,33 @@ export function CenterForm({
 }) {
   const router = useRouter();
 
+  const operatingHour = center?.operatingHours
+    ? Object.values(center?.operatingHours).find((val) => !!val)
+    : ({} as { startTime: string; endTime: string });
+
   const form = useForm({
     schema: centerApp.center.CenterSchema,
     defaultValues: {
       publicId: center?.publicId,
       name: center?.name,
       description: center?.description ?? "",
+      operatingHours: center?.operatingHours ?? {
+        sun: null,
+        mon: null,
+        tue: null,
+        wed: null,
+        thu: null,
+        fri: null,
+        sat: null,
+      },
       images: center?.images ?? [],
       googleRating: center?.googleRating,
       googleRatingCount: center?.googleRatingCount,
       phoneNumber: center?.phoneNumber ?? "",
       features: center?.features ?? [],
       ctaButtons: center?.ctaButtons ?? [],
+      startTime: operatingHour?.startTime,
+      endTime: operatingHour?.endTime,
     },
   });
 
@@ -123,6 +156,8 @@ export function CenterForm({
 
         <div className="space-y-5">
           <BasicDetails form={form} />
+          <hr className="!mt-7 border" />
+          <TimingInformation form={form} />
           <hr className="!mt-7 border" />
           <MediaInformation form={form} />
           {isAdmin && (
@@ -359,6 +394,80 @@ const MediaInformation = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
   );
 };
 
+const TimingInformation = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
+  return (
+    <div className="space-y-2">
+      <Label className="text-lg font-bold">Timing Details</Label>
+
+      <div className="space-y-5">
+        <FormField
+          control={form.control}
+          name="operatingHours"
+          render={({ field }) => (
+            <FormItem>
+              <div>
+                <FormLabel>Days*</FormLabel>
+                <FormDescription>
+                  Select the days the service is available
+                </FormDescription>
+              </div>
+              <FormControl>
+                <div className="flex flex-wrap items-center gap-2">
+                  {DAYS.map((day) => {
+                    const dayObj = field.value?.[day];
+
+                    return (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const operatingHours = field.value;
+
+                          if (operatingHours[day]) {
+                            operatingHours[day] = null;
+                          } else {
+                            operatingHours[day] = {
+                              startTime: form.getValues().startTime,
+                              endTime: form.getValues().endTime,
+                            };
+                          }
+
+                          field.onChange({ ...operatingHours });
+                        }}
+                        key={`day-${day}`}
+                        className={`rounded-md border px-2 py-1 text-sm ${dayObj ? "bg-primary/30" : ""}`}
+                      >
+                        {DAYS_CONFIG[day]}{" "}
+                        {dayObj ? <span className="font-bold">✓</span> : ""}
+                      </button>
+                    );
+                  })}
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="flex gap-7">
+          <TimeFormField
+            form={form}
+            name="startTime"
+            label="Opening Time*"
+            description="This is the opening time of the center."
+          />
+          <TimeFormField
+            form={form}
+            name="endTime"
+            label="Closing Time*"
+            description="This is the closing time of the center."
+            timeStart={form.watch("startTime")}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const AdminInformation = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
   return (
     <div className="space-y-2 rounded-xl border border-red-500 p-3">
@@ -397,5 +506,113 @@ const AdminInformation = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
         )}
       />
     </div>
+  );
+};
+
+const TimeFormField = ({
+  form,
+  name,
+  label,
+  description,
+  timeStart,
+}: {
+  form: UseFormReturn<CenterSchema>;
+  name: "startTime" | "endTime";
+  label: string;
+  description?: string;
+  timeStart?: string;
+}) => {
+  const timesHHMM = useMemo(() => {
+    return timeUtils.generateTimesForDayHHMM();
+  }, []);
+
+  return (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem className="flex flex-col">
+          <div>
+            <FormLabel className="pointer-events-none">{label}</FormLabel>
+            <FormDescription>{description}</FormDescription>
+          </div>
+
+          <Popover>
+            <PopoverTrigger asChild>
+              <FormControl>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  className={cn(
+                    "w-full justify-between",
+                    !field.value && "text-muted-foreground",
+                  )}
+                >
+                  {field.value
+                    ? timeUtils.convertTime24To12(
+                        timesHHMM.find((time24h) => time24h === field.value),
+                      )
+                    : "Select Time"}
+                  <LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </FormControl>
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0">
+              <Command>
+                <CommandList>
+                  <CommandGroup>
+                    {timesHHMM.map((time24h) => {
+                      const time12h = timeUtils.convertTime24To12(time24h);
+                      const isBefore = timeStart
+                        ? timeUtils.isTimeBeforeOrEqual(time24h, timeStart)
+                        : false;
+
+                      if (isBefore) return null;
+
+                      return (
+                        <CommandItem
+                          value={time24h}
+                          key={time24h}
+                          onSelect={() => {
+                            const operatingHours =
+                              form.getValues().operatingHours;
+                            Object.keys(operatingHours).forEach((key) => {
+                              const day = key as DAYS_TYPE;
+                              if (operatingHours[day]) {
+                                operatingHours[day]![name] = time24h;
+                              }
+                            });
+                            form.setValue("operatingHours", {
+                              ...operatingHours,
+                            });
+                            field.onChange(time24h);
+                          }}
+                          className={cn(
+                            "cursor-pointer",
+                            isBefore ? "opacity-100" : "",
+                          )}
+                        >
+                          <LuCheck
+                            className={cn(
+                              "h-4 w-4",
+                              time24h === field.value
+                                ? "opacity-100"
+                                : "opacity-0",
+                            )}
+                          />
+                          <span className="w-full text-end">{time12h}</span>
+                          <div className="h-1 w-4" />
+                        </CommandItem>
+                      );
+                    })}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
   );
 };
