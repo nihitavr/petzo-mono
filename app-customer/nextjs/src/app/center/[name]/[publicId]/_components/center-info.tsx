@@ -66,7 +66,11 @@ export const CenterInfo = ({
         >
           <GrLocation className="mt-0.5 !size-4 shrink-0" />
           <span className="line-clamp-2 text-2sm font-medium capitalize md:text-sm">
-            {getFormattedAddresses(center?.centerAddress, ["line2", "line1", "area"])}
+            {getFormattedAddresses(center?.centerAddress, [
+              "line2",
+              "line1",
+              "area",
+            ])}
           </span>
         </a>
       )}
@@ -75,7 +79,7 @@ export const CenterInfo = ({
       {/* Center Description */}
       <CenterDescriptionAndButtons center={center} />
 
-      <hr className="my-1 border-dashed border-foreground/40" />
+      <hr className="mb-1 border-dashed border-foreground/40" />
 
       <CenterCTAButtons center={center} />
     </div>
