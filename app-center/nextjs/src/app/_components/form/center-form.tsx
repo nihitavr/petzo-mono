@@ -93,8 +93,6 @@ export function CenterForm({
     },
   });
 
-  console.log("errors: ", form.formState.errors);
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const createCenter = api.center.createCenter.useMutation();

@@ -5,6 +5,7 @@ import { FiArrowUpRight } from "react-icons/fi";
 
 import { auth } from "@petzo/auth-center-app";
 import {
+  CENTER_FEATURES_CONFIG,
   CENTER_STATUS_CONFIG,
   PET_TYPE_CONFIG,
   SERVICES_CONFIG,
@@ -138,6 +139,17 @@ export default async function Page({
               {centerUtils.getServiceTypeNamesStr(services)}
             </span>
           </CenterDetailsItem>
+
+          <CenterDetailsItem label={"Center Features"}>
+            {!!center.features?.length && (
+              <span className="font-medium text-primary">
+                {center.features
+                  ?.map((feature) => CENTER_FEATURES_CONFIG[feature].name)
+                  .join(", ")}
+              </span>
+            )}
+          </CenterDetailsItem>
+
           <CenterDetailsItem
             label={
               services.length
@@ -145,7 +157,7 @@ export default async function Page({
                 : "Services"
             }
           >
-            <ol className="ml-3 grid list-inside list-decimal space-y-2 text-sm md:grid-cols-2 md:text-base">
+            <ol className="ml-3 grid list-inside list-decimal text-sm md:grid-cols-2 md:text-base">
               {services.map((service) => (
                 <li
                   key={service.id}
