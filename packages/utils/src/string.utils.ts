@@ -26,3 +26,9 @@ export function getListFromStr(
     .map((v) => v.trim())
     .filter((v) => !!v);
 }
+
+export function titleCase(str?: string | null) {
+  if (!str) return "";
+
+  return str[0]?.toUpperCase() + str.slice(1);
+}

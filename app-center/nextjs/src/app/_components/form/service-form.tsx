@@ -621,6 +621,7 @@ const TimingInformation = ({
             name="startTimeEnd"
             label="Last Slot Time*"
             description="This is the last slot time for the service."
+            timeStart={form.watch("startTime")}
           />
         </div>
       </div>
@@ -633,11 +634,13 @@ const TimeFormField = ({
   name,
   label,
   description,
+  timeStart,
 }: {
   form: UseFormReturn<ServiceSchema>;
   name: "startTime" | "startTimeEnd";
   label: string;
   description?: string;
+  timeStart?: string;
 }) => {
   const timesHHMM = useMemo(() => {
     return timeUtils.generateTimesForDayHHMM();
@@ -680,6 +683,12 @@ const TimeFormField = ({
                   <CommandGroup>
                     {timesHHMM.map((time24h) => {
                       const time12h = timeUtils.convertTime24To12(time24h);
+                      const isBefore = timeStart
+                        ? timeUtils.isTimeBeforeOrEqual(time24h, timeStart)
+                        : false;
+
+                      if (isBefore) return null;
+
                       return (
                         <CommandItem
                           value={time24h}

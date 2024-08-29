@@ -15,6 +15,7 @@ import {
 import type {
   CENTER_CTA_BUTTONS_TYPE,
   CENTER_FEATURES_TYPE,
+  DAYS_TYPE,
 } from "@petzo/constants";
 import { CENTER_STATUS } from "@petzo/constants";
 
@@ -42,6 +43,22 @@ export const centers = pgTable(
     reviewCount: integer("review_count").default(0).notNull(),
     status: centerStatusEnum("status").default("created").notNull(),
     phoneNumber: varchar("phone_number", { length: 15 }),
+    operatingHours: json("operating_hours")
+      .$type<
+        Record<
+          DAYS_TYPE,
+          { startTime: string; endTime: string } | null | undefined
+        >
+      >()
+      .default({
+        sun: null,
+        mon: null,
+        tue: null,
+        wed: null,
+        thu: null,
+        fri: null,
+        sat: null,
+      }),
     ctaButtons: json("cta_buttons")
       .default([])
       .$type<CENTER_CTA_BUTTONS_TYPE[]>(),
