@@ -92,6 +92,8 @@ export const centerRouter = {
             description: input.description,
             features: input.features,
             ctaButtons: input.ctaButtons,
+            googleRating: input.googleRating,
+            googleRatingCount: input.googleRatingCount,
             operatingHours: input.operatingHours as Record<
               DAYS_TYPE,
               { startTime: string; endTime: string }
@@ -115,6 +117,8 @@ export const centerRouter = {
             name: input.name,
             description: input.description,
             features: input.features,
+            googleRating: input.googleRating,
+            googleRatingCount: input.googleRatingCount,
             operatingHours: input.operatingHours as Record<
               DAYS_TYPE,
               { startTime: string; endTime: string }

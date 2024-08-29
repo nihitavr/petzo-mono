@@ -89,14 +89,16 @@ export default function CenterCardHorizontal({
           {/* Center Features */}
           <Features features={center.features} />
 
-          <div>
-            <span className="text-2sm font-medium opacity-80 md:text-sm">
-              Timings:{" "}
-            </span>
-            <span className="text-2sm font-medium md:text-sm">
-              {timeUtils.getTimings(center.operatingHours)}
-            </span>
-          </div>
+          {!!timeUtils.getTimings(center.operatingHours) && (
+            <div>
+              <span className="text-2sm font-medium opacity-80 md:text-sm">
+                Timings:{" "}
+              </span>
+              <span className="text-2sm font-medium md:text-sm">
+                {timeUtils.getTimings(center.operatingHours)}
+              </span>
+            </div>
+          )}
 
           {/* Lowest Service Price */}
           {lowestPriceService && (

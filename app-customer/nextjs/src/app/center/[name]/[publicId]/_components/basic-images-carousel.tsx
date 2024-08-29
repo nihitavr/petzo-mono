@@ -83,7 +83,10 @@ export default function BasicImagesCasousel({
       <CarouselContent className="space-x-3">
         {images.map((imageUrl, index) => {
           return (
-            <CarouselItem className={cn(`relative`, className)} key={index}>
+            <CarouselItem
+              className={cn(`relative bg-black`, className)}
+              key={index}
+            >
               <Image
                 src={imageUrl ? imageUrl : defaultImage}
                 alt="Center Image"

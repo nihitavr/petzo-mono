@@ -406,7 +406,7 @@ const TimingInformation = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
           render={({ field }) => (
             <FormItem>
               <div>
-                <FormLabel>Days*</FormLabel>
+                <FormLabel>Days</FormLabel>
                 <FormDescription>
                   Select the days the service is available
                 </FormDescription>
@@ -452,13 +452,13 @@ const TimingInformation = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
           <TimeFormField
             form={form}
             name="startTime"
-            label="Opening Time*"
+            label="Opening Time"
             description="This is the opening time of the center."
           />
           <TimeFormField
             form={form}
             name="endTime"
-            label="Closing Time*"
+            label="Closing Time"
             description="This is the closing time of the center."
             timeStart={form.watch("startTime")}
           />
