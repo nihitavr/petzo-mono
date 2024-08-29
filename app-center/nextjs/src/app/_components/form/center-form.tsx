@@ -61,7 +61,6 @@ export function CenterForm({
   center?: Center;
   isAdmin?: boolean;
 }) {
-  isAdmin = false;
   const router = useRouter();
 
   const operatingHour = center?.operatingHours
