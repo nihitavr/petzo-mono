@@ -3,7 +3,7 @@ import { GrLocation } from "react-icons/gr";
 
 import type { Center } from "@petzo/db";
 import { cn } from "@petzo/ui/lib/utils";
-import { centerUtils, getGoogleLocationLink } from "@petzo/utils";
+import { centerUtils, getGoogleLocationLink, timeUtils } from "@petzo/utils";
 
 import Features from "~/app/_components/center-features";
 import CenterCTAButtons from "./center-cta-buttons";
@@ -21,7 +21,7 @@ export const CenterInfo = ({
   return (
     <div
       className={cn(
-        "flex flex-col gap-1.5 overflow-y-auto pt-0 transition-all duration-300 md:gap-2",
+        "flex flex-col gap-1 overflow-y-auto pt-0 transition-all duration-300 md:gap-1.5",
         className,
       )}
     >
@@ -74,6 +74,18 @@ export const CenterInfo = ({
           </span>
         </a>
       )}
+
+      {!!timeUtils.getTimings(center.operatingHours) && (
+        <div>
+          <span className="text-2sm font-medium opacity-80 md:text-sm">
+            Timings:{" "}
+          </span>
+          <span className="text-2sm font-medium md:text-sm">
+            {timeUtils.getTimings(center.operatingHours)}
+          </span>
+        </div>
+      )}
+
       <hr className="my-1 border-dashed border-foreground/40" />
 
       {/* Center Description */}

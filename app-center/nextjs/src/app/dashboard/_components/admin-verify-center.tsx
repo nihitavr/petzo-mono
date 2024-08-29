@@ -26,10 +26,13 @@ export default function AdminVerifyCenter({
       <Label className="text-base">Center Verification (Only Admin)</Label>
       <div className="flex items-center gap-2 text-sm">
         <Checkbox
+          id="verify-center"
           checked={isVerified}
           onCheckedChange={() => setIsVerified((isVerified) => !isVerified)}
         />
-        <span>Verify Center</span>
+        <label className="cursor-pointer" htmlFor="verify-center">
+          Verify Center
+        </label>
       </div>
       <Button
         onClick={async () => {

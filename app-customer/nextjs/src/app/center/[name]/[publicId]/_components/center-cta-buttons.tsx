@@ -124,6 +124,7 @@ function AtcButtons({
                 });
               }}
               variant={varient}
+              size={"sm"}
               className="w-full"
             >
               <a
@@ -141,6 +142,7 @@ function AtcButtons({
           {ctaButtons?.includes("whatsapp") && (
             <Button
               variant={"outline"}
+              size={"sm"}
               onClick={() => {
                 trackCustom("center_whatsapp_button_clicked", {
                   centerPublicId: centerPublicId,
