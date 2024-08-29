@@ -61,6 +61,7 @@ export function CenterForm({
   center?: Center;
   isAdmin?: boolean;
 }) {
+  isAdmin = false;
   const router = useRouter();
 
   const operatingHour = center?.operatingHours
@@ -83,8 +84,8 @@ export function CenterForm({
         sat: null,
       },
       images: center?.images ?? [],
-      googleRating: center?.googleRating,
-      googleRatingCount: center?.googleRatingCount,
+      googleRating: center?.googleRating ?? 0,
+      googleRatingCount: center?.googleRatingCount ?? 0,
       phoneNumber: center?.phoneNumber ?? "",
       features: center?.features ?? [],
       ctaButtons: center?.ctaButtons ?? [],
@@ -92,6 +93,8 @@ export function CenterForm({
       endTime: operatingHour?.endTime,
     },
   });
+
+  console.log("errors: ", form.formState.errors);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -163,7 +166,7 @@ export function CenterForm({
           {isAdmin && (
             <>
               <hr className="!mt-7 border" />
-              <AdminInformation form={form} />
+              <GoogleInformation form={form} />
             </>
           )}
         </div>
@@ -468,7 +471,7 @@ const TimingInformation = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
   );
 };
 
-const AdminInformation = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
+const GoogleInformation = ({ form }: { form: UseFormReturn<CenterSchema> }) => {
   return (
     <div className="space-y-2 rounded-xl border border-red-500 p-3">
       <Label className="text-center text-lg font-bold">
