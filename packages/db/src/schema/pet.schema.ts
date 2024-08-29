@@ -9,12 +9,12 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-import { PET_GENDER, PET_TYPE } from "@petzo/constants";
+import { PET_GENDER, PET_TYPE_VALUES } from "@petzo/constants";
 
 import { pgTable } from "./_table";
 import { customerUsers } from "./customer-app-auth.schema";
 
-export const petTypeEnum = pgEnum("pet_type_enum_type", PET_TYPE);
+export const petTypeEnum = pgEnum("pet_type_enum_type", PET_TYPE_VALUES);
 
 export const genderEnum = pgEnum("gender_enum_type", PET_GENDER);
 

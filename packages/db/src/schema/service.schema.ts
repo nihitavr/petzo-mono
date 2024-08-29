@@ -12,7 +12,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-import type { DAYS_TYPE } from "@petzo/constants";
+import type { DAYS_TYPE, PET_TYPE } from "@petzo/constants";
 import { SERVICE_TYPE_VALUES } from "@petzo/constants";
 
 import { pgTable } from "./_table";
@@ -32,7 +32,7 @@ export const services = pgTable(
     name: varchar("name", { length: 256 }).notNull(),
     description: text("description"),
     serviceType: serviceTypeEnum("service_type").notNull(),
-    petTypes: json("pet_types").$type<string[]>(),
+    petTypes: json("pet_types").$type<PET_TYPE[]>(),
     isBookingEnabled: boolean("is_booking_enabled").default(false).notNull(),
     price: integer("price").notNull(),
     discountedPrice: integer("discounted_price").default(0).notNull(),

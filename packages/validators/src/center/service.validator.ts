@@ -1,6 +1,11 @@
 import { z } from "zod";
 
-import { DAYS, REGEX, SERVICE_TYPE_VALUES } from "@petzo/constants";
+import {
+  DAYS,
+  PET_TYPE_VALUES,
+  REGEX,
+  SERVICE_TYPE_VALUES,
+} from "@petzo/constants";
 import { timeUtils } from "@petzo/utils";
 
 import { CenterAuthorization } from "./center.validator";
@@ -30,7 +35,7 @@ export const ServiceSchema = CenterAuthorization.extend({
         .nullable(),
     ),
   }),
-  petTypes: z.array(z.string()).optional(),
+  petTypes: z.array(z.enum(PET_TYPE_VALUES)).optional(),
   price: z.coerce.number().min(0),
   discountedPrice: z.coerce.number().min(0),
   isBookingEnabled: z.boolean(),

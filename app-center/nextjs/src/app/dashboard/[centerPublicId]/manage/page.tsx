@@ -4,7 +4,11 @@ import { FaQrcode } from "react-icons/fa6";
 import { FiArrowUpRight } from "react-icons/fi";
 
 import { auth } from "@petzo/auth-center-app";
-import { CENTER_STATUS_CONFIG } from "@petzo/constants";
+import {
+  CENTER_STATUS_CONFIG,
+  PET_TYPE_CONFIG,
+  SERVICES_CONFIG,
+} from "@petzo/constants";
 import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 import { Label } from "@petzo/ui/components/label";
@@ -104,9 +108,16 @@ export default async function Page({
       )}
 
       <div className="mt-2">
-        <Label className="text-base">Center Details</Label>
-        <div className="flex flex-col gap-2 rounded-lg border p-2">
-          <CenterDetailsItem label="Center Name" text={center?.name} />
+        <Label className="text-base">Center Summary</Label>
+        <div className="flex flex-col gap-2 rounded-lg border p-2 text-sm md:text-base">
+          <CenterDetailsItem label="Center Name">
+            <Link
+              href={`/dashboard/${center.publicId}/edit`}
+              className="hover:underline"
+            >
+              {center.name}
+            </Link>
+          </CenterDetailsItem>
 
           <div>
             <CenterDetailsItem label="Verification Status">
@@ -128,10 +139,11 @@ export default async function Page({
             )}
           </div>
 
-          <CenterDetailsItem
-            label={"Services Types"}
-            text={centerUtils.getServiceTypeNamesStr(services)}
-          />
+          <CenterDetailsItem label={"Services Types"}>
+            <span className="font-medium text-primary">
+              {centerUtils.getServiceTypeNamesStr(services)}
+            </span>
+          </CenterDetailsItem>
           <CenterDetailsItem
             label={
               services.length
@@ -139,25 +151,78 @@ export default async function Page({
                 : "Services"
             }
           >
-            <ol className="ml-5 list-inside list-decimal space-y-1">
+            <ol className="ml-3 grid list-inside list-decimal space-y-2 text-sm md:grid-cols-2 md:text-base">
               {services.map((service) => (
                 <li
                   key={service.id}
-                  className="cursor-pointer text-sm font-medium hover:underline md:text-base"
+                  className="cursor-pointer text-sm hover:underline"
                 >
                   <Link
                     href={`/dashboard/${center.publicId}/services/${service.publicId}/edit`}
                   >
-                    {service.name} (₹ {service.price})
+                    <span className="font-medium">{service.name}</span>
+                    <ul className="ml-6 list-disc">
+                      <li>
+                        <span className="font-medium opacity-60">
+                          ServiceType:{" "}
+                        </span>
+                        <span className="font-medium text-primary">
+                          {SERVICES_CONFIG[service.serviceType]?.name}
+                        </span>
+                      </li>
+
+                      <li>
+                        <span className="font-medium opacity-60">Price: </span>
+                        <span className="font-medium text-green-600">
+                          ₹ {service.price}
+                        </span>
+                      </li>
+                      <li>
+                        <span className="font-medium opacity-60">
+                          Pet Types:{" "}
+                        </span>
+                        <span className="font-medium">
+                          {service.petTypes
+                            ?.map((petType) => PET_TYPE_CONFIG[petType].name)
+                            .join(", ")}
+                        </span>
+                      </li>
+                      <li>
+                        <span className="font-medium opacity-60">
+                          Booking Enabled:{" "}
+                        </span>
+                        {service.isBookingEnabled ? (
+                          <span className="font-medium text-green-600">
+                            Enabled
+                          </span>
+                        ) : (
+                          <span className="font-medium text-red-600">
+                            Disabled
+                          </span>
+                        )}
+                      </li>
+                      <li>
+                        <span className="font-medium opacity-60">
+                          Total Images:{" "}
+                        </span>
+                        <span className="font-semibold">
+                          {service.images?.length}
+                        </span>
+                      </li>
+                    </ul>
                   </Link>
                 </li>
               ))}
             </ol>
           </CenterDetailsItem>
-          <CenterDetailsItem
-            label="Address"
-            text={getFullFormattedAddresses(center?.centerAddress)}
-          />
+          <CenterDetailsItem label="Address">
+            <Link
+              href={`/dashboard/${center.publicId}/address/edit`}
+              className="text-sm hover:underline md:text-base"
+            >
+              {getFullFormattedAddresses(center?.centerAddress)}
+            </Link>
+          </CenterDetailsItem>
           <CenterDetailsItem label="Map Location">
             {!!center?.centerAddress?.geocode && (
               <a
