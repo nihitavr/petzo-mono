@@ -10,7 +10,9 @@ export default async function EditAddressPage({
 }: {
   params: { centerPublicId: string };
 }) {
-  if (!(await auth())?.user) {
+  const user = (await auth())?.user;
+
+  if (!user) {
     return (
       <Unauthorised
         comp={
@@ -32,6 +34,7 @@ export default async function EditAddressPage({
     <AddressForm
       centerAddress={centerAddress!}
       centerPublicId={centerPublicId}
+      isAdmin={user.role === "admin"}
     />
   );
 }

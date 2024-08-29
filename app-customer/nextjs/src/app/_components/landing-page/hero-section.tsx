@@ -41,7 +41,7 @@ export default function HeroSection({
         <HomePageServicesCard
           name="Pet Boarding"
           // label="Boarding Centers near you"
-          disabled={true}
+          disabled={false}
           imageUrl="/pet-boarding-card-image-removebg-preview.png"
           link={`/${cityPublicId}/centers?serviceType=boarding`}
           disabledToastText="Pet Boarding is coming soon. Stay tuned!"

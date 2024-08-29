@@ -9,6 +9,11 @@ export const env = createEnv({
       process.env.NODE_ENV === "production"
         ? z.string().min(1)
         : z.string().min(1).optional(),
+
+    ADMIN_USER_IDS: z
+      .string()
+      .optional()
+      .transform((val) => val?.split(",")),
   },
   client: {},
   experimental__runtimeEnv: {},

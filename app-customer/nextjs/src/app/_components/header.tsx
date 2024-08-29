@@ -16,6 +16,7 @@ import CityDropdown from "./city-dropdown";
 import GlobalSearchInput from "./global-search-input";
 // import { CartSideSheet } from "./cart-side-sheet";
 import { SideNavSheet } from "./side-nav-sheet";
+import SignIn from "./sign-in";
 
 export default function Header({
   session,
@@ -135,11 +136,15 @@ export default function Header({
             <CityDropdown cities={cities} />
           )}
 
-          <SideNavSheet
-            isSignedIn={!!session?.user}
-            image={session?.user?.image}
-            fallbackLetter={session?.user?.name?.[0]}
-          />
+          {session?.user ? (
+            <SideNavSheet
+              isSignedIn={!!session?.user}
+              image={session?.user?.image}
+              fallbackLetter={session?.user?.name?.[0]}
+            />
+          ) : (
+            <SignIn className="px-2 text-xs md:text-sm" />
+          )}
         </div>
       </nav>
 

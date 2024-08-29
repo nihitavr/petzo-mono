@@ -47,9 +47,11 @@ mapboxgl.accessToken = env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 export function AddressForm({
   centerPublicId,
   centerAddress,
+  isAdmin = false,
 }: {
   centerPublicId: string;
   centerAddress?: CenterAddress;
+  isAdmin?: boolean;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -75,7 +77,7 @@ export function AddressForm({
       cityId: centerAddress?.cityId ?? "",
       stateId: centerAddress?.cityId ?? "",
       pincode: centerAddress?.pincode ?? "",
-      geocode: centerAddress?.geocode ?? {},
+      geocode: centerAddress?.geocode ?? ({} as Point),
     },
   });
 
@@ -325,9 +327,73 @@ export function AddressForm({
         <div className="rounded-lg border border-primary/60 bg-primary/20 p-1.5 text-xs md:text-sm">
           <span>
             <span className="font-bold">Note:</span> A detailed address will
-            help our Partner reach your doorstep easily.
+            help your customer reach your doorstep easily.
           </span>
         </div>
+
+        {/* Only show this to admin */}
+        {isAdmin && (
+          <div className="flex flex-col gap-3 rounded-xl border border-red-500 p-3">
+            <Label className="text-base font-bold">
+              Location Info (Only Admins)
+            </Label>
+
+            <div className="flex items-center gap-2">
+              <FormField
+                control={form.control}
+                name="geocode.latitude"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Latitude</FormLabel>
+                    <FormControl>
+                      <Input type="number" placeholder="latitude" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="geocode.longitude"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Longitude</FormLabel>
+
+                    <FormControl>
+                      <Input type="number" placeholder="longitude" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <Button
+              onClick={async () => {
+                const latitude = parseFloat(
+                  form.getValues("geocode.latitude").toString(),
+                );
+                const longitude = parseFloat(
+                  form.getValues("geocode.longitude").toString(),
+                );
+
+                lat.value = latitude;
+                lng.value = longitude;
+
+                rerenderMap(longitude, latitude, true);
+
+                await updateAddressData({
+                  latitude,
+                  longitude,
+                });
+              }}
+              type="button"
+            >
+              Fetch
+            </Button>
+          </div>
+        )}
 
         {/* House No */}
         <FormField

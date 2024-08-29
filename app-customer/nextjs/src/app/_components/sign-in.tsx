@@ -32,7 +32,7 @@ export default function SignIn({
 
   return (
     <Button
-      className={cn("flex items-center justify-center gap-2 px-4", className)}
+      className={cn("flex items-center justify-center gap-1 px-4", className)}
       variant="primary"
       disabled={isSigningIn}
       onClick={handleSignIn}
@@ -42,12 +42,12 @@ export default function SignIn({
       <Image
         className="text-white"
         src={"/icons/google.svg"}
-        width={15}
-        height={15}
+        width={12}
+        height={12}
         alt="google logo"
       />
       <div className={`${isSigningIn ? "" : "hidden"}`}>
-        <Loader className="h-5 w-5 border-2" show={isSigningIn} />
+        <Loader className="h-4 w-4 border-2" show={isSigningIn} />
       </div>
     </Button>
   );

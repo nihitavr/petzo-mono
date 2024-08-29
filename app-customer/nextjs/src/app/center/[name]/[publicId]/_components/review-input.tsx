@@ -149,37 +149,40 @@ export default function ReviewInput({
             <RatingInput rating={rating} setRating={setRating} />
           </div>
         </div>
-
-        <span className="-mb-1 text-2sm">Max 4 Images</span>
-        <ImageInput
-          name={"review-images"}
-          value={images}
-          className="md:col-span-1"
-          onChange={(e) => setImages(e)}
-          objectFit="cover"
-          clearErrors={() => null}
-          setError={(name, { message }) => {
-            toast.error(message);
-          }}
-          ratio={1}
-          maxFiles={4}
-          handleUploadUrl="/api/upload-image"
-          basePathname="images/reviews"
-          showArrows={false}
-        />
+        {isFocused && (
+          <div className="animate-fade-in">
+            <span className="-mb-1 text-2sm">Max 4 Images</span>
+            <ImageInput
+              name={"review-images"}
+              value={images}
+              className="md:col-span-1"
+              onChange={(e) => setImages(e)}
+              objectFit="cover"
+              clearErrors={() => null}
+              setError={(name, { message }) => {
+                toast.error(message);
+              }}
+              ratio={1}
+              maxFiles={4}
+              handleUploadUrl="/api/upload-image"
+              basePathname="images/reviews"
+              showArrows={false}
+            />
+          </div>
+        )}
         <Textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onFocus={() => setIsFocused(true)}
           placeholder="Add a review..."
-          className="min-h-48 w-full md:min-h-36"
+          className={`w-full transition-all duration-300 ${isFocused ? "min-h-48 md:min-h-36" : "min-h-10"}`}
         />
 
         {(isFocused ||
           input ||
           rating !== currentUserReview?.rating?.rating ||
           rating != 0) && (
-          <div className="mt-2 flex items-center justify-end gap-2">
+          <div className="flex items-center justify-end gap-2">
             <Button
               disabled={isSubmitting}
               onClick={() => {

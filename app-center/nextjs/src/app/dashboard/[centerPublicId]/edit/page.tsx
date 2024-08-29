@@ -10,7 +10,9 @@ export default async function Page({
 }: {
   params: { centerPublicId: string };
 }) {
-  if (!(await auth())?.user) {
+  const user = (await auth())?.user;
+
+  if (!user) {
     return (
       <Unauthorised
         comp={
@@ -28,5 +30,5 @@ export default async function Page({
 
   const center = await api.center.getCenter({ centerPublicId });
 
-  return <CenterForm center={center} />;
+  return <CenterForm center={center} isAdmin={user.role === "admin"} />;
 }

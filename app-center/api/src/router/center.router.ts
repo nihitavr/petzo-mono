@@ -100,6 +100,24 @@ export const centerRouter = {
       )?.[0];
     }),
 
+  updateCenterStatus: protectedCenterProcedure
+    .input(centerApp.center.CenterStatus)
+    .mutation(async ({ ctx, input }) => {
+      if (!adminUtils.isAdmin(ctx.session.user.id, env.ADMIN_USER_IDS)) {
+        throw new Error("Unauthorized to change center status.");
+      }
+
+      return (
+        await ctx.db
+          .update(schema.centers)
+          .set({
+            status: input.status,
+          })
+          .where(eq(schema.centers.publicId, input.centerPublicId))
+          .returning()
+      )?.[0];
+    }),
+
   updateCenter: protectedProcedure
     .input(centerApp.center.CenterSchema)
     .mutation(async ({ ctx, input }) => {

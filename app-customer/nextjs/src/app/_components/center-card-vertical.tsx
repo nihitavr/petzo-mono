@@ -43,6 +43,7 @@ export default function CenterCardVertical({
               }
               className="aspect-square w-full"
               autoplay={true}
+              enableZoomOut={false}
             />
           ) : (
             // <Image src={thumbnail} alt="" fill style={{ objectFit: "cover" }} />
