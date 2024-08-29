@@ -1,6 +1,6 @@
 import { RecordEvent } from "~/web-analytics/react";
 import CenterSearchList from "./_components/center-search-list";
-
+export 
 export default async function Page() {
   return (
     <>
