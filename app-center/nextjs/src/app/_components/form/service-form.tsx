@@ -85,7 +85,7 @@ export function ServiceForm({
       petTypes: service?.petTypes ?? Array.from(PET_TYPE_VALUES),
       price: service?.price ?? 0,
       discountedPrice: service?.discountedPrice ?? 0,
-      isBookingEnabled: service?.isBookingEnabled,
+      isBookingEnabled: service?.isBookingEnabled ?? false,
       duration: service?.duration ?? 0,
 
       config: service?.config ?? {
