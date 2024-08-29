@@ -2,7 +2,7 @@ import type { TRPCRouterRecord } from "@trpc/server";
 
 import type { Center } from "@petzo/db";
 import { SERVICE_TYPE_VALUES } from "@petzo/constants";
-import { and, desc, eq, gte, inArray, schema, sql } from "@petzo/db";
+import { and, asc, desc, eq, gte, inArray, schema, sql } from "@petzo/db";
 import { centerValidator } from "@petzo/validators";
 
 import { publicCachedProcedure } from "../trpc";
@@ -138,7 +138,7 @@ export const centerRouter = {
       if (input.search) {
         centerIdsQuery = centerIdsQuery.orderBy(desc(sql`sim`));
       } else if (input.geoCode) {
-        centerIdsQuery = centerIdsQuery.orderBy(desc(sql`distance`));
+        centerIdsQuery = centerIdsQuery.orderBy(asc(sql`distance`));
       }
 
       // Pagination logic of the query.

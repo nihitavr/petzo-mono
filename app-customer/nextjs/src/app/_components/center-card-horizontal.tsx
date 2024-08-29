@@ -4,7 +4,7 @@ import { GrLocation } from "react-icons/gr";
 import type { Center } from "@petzo/db";
 import { SERVICES_CONFIG } from "@petzo/constants";
 import Price from "@petzo/ui/components/price";
-import { centerUtils, serviceUtils, timeUtils } from "@petzo/utils";
+import { centerUtils, mapUtils, serviceUtils, timeUtils } from "@petzo/utils";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
@@ -73,11 +73,22 @@ export default function CenterCardHorizontal({
 
           {/* Area */}
           {centerUtils.hasAtCenterServices(center.services) && (
-            <div className="flex items-center gap-1">
-              <GrLocation />
-              <span className="line-clamp-1 text-2sm font-medium capitalize md:text-sm">
-                {center.centerAddress?.area?.name}
-              </span>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <GrLocation />
+                <span className="line-clamp-1 text-2sm font-medium capitalize md:text-sm">
+                  {center.centerAddress?.area?.name}
+                </span>
+              </div>
+              {!!center.distanceInMeters && (
+                <>
+                  <div className="size-1.5 rounded-full bg-foreground/50" />
+                  <div className="text-2sm font-medium">
+                    Around{" "}
+                    {mapUtils.metersToKilometers(center.distanceInMeters)}
+                  </div>
+                </>
+              )}
             </div>
           )}
 
