@@ -33,7 +33,7 @@ const Features = ({
       key={feature}
       className="inline-flex items-center gap-1 whitespace-nowrap text-2sm"
     >
-      {idx == 0 && <span>Includes</span>}
+      {idx == 0 && <span>Features</span>}
       <Image
         width={16}
         height={16}

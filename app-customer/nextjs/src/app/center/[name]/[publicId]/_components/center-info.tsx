@@ -3,10 +3,10 @@ import { GrLocation } from "react-icons/gr";
 
 import type { Center } from "@petzo/db";
 import { cn } from "@petzo/ui/lib/utils";
-import { centerUtils, getGoogleLocationLink, timeUtils } from "@petzo/utils";
+import { centerUtils, getGoogleLocationLink } from "@petzo/utils";
 
 import Features from "~/app/_components/center-features";
-import CenterCTAButtons from "./center-cta-buttons";
+import CenterTimings from "~/app/_components/center-timings";
 import CenterDescriptionAndButtons from "./center-description-and-buttons";
 import CenterInfoShareButton from "./center-info-share-button";
 import Rating from "./rating-display";
@@ -56,16 +56,8 @@ export const CenterInfo = ({
         <Features features={center.features} />
       </div>
 
-      {!!timeUtils.getTimings(center.operatingHours) && (
-        <div>
-          <span className="text-2sm font-medium opacity-80 md:text-sm">
-            Timings:{" "}
-          </span>
-          <span className="text-2sm font-medium md:text-sm">
-            {timeUtils.getTimings(center.operatingHours)}
-          </span>
-        </div>
-      )}
+      {/* Center Timings */}
+      <CenterTimings center={center} />
 
       {/* Address */}
       {centerUtils.hasAtCenterServices(center.services) && (
