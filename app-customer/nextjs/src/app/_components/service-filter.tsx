@@ -31,7 +31,7 @@ export default function ServiceFilter({
   if (allServiceTypes?.length < 2) return null;
 
   return (
-    <div className="mt-4 w-full  overflow-hidden ">
+    <div className="mt-4 w-full overflow-hidden ">
       <div className="no-scrollbar flex gap-2 overflow-x-auto md:justify-center">
         {allServiceTypes.map((serviceType) => {
           const isFilterSelected = selectedServices.includes(serviceType);
@@ -39,7 +39,7 @@ export default function ServiceFilter({
           if (!serviceTypeInfo) return null;
           return (
             <button
-              className={`flex shrink-0 items-center gap-1 rounded-full border px-2 py-1 text-sm font-semibold md:py-2 ${isFilterSelected ? "border-foreground/50 bg-foreground/10" : ""}`}
+              className={`flex shrink-0 items-center gap-1 rounded-full border px-2 py-1 text-xs font-semibold md:py-2 ${isFilterSelected ? "border-foreground/10 bg-foreground/10" : ""}`}
               key={serviceType}
               onClick={() => onClickServicesFilter(serviceType)}
             >

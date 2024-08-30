@@ -3,6 +3,7 @@ import { auth } from "@petzo/auth-customer-app";
 import NotFound from "@petzo/ui/components/errors/not-found";
 
 import { api } from "~/trpc/server";
+import CenterCTAButtons from "./center-cta-buttons";
 import { CenterInfo } from "./center-info";
 import CenterReviews from "./center-reviews";
 import CenterServiceList from "./center-service-list";
@@ -49,10 +50,15 @@ export default async function CenterPage({ publicId }: { publicId: string }) {
         </div>
 
         {/* Center Info */}
-        <CenterInfo
-          className={`${!imageUrls.length ? "col-span-10" : "col-span-6"} h-min rounded-xl bg-muted p-3`}
-          center={center}
-        />
+        <div
+          className={`${!imageUrls.length ? "col-span-10" : "col-span-6"} space-y-2`}
+        >
+          <CenterInfo
+            className={`h-min rounded-xl border bg-muted px-2.5 py-2`}
+            center={center}
+          />
+          {!!center.ctaButtons?.length && <CenterCTAButtons center={center} />}
+        </div>
       </div>
 
       <CenterServiceList center={center} user={session?.user as CustomerUser} />

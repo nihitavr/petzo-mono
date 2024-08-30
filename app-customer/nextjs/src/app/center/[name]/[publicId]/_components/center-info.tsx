@@ -56,6 +56,17 @@ export const CenterInfo = ({
         <Features features={center.features} />
       </div>
 
+      {!!timeUtils.getTimings(center.operatingHours) && (
+        <div>
+          <span className="text-2sm font-medium opacity-80 md:text-sm">
+            Timings:{" "}
+          </span>
+          <span className="text-2sm font-medium md:text-sm">
+            {timeUtils.getTimings(center.operatingHours)}
+          </span>
+        </div>
+      )}
+
       {/* Address */}
       {centerUtils.hasAtCenterServices(center.services) && (
         <a
@@ -75,28 +86,10 @@ export const CenterInfo = ({
         </a>
       )}
 
-      {!!timeUtils.getTimings(center.operatingHours) && (
-        <div>
-          <span className="text-2sm font-medium opacity-80 md:text-sm">
-            Timings:{" "}
-          </span>
-          <span className="text-2sm font-medium md:text-sm">
-            {timeUtils.getTimings(center.operatingHours)}
-          </span>
-        </div>
-      )}
-
       <hr className="my-1 border-dashed border-foreground/40" />
 
       {/* Center Description */}
       <CenterDescriptionAndButtons center={center} />
-
-      {!!center.ctaButtons?.length && (
-        <>
-          <hr className="mb-1 border-dashed border-foreground/40" />
-          <CenterCTAButtons center={center} />
-        </>
-      )}
     </div>
   );
 };
