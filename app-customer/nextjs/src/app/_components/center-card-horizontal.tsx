@@ -2,7 +2,7 @@ import Link from "next/link";
 import { GrLocation } from "react-icons/gr";
 
 import type { Center } from "@petzo/db";
-import { SERVICES_CONFIG } from "@petzo/constants";
+import { DISTANCE_MULTIPLIER, SERVICES_CONFIG } from "@petzo/constants";
 import Price from "@petzo/ui/components/price";
 import { centerUtils, mapUtils, serviceUtils } from "@petzo/utils";
 
@@ -86,7 +86,9 @@ export default function CenterCardHorizontal({
                   <div className="size-1.5 rounded-full bg-foreground/50" />
                   <div className="text-2sm font-medium">
                     Around{" "}
-                    {mapUtils.metersToKilometers(center.distanceInMeters)}
+                    {mapUtils.metersToKilometers(
+                      center.distanceInMeters * DISTANCE_MULTIPLIER,
+                    )}
                   </div>
                 </>
               )}

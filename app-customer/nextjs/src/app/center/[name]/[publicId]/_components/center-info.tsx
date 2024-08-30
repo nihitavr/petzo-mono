@@ -68,7 +68,7 @@ export const CenterInfo = ({
           className="flex items-start gap-1 hover:underline"
         >
           <GrLocation className="mt-0.5 !size-4 shrink-0" />
-          <span className="line-clamp-2 text-2sm font-medium capitalize md:text-sm">
+          <span className="line-clamp-1 text-2sm font-medium capitalize md:text-sm">
             {getFormattedAddresses(center?.centerAddress, [
               "line2",
               "line1",
