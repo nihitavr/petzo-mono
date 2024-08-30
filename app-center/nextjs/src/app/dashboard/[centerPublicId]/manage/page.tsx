@@ -5,6 +5,7 @@ import { FiArrowUpRight } from "react-icons/fi";
 
 import { auth } from "@petzo/auth-center-app";
 import {
+  CENTER_CTA_BUTTONS_CONFIG,
   CENTER_FEATURES_CONFIG,
   CENTER_STATUS_CONFIG,
   PET_TYPE_CONFIG,
@@ -142,9 +143,19 @@ export default async function Page({
 
           <CenterDetailsItem label={"Center Features"}>
             {!!center.features?.length && (
-              <span className="font-medium text-primary">
+              <span className="font-medium text-purple-600">
                 {center.features
                   ?.map((feature) => CENTER_FEATURES_CONFIG[feature].name)
+                  .join(", ")}
+              </span>
+            )}
+          </CenterDetailsItem>
+
+          <CenterDetailsItem label={"CTA Buttons"}>
+            {!!center.ctaButtons?.length && (
+              <span className="font-medium">
+                {center.ctaButtons
+                  ?.map((feature) => CENTER_CTA_BUTTONS_CONFIG[feature].name)
                   .join(", ")}
               </span>
             )}
@@ -195,7 +206,7 @@ export default async function Page({
                       </li>
                       <li>
                         <span className="font-medium opacity-60">
-                          Booking Enabled:{" "}
+                          Booking:{" "}
                         </span>
                         {service.isBookingEnabled ? (
                           <span className="font-medium text-green-600">
