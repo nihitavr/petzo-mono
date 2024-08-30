@@ -14,7 +14,7 @@ import {
 import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 import { Label } from "@petzo/ui/components/label";
-import { centerUtils, getGoogleLocationLink } from "@petzo/utils";
+import { centerUtils, getGoogleLocationLink, timeUtils } from "@petzo/utils";
 
 import SignIn from "~/app/_components/sign-in";
 import { env } from "~/env";
@@ -109,10 +109,15 @@ export default async function Page({
           <CenterDetailsItem label="Center Name">
             <Link
               href={`/dashboard/${center.publicId}/edit`}
-              className="hover:underline"
+              className="font-medium hover:underline"
             >
               {center.name}
             </Link>
+          </CenterDetailsItem>
+          <CenterDetailsItem label="Timings">
+            <span className="font-medium">
+              {timeUtils.getTimings(center.operatingHours)}
+            </span>
           </CenterDetailsItem>
 
           <div>
