@@ -114,6 +114,14 @@ export default async function Page({
               {center.name}
             </Link>
           </CenterDetailsItem>
+          {user.role == "admin" && (
+            <CenterDetailsItem label="Google Rating">
+              <span className="font-medium text-yellow-700">
+                {`${center.googleRating} (${center.googleRatingCount})` ||
+                  "Not yet rated"}
+              </span>
+            </CenterDetailsItem>
+          )}
           <CenterDetailsItem label="Timings">
             <span className="font-medium">
               {timeUtils.getTimings(center.operatingHours)}
