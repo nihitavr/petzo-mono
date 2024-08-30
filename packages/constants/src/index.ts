@@ -2,6 +2,8 @@ export const WHATSAPP_URL = "https://wa.me";
 
 export const INDIA_COUNTRY_CODE = "+91";
 
+export const DISTANCE_MULTIPLIER = 1.6;
+
 export type DAYS_TYPE = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
 export const DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as const;
 

@@ -53,7 +53,7 @@ export default function CenterCTAButtons({ center }: { center: Center }) {
       {/* CTA Buttons */}
       <div className="-mt-0.5 flex flex-col rounded-xl border bg-muted p-2">
         <p className="text-xs font-medium">
-          Call or Message to know more about the services
+          Want to know more or book the service?
         </p>
         <div
           ref={ctaButtonsContainerRef}
