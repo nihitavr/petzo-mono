@@ -106,7 +106,10 @@ export function getTimings(
   const days = sortDays(Object.keys(operatingHours) as DAYS_TYPE[]);
 
   const dayRanges = [];
-  let currentRange = { start: days[0], end: days[0] };
+  let currentRange = { start: days[0] } as {
+    start: DAYS_TYPE;
+    end?: DAYS_TYPE;
+  };
 
   for (let i = 1; i < days.length; i++) {
     const currentDay = days[i]!;
@@ -127,16 +130,33 @@ export function getTimings(
 
   dayRanges.push(currentRange);
 
+  const timingsMap = {} as Record<string, string>;
+
   const timings = dayRanges
-    .filter((range) => !!operatingHours[range.start!]?.startTime)
+    .filter((range) => !!operatingHours[range.start]?.startTime)
     .map((range) => {
       const startTime = convertTime24To12(
-        operatingHours[range.start!]?.startTime,
+        operatingHours[range.start]?.startTime,
       );
-      const endTime = convertTime24To12(operatingHours[range.end!]?.endTime);
 
-      return `${stringUtils.titleCase(range.start)} - ${stringUtils.titleCase(range.end)} | ${startTime} - ${endTime}`;
+      const endTime = convertTime24To12(operatingHours[range.start]?.endTime);
+
+      const daysString = timingsMap[`${startTime} - ${endTime}`];
+
+      if (!range.end) {
+        timingsMap[`${startTime} - ${endTime}`] = daysString
+          ? `${daysString}, ${stringUtils.titleCase(range.start)}`
+          : stringUtils.titleCase(range.start);
+      } else {
+        timingsMap[`${startTime} - ${endTime}`] = daysString
+          ? `${daysString}, ${stringUtils.titleCase(range.start)} - ${stringUtils.titleCase(range.end)}`
+          : `${stringUtils.titleCase(range.start)} - ${stringUtils.titleCase(range.end)}`;
+      }
     });
+
+  return Object.entries(timingsMap)
+    .map(([timeString, daysString]) => `${daysString} | ${timeString}`)
+    .join(", ");
 
   return timings.join(", ");
 }
