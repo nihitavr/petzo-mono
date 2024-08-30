@@ -29,18 +29,25 @@ export const CENTER_CTA_BUTTONS_CONFIG = {
   whatsapp: { name: "Whatsapp Button" },
 };
 
-export type CENTER_FEATURES_TYPE = "store" | "pharmacy" | "cafe" | "petCafe";
+export type CENTER_FEATURES_TYPE =
+  | "store"
+  | "pharmacy"
+  | "cafe"
+  | "petCafe"
+  | "playArea";
 export const CENTER_FEATURES = [
   "store",
   "pharmacy",
   "cafe",
   "petCafe",
+  "playArea",
 ] as const;
 export const CENTER_FEATURES_CONFIG = {
   store: { name: "Pet Store", icon: "/icons/pet-store-icon.svg" },
   pharmacy: { name: "Pharmacy", icon: "/icons/pet-pharmacy-icon.svg" },
   cafe: { name: "Cafe", icon: "/icons/cafe-icon.svg" },
   petCafe: { name: "Pet Cafe", icon: "/icons/pet-cafe-icon.svg" },
+  playArea: { name: "Play Area", icon: "/icons/pet-play-area-icon.svg" },
 };
 
 export const CENTER_STATUS = [
