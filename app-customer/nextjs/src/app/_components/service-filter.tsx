@@ -39,7 +39,7 @@ export default function ServiceFilter({
           if (!serviceTypeInfo) return null;
           return (
             <button
-              className={`flex shrink-0 items-center gap-1 rounded-full border px-2 py-1 text-xs font-semibold md:py-2 ${isFilterSelected ? "border-foreground/10 bg-foreground/10" : ""}`}
+              className={`flex shrink-0 items-center gap-1 rounded-full border px-2 py-1 text-xs font-semibold md:py-2 md:text-sm ${isFilterSelected ? "border-foreground/10 bg-foreground/10" : ""}`}
               key={serviceType}
               onClick={() => onClickServicesFilter(serviceType)}
             >
