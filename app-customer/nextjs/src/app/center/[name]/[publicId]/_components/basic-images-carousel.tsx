@@ -21,7 +21,7 @@ export default function BasicImagesCasousel({
   defaultImage = "",
   className,
   autoplay = false,
-  autoPlayDelay = 4000,
+  autoPlayDelay = 3000,
   imageClassName,
   enableZoomOut = true,
 }: {
@@ -108,7 +108,7 @@ export default function BasicImagesCasousel({
             return (
               <div
                 className={`size-1.5 rounded-full md:size-2 ${
-                  idx === current ? "bg-primary" : "bg-gray-300"
+                  idx === current ? "scale-125 bg-primary" : "bg-gray-300"
                 }`}
                 key={idx}
               />
