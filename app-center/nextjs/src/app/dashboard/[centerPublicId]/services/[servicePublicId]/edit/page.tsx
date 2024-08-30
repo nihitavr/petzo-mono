@@ -10,7 +10,9 @@ export default async function Page({
 }: {
   params: { centerPublicId: string; servicePublicId: string };
 }) {
-  if (!(await auth())?.user) {
+  const user = (await auth())?.user;
+
+  if (!user) {
     return (
       <Unauthorised
         comp={

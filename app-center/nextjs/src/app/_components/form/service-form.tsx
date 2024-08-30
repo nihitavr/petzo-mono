@@ -211,13 +211,6 @@ const BasicDetails = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
                     form.setValue("isBookingEnabled", false);
                   }
 
-                  if (form.getValues().publicId) {
-                    toast.error(
-                      "Service type cannot be changed for existing services.",
-                    );
-                    return;
-                  }
-
                   field.onChange(value);
                 }}
                 defaultValue={field.value}
