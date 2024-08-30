@@ -21,9 +21,9 @@ export default function CenterDescriptionAndButtons({
           <div
             onClick={() => setShowMoreDetails(true)}
             aria-hidden="true"
-            className={`${showMoreDetails ? "" : "line-clamp-2 cursor-pointer md:line-clamp-6"} text-2sm md:text-sm`}
+            className={`${showMoreDetails ? "" : "line-clamp-3 cursor-pointer md:line-clamp-6"} text-2sm md:text-sm`}
           >
-            <Label className="text-2sm">Description</Label>
+            <Label className="text-xs opacity-70">About Us</Label>
             <Markdown className="markdown-content -mt-1">
               {center.description}
             </Markdown>
@@ -31,7 +31,7 @@ export default function CenterDescriptionAndButtons({
           <div className="flex w-full justify-between">
             <span
               onClick={() => setShowMoreDetails(!showMoreDetails)}
-              className="h-min w-min cursor-pointer whitespace-nowrap py-1 text-2sm font-semibold text-foreground/90 md:text-sm"
+              className="h-min w-min cursor-pointer whitespace-nowrap py-1 text-xs font-semibold text-foreground/90 opacity-80 md:text-2sm"
               aria-hidden="true"
             >
               {showMoreDetails ? "Show Less" : "More Details >"}
