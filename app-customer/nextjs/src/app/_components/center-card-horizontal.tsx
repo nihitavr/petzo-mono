@@ -38,8 +38,11 @@ export default function CenterCardHorizontal({
               images={
                 center.images?.slice(0, 8)?.map((image) => image.url) ?? []
               }
+              autoplay={true}
               className="h-44 w-full md:h-60"
+              autoPlayDelay={3000}
               enableZoomOut={false}
+              autoPlatMargin="-15% 0px -15% 0px"
             />
           ) : (
             // <Image src={thumbnail} alt="" fill style={{ objectFit: "cover" }} />
