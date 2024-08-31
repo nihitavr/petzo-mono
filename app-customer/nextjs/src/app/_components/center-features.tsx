@@ -26,7 +26,7 @@ const Features = ({
     );
   }
 
-  const lastFeature = features.pop()!;
+  // const lastFeature = features.pop()!;
 
   const featuresComp = features.map((feature, idx) => (
     <div
@@ -40,22 +40,12 @@ const Features = ({
         src={CENTER_FEATURES_CONFIG[feature].icon}
         alt={"center feature " + feature}
       />
-      <span>{CENTER_FEATURES_CONFIG[feature].name}, </span>
+      <span>
+        {CENTER_FEATURES_CONFIG[feature].name}
+        {features.length - 1 !== idx && ","}{" "}
+      </span>
     </div>
   ));
-
-  featuresComp.push(
-    <div key={lastFeature} className="inline-flex items-center gap-1 text-2sm">
-      <span>&</span>
-      <Image
-        width={16}
-        height={16}
-        src={CENTER_FEATURES_CONFIG[lastFeature].icon}
-        alt={"center feature " + lastFeature}
-      />
-      <span>{CENTER_FEATURES_CONFIG[lastFeature].name}</span>
-    </div>,
-  );
 
   return (
     <div className="flex flex-wrap items-center gap-1">{featuresComp}</div>
