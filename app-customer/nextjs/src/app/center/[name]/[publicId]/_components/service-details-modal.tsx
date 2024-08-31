@@ -20,7 +20,7 @@ import {
 import { Label } from "@petzo/ui/components/label";
 import Price from "@petzo/ui/components/price";
 import { iOS } from "@petzo/ui/lib/utils";
-import { centerUtils } from "@petzo/utils";
+import { centerUtils, cn } from "@petzo/utils";
 
 import { useMediaQuery } from "~/lib/hooks/screen.hooks";
 import { trackCustom } from "~/web-analytics/react";
@@ -115,13 +115,24 @@ export function ServiceDetailsModal({
                     <div className="-mt-0.5 text-sm font-semibold text-primary md:text-base">
                       at {center?.name}
                     </div>
+                    {service.isBookingEnabled && (
+                      <div className="mt-1">
+                        <Price
+                          price={service.price}
+                          discountedPrice={service.discountedPrice}
+                          className="text-lg font-semibold"
+                        />
+                      </div>
+                    )}
                   </div>
 
-                  <BookServiceDialog
-                    service={service}
-                    center={center}
-                    user={user}
-                  />
+                  {service.isBookingEnabled && (
+                    <BookServiceDialog
+                      service={service}
+                      center={center}
+                      user={user}
+                    />
+                  )}
                 </div>
                 <DialogDescription className="whitespace-pre-wrap">
                   <Label>Details</Label>
@@ -177,7 +188,12 @@ export function ServiceDetailsModal({
                 </div>
 
                 {service.isBookingEnabled && (
-                  <div className="mt-2 flex flex-col items-center gap-1">
+                  <div
+                    className={cn(
+                      "mt-2 flex flex-col items-center gap-1",
+                      service.images?.length ? "" : "mr-6",
+                    )}
+                  >
                     <BookServiceDialog
                       service={service}
                       center={center}
