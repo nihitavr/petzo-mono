@@ -24,6 +24,7 @@ export default function BasicImagesCasousel({
   autoPlayDelay = 3000,
   imageClassName,
   enableZoomOut = true,
+  autoPlatMargin = "-5% 0px -5% 0px",
 }: {
   images: string[];
   defaultImage?: string;
@@ -31,6 +32,7 @@ export default function BasicImagesCasousel({
   className?: string;
   imageClassName?: string;
   autoplay?: boolean;
+  autoPlatMargin?: string;
   autoPlayDelay?: number;
   enableZoomOut?: boolean;
 }) {
@@ -41,7 +43,7 @@ export default function BasicImagesCasousel({
   const cardRef = useRef<HTMLDivElement>(null);
   const cardVisible = useInView(cardRef, {
     amount: "all",
-    margin: "-5% 0px -5% 0px",
+    margin: autoPlatMargin,
   });
 
   useEffect(() => {
@@ -56,17 +58,19 @@ export default function BasicImagesCasousel({
     };
   }, [carouselApi]);
 
+  const carousalAutoplay = CarouselAutoplay({
+    delay: autoPlayDelay,
+    jump: false,
+    active: cardVisible,
+  });
+
   return (
     <Carousel
       plugins={
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         autoplay
           ? ([
-              CarouselAutoplay({
-                delay: autoPlayDelay,
-                jump: false,
-                active: cardVisible,
-              }),
+              carousalAutoplay,
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ] as any)
           : []
