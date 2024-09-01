@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
 import { FaQrcode } from "react-icons/fa6";
