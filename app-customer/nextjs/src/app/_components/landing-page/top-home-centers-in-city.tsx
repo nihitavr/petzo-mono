@@ -9,7 +9,7 @@ import { api } from "~/trpc/react";
 import CenterCardHorizontal from "../center-card-horizontal";
 import CenterCardVertical from "../center-card-vertical";
 
-export default function BestCentersInCity({
+export default function BestHomeCentersInCity({
   cityPublicId,
   cityName,
 }: {
@@ -18,9 +18,8 @@ export default function BestCentersInCity({
 }) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedServices, setSelectedServices] = useState<string[]>([
-    "grooming",
-    "veterinary",
-    "boarding",
+    "home_grooming",
+    "mobile_grooming",
   ]);
 
   const {
@@ -37,17 +36,17 @@ export default function BestCentersInCity({
   );
 
   return (
-    <div className="space-y-0">
+    <div className="space-y-2">
       <div className="flex flex-col items-center justify-center">
-        <div className="flex items-center gap-1">
+        <div className="flex items-start justify-center gap-1">
           <Image
             src="/icons/top-rated-in-city-icon.svg"
             alt=""
-            width={20}
-            height={20}
+            width={25}
+            height={25}
           />
-          <h1 className="text-center text-xl font-medium md:text-2xl">
-            Top centers in {cityName}
+          <h1 className="text-xl font-medium md:text-2xl">
+            Top home centers in {cityName}
           </h1>
         </div>
 
@@ -85,11 +84,7 @@ export default function BestCentersInCity({
                 </div>
 
                 <div className="h-full md:hidden">
-                  <CenterCardVertical
-                    center={center}
-                    onlySummary={true}
-                    autoplayImages={false}
-                  />
+                  <CenterCardVertical center={center} onlySummary={true} />
                 </div>
               </div>
             ))}

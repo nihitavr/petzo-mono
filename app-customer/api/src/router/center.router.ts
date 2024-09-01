@@ -2,7 +2,7 @@ import type { TRPCRouterRecord } from "@trpc/server";
 
 import type { Center } from "@petzo/db";
 import { SERVICE_TYPE_VALUES } from "@petzo/constants";
-import { and, asc, desc, eq, gte, inArray, schema, sql } from "@petzo/db";
+import { and, asc, desc, eq, gte, inArray, or, schema, sql } from "@petzo/db";
 import { centerValidator } from "@petzo/validators";
 
 import { publicCachedProcedure } from "../trpc";
@@ -129,7 +129,10 @@ export const centerRouter = {
             eq(schema.centers.status, "verified"),
             // If rating is provided, filter centers by averageRating greater than or equal to the given rating.
             input.ratingGte
-              ? gte(schema.centers.averageRating, input.ratingGte)
+              ? or(
+                  gte(schema.centers.averageRating, input.ratingGte),
+                  gte(schema.centers.googleRating, input.ratingGte),
+                )
               : undefined,
           ),
         );

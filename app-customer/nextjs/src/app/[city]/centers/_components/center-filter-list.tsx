@@ -108,7 +108,11 @@ export const CenterFilterList = ({
           );
         })}
 
-      {!isLastPage && <LoadingCentersList ref={loadingRef} noOfItems={2} />}
+      {isLastPage ? (
+        <span className="text-center">No more centers in your area</span>
+      ) : (
+        <LoadingCentersList ref={loadingRef} noOfItems={2} />
+      )}
     </div>
   );
 };

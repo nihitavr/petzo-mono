@@ -4,7 +4,7 @@ import { GrLocation } from "react-icons/gr";
 import type { Center } from "@petzo/db";
 import { DISTANCE_MULTIPLIER, SERVICES_CONFIG } from "@petzo/constants";
 import Price from "@petzo/ui/components/price";
-import { centerUtils, mapUtils, serviceUtils } from "@petzo/utils";
+import { centerUtils, cn, mapUtils, serviceUtils } from "@petzo/utils";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
@@ -15,6 +15,8 @@ import CenterTimings from "./center-timings";
 export default function CenterCardVertical({
   center,
   serviceTypes,
+  onlySummary = false,
+  autoplayImages = true,
 }: {
   center: Center;
   serviceTypes?: string[];
@@ -22,6 +24,8 @@ export default function CenterCardVertical({
     latitude: number;
     longitude: number;
   };
+  onlySummary?: boolean;
+  autoplayImages?: boolean;
 }) {
   const thumbnail = center.images?.[0]?.url;
   const lowestPriceService = serviceUtils.getLowestCostService(
@@ -32,7 +36,7 @@ export default function CenterCardVertical({
   return (
     <Link
       href={centerUtils.getCenterUrl(center)}
-      className="flex animate-fade-in flex-row overflow-hidden rounded-2xl border shadow-md "
+      className="flex h-full animate-fade-in flex-row overflow-hidden rounded-2xl border shadow-md"
     >
       <div className="flex h-full w-full flex-col gap-0">
         {/* Center Image */}
@@ -43,7 +47,7 @@ export default function CenterCardVertical({
                 center.images?.slice(0, 8)?.map((image) => image.url) ?? []
               }
               className="aspect-square w-full"
-              autoplay={true}
+              autoplay={autoplayImages}
               enableZoomOut={false}
             />
           ) : (
@@ -67,7 +71,12 @@ export default function CenterCardVertical({
             <div className="flex items-start justify-between">
               <div className="flex flex-col items-start gap-1">
                 <div className="flex items-center justify-between">
-                  <div className="line-clamp-2 cursor-pointer text-2base font-semibold hover:underline">
+                  <div
+                    className={cn(
+                      "cursor-pointer text-2base font-semibold hover:underline",
+                      onlySummary ? "line-clamp-1" : "line-clamp-2",
+                    )}
+                  >
                     {center.name}
                   </div>
                 </div>
