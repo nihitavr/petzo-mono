@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
 import { FaQrcode } from "react-icons/fa6";
@@ -8,8 +9,10 @@ import {
   CENTER_CTA_BUTTONS_CONFIG,
   CENTER_FEATURES_CONFIG,
   CENTER_STATUS_CONFIG,
+  INDIA_COUNTRY_CODE,
   PET_TYPE_CONFIG,
   SERVICES_CONFIG,
+  WHATSAPP_URL,
 } from "@petzo/constants";
 import { Button } from "@petzo/ui/components/button";
 import Unauthorised from "@petzo/ui/components/errors/unauthorised";
@@ -79,6 +82,7 @@ export default async function Page({
             </Button>
           </Link>
         </div>
+
         <div className="mt-3 flex gap-2 ">
           <a
             href={centerUtils.getCenterUrl(center, env.CUSTOMER_APP_BASE_URL)}
@@ -122,6 +126,19 @@ export default async function Page({
               </span>
             </CenterDetailsItem>
           )}
+          <CenterDetailsItem label="Phone Number">
+            <>
+              <span className="font-medium">{center.phoneNumber} </span>
+              <a
+                href={`${WHATSAPP_URL}/${INDIA_COUNTRY_CODE}${center.phoneNumber}?text=Hi, I found your number from Furclub. I want to know more about the services you offer.`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline items-center gap-1 hover:underline"
+              >
+                (WhatsApp)
+              </a>
+            </>
+          </CenterDetailsItem>
           <CenterDetailsItem label="Timings">
             <span className="font-medium">
               {timeUtils.getTimings(center.operatingHours)}
