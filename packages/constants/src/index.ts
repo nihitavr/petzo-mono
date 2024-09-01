@@ -37,7 +37,8 @@ export type CENTER_FEATURES_TYPE =
   | "cafe"
   | "petCafe"
   | "playArea"
-  | "availablePets";
+  | "availablePets"
+  | "petPool";
 export const CENTER_FEATURES = [
   "store",
   "pharmacy",
@@ -45,6 +46,7 @@ export const CENTER_FEATURES = [
   "petCafe",
   "playArea",
   "availablePets",
+  "petPool",
 ] as const;
 export const CENTER_FEATURES_CONFIG = {
   store: { name: "Pet Store", icon: "/icons/pet-store-icon.svg" },
@@ -56,6 +58,7 @@ export const CENTER_FEATURES_CONFIG = {
     name: "Available Pets",
     icon: "/icons/pet-available-icon.svg",
   },
+  petPool: { name: "Pool", icon: "/icons/pet-pool-icon.svg" },
 };
 
 export const CENTER_STATUS = [
