@@ -2,6 +2,7 @@
   "name": "@petzo/db",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "exports": {
     ".": {
@@ -9,23 +10,29 @@
       "default": "./src/index.ts"
     }
   },
-  "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch",
     "clean": "rm -rf .turbo node_modules",
+    "dev": "tsc --watch",
     "format": "prettier --check . --ignore-path ../../.gitignore",
-    "lint": "eslint .",
     "generate": "pnpm with-env drizzle-kit generate --config src/config.ts",
+    "lint": "eslint .",
     "push": "pnpm with-env drizzle-kit push --config src/config.ts",
     "studio": "pnpm with-env drizzle-kit studio --config src/config.ts",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false",
     "with-env": "dotenv -e ../../.env --"
   },
+  "prettier": "@petzo/prettier-config",
+  "eslintConfig": {
+    "extends": [
+      "@petzo/eslint-config/base"
+    ],
+    "root": true
+  },
   "dependencies": {
+    "drizzle-orm": "^0.31.0",
     "postgres": "~3.3",
-    "wkx": "^0.5.0",
-    "drizzle-orm": "^0.31.0"
+    "wkx": "^0.5.0"
   },
   "devDependencies": {
     "@petzo/constants": "workspace:*",
@@ -38,12 +45,5 @@
     "pg": "~8.10",
     "prettier": "^3.2.5",
     "typescript": "^5.4.3"
-  },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "@petzo/eslint-config/base"
-    ]
-  },
-  "prettier": "@petzo/prettier-config"
+  }
 }
