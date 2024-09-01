@@ -1,35 +1,32 @@
 {
   "name": "petzo-mono",
   "private": true,
-  "engines": {
-    "node": ">=20.11.1"
-  },
-  "packageManager": "pnpm@8.15.5",
   "scripts": {
     "build": "pnpm -- turbo build",
+    "build:center-app": "pnpm -F center-app run build",
+    "build:customer-app": "pnpm -F customer-app run build",
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo clean",
-    "db:introspect": "drizzle-kit introspect:pg --schema=./packages/db/src/schema",
     "db:generate": "pnpm -F db generate",
+    "db:introspect": "drizzle-kit introspect:pg --schema=./packages/db/src/schema",
     "db:push": "pnpm -F db push",
     "db:studio": "pnpm -F db studio",
     "dev": "turbo dev --parallel --verbosity=1",
     "dev:all-apps": "pnpm -F customer-app -F center-app run dev",
-    "dev:customer-app": "pnpm -F customer-app run dev",
     "dev:center-app": "pnpm -F center-app run dev",
-    "build:customer-app": "pnpm -F customer-app run build",
-    "start:customer-app": "pnpm -F customer-app run start",
-    "build:center-app": "pnpm -F center-app run build",
-    "start:center-app": "pnpm -F center-app run start",
+    "dev:customer-app": "pnpm -F customer-app run dev",
     "format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
     "format:fix": "turbo format --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
+    "postinstall": "pnpm lint:ws",
     "lint": "turbo lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",
     "lint:fix": "turbo lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
     "lint:ws": "pnpm dlx sherif@latest",
-    "postinstall": "pnpm lint:ws",
+    "start:center-app": "pnpm -F center-app run start",
+    "start:customer-app": "pnpm -F customer-app run start",
     "typecheck": "turbo typecheck",
     "ui:add": "pnpm -F ui ui-add"
   },
+  "prettier": "@petzo/prettier-config",
   "devDependencies": {
     "@petzo/prettier-config": "workspace:*",
     "@turbo/gen": "^1.13.0",
@@ -37,5 +34,8 @@
     "turbo": "^1.13.0",
     "typescript": "^5.4.3"
   },
-  "prettier": "@petzo/prettier-config"
+  "packageManager": "pnpm@8.15.5",
+  "engines": {
+    "node": ">=20.11.1"
+  }
 }

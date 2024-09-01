@@ -1,7 +1,8 @@
 {
   "name": "@petzo/validators",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
   "type": "module",
   "exports": {
     ".": {
@@ -9,19 +10,24 @@
       "default": "./src/index.ts"
     }
   },
-  "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch",
     "clean": "rm -rf .turbo node_modules dist",
+    "dev": "tsc --watch",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
+  "prettier": "@petzo/prettier-config",
+  "eslintConfig": {
+    "extends": [
+      "@petzo/eslint-config/base"
+    ]
+  },
   "dependencies": {
-    "zod": "^3.22.4",
+    "@petzo/constants": "workspace:*",
     "@petzo/utils": "workspace:*",
-    "@petzo/constants": "workspace:*"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@petzo/eslint-config": "workspace:*",
@@ -30,11 +36,5 @@
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "typescript": "^5.4.3"
-  },
-  "eslintConfig": {
-    "extends": [
-      "@petzo/eslint-config/base"
-    ]
-  },
-  "prettier": "@petzo/prettier-config"
+  }
 }
