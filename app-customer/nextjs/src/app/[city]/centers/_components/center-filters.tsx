@@ -17,6 +17,7 @@ import {
   useForm,
 } from "@petzo/ui/components/form";
 import Loader from "@petzo/ui/components/loader";
+import { toast } from "@petzo/ui/components/toast";
 import { cn } from "@petzo/ui/lib/utils";
 import { centerValidator } from "@petzo/validators";
 
@@ -95,6 +96,9 @@ export function CenterFilters({
         () => {
           if (onApply) onApply();
           setFetchingLocation(false);
+          toast.error(
+            "Failed to get your location. Please give permission to access your location.",
+          );
         },
       );
     } else {
@@ -115,7 +119,7 @@ export function CenterFilters({
         onSubmit={form.handleSubmit(onSubmit)}
         className={cn("h-full w-full flex-col overflow-hidden", className)}
       >
-        <div className="flex h-8 items-center justify-between px-4 py-6">
+        <div className="fixed flex h-8 w-full items-center justify-between border-b bg-background px-4 py-6 md:static">
           <h3 className="text-lg font-semibold">Filters</h3>
           {form.formState.isDirty && (
             <Button
@@ -133,7 +137,7 @@ export function CenterFilters({
           )}
         </div>
 
-        <hr />
+        <div className="mt-14 md:mt-0" />
 
         {filters.filters.map((_, filterTypeIdx) => {
           return (

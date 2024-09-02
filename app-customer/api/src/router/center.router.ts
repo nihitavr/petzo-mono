@@ -51,9 +51,7 @@ export const centerRouter = {
       );
 
       // If serviceType is provided but not found in the list, return empty array as no center will be found.
-      if (!serviceTypes && input.serviceType) {
-        return [];
-      }
+      if (!serviceTypes && input.serviceType) return [];
 
       let centerIdsQuery;
 
@@ -156,8 +154,6 @@ export const centerRouter = {
         .limit(
           input.pagination?.limit ? input.pagination.limit : DEFAULT_PAGE_SIZE,
         );
-
-      console.log(centerIdsQuery.toSQL().sql);
 
       const centerIdsData: {
         id: number;

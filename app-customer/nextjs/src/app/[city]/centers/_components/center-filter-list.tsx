@@ -24,10 +24,12 @@ export const CenterFilterList = ({
     search: string;
     area: string;
     ratingGte: string;
-    geoCode?: { latitude: number; longitude: number };
+    latitude: string;
+    longitude: string;
   };
 }) => {
-  const { city, serviceType, search, area, ratingGte, geoCode } = filterParams;
+  const { city, serviceType, search, area, ratingGte, latitude, longitude } =
+    filterParams;
 
   const initialCenters = use(centersPromise);
 
@@ -50,7 +52,10 @@ export const CenterFilterList = ({
       serviceType,
       search,
       area,
-      geoCode,
+      geoCode:
+        latitude && longitude
+          ? { latitude: +latitude, longitude: +longitude }
+          : undefined,
       ratingGte: +ratingGte || 0,
       pagination: {
         page: pageNumber,

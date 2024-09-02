@@ -1,3 +1,6 @@
+export const GEOLOCATION_TIMEOUT_IN_MS = 10000;
+export const GEOLOCATION_MAX_AGE_IN_MS = 600000;
+
 export const WHATSAPP_URL = "https://wa.me";
 
 export const INDIA_COUNTRY_CODE = "+91";
