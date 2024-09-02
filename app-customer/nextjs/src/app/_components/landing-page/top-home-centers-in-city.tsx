@@ -32,7 +32,8 @@ export default function BestHomeCentersInCity({
       ratingGte: 4,
       serviceType: selectedServices.join(","),
     },
-    { enabled: !!cityPublicId },
+    // stale time is 1 minute
+    { enabled: !!cityPublicId, staleTime: 1000 * 60 * 1 },
   );
 
   return (
