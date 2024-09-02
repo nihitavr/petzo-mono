@@ -6,10 +6,7 @@ import Link from "next/link";
 import { DotLottiePlayer } from "@dotlottie/react-player";
 
 import type { Point } from "@petzo/db";
-import {
-  GEOLOCATION_MAX_AGE_IN_MS,
-  GEOLOCATION_TIMEOUT_IN_MS,
-} from "@petzo/constants";
+import { fetchLocation } from "@petzo/ui/components/location";
 
 import { LoadingCentersList } from "~/app/[city]/centers/loading";
 import { api } from "~/trpc/react";
@@ -38,7 +35,7 @@ export default function CentersNearYouSection({
 
     setFetchingLocation(true);
 
-    navigator.geolocation.getCurrentPosition(
+    fetchLocation(
       (position) => {
         setGeoCode({
           latitude: position.coords.latitude,
@@ -49,10 +46,6 @@ export default function CentersNearYouSection({
       () => {
         setFetchingLocation(false);
         setIsGeoCodeFetchError(true);
-      },
-      {
-        timeout: GEOLOCATION_TIMEOUT_IN_MS,
-        maximumAge: GEOLOCATION_MAX_AGE_IN_MS,
       },
     );
   }, []);

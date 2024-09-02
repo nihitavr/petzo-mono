@@ -4,12 +4,8 @@ import { useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSignals } from "@preact/signals-react/runtime";
 
-import {
-  GEOLOCATION_MAX_AGE_IN_MS,
-  GEOLOCATION_TIMEOUT_IN_MS,
-} from "@petzo/constants";
 import Loader from "@petzo/ui/components/loader";
-import { toast } from "@petzo/ui/components/toast";
+import { fetchLocation } from "@petzo/ui/components/location";
 import { cn } from "@petzo/ui/lib/utils";
 
 import { filtersStore } from "~/lib/storage/global-storage";
@@ -29,17 +25,10 @@ export default function NearbySort() {
     let filterUrl = `/${filtersStore.city.value}/centers`;
 
     if (!hasNearByFilter) {
-      if (!navigator.geolocation) {
-        toast.error(
-          "Failed to get your location. Please give permission to access your location.",
-        );
-        return;
-      }
+      const urlQueryParams = new URLSearchParams(searchParams);
       setFetchingLocation(true);
 
-      const urlQueryParams = new URLSearchParams(searchParams);
-
-      navigator.geolocation.getCurrentPosition(
+      fetchLocation(
         (position) => {
           urlQueryParams.set("latitude", `${position.coords.latitude}`);
           urlQueryParams.set("longitude", `${position.coords.longitude}`);
@@ -52,25 +41,15 @@ export default function NearbySort() {
         },
         () => {
           setFetchingLocation(false);
-          toast.error(
-            "Failed to get your location. Please give permission to access your location.",
-          );
-        },
-        {
-          timeout: GEOLOCATION_TIMEOUT_IN_MS,
-          maximumAge: GEOLOCATION_MAX_AGE_IN_MS,
         },
       );
     } else {
-      console.log("removing nearby filter");
-
       const urlQueryParams = new URLSearchParams(searchParams);
       urlQueryParams.delete("latitude");
       urlQueryParams.delete("longitude");
 
       const urlQueryParamsStr = urlQueryParams.toString();
       if (urlQueryParamsStr) filterUrl += `?${urlQueryParamsStr}`;
-      console.log("filterUrl", filterUrl);
 
       router.push(filterUrl);
     }
