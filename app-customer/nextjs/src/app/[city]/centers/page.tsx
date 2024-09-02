@@ -8,8 +8,9 @@ import {
 import { api } from "~/trpc/server";
 import { RecordEvent } from "~/web-analytics/react";
 import { CenterFilterList } from "./_components/center-filter-list";
-import { CenterFilters } from "./_components/center-filters";
+import { DesktopCenterFilters } from "./_components/desktop-center-filters";
 import { MobileCenterFilters } from "./_components/mobile-center-filters";
+import NearbySort from "./_components/nearby-sort";
 import { LoadingCentersList } from "./loading";
 
 export const metadata: Metadata = {
@@ -89,23 +90,22 @@ export default async function Centers({
         data={{ city, ref: searchParams?.ref }}
       />
       <div className="container-2">
-        <div className="hidden items-end justify-between md:flex">
-          {/* <div className="ml-auto h-min rounded-full border px-3 py-1 text-sm">
-            Sort (Top Rated)
-          </div> */}
+        <div className="ml-auto hidden items-end justify-between md:flex">
+          <NearbySort />
         </div>
 
         <div className="flex gap-2 md:hidden">
           <MobileCenterFilters filters={filtersObj} />
-          {/* <div className="h-min rounded-full border px-3 py-1 text-sm">
-            Sort (Top Rated)
-          </div> */}
+          <NearbySort />
         </div>
 
         <div className="grid grid-cols-12 gap-3">
           {/* Filters */}
           <div className="hidden h-min md:col-span-3 md:inline ">
-            <CenterFilters className="rounded-lg border" filters={filtersObj} />
+            <DesktopCenterFilters
+              className="rounded-lg border"
+              filters={filtersObj}
+            />
           </div>
 
           {/* Centers List */}

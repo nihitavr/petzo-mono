@@ -6,13 +6,14 @@ import Link from "next/link";
 import { DotLottiePlayer } from "@dotlottie/react-player";
 
 import type { Point } from "@petzo/db";
+import {
+  GEOLOCATION_MAX_AGE_IN_MS,
+  GEOLOCATION_TIMEOUT_IN_MS,
+} from "@petzo/constants";
 
 import { LoadingCentersList } from "~/app/[city]/centers/loading";
 import { api } from "~/trpc/react";
 import CenterCardHorizontal from "../center-card-horizontal";
-
-const GEOLOCATION_TIMEOUT_IN_MS = 10000;
-const GEOLOCATION_MAX_AGE_IN_MS = 600000;
 
 export default function CentersNearYouSection({
   cityPublicId,
