@@ -155,6 +155,8 @@ export const centerRouter = {
           input.pagination?.limit ? input.pagination.limit : DEFAULT_PAGE_SIZE,
         );
 
+      console.log(centerIdsQuery.toSQL().sql);
+
       const centerIdsData: {
         id: number;
         sim?: number;

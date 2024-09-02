@@ -80,11 +80,13 @@ export const centers = pgTable(
   },
   (center) => ({
     centerPublicIdIdx: index("center_public_id_idx").on(center.publicId),
-    centerUserIdIdx: index("center_user_idx").on(center.centerUserId),
-    centerAverageRatingIdx: index("center_status_average_rating_idx").on(
-      center.status,
-      center.averageRating,
+    centerAddressIdIdx: index("center_address_id_idx").on(
+      center.centerAddressId,
     ),
+    centerUserIdIdx: index("center_user_idx").on(center.centerUserId),
+    centerAverageRatingIdx: index(
+      "center_status_average_rating_google_rating_idx",
+    ).on(center.status, center.averageRating, center.googleRating),
   }),
 );
 

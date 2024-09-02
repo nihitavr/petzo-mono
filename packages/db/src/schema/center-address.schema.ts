@@ -1,5 +1,11 @@
 import { relations, sql } from "drizzle-orm";
-import { integer, serial, timestamp, varchar } from "drizzle-orm/pg-core";
+import {
+  index,
+  integer,
+  serial,
+  timestamp,
+  varchar,
+} from "drizzle-orm/pg-core";
 
 import { centerPgTable, point } from "./_table";
 import { areas } from "./area.schema";
@@ -34,6 +40,10 @@ export const centerAddresses = centerPgTable(
 
   // TODO: This index need to be added manually to the database
   (centerAddresses) => ({
+    centerAddressCityIdIdx: index("center_address_city_id_area_id_idx").on(
+      centerAddresses.cityId,
+      centerAddresses.areaId,
+    ),
     centerAddressGeocodeGistIndex: sql`CREATE INDEX center_address_geocode_gist_index ON ${centerAddresses} USING GIST (${centerAddresses.geocode})`,
   }),
 );

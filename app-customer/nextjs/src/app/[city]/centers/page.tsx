@@ -1,5 +1,5 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Metadata } from "next";
 
 import {
   CENTERS_LIST_PAGE_LIMIT,
