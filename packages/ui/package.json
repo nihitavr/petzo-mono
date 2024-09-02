@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
+    "@petzo/constants": "workspace:*",
     "@petzo/utils": "workspace:*",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-aspect-ratio": "^1.0.3",

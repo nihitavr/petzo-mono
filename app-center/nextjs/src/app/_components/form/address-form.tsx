@@ -25,6 +25,7 @@ import {
 import { Input } from "@petzo/ui/components/input";
 import { Label } from "@petzo/ui/components/label";
 import Loader from "@petzo/ui/components/loader";
+import { fetchLocation } from "@petzo/ui/components/location";
 import { toast } from "@petzo/ui/components/toast";
 import { centerApp } from "@petzo/validators";
 
@@ -36,6 +37,7 @@ const MAP_ZOOM = 16.5;
 const GEOLOCATION_CONFIG = {
   maximumAge: 0,
   timeout: 10000,
+  nocache: true,
 };
 
 type CenterAddressSchema = z.infer<
@@ -135,7 +137,7 @@ export function AddressForm({
   const fetchCurrentLocationAndUpdateAddress = () => {
     setIsFetchingLocation(true);
 
-    navigator.geolocation.getCurrentPosition(
+    fetchLocation(
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       async (position) => {
         rerenderMap(position.coords.longitude, position.coords.latitude, true);

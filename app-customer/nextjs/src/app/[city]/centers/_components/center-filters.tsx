@@ -17,7 +17,7 @@ import {
   useForm,
 } from "@petzo/ui/components/form";
 import Loader from "@petzo/ui/components/loader";
-import { toast } from "@petzo/ui/components/toast";
+import { fetchLocation } from "@petzo/ui/components/location";
 import { cn } from "@petzo/ui/lib/utils";
 import { centerValidator } from "@petzo/validators";
 
@@ -76,9 +76,8 @@ export function CenterFilters({
       ?.items.find((item) => item.selected);
 
     if (nearby) {
-      if (!navigator.geolocation) return;
       setFetchingLocation(true);
-      navigator.geolocation.getCurrentPosition(
+      fetchLocation(
         (position) => {
           urlQueryParams.set("latitude", `${position.coords.latitude}`);
           urlQueryParams.set("longitude", `${position.coords.longitude}`);
@@ -96,9 +95,6 @@ export function CenterFilters({
         () => {
           if (onApply) onApply();
           setFetchingLocation(false);
-          toast.error(
-            "Failed to get your location. Please give permission to access your location.",
-          );
         },
       );
     } else {
