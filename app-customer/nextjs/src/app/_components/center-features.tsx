@@ -2,11 +2,14 @@ import Image from "next/image";
 
 import type { CENTER_FEATURES_TYPE } from "@petzo/constants";
 import { CENTER_FEATURES_CONFIG } from "@petzo/constants";
+import { cn } from "@petzo/ui/lib/utils";
 
 const Features = ({
   features,
+  className,
 }: {
   features: CENTER_FEATURES_TYPE[] | null;
+  className?: string;
 }) => {
   features = features ? [...features] : [];
 
@@ -14,7 +17,7 @@ const Features = ({
   if (features.length === 1) {
     return (
       <div className="inline-flex items-center gap-1 text-2sm">
-        <span>Includes</span>
+        <span>Features</span>
         <Image
           width={16}
           height={16}
@@ -29,10 +32,7 @@ const Features = ({
   // const lastFeature = features.pop()!;
 
   const featuresComp = features.map((feature, idx) => (
-    <div
-      key={feature}
-      className="inline-flex items-center gap-1 whitespace-nowrap text-2sm"
-    >
+    <div key={feature} className="inline-flex items-center gap-1 text-2sm">
       {idx == 0 && <span>Features</span>}
       <Image
         width={16}
@@ -48,7 +48,9 @@ const Features = ({
   ));
 
   return (
-    <div className="flex flex-wrap items-center gap-1">{featuresComp}</div>
+    <div className={cn("flex flex-wrap items-center gap-1", className)}>
+      {featuresComp}
+    </div>
   );
 };
 

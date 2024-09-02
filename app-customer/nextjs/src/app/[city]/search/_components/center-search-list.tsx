@@ -7,6 +7,7 @@ import { GrLocation } from "react-icons/gr";
 
 import { centerUtils } from "@petzo/utils";
 
+import Features from "~/app/_components/center-features";
 import DogGroomingAnimation from "~/app/_components/dog-grooming-animation";
 import { MIN_SEARCH_TEXT_LENGTH } from "~/app/_components/global-search-input";
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
@@ -73,20 +74,20 @@ export default function CenterSearchList() {
                       </div>
                     )}
                   </div>
-                  <div className="col-span-4 space-y-1">
+                  <div className="col-span-4 flex flex-col items-start space-y-1 py-0.5">
                     <h3 className="text-sm font-semibold md:text-base">
                       {center.name}
                     </h3>
-                    <div className="flex items-center gap-2 text-xs text-foreground/80 md:text-sm">
-                      {!!center.averageRating && (
+                    {(!!center.averageRating || !!center.googleRating) && (
+                      <div className="-translate-x-[5%] -translate-y-[5%] scale-90">
                         <Rating
                           rating={center.averageRating}
                           ratingCount={center.ratingCount}
                           googleRating={center.googleRating}
                           googleRatingCount={center.googleRatingCount}
                         />
-                      )}
-                    </div>
+                      </div>
+                    )}
                     <div className="flex items-center gap-1">
                       <GrLocation />
                       <span className="line-clamp-1 text-xs font-medium capitalize md:text-sm">
@@ -97,6 +98,7 @@ export default function CenterSearchList() {
                     <span className="line-clamp-1 break-all text-xs font-semibold capitalize text-primary md:text-sm">
                       {serviceNames}
                     </span>
+                    <Features features={center.features} />
                   </div>
                 </Link>
               );
