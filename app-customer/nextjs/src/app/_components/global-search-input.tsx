@@ -37,7 +37,7 @@ export default function GlobalSearchInput({
   // Set search input to the value of the query parameter from the url.
   useEffect(() => {
     if (q) setInput(q);
-  }, [q]);
+  }, []);
 
   // Set search input to empty when the user navigates to a different page.
   useEffect(() => {
