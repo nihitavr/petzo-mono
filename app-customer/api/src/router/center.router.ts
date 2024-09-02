@@ -57,11 +57,15 @@ export const centerRouter = {
 
       let centerIdsQuery;
 
+      // Search query for center name full text search and trigram word similarity. This will only be used if search is provided. We are using a combination of both to get better results.
+      // 0.8 is the weightage given to ts_rank and 0.2 is the weightage given to word_similarity, because ts_rank gives
+      const searchQuery = sql`(ts_rank(name_tsv, plainto_tsquery('simple', ${input.search})) * 0.8 + word_similarity(${schema.centers.name}, ${input.search}) * 0.2)`;
+
       // If search is provided, get center ids with similarity.
       if (input.search) {
         centerIdsQuery = ctx.db.selectDistinct({
           id: schema.centers.id,
-          sim: sql`word_similarity(${schema.centers.name}, ${input.search}) as sim`,
+          sim: sql`${searchQuery} as sim`,
         });
       } else if (input.geoCode) {
         centerIdsQuery = ctx.db.selectDistinct({
@@ -122,9 +126,7 @@ export const centerRouter = {
         .where(
           and(
             // If search is provided, filter center name by it.
-            input.search
-              ? sql`word_similarity(${schema.centers.name}, ${input.search}) > 0.1`
-              : undefined,
+            input.search ? gte(searchQuery, 0.02) : undefined,
 
             eq(schema.centers.status, "verified"),
             // If rating is provided, filter centers by averageRating greater than or equal to the given rating.
