@@ -1,4 +1,5 @@
 import { getFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
+import { FiArrowUpRight } from "react-icons/fi";
 import { GrLocation } from "react-icons/gr";
 
 import type { Center } from "@petzo/db";
@@ -65,9 +66,9 @@ export const CenterInfo = ({
           href={getGoogleLocationLink(center.centerAddress?.geocode)}
           target="_blank"
           rel="noreferrer"
-          className="flex items-start gap-1 hover:underline"
+          className="group flex items-center gap-1 py-0.5 hover:underline"
         >
-          <GrLocation className="mt-0.5 !size-4 shrink-0" />
+          <GrLocation className="!size-5 shrink-0 text-foreground/80 hover:scale-110 group-hover:text-foreground/60" />
           <span className="line-clamp-1 text-2sm font-medium capitalize md:text-sm">
             {getFormattedAddresses(center?.centerAddress, [
               "line2",
@@ -78,7 +79,7 @@ export const CenterInfo = ({
         </a>
       )}
 
-      <hr className="my-1 border-dashed border-foreground/40" />
+      <hr className="my-1 border-dashed border-foreground/40 " />
 
       {/* Center Description */}
       <CenterDescriptionAndButtons center={center} />

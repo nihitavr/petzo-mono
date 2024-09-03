@@ -3,14 +3,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { FiPhoneOutgoing } from "react-icons/fi";
-import { GrLocation } from "react-icons/gr";
-import { LuShare } from "react-icons/lu";
+import { LiaDirectionsSolid } from "react-icons/lia";
 
 import type { CENTER_CTA_BUTTONS_TYPE } from "@petzo/constants";
 import type { Center } from "@petzo/db";
 import { INDIA_COUNTRY_CODE, WHATSAPP_URL } from "@petzo/constants";
 import { Button } from "@petzo/ui/components/button";
-import Share from "@petzo/ui/components/share";
 import { getGoogleLocationLink } from "@petzo/utils";
 
 import { trackCustom } from "~/web-analytics/react";
@@ -61,9 +59,9 @@ export default function CenterCTAButtons({ center }: { center: Center }) {
         >
           <AtcButtons
             whatsappLink={whatsappLink}
-            centerName={center.name}
             centerPublicId={center.publicId}
             ctaButtons={center.ctaButtons}
+            geocode={center.centerAddress?.geocode}
             shareUrl={shareUrl}
             phoneNumber={center.phoneNumber}
           />
@@ -97,23 +95,21 @@ function AtcButtons({
   whatsappLink,
   varient = "primary",
   ctaButtons,
-  centerName,
+
   centerPublicId,
-  shareUrl,
+
   phoneNumber,
   geocode,
 }: {
   whatsappLink: string;
   varient?: "primary" | "secondary";
   ctaButtons: CENTER_CTA_BUTTONS_TYPE[] | null;
-  centerName: string;
   centerPublicId: string;
-  shareUrl?: string;
   phoneNumber?: string | null;
   geocode?: { latitude: number; longitude: number } | null;
 }) {
   return (
-    <div className="flex w-full justify-end gap-1">
+    <div className="flex w-full items-center justify-end gap-1">
       {phoneNumber && (
         <>
           {ctaButtons?.includes("call") && (
@@ -172,27 +168,16 @@ function AtcButtons({
           )}
         </>
       )}
-      {geocode && (
-        <Button size="md" variant="outline" className="flex-1">
-          <a
-            className="flex items-center gap-1"
-            href={getGoogleLocationLink(geocode)}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span className="text-sm md:text-sm">Get Direction</span>
-            <GrLocation className="size-4 cursor-pointer hover:text-foreground/80" />
-          </a>
-        </Button>
+      {!!geocode && (
+        <a
+          href={getGoogleLocationLink(geocode)}
+          target="_blank"
+          rel="noreferrer"
+          className="group flex aspect-square h-8 w-11 shrink-0 items-center justify-center rounded-full border bg-background py-1 hover:underline"
+        >
+          <LiaDirectionsSolid className="!size-full shrink-0 text-foreground/90 group-hover:text-foreground/60" />
+        </a>
       )}
-      <Share
-        shareInfo={{
-          title: centerName,
-          url: shareUrl,
-        }}
-      >
-        <LuShare className="size-6 cursor-pointer hover:text-foreground/80" />
-      </Share>
     </div>
   );
 }
