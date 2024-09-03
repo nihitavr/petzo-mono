@@ -39,10 +39,6 @@ export default function BestCentersInCity({
     { enabled: !!cityPublicId, staleTime: 1000 * 60 * 1 },
   );
 
-  console.log(
-    `BestCentersInCity: ${cityName}, ${cityPublicId}, ${isLoading}, ${isPending}, ${selectedServices.join("|")}, ${centers?.length}`,
-  );
-
   return (
     <div className="animate-fade-in space-y-0">
       <div className="flex flex-col items-center justify-center">
@@ -87,8 +83,7 @@ export default function BestCentersInCity({
                 className="flex-shrink-0 basis-[95%] py-3 md:basis-[40%]"
                 key={center.id}
               >
-                <div className="size-32 rounded-xl bg-muted"></div>
-                {/* <div className="hidden h-full w-full md:inline-block">
+                <div className="hidden h-full w-full md:inline-block">
                   <CenterCardHorizontal center={center} />
                 </div>
 
@@ -98,7 +93,7 @@ export default function BestCentersInCity({
                     onlySummary={true}
                     autoplayImages={false}
                   />
-                </div> */}
+                </div>
               </div>
             ))}
             <div className="flex items-center justify-center whitespace-nowrap py-4">
