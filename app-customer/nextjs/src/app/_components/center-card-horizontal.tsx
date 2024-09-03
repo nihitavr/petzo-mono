@@ -19,7 +19,9 @@ export default function CenterCardHorizontal({
   center: Center;
   serviceTypes?: string[];
 }) {
-  const thumbnail = center.images?.[0]?.url;
+  // const thumbnail = center.images?.[0]?.url;
+  const thumbnail = undefined;
+
   const lowestPriceService = serviceUtils.getLowestCostService(
     center.services,
     serviceTypes,
