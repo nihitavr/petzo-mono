@@ -21,7 +21,7 @@ export default async function HomePage({
       <HeroSection cityPublicId={city} cityName={cityName!} />
       {/* <CentersNearYouSection cityPublicId={city} /> */}
       <BestCentersInCity cityPublicId={city} cityName={cityName!} />
-      <BestHomeCentersInCity cityPublicId={city} cityName={cityName!} />
+      {/* <BestHomeCentersInCity cityPublicId={city} cityName={cityName!} /> */}
       <WhyUsePetzoSection />
       <WhatsAppButton />
     </div>

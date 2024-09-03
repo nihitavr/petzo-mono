@@ -23,10 +23,6 @@ const HomePageServicesCard = ({
   disabled?: boolean;
   disabledToastText?: string;
 }) => {
-  if (name === "Home/Mobile Grooming") {
-    console.log("HomePageServicesCard");
-  }
-
   return (
     <Link
       href={link}

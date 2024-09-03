@@ -16,8 +16,6 @@ export default function BestHomeCentersInCity({
   cityPublicId?: string;
   cityName: string;
 }) {
-  console.log("BestHomeCentersInCity");
-
   cityPublicId = useMemo(() => cityPublicId, [cityPublicId]);
   cityName = useMemo(() => cityName, [cityName]);
 
