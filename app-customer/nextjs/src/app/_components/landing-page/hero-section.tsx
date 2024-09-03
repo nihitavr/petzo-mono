@@ -10,7 +10,7 @@ export default function HeroSection({
 }) {
   return (
     <div className="space-y-6">
-      <HeroSectionText city={cityName} />
+      {/* <HeroSectionText city={cityName} /> */}
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4 ">
         <HomePageServicesCard
