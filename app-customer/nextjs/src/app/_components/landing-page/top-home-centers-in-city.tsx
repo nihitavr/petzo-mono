@@ -16,6 +16,8 @@ export default function BestHomeCentersInCity({
   cityPublicId?: string;
   cityName: string;
 }) {
+  console.log("Loading BestHomeCentersInCity");
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedServices, setSelectedServices] = useState<string[]>([
     "home_grooming",
@@ -36,8 +38,12 @@ export default function BestHomeCentersInCity({
     { enabled: !!cityPublicId, staleTime: 1000 * 60 * 1 },
   );
 
+  console.log(
+    `BestHomeCentersInCity: ${cityName}, ${cityPublicId}, ${isLoading}, ${isPending}, ${selectedServices.join("|")}, ${centers?.length}`,
+  );
+
   return (
-    <div className="space-y-2 animate-fade-in">
+    <div className="animate-fade-in space-y-2">
       <div className="flex flex-col items-center justify-center">
         <div className="flex items-start justify-center gap-1">
           <Image
