@@ -13,6 +13,8 @@ import { trackCustom } from "~/web-analytics/react";
 const WhatsAppButton = () => {
   useSignals();
 
+  console.log("loading whatsapp button");
+
   // const [isScrollAtEnd, setIsScrollAtEnd] = useState(false);
 
   const isScrollAtEnd = true;
