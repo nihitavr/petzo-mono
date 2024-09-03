@@ -11,6 +11,7 @@ import { servicesCart } from "~/lib/storage/service-cart-storage";
 import { trackCustom } from "~/web-analytics/react";
 
 const WhatsAppButton = () => {
+  console.log("WhatsAppButton");
   useSignals();
 
   // const [isScrollAtEnd, setIsScrollAtEnd] = useState(false);
