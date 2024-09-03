@@ -21,13 +21,9 @@ export default function CenterCTAButtons({ center }: { center: Center }) {
   );
 
   const ctaButtonsContainerRef = useRef<HTMLDivElement>(null);
-  const [shareUrl, setShareUrl] = useState("");
   const [, setFixedATC] = useState(false);
 
   useEffect(() => {
-    // Access the current page URL using window.location.href
-    setShareUrl(window.location.href);
-
     const handleScroll = () => {
       const ctaButtonsTop =
         ctaButtonsContainerRef?.current?.getBoundingClientRect()?.top;
@@ -62,7 +58,6 @@ export default function CenterCTAButtons({ center }: { center: Center }) {
             centerPublicId={center.publicId}
             ctaButtons={center.ctaButtons}
             geocode={center.centerAddress?.geocode}
-            shareUrl={shareUrl}
             phoneNumber={center.phoneNumber}
           />
         </div>
