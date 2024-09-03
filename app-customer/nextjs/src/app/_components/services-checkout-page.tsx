@@ -184,7 +184,7 @@ const CartServiceDetails = ({
 
   useEffect(() => {
     if (slots?.length && items.length) {
-      const slotIdToAvailabilityMap = slots.reduce(
+      const slotIdToAvailabilityMap: Record<number, number> = slots.reduce(
         (acc, slot) => {
           acc[slot.id] = slot.availableSlots;
           return acc;
@@ -195,8 +195,9 @@ const CartServiceDetails = ({
       let isAnySlotUnavailable = false;
 
       items.forEach((item) => {
-        if (slotIdToAvailabilityMap?.[item.slot.id]) {
-          slotIdToAvailabilityMap[item.slot.id]--;
+        if (slotIdToAvailabilityMap?.[item?.slot?.id]) {
+          slotIdToAvailabilityMap[item.slot.id] =
+            (slotIdToAvailabilityMap[item.slot.id] ?? 0) - 1;
         }
 
         item.slot.availableSlots = slotIdToAvailabilityMap[item.slot.id]!;
