@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -16,8 +16,11 @@ export default function BestCentersInCity({
   cityPublicId?: string;
   cityName: string;
 }) {
+  cityPublicId = useMemo(() => cityPublicId, [cityPublicId]);
+  cityName = useMemo(() => cityName, [cityName]);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedServices, setSelectedServices] = useState<string[]>([
+  const [selectedServices] = useState<string[]>([
     "grooming",
     "veterinary",
     "boarding",
