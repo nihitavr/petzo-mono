@@ -1,4 +1,6 @@
 // import CentersNearYouSection from "~/app/_components/landing-page/centers-near-you-section";
+import { Suspense } from "react";
+
 import HeroSection from "~/app/_components/landing-page/hero-section";
 import BestHomeCentersInCity from "~/app/_components/landing-page/top-home-centers-in-city";
 import BestCentersInCity from "~/app/_components/landing-page/top-rated-centers-in-city";
@@ -22,7 +24,9 @@ export default async function HomePage({
       <RecordEvent name="screenview_city_explore_home_page" data={{ city }} />
       <HeroSection cityPublicId={city} cityName={cityName!} />
       {/* <CentersNearYouSection cityPublicId={city} /> */}
-      <BestCentersInCity cityPublicId={city} cityName={cityName!} />
+      <Suspense>
+        <BestCentersInCity cityPublicId={city} cityName={cityName!} />
+      </Suspense>
       <BestHomeCentersInCity cityPublicId={city} cityName={cityName!} />
       <WhyUsePetzoSection />
       <WhatsAppButton />
