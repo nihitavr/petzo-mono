@@ -16,6 +16,8 @@ export default function BestCentersInCity({
   cityPublicId?: string;
   cityName: string;
 }) {
+  console.log("BestCentersInCity");
+
   cityPublicId = useMemo(() => cityPublicId, [cityPublicId]);
   cityName = useMemo(() => cityName, [cityName]);
 
