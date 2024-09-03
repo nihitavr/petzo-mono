@@ -37,7 +37,7 @@ export default function BestHomeCentersInCity({
   );
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 animate-fade-in">
       <div className="flex flex-col items-center justify-center">
         <div className="flex items-start justify-center gap-1">
           <Image
