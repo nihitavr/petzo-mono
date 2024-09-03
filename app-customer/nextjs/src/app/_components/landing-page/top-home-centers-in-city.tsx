@@ -16,8 +16,6 @@ export default function BestHomeCentersInCity({
   cityPublicId?: string;
   cityName: string;
 }) {
-  // console.log("Loading BestHomeCentersInCity");
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedServices, setSelectedServices] = useState<string[]>([
     "home_grooming",
