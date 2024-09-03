@@ -1,5 +1,4 @@
 import { getFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
-import { FiArrowUpRight } from "react-icons/fi";
 import { GrLocation } from "react-icons/gr";
 
 import type { Center } from "@petzo/db";
