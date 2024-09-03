@@ -21,7 +21,7 @@ export default function NearbySort() {
     [searchParams],
   );
 
-  const onClick = () => {
+  const onClick = async () => {
     let filterUrl = `/${filtersStore.city.value}/centers`;
 
     if (!hasNearByFilter) {
@@ -60,8 +60,10 @@ export default function NearbySort() {
       onClick={onClick}
       disabled={fetchingLocation}
       className={cn(
-        "flex h-min items-center gap-1 rounded-full border px-3 py-1 text-sm",
-        hasNearByFilter ? "border-primary bg-primary/10" : "",
+        "flex h-min items-center gap-1 rounded-full border px-3 py-1 text-sm transition-all duration-200",
+        hasNearByFilter || fetchingLocation
+          ? "border-primary bg-primary/10"
+          : "",
         fetchingLocation ? "cursor-not-allowed opacity-70" : "cursor-pointer",
       )}
     >
