@@ -50,15 +50,15 @@ export default function CityDropdown({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <div className="flex cursor-pointer flex-col items-center gap-0.5">
-          <span className="line-clamp-1 text-[0.7rem] font-semibold text-foreground/70">
+          <span className="line-clamp-1 text-2xs font-semibold text-foreground/70">
             {selectedCity?.name}
           </span>
           <div className="flex items-center">
             <SlLocationPin
-              className="size-[1.1rem] text-foreground/70"
+              className="size-4 text-foreground/70 md:size-5"
               strokeWidth={10}
             />
-            <LuChevronDown className="size-5 text-foreground/70" />
+            <LuChevronDown className="size-4 text-foreground/70 md:size-5" />
           </div>
         </div>
       </PopoverTrigger>

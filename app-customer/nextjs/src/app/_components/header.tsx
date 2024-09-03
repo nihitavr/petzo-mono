@@ -82,6 +82,7 @@ export default function Header({
           <Link
             className="flex items-center"
             href={`/${filtersStore.city.value}/explore`}
+            scroll={false}
           >
             <div className="relative h-10 w-40 dark:hidden">
               <Image

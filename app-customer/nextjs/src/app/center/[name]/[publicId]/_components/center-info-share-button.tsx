@@ -21,7 +21,7 @@ export default function CenterInfoShareButton({ center }: { center: Center }) {
         url: shareUrl,
       }}
     >
-      <LuShare className="size-5 cursor-pointer text-foreground/80 hover:text-foreground/60" />
+      <LuShare className="size-6 cursor-pointer text-foreground/80 hover:scale-110 hover:text-foreground/60" />
     </Share>
   );
 }

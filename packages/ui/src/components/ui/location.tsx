@@ -1,6 +1,7 @@
 import {
   GEOLOCATION_MAX_AGE_IN_MS,
   GEOLOCATION_TIMEOUT_IN_MS,
+  GEOLOCATION_TIMEOUT_IN_MS_WITH_LOCALSTORAGE,
 } from "@petzo/constants";
 
 import { toast } from "./toast";
@@ -18,6 +19,8 @@ export const fetchLocation = (
     return;
   }
 
+  const geoLocationDataString = localStorage.getItem("geoLocationData");
+
   navigator.geolocation.getCurrentPosition(
     (position) => {
       localStorage.setItem(
@@ -30,8 +33,6 @@ export const fetchLocation = (
       success(position);
     },
     (e) => {
-      const geoLocationDataString = localStorage.getItem("geoLocation");
-
       const geoLocationData = (
         geoLocationDataString ? JSON.parse(geoLocationDataString) : null
       ) as {
@@ -57,7 +58,9 @@ export const fetchLocation = (
     options
       ? options
       : {
-          timeout: GEOLOCATION_TIMEOUT_IN_MS,
+          timeout: geoLocationDataString
+            ? GEOLOCATION_TIMEOUT_IN_MS_WITH_LOCALSTORAGE
+            : GEOLOCATION_TIMEOUT_IN_MS,
           maximumAge: GEOLOCATION_MAX_AGE_IN_MS,
           enableHighAccuracy: true,
         },

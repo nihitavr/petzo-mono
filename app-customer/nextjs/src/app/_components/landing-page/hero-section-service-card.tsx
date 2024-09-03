@@ -48,7 +48,7 @@ const HomePageServicesCard = ({
         className="z-10 transition-transform duration-200 ease-in-out group-hover:scale-105"
       />
       <div className={`absolute left-0 top-0 size-full bg-muted`}></div>
-      <h2 className="z-10 font-semibold md:text-xl">{name}</h2>
+      <h2 className="z-10 text-base font-semibold md:text-xl">{name}</h2>
       {label && (
         <span className="z-10 -mt-1 text-xs opacity-60 md:text-sm">
           {label}
