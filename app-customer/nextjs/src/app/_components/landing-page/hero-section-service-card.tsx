@@ -23,6 +23,8 @@ const HomePageServicesCard = ({
   disabled?: boolean;
   disabledToastText?: string;
 }) => {
+  console.log("HomePageServicesCard 1");
+  
   return (
     <Link
       href={link}
