@@ -58,17 +58,23 @@ export default function BasicImagesCasousel({
     };
   }, [carouselApi]);
 
-  const carousalAutoplay = CarouselAutoplay({
-    delay: autoPlayDelay,
-    jump: false,
-    active: cardVisible,
-  });
+  let carousalAutoplay;
+
+  if (autoplay) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    carousalAutoplay = CarouselAutoplay({
+      delay: autoPlayDelay,
+      jump: false,
+      active: cardVisible,
+    });
+  }
 
   return (
     <Carousel
       plugins={
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        autoplay
+        carousalAutoplay
           ? ([
               carousalAutoplay,
               // eslint-disable-next-line @typescript-eslint/no-explicit-any

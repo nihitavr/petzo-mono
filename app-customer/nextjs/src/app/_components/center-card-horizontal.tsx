@@ -42,7 +42,7 @@ export default function CenterCardHorizontal({
               className="h-44 w-full md:h-60"
               autoPlayDelay={3000}
               enableZoomOut={false}
-              autoPlatMargin="-15% 0px -15% 0px"
+              autoPlatMargin="-10% 0px -10% 0px"
             />
           ) : (
             // <Image src={thumbnail} alt="" fill style={{ objectFit: "cover" }} />
