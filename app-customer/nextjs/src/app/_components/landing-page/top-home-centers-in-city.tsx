@@ -88,8 +88,11 @@ export default function BestHomeCentersInCity({
                 </div>
 
                 <div className="h-full md:hidden">
-                  <CenterCardHorizontal center={center} />
-                  {/* <CenterCardVertical center={center} onlySummary={true} /> */}
+                  <CenterCardVertical
+                    center={center}
+                    onlySummary={true}
+                    autoplayImages={false}
+                  />
                 </div>
               </div>
             ))}

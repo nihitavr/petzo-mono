@@ -27,7 +27,8 @@ export default function CenterCardVertical({
   onlySummary?: boolean;
   autoplayImages?: boolean;
 }) {
-  const thumbnail = center.images?.[0]?.url;
+  // const thumbnail = center.images?.[0]?.url;
+  const thumbnail = undefined;
   const lowestPriceService = serviceUtils.getLowestCostService(
     center.services,
     serviceTypes,
