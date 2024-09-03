@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSignals } from "@preact/signals-react/runtime";
 
 import type { Session } from "@petzo/auth-customer-app";
@@ -26,6 +26,8 @@ export default function Header({
   cities: City[];
 }) {
   useSignals();
+
+  const router = useRouter();
   const pathname = usePathname();
 
   const [lastScrollTop, setLastScrollTop] = useState(0);
@@ -78,9 +80,9 @@ export default function Header({
     >
       <nav className="grid w-full grid-cols-2 gap-4 border-b px-3 py-2 shadow-sm md:grid-cols-3 lg:px-24 xl:px-48">
         <div className="flex items-center justify-start gap-4">
-          <Link
+          <button
             className="flex items-center"
-            href={`/${filtersStore.city.value}/explore`}
+            onClick={() => router.push(`/${filtersStore.city.value}/explore`)}
           >
             <div className="relative h-10 w-40 dark:hidden">
               <Image
@@ -102,7 +104,7 @@ export default function Header({
                 priority
               />
             </div>
-          </Link>
+          </button>
         </div>
         <div className="hidden items-center justify-center md:flex">
           {!pathname.endsWith("/partner-with-us") && <GlobalSearchInput />}
