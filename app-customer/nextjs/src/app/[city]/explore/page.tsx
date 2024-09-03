@@ -1,3 +1,5 @@
+import FadeInWhenVisible from "@petzo/ui/components/animation/fade-in-when-visible";
+
 import HeroSection from "~/app/_components/landing-page/hero-section";
 import BestHomeCentersInCity from "~/app/_components/landing-page/top-home-centers-in-city";
 import BestCentersInCity from "~/app/_components/landing-page/top-rated-centers-in-city";
@@ -20,8 +22,13 @@ export default async function HomePage({
       <RecordEvent name="screenview_city_explore_home_page" data={{ city }} />
       <HeroSection cityPublicId={city} cityName={cityName!} />
       {/* <CentersNearYouSection cityPublicId={city} /> */}
-      <BestCentersInCity cityPublicId={city} cityName={cityName!} />
-      <BestHomeCentersInCity cityPublicId={city} cityName={cityName!} />
+
+      <FadeInWhenVisible>
+        <BestCentersInCity cityPublicId={city} cityName={cityName!} />
+      </FadeInWhenVisible>
+      <FadeInWhenVisible>
+        <BestHomeCentersInCity cityPublicId={city} cityName={cityName!} />
+      </FadeInWhenVisible>
       <WhyUsePetzoSection />
       <WhatsAppButton />
     </div>
