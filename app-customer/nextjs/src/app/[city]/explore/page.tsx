@@ -1,6 +1,5 @@
 import HeroSection from "~/app/_components/landing-page/hero-section";
-import BestHomeCentersInCity from "~/app/_components/landing-page/top-home-centers-in-city";
-import BestCentersInCity from "~/app/_components/landing-page/top-rated-centers-in-city";
+// import BestHomeCentersInCity from "~/app/_components/landing-page/top-home-centers-in-city";
 // import BestCentersInCity from "~/app/_components/landing-page/top-rated-centers-in-city";
 import WhyUsePetzoSection from "~/app/_components/landing-page/why-use-petzo";
 import WhatsAppButton from "~/app/_components/whats-app-contact-button";
@@ -21,8 +20,8 @@ export default async function HomePage({
       <RecordEvent name="screenview_city_explore_home_page" data={{ city }} />
       <HeroSection cityPublicId={city} cityName={cityName!} />
       {/* <CentersNearYouSection cityPublicId={city} /> */}
-      <BestCentersInCity cityPublicId={city} cityName={cityName!} />
-      <BestHomeCentersInCity cityPublicId={city} cityName={cityName!} />
+      {/* <BestCentersInCity cityPublicId={city} cityName={cityName!} />
+      <BestHomeCentersInCity cityPublicId={city} cityName={cityName!} /> */}
       <WhyUsePetzoSection />
       <WhatsAppButton />
     </div>
