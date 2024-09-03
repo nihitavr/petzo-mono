@@ -40,7 +40,7 @@ export default function BestCentersInCity({
   );
 
   console.log(
-    `${cityName}, ${cityPublicId}, ${isLoading}, ${isPending}, ${selectedServices.join("|")}`,
+    `BestCentersInCity: ${cityName}, ${cityPublicId}, ${isLoading}, ${isPending}, ${selectedServices.join("|")}, ${centers?.length}`,
   );
 
   return (
