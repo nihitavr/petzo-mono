@@ -16,7 +16,7 @@ export default function BestHomeCentersInCity({
   cityPublicId?: string;
   cityName: string;
 }) {
-  console.log("Loading BestHomeCentersInCity");
+  // console.log("Loading BestHomeCentersInCity");
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedServices, setSelectedServices] = useState<string[]>([
@@ -36,10 +36,6 @@ export default function BestHomeCentersInCity({
     },
     // stale time is 1 minute
     { enabled: !!cityPublicId, staleTime: 1000 * 60 * 1 },
-  );
-
-  console.log(
-    `BestHomeCentersInCity: ${cityName}, ${cityPublicId}, ${isLoading}, ${isPending}, ${selectedServices.join("|")}, ${centers?.length}`,
   );
 
   return (
@@ -86,15 +82,13 @@ export default function BestHomeCentersInCity({
                 className="flex-shrink-0 basis-[95%] py-3 md:basis-[40%]"
                 key={center.id}
               >
-                <div className="size-32 rounded-xl bg-muted"></div>
-
-                {/* <div className="hidden h-full w-full md:inline-block">
+                <div className="hidden h-full w-full md:inline-block">
                   <CenterCardHorizontal center={center} />
                 </div>
 
                 <div className="h-full md:hidden">
                   <CenterCardVertical center={center} onlySummary={true} />
-                </div> */}
+                </div>
               </div>
             ))}
             <div className="flex items-center justify-center whitespace-nowrap py-4">
