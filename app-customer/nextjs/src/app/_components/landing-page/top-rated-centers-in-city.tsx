@@ -1,8 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+
+import { useInView } from "@petzo/ui/components/in-view";
 
 import { LoadingCentersList } from "~/app/[city]/centers/loading";
 import { api } from "~/trpc/react";
@@ -43,7 +45,7 @@ export default function BestCentersInCity({
   );
 
   return (
-    <div className="animate-fade-in space-y-0">
+    <div className={"animate-fade-in space-y-0"}>
       <div className="flex flex-col items-center justify-center">
         <div className="flex items-center gap-1">
           <Image
@@ -86,7 +88,7 @@ export default function BestCentersInCity({
                 className="flex-shrink-0 basis-[95%] py-3 md:basis-[40%]"
                 key={center.id}
               >
-                <div className="hidden h-full w-full md:inline-block">
+                {/* <div className="hidden h-full w-full md:inline-block">
                   <CenterCardHorizontal center={center} />
                 </div>
 
@@ -96,7 +98,7 @@ export default function BestCentersInCity({
                     onlySummary={true}
                     autoplayImages={false}
                   />
-                </div>
+                </div> */}
               </div>
             ))}
             <div className="flex items-center justify-center whitespace-nowrap py-4">
