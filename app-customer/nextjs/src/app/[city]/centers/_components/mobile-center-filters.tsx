@@ -28,8 +28,6 @@ export function MobileCenterFilters({
     [searchParams],
   );
 
-  console.log("isFilterSelected: ", isFilterSelected);
-
   const [isOpen, setIsOpen] = useState(false);
 
   return (
