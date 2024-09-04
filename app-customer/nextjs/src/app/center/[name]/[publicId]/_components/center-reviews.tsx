@@ -44,14 +44,16 @@ export default function CenterReviews({
           />
         ) : (
           <div className="flex flex-col items-center gap-1 rounded-lg border py-3">
-            <span className="px-5 text-center text-sm">
-              Help your pet care provider{" "}
-              <span className="font-semibold">grow</span>{" "}
+            <span className="px-2 text-center text-sm">
+              Your feedback helps us improve.
             </span>
-            <span className="px-5 text-center text-sm">
-              Please Sign in to <span className="font-semibold">review</span>
+            <span className="px-5 text-center text-2sm">
+              Please Signin to <span className="font-semibold">review</span>
             </span>
-            <SignIn onClick={() => trackCustom("click_login_review")} />
+            <SignIn
+              className="h-8 text-2sm"
+              onClick={() => trackCustom("click_login_review")}
+            />
           </div>
         )}
 
