@@ -1,6 +1,7 @@
 import type { CustomerUser, Review } from "@petzo/db";
 import { auth } from "@petzo/auth-customer-app";
 import NotFound from "@petzo/ui/components/errors/not-found";
+import ScrollToTop from "@petzo/ui/components/scroll-to-top";
 
 import { api } from "~/trpc/server";
 import CenterCTAButtons from "./center-cta-buttons";
@@ -38,6 +39,7 @@ export default async function CenterPage({ publicId }: { publicId: string }) {
 
   return (
     <div className="flex animate-fade-in flex-col gap-5 md:gap-8">
+      <ScrollToTop />
       {/* Center Image & Center Info */}
       <div className="flex grid-cols-10 flex-col gap-2 md:grid md:gap-5">
         {/* Center Images */}
