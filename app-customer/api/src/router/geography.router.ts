@@ -13,7 +13,7 @@ interface CTX {
 export const geographyRouter = {
   getAreasByCity: publicCachedProcedure
     .meta({
-      cacheTTLInSeconds: 36000,
+      cacheTTLInSeconds: 3000,
     })
     .input(geographyValidator.GetAreasByCity)
     .query(({ ctx, input }) => {
