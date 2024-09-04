@@ -1,7 +1,8 @@
 "use client";
 
 import type { z } from "zod";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { FaFilter } from "react-icons/fa";
 
 import type { centerValidator } from "@petzo/validators";
@@ -10,6 +11,7 @@ import {
   DrawerContent,
   DrawerTrigger,
 } from "@petzo/ui/components/drawer";
+import { cn } from "@petzo/ui/lib/utils";
 
 import { CenterFilters } from "./center-filters";
 
@@ -20,6 +22,12 @@ export function MobileCenterFilters({
 }: {
   filters: CenterFilterFormSchemaType;
 }) {
+  const searchParams = useSearchParams();
+  const isFilterSelected = useMemo(
+    () => !!searchParams.has("area") || !!searchParams.has("ratingGte"),
+    [searchParams],
+  );
+
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -28,14 +36,24 @@ export function MobileCenterFilters({
         onClick={() => {
           setIsOpen(true);
         }}
-        className="flex items-center gap-1 rounded-full border px-3 py-1"
+        className={cn(
+          "flex items-center gap-1 rounded-full border px-3 py-1",
+          isFilterSelected
+            ? "border-primary bg-primary/10"
+            : "border-foreground/50 text-foreground",
+        )}
       >
         <span className="text-sm">Filter By</span>
 
-        <FaFilter className="mt-0.5 h-3.5 text-foreground/50" />
+        <FaFilter
+          className={cn(
+            "mt-0.5 h-3.5 text-foreground/70",
+            isFilterSelected ? "" : "",
+          )}
+        />
       </DrawerTrigger>
       <DrawerContent>
-        <div className="max-h-[500px] overflow-auto pb-10">
+        <div className="max-h-[80vh] overflow-auto pb-10">
           <CenterFilters onApply={() => setIsOpen(false)} filters={filters} />
         </div>
       </DrawerContent>
