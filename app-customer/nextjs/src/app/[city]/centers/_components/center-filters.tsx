@@ -147,7 +147,7 @@ export function CenterFilters({
                       <FormLabel className="font-semibold text-foreground">
                         {field.value.label}
                       </FormLabel>
-                      <div className="max-h-72 space-y-2 overflow-auto">
+                      <div className="max-h-72 space-y-1.5 overflow-auto">
                         {field.value?.items.map((serviceTypeItem, itemIdx) => (
                           <FormField
                             key={`filters.${filterTypeIdx}.items.${itemIdx}`}
