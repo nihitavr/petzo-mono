@@ -9,8 +9,7 @@ import type {
   Service,
   Slot,
 } from "@petzo/db";
-import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
-import { and, desc, eq, inArray, schema, sql } from "@petzo/db";
+import { and, between, desc, eq, inArray, schema, sql } from "@petzo/db";
 import { getGoogleLocationLink, slackUtils } from "@petzo/utils";
 import { convertTime24To12, getSurroundingTime } from "@petzo/utils/time";
 import { bookingValidator } from "@petzo/validators";
@@ -98,7 +97,7 @@ export const bookingRouter = {
                 // Get the surrounding times for the slot.
                 const surroundingTimes = getSurroundingTime(
                   item!.slot.startTime,
-                  item!.service.duration - SLOT_DURATION_IN_MINS,
+                  item!.service.duration,
                 );
 
                 const serviceIdsToBlock = servicesByType[
@@ -113,7 +112,11 @@ export const bookingRouter = {
                   .where(
                     and(
                       inArray(schema.slots.serviceId, serviceIdsToBlock),
-                      inArray(schema.slots.startTime, surroundingTimes),
+                      between(
+                        schema.slots.startTime,
+                        surroundingTimes[0]!,
+                        surroundingTimes[(surroundingTimes?.length ?? 1) - 1]!,
+                      ),
                       eq(schema.slots.date, item!.slot.date),
                     ),
                   )

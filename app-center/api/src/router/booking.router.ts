@@ -1,4 +1,3 @@
-import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
 import {
   and,
   asc,
@@ -242,7 +241,7 @@ export const bookingRouter = {
         // Get surrounding times for the slot
         const surroundingTimes = getSurroundingTime(
           bookingItem!.slot!.startTime,
-          bookingItem!.service.duration - SLOT_DURATION_IN_MINS,
+          bookingItem!.service.duration,
         );
 
         // Get affected services with the same service type of the cancelled booking item.
