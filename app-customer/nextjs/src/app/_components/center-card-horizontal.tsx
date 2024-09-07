@@ -31,9 +31,9 @@ export default function CenterCardHorizontal({
   return (
     <Link
       href={centerUtils.getCenterUrl(center)}
-      className="flex animate-fade-in flex-row rounded-xl bg-muted md:border md:shadow-sm"
+      className="flex animate-fade-in flex-row rounded-xl bg-muted/70 transition-all duration-200 hover:bg-foreground/10 md:border md:shadow-sm"
     >
-      <div className="flex h-44 w-full gap-1 md:h-64">
+      <div className="flex h-44 w-full gap-1 md:h-60">
         {/* Center Image */}
         <div className="relative h-full w-2/5 cursor-pointer overflow-hidden rounded-xl">
           {thumbnail ? (
@@ -42,7 +42,7 @@ export default function CenterCardHorizontal({
                 center.images?.slice(0, 8)?.map((image) => image.url) ?? []
               }
               autoplay={true}
-              className="h-44 w-full md:h-64"
+              className="h-44 w-full md:h-60"
               autoPlayDelay={3000}
               enableZoomOut={false}
               autoPlatMargin="-10% 0px -10% 0px"
@@ -120,10 +120,20 @@ export default function CenterCardHorizontal({
           {lowestPriceService && (
             <div className="mt-auto flex justify-between rounded-r-full bg-gradient-to-r from-background to-primary/40 px-2 py-1">
               <div className="flex flex-col">
-                <span className="line-clamp-1 text-xs capitalize text-foreground/80 md:text-sm">
+                <span
+                  className={cn(
+                    "line-clamp-1 text-xs capitalize text-foreground/80 md:text-sm",
+                    onlySummary ? "md:text-xs" : "md:text-2sm",
+                  )}
+                >
                   {SERVICES_CONFIG[lowestPriceService.serviceType]?.name}
                 </span>
-                <span className="line-clamp-1 text-2sm md:text-sm">
+                <span
+                  className={cn(
+                    "line-clamp-1 text-2sm",
+                    onlySummary ? "md:text-2sm" : "md:text-sm",
+                  )}
+                >
                   Starting at{" "}
                 </span>
               </div>

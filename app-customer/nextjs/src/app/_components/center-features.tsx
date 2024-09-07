@@ -24,7 +24,9 @@ const Features = ({
           src={CENTER_FEATURES_CONFIG[features[0]!].icon}
           alt={"center feature " + features[0]}
         />
-        <span>{CENTER_FEATURES_CONFIG[features[0]!].name}</span>
+        <span className="whitespace-nowrap">
+          {CENTER_FEATURES_CONFIG[features[0]!].name}
+        </span>
       </div>
     );
   }
@@ -40,7 +42,7 @@ const Features = ({
         src={CENTER_FEATURES_CONFIG[feature].icon}
         alt={"center feature " + feature}
       />
-      <span>
+      <span className="whitespace-nowrap">
         {CENTER_FEATURES_CONFIG[feature].name}
         {features.length - 1 !== idx && ","}{" "}
       </span>
