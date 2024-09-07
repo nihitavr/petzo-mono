@@ -37,7 +37,7 @@ export default function BestHomeCentersInCity({
   );
 
   return (
-    <div className="animate-fade-in space-y-2">
+    <div className="animate-fade-in space-y-0">
       <div className="flex flex-col items-center justify-center">
         <div className="flex items-start justify-center gap-1">
           <Image
@@ -81,7 +81,7 @@ export default function BestHomeCentersInCity({
                 key={center.id}
               >
                 <div className="hidden h-full w-full md:inline-block">
-                  <CenterCardHorizontal center={center} />
+                  <CenterCardHorizontal center={center} onlySummary={true} />
                 </div>
 
                 <div className="h-full md:hidden">

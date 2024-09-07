@@ -15,6 +15,7 @@ import { Analytics } from "@vercel/analytics/react";
 
 import { auth } from "@petzo/auth-customer-app";
 
+import { env } from "~/env";
 import { api } from "~/trpc/server";
 import { InitializeCustomEvents } from "~/web-analytics/react";
 import Footer from "./_components/footer";
@@ -83,7 +84,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
               {props.children}
             </main>
             <ViewCartButton />
-            <Footer />
+            <Footer centerAppBaseUrl={env.CENTER_APP_BASE_URL} />
           </TRPCReactProvider>
           <Toaster />
         </ThemeProvider>

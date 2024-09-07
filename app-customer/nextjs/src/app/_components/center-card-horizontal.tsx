@@ -4,7 +4,7 @@ import { GrLocation } from "react-icons/gr";
 import type { Center } from "@petzo/db";
 import { DISTANCE_MULTIPLIER, SERVICES_CONFIG } from "@petzo/constants";
 import Price from "@petzo/ui/components/price";
-import { centerUtils, mapUtils, serviceUtils } from "@petzo/utils";
+import { centerUtils, cn, mapUtils, serviceUtils } from "@petzo/utils";
 
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
@@ -15,9 +15,11 @@ import CenterTimings from "./center-timings";
 export default function CenterCardHorizontal({
   center,
   serviceTypes,
+  onlySummary = false,
 }: {
   center: Center;
   serviceTypes?: string[];
+  onlySummary?: boolean;
 }) {
   const thumbnail = center.images?.[0]?.url;
 
@@ -31,7 +33,7 @@ export default function CenterCardHorizontal({
       href={centerUtils.getCenterUrl(center)}
       className="flex animate-fade-in flex-row rounded-xl bg-muted md:border md:shadow-sm"
     >
-      <div className="flex h-44 w-full gap-1 md:h-60">
+      <div className="flex h-44 w-full gap-1 md:h-64">
         {/* Center Image */}
         <div className="relative h-full w-2/5 cursor-pointer overflow-hidden rounded-xl">
           {thumbnail ? (
@@ -40,7 +42,7 @@ export default function CenterCardHorizontal({
                 center.images?.slice(0, 8)?.map((image) => image.url) ?? []
               }
               autoplay={true}
-              className="h-44 w-full md:h-60"
+              className="h-44 w-full md:h-64"
               autoPlayDelay={3000}
               enableZoomOut={false}
               autoPlatMargin="-10% 0px -10% 0px"
@@ -60,9 +62,14 @@ export default function CenterCardHorizontal({
         </div>
 
         {/* Center Details */}
-        <div className="flex w-3/5 flex-col gap-1 p-1 pr-1.5 md:gap-1.5 md:p-1.5">
+        <div className="flex w-3/5 flex-col gap-1 p-1 pr-1.5 md:gap-1 md:p-1.5">
           {/* Center Name */}
-          <div className="line-clamp-2 cursor-pointer text-sm font-semibold hover:underline md:text-base">
+          <div
+            className={cn(
+              "cursor-pointer text-sm font-semibold hover:underline md:text-base",
+              onlySummary ? "line-clamp-1" : "line-clamp-2",
+            )}
+          >
             {center.name}
           </div>
 
@@ -89,7 +96,6 @@ export default function CenterCardHorizontal({
                 <>
                   <div className="size-1.5 rounded-full bg-foreground/50" />
                   <div className="text-2sm font-medium text-green-700">
-                    Around{" "}
                     {mapUtils.metersToKilometers(
                       center.distanceInMeters * DISTANCE_MULTIPLIER,
                     )}
@@ -113,13 +119,15 @@ export default function CenterCardHorizontal({
           {/* Lowest Service Price */}
           {lowestPriceService && (
             <div className="mt-auto flex justify-between rounded-r-full bg-gradient-to-r from-background to-primary/40 px-2 py-1">
-              <div className="flex flex-col ">
-                <span className="text-xs capitalize text-foreground/80 md:text-sm">
+              <div className="flex flex-col">
+                <span className="line-clamp-1 text-xs capitalize text-foreground/80 md:text-sm">
                   {SERVICES_CONFIG[lowestPriceService.serviceType]?.name}
                 </span>
-                <span className="text-2sm md:text-sm">Starting at </span>
+                <span className="line-clamp-1 text-2sm md:text-sm">
+                  Starting at{" "}
+                </span>
               </div>
-              <div className="text-md flex items-center justify-between md:text-lg">
+              <div className="flex items-center justify-between text-base md:text-lg">
                 <span className="text-base font-semibold md:text-lg">
                   <Price
                     price={lowestPriceService.price}

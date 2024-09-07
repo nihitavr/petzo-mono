@@ -96,7 +96,7 @@ export default async function Page() {
                     <Link href={centerUrl} className="w-1/2 cursor-pointer">
                       <Button
                         size="sm"
-                        variant="outline"
+                        variant="primary"
                         className="w-full space-x-0.5"
                       >
                         <span>Rebook</span>

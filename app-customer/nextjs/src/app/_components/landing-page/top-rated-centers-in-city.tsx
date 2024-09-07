@@ -82,7 +82,7 @@ export default function BestCentersInCity({
                 key={center.id}
               >
                 <div className="hidden h-full w-full md:inline-block">
-                  <CenterCardHorizontal center={center} />
+                  <CenterCardHorizontal center={center} onlySummary={true} />
                 </div>
 
                 <div className="h-full md:hidden">

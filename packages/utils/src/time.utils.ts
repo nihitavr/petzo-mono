@@ -27,7 +27,11 @@ import { stringUtils } from ".";
  * @param duration - The duration in minutes to consider before and after the booked time.
  * @returns - An array of slot start times within the duration before and after the booked time.
  */
-export function getSurroundingTime(time: string, duration: number): string[] {
+export function getSurroundingTime(
+  time: string,
+  duration: number,
+  slotDurationInMins = SLOT_DURATION_IN_MINS,
+): string[] {
   // Parse the bookedTime into a Date object
 
   const startTimeHours = parseInt(time.split(":")[0]!);
@@ -44,11 +48,20 @@ export function getSurroundingTime(time: string, duration: number): string[] {
 
   // Generate the slots between startTime and endTime at 30-minute intervals
   const slots: string[] = [];
-  let currentTime = startTime;
+  let currentTime = baseDate;
 
-  while (currentTime <= endTime) {
+  while (currentTime > startTime) {
     slots.push(format(currentTime, "HH:mm:ss"));
-    currentTime = addMinutes(currentTime, SLOT_DURATION_IN_MINS);
+    currentTime = subMinutes(currentTime, slotDurationInMins);
+  }
+
+  slots.reverse();
+
+  currentTime = addMinutes(baseDate, slotDurationInMins);
+
+  while (currentTime < endTime) {
+    slots.push(format(currentTime, "HH:mm:ss"));
+    currentTime = addMinutes(currentTime, slotDurationInMins);
   }
 
   return slots;

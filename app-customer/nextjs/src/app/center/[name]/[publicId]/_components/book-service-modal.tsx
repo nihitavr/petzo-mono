@@ -9,7 +9,6 @@ import { HiOutlineMoon } from "react-icons/hi";
 import { WiDaySunny, WiSunrise } from "react-icons/wi";
 
 import type { Center, CustomerUser, Pet, Service, Slot } from "@petzo/db";
-import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
 import {
   Accordion,
   AccordionContent,
@@ -338,7 +337,7 @@ function ServiceBookingForm({
           date: item.slot.date,
           surroundingTimes: timeUtils.getSurroundingTime(
             item.slot.startTime,
-            item.service.duration - SLOT_DURATION_IN_MINS,
+            item.service.duration,
           ),
         };
       })

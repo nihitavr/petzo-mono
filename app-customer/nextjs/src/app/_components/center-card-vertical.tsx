@@ -104,7 +104,6 @@ export default function CenterCardVertical({
                       <>
                         <div className="size-1.5 rounded-full bg-foreground/50" />
                         <div className="text-2sm font-medium text-green-700">
-                          Around{" "}
                           {mapUtils.metersToKilometers(
                             center.distanceInMeters * DISTANCE_MULTIPLIER,
                           )}
