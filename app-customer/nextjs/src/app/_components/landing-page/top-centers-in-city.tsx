@@ -9,7 +9,7 @@ import { api } from "~/trpc/react";
 import CenterCardHorizontal from "../center-card-horizontal";
 import CenterCardVertical from "../center-card-vertical";
 
-export default function BestCentersInCity({
+export default function TopCentersInCity({
   cityPublicId,
   cityName,
 }: {

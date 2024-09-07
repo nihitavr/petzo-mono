@@ -1,8 +1,8 @@
 import FadeInWhenVisible from "@petzo/ui/components/animation/fade-in-when-visible";
 
 import HeroSection from "~/app/_components/landing-page/hero-section";
-import BestHomeCentersInCity from "~/app/_components/landing-page/top-home-centers-in-city";
-import BestCentersInCity from "~/app/_components/landing-page/top-rated-centers-in-city";
+import TopCentersInCity from "~/app/_components/landing-page/top-centers-in-city";
+import TopHomeCentersInCity from "~/app/_components/landing-page/top-home-centers-in-city";
 import WhyUsePetzoSection from "~/app/_components/landing-page/why-use-petzo";
 import WhatsAppButton from "~/app/_components/whats-app-contact-button";
 import { api } from "~/trpc/server";
@@ -31,10 +31,10 @@ export default async function HomePage({
       {/* <CentersNearYouSection cityPublicId={city} /> */}
 
       <FadeInWhenVisible>
-        <BestCentersInCity cityPublicId={city} cityName={cityName!} />
+        <TopHomeCentersInCity cityPublicId={city} cityName={cityName!} />
       </FadeInWhenVisible>
       <FadeInWhenVisible>
-        <BestHomeCentersInCity cityPublicId={city} cityName={cityName!} />
+        <TopCentersInCity cityPublicId={city} cityName={cityName!} />
       </FadeInWhenVisible>
       <WhyUsePetzoSection />
       <WhatsAppButton />
