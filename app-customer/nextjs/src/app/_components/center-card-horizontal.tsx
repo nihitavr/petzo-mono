@@ -9,6 +9,7 @@ import { centerUtils, cn, mapUtils, serviceUtils } from "@petzo/utils";
 import Rating from "~/app/center/[name]/[publicId]/_components/rating-display";
 import { COLOR_MAP } from "~/lib/constants";
 import BasicImagesCasousel from "../center/[name]/[publicId]/_components/basic-images-carousel";
+import OnlineBookingAvailable from "../center/[name]/[publicId]/_components/online-booking-available";
 import Features from "./center-features";
 import CenterTimings from "./center-timings";
 
@@ -115,6 +116,8 @@ export default function CenterCardHorizontal({
 
           {/* Center Timings */}
           <CenterTimings center={center} />
+
+          {lowestPriceService && <OnlineBookingAvailable />}
 
           {/* Lowest Service Price */}
           {lowestPriceService && (

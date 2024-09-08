@@ -9,6 +9,7 @@ import Features from "~/app/_components/center-features";
 import CenterTimings from "~/app/_components/center-timings";
 import CenterDescriptionAndButtons from "./center-description-and-buttons";
 import CenterInfoShareButton from "./center-info-share-button";
+import OnlineBookingAvailable from "./online-booking-available";
 import Rating from "./rating-display";
 
 export const CenterInfo = ({
@@ -18,6 +19,9 @@ export const CenterInfo = ({
   center: Center;
   className?: string;
 }) => {
+  const isBookingEnabledForAnyService = center.services?.some(
+    (service) => service.isBookingEnabled,
+  );
   return (
     <div
       className={cn(
@@ -52,12 +56,16 @@ export const CenterInfo = ({
         </span>
       </span>
 
-      <div className="font-medium">
-        <Features features={center.features} />
-      </div>
+      {!!center.features?.length && (
+        <div className="font-medium">
+          <Features features={center.features} />
+        </div>
+      )}
 
       {/* Center Timings */}
       <CenterTimings center={center} />
+
+      {isBookingEnabledForAnyService && <OnlineBookingAvailable />}
 
       {/* Address */}
       {centerUtils.hasAtCenterServices(center.services) && (
