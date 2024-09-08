@@ -31,10 +31,10 @@ export default async function HomePage({
       {/* <CentersNearYouSection cityPublicId={city} /> */}
 
       <FadeInWhenVisible>
-        <TopHomeCentersInCity cityPublicId={city} cityName={cityName!} />
+        <TopCentersInCity cityPublicId={city} cityName={cityName!} />
       </FadeInWhenVisible>
       <FadeInWhenVisible>
-        <TopCentersInCity cityPublicId={city} cityName={cityName!} />
+        <TopHomeCentersInCity cityPublicId={city} cityName={cityName!} />
       </FadeInWhenVisible>
       <WhyUsePetzoSection />
       <WhatsAppButton />
