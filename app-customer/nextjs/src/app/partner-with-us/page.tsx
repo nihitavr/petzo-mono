@@ -41,7 +41,10 @@ export default async function Page({
         data={{ ref }}
       />
       <HeroSection centerAppBaseUrl={env.CENTER_APP_BASE_URL} />
-      <div className="w-screen -translate-x-3 bg-muted px-3 py-12 lg:-translate-x-24 lg:px-24 xl:-translate-x-48 xl:px-48">
+      <div
+        id="what-you-get"
+        className="w-screen -translate-x-3 bg-muted px-3 py-12 lg:-translate-x-24 lg:px-24 xl:-translate-x-48 xl:px-48"
+      >
         <WhatYouGet />
       </div>
       <GetStarted />
