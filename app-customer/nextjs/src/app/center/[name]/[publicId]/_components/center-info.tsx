@@ -10,6 +10,7 @@ import CenterTimings from "~/app/_components/center-timings";
 import CenterDescriptionAndButtons from "./center-description-and-buttons";
 import CenterInfoShareButton from "./center-info-share-button";
 import OnlineBookingAvailable from "./online-booking-available";
+import PaymentTypesAvailable from "./payment-types-available";
 import Rating from "./rating-display";
 
 export const CenterInfo = ({
@@ -65,7 +66,13 @@ export const CenterInfo = ({
       {/* Center Timings */}
       <CenterTimings center={center} />
 
-      {isBookingEnabledForAnyService && <OnlineBookingAvailable />}
+      {isBookingEnabledForAnyService && (
+        <div className="flex items-center gap-1">
+          <OnlineBookingAvailable />
+          <div className="size-1.5 rounded-full bg-foreground/80"></div>
+          <PaymentTypesAvailable />
+        </div>
+      )}
 
       {/* Address */}
       {centerUtils.hasAtCenterServices(center.services) && (
