@@ -53,15 +53,30 @@ export const DEFAULT_CENTER_FILTERS: {
       },
     ],
   },
+
   {
     publicId: "serviceType",
-    label: "Service Type",
+    label: "At Center Services",
     type: "multi-select",
-    items: Object.values(SERVICES_CONFIG).map((service) => ({
-      publicId: service.publicId,
-      label: service.name,
-      selected: false,
-    })),
+    items: Object.values(SERVICES_CONFIG)
+      .filter((service) => service.type === "at-center")
+      .map((service) => ({
+        publicId: service.publicId,
+        label: service.name,
+        selected: false,
+      })),
+  },
+  {
+    publicId: "serviceType",
+    label: "Home Services",
+    type: "multi-select",
+    items: Object.values(SERVICES_CONFIG)
+      .filter((service) => service.type === "home")
+      .map((service) => ({
+        publicId: service.publicId,
+        label: service.name,
+        selected: false,
+      })),
   },
   {
     publicId: "ratingGte",

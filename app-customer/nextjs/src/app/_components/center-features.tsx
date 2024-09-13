@@ -17,7 +17,6 @@ const Features = ({
   if (features.length === 1) {
     return (
       <div className="inline-flex items-center gap-1 text-2sm">
-        <span>Features</span>
         <Image
           width={16}
           height={16}
@@ -35,7 +34,6 @@ const Features = ({
 
   const featuresComp = features.map((feature, idx) => (
     <div key={feature} className="inline-flex items-center gap-1 text-2sm">
-      {idx == 0 && <span>Features</span>}
       <Image
         width={16}
         height={16}
@@ -50,7 +48,7 @@ const Features = ({
   ));
 
   return (
-    <div className={cn("flex flex-wrap items-center gap-1", className)}>
+    <div className={cn("mt-1 flex flex-wrap items-center gap-1", className)}>
       {featuresComp}
     </div>
   );

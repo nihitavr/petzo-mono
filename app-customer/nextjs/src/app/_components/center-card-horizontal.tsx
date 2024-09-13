@@ -34,7 +34,7 @@ export default function CenterCardHorizontal({
       href={centerUtils.getCenterUrl(center)}
       className="flex animate-fade-in flex-row rounded-xl bg-muted/70 transition-all duration-200 hover:bg-foreground/10 md:border md:shadow-sm"
     >
-      <div className="flex h-44 w-full gap-1 md:h-60">
+      <div className="flex h-44 w-full gap-1 md:h-64">
         {/* Center Image */}
         <div className="relative h-full w-2/5 cursor-pointer overflow-hidden rounded-xl">
           {thumbnail ? (
@@ -43,7 +43,7 @@ export default function CenterCardHorizontal({
                 center.images?.slice(0, 8)?.map((image) => image.url) ?? []
               }
               autoplay={true}
-              className="h-44 w-full md:h-60"
+              className="h-44 w-full md:h-64"
               autoPlayDelay={3000}
               enableZoomOut={false}
               autoPlatMargin="-10% 0px -10% 0px"
@@ -112,7 +112,7 @@ export default function CenterCardHorizontal({
           </span>
 
           {/* Center Features */}
-          <Features features={center.features} />
+          <Features features={center.features} className="line-clamp-1" />
 
           {/* Center Timings */}
           <CenterTimings center={center} />

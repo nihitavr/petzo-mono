@@ -3,9 +3,11 @@ import Unauthorised from "@petzo/ui/components/errors/unauthorised";
 
 import ServicesCheckoutPage from "~/app/_components/services-checkout-page";
 import SignIn from "~/app/_components/sign-in";
+import { api } from "~/trpc/server";
 
 export default async function Page() {
-  if (!(await auth())?.user) {
+  const authUser = (await auth())?.user;
+  if (!authUser) {
     return (
       <Unauthorised
         comp={
@@ -21,5 +23,7 @@ export default async function Page() {
     );
   }
 
-  return <ServicesCheckoutPage />;
+  const user = await api.user.getUserProfile({ id: authUser.id });
+
+  return <ServicesCheckoutPage user={user} />;
 }

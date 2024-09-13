@@ -11,9 +11,10 @@ import {
   parseISO,
   setHours,
   setMinutes,
+  startOfDay,
   subMinutes,
 } from "date-fns";
-import { format as formatTz, toZonedTime } from "date-fns-tz";
+import { formatInTimeZone, toZonedTime } from "date-fns-tz";
 
 import type { DAYS_TYPE } from "@petzo/constants";
 import { SLOT_DURATION_IN_MINS } from "@petzo/constants";
@@ -210,32 +211,23 @@ export function getNextNDaysString(
 ): string[] {
   const dates = [];
 
-  // IST offset in minutes (5 hours 30 minutes) + 0 hrs offset before booking for tomorrow.
+  // 0 hrs offset before booking for tomorrow.
   // So basically only before 8PM IST, we should be able to book for tomorrow.
   const offsetInMinutes = 0;
 
-  const today = new Date();
-  let istDate = toZonedTime(today, timeZone);
+  const todayWithOffset = addMinutes(new Date(), offsetInMinutes);
 
-  istDate = addMinutes(istDate, offsetInMinutes);
-
-  for (let i = 0; i < n + 1; i++) {
-    const date = addDays(istDate, i);
-
-    const formattedDate = formatTz(date, "yyyy-MM-dd", {
-      timeZone: timeZone,
-    });
-
+  for (let i = 1; i < n + 1; i++) {
+    const date = addDays(todayWithOffset, i);
+    const formattedDate = formatInTimeZone(date, timeZone, "yyyy-MM-dd");
     dates.push(formattedDate);
   }
 
   return dates;
 }
 
-export function getDateString(timeZone = "Asia/Kolkata", date?: Date): string {
-  return formatTz(toZonedTime(date ?? new Date(), timeZone), "yyyy-MM-dd", {
-    timeZone: timeZone,
-  });
+export function getDateString(date?: Date, timeZone = "Asia/Kolkata"): string {
+  return formatInTimeZone(date ?? new Date(), timeZone, "yyyy-MM-dd");
 }
 
 export function isMorning(timeString: string) {
@@ -313,4 +305,20 @@ export function getDayFromDate(dateString: string, dayFormat = "EEE") {
   const date = new Date(dateString);
   const dayName = format(date, dayFormat);
   return dayName.toLowerCase();
+}
+
+// TODO: Very Important function used to check if given slot is atleast tomorrow. So after 12AM, we don't want to allow booking for today.
+export function isAtLeastTomorrow(
+  dateStr: string,
+  timeStr: string,
+  timeZone = "Asia/Kolkata",
+): boolean {
+  // Combine date and time strings to form a datetime string in UTC
+  const dateInUTCTimezone = `${dateStr}T${timeStr}Z`;
+
+  // Get the start of tomorrow in the local timezone. UTC on the server. Read toZonedTime docs to understand better.
+  const tomorrow = startOfDay(addDays(toZonedTime(new Date(), timeZone), 1));
+
+  // Check if the given date is after the start of tomorrow
+  return isAfter(dateInUTCTimezone, tomorrow);
 }

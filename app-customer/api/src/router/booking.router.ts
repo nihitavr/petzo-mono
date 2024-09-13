@@ -10,7 +10,7 @@ import type {
   Slot,
 } from "@petzo/db";
 import { and, between, desc, eq, inArray, schema, sql } from "@petzo/db";
-import { getGoogleLocationLink, slackUtils } from "@petzo/utils";
+import { centerUtils, getGoogleLocationLink, slackUtils } from "@petzo/utils";
 import { convertTime24To12, getSurroundingTime } from "@petzo/utils/time";
 import { bookingValidator } from "@petzo/validators";
 
@@ -41,15 +41,21 @@ export const bookingRouter = {
         input.addressId,
       );
 
-      if (!bookingAddress) {
-        throw bookingRouterUtils.badRequestError("Booking address not found.");
-      }
-
       const bookingItems = await bookingRouterUtils.getBookingItems(
         ctx,
         input.centerId,
         input.items,
       );
+
+      const hasAtHomeService = centerUtils.hasAtHomeServices(
+        bookingItems
+          ?.filter((item) => item?.service)
+          .map((item) => item!.service),
+      );
+
+      if (hasAtHomeService && !bookingAddress) {
+        throw bookingRouterUtils.badRequestError("Booking address not found.");
+      }
 
       // Check if all the items are valid.
       input?.items?.forEach((_, index) => {
@@ -83,6 +89,7 @@ export const bookingRouter = {
                   .values({
                     customerUserId: ctx.session.user.id,
                     addressId: input.addressId,
+                    phoneNumber: input.phoneNumber,
                     centerId: input.centerId,
                     amount: totalBookingAmount,
                     isPaid: false,
@@ -242,14 +249,14 @@ export const bookingRouterUtils = {
   async sendBookingSlackMessage(
     ctx: CTX,
     bookingCenter: Center,
-    bookingAddress: CustomerAddresses,
+    bookingAddress?: CustomerAddresses,
     bookingItems?: BookingItem[],
     bookingId?: number,
   ) {
     if (!bookingId) return;
 
     let message = `Booking Id: ${bookingId}, Center: ${bookingCenter.name}, Email: ${ctx.session!.user.email},\n--------------\n`;
-    message += `Name: ${ctx.session!.user.name}, Phone Number: \`${bookingAddress.phoneNumber}\`\n--------------\n`;
+    message += `Name: ${ctx.session!.user.name}, Phone Number: \`${bookingAddress?.phoneNumber ?? "Not Known"}\`\n--------------\n`;
 
     message += "Service Booked:\n";
     bookingItems?.forEach((item, idx) => {
@@ -257,8 +264,10 @@ export const bookingRouterUtils = {
       message += `${idx + 1}) Service: \`${item.service!.name}\`,\n    Price: \`₹${item.service!.price}\`\n    Slot: \`${item.slot!.date} ${convertTime24To12(item.slot!.startTime)}\`,\n    Pet Name: \`${item.pet!.name}\`\n    Pet Type: \`${item.pet!.type}\`\n`;
     });
 
-    message += `--------------\nAddress: ${getFullFormattedAddresses(bookingAddress)}\n`;
-    message += `Map Link: ${getGoogleLocationLink(bookingAddress.geocode)}\n`;
+    if (bookingAddress) {
+      message += `--------------\nAddress: ${getFullFormattedAddresses(bookingAddress)}\n`;
+      message += `Map Link: ${getGoogleLocationLink(bookingAddress.geocode)}\n`;
+    }
 
     await slackUtils.sendSlackMessage({
       channel: "#booking-alerts",
@@ -270,7 +279,7 @@ export const bookingRouterUtils = {
 
   async getBookingAddress(ctx: CTX, addressId?: number) {
     if (!addressId) {
-      return null;
+      return;
     }
 
     return (

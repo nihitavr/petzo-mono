@@ -8,6 +8,7 @@ export const dynamic = "force-dynamic";
 
 export interface ServicesCart {
   center: Center;
+  phoneNumber?: string;
   address?: CustomerAddresses;
   items: ServiceCartItem[];
 }
@@ -32,6 +33,14 @@ function getServicesCart(): ServicesCart {
 
   return JSON.parse(
     localStorage?.getItem("servicesCart") ?? "{}",
+  ) as ServicesCart;
+}
+
+export function setPhoneNumberToServiceCart(phoneNumber: string) {
+  servicesCart.value.phoneNumber = phoneNumber;
+
+  servicesCart.value = JSON.parse(
+    JSON.stringify(servicesCart.value),
   ) as ServicesCart;
 }
 

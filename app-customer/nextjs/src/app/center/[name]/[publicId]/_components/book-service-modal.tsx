@@ -172,7 +172,7 @@ export function BookServiceDialog({
       <DrawerTrigger onClick={onTriggerClick} asChild>
         <Button variant="primary">Add</Button>
       </DrawerTrigger>
-      <DrawerContent className="h-[83vh] rounded-t-3xl pb-16">
+      <DrawerContent className="h-[85vh] rounded-t-3xl pb-16">
         <DrawerHeader className="text-left">
           <span className="text-xs">Booking</span>
           <div className="flex items-center justify-between">
@@ -244,6 +244,7 @@ function ServiceBookingForm({
     defaultValues: {
       name: "",
       type: undefined,
+      breed: "",
     },
   });
 
@@ -684,6 +685,25 @@ function ServiceBookingForm({
                           </FormItem>
                         )}
                       />
+
+                      <FormField
+                        control={petForm.control}
+                        name="breed"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Breed</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Persian, Indie, Labrador, German Shepherd etc."
+                                {...field}
+                                value={field.value ?? ""}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
                       <div className="mt-3 flex justify-center md:justify-end">
                         <Button
                           className="flex w-full items-center justify-center gap-2 md:w-52"

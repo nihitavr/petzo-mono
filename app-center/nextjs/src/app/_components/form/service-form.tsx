@@ -403,22 +403,29 @@ const BookingInformation = ({
   const bookingDisabled = form.watch("serviceType") === "boarding";
 
   return (
-    <div className={"space-y-2"}>
-      <Label className="text-lg font-bold">Booking Information</Label>
-      <div
-        className={cn("rounded-lg border", bookingDisabled ? "opacity-60" : "")}
-      >
-        <BookingEnabled form={form} />
+    <div className={"space-y-5"}>
+      <PricingDetails form={form} />
+
+      <hr className="!mt-7 border" />
+
+      <div className={"space-y-2"}>
+        <Label className="text-lg font-bold">Booking Information</Label>
         <div
-          className={`space-y-5 p-3 ${
-            form.watch("isBookingEnabled")
-              ? "animate-fade-in"
-              : "pointer-events-none animate-fade-out opacity-50"
-          }`}
+          className={cn(
+            "rounded-lg border",
+            bookingDisabled ? "opacity-60" : "",
+          )}
         >
-          <PricingDetails form={form} />
-          <hr className="!mt-7 border" />
-          <TimingInformation form={form} />
+          <BookingEnabled form={form} />
+          <div
+            className={`space-y-5 p-3 ${
+              form.watch("isBookingEnabled")
+                ? "animate-fade-in"
+                : "pointer-events-none animate-fade-out opacity-50"
+            }`}
+          >
+            <TimingInformation form={form} />
+          </div>
         </div>
       </div>
     </div>
@@ -437,7 +444,7 @@ const PricingDetails = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
           name="price"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Price (In rupees)*</FormLabel>
+              <FormLabel>Price (In rupees)</FormLabel>
               <FormControl>
                 <Input type="number" placeholder="Price" {...field} />
               </FormControl>
@@ -454,7 +461,7 @@ const PricingDetails = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
             return (
               <FormItem>
                 <div>
-                  <FormLabel>Price after discount (In rupees)*</FormLabel>
+                  <FormLabel>Price after discount (In rupees)</FormLabel>
                   <FormDescription>
                     This is the price after giving a discount. If there is no
                     discount, enter the same price as above.
@@ -482,35 +489,41 @@ const BookingEnabled = ({ form }: { form: UseFormReturn<ServiceSchema> }) => {
   const bookingDisabled = form.watch("serviceType") === "boarding";
 
   return (
-    <FormField
-      control={form.control}
-      name="isBookingEnabled"
-      render={({ field }) => (
-        <FormItem
-          onClick={(e) => {
-            if (bookingDisabled) {
-              toast.error(
-                "Boarding services do not support booking at the moment.",
-              );
-              e.preventDefault();
-              e.stopPropagation();
-            }
-          }}
-          className={`flex flex-row items-start space-x-3 space-y-0 rounded-md ${field.value ? "border-b" : ""} bg-muted p-3`}
-        >
-          <FormControl>
-            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-          </FormControl>
-          <div className="space-y-1 leading-none">
-            <FormLabel className="cursor-pointer">Enable Booking</FormLabel>
-            <FormDescription>
-              Once enabled, customers can book this service from the Furclub
-              App.
-            </FormDescription>
-          </div>
-        </FormItem>
-      )}
-    />
+    <>
+      <FormField
+        control={form.control}
+        name="isBookingEnabled"
+        render={({ field }) => (
+          <FormItem
+            onClick={(e) => {
+              if (bookingDisabled) {
+                toast.error(
+                  "Boarding services do not support booking at the moment.",
+                );
+                e.preventDefault();
+                e.stopPropagation();
+                field.onChange(false);
+              }
+            }}
+            className={`flex flex-row items-start space-x-3 space-y-0 rounded-md ${field.value ? "border-b" : ""} bg-muted p-3 ${bookingDisabled ? "opacity-50" : ""}`}
+          >
+            <FormControl>
+              <Checkbox
+                checked={field.value}
+                onCheckedChange={field.onChange}
+              />
+            </FormControl>
+            <div className="space-y-1 leading-none">
+              <FormLabel className="cursor-pointer">Enable Booking</FormLabel>
+              <FormDescription>
+                Once enabled, customers can book this service from the Furclub
+                App.
+              </FormDescription>
+            </div>
+          </FormItem>
+        )}
+      />
+    </>
   );
 };
 
@@ -519,9 +532,11 @@ const TimingInformation = ({
 }: {
   form: UseFormReturn<ServiceSchema>;
 }) => {
+  if (form.watch("serviceType") === "boarding") return;
+
   return (
     <div className="space-y-2">
-      <Label className="text-lg font-bold">Timing Details</Label>
+      <Label className="text-base font-bold">Timing Details</Label>
 
       <div className="space-y-5">
         {/* Duration */}

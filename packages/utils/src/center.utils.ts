@@ -111,15 +111,15 @@ export function getServiceTypeToServicesMap(
 export function hasAtHomeServices(services?: Service[]) {
   const servicesProvided = getServicesTypes(services);
 
-  return servicesProvided.some((service) =>
-    ["home_grooming", "mobile_grooming"].includes(service),
+  return servicesProvided?.some((serviceType) =>
+    ["home_grooming", "mobile_grooming"].includes(serviceType),
   );
 }
 
 export function hasAtCenterServices(services?: Service[]) {
   const servicesProvided = getServicesTypes(services);
 
-  return servicesProvided.some((service) =>
+  return servicesProvided?.some((service) =>
     ["grooming", "veterinary", "boarding"].includes(service),
   );
 }
