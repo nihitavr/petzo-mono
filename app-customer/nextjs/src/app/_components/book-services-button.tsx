@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSignals } from "@preact/signals-react/runtime";
 import { TRPCClientError } from "@trpc/client";
+import { TRPCError } from "@trpc/server";
 
 import { Button } from "@petzo/ui/components/button";
 import {
@@ -13,6 +14,7 @@ import {
 } from "@petzo/ui/components/dialog";
 import Loader from "@petzo/ui/components/loader";
 import { toast } from "@petzo/ui/components/toast";
+import { centerUtils, validationUtils } from "@petzo/utils";
 
 import { servicesCart } from "~/lib/storage/service-cart-storage";
 import { api } from "~/trpc/react";
@@ -28,17 +30,27 @@ export default function BookServicesButton({
 
   const [open, setOpen] = useState(false);
   const [isBooking, setIsBooking] = useState(false);
-
   const [isMounted, setIsMounted] = useState(false);
 
   const bookingService = api.booking.bookService.useMutation();
+
+  const hasAtHomeService = useMemo(
+    () =>
+      centerUtils.hasAtHomeServices(
+        servicesCart.value.items?.map((item) => item.service),
+      ),
+    [servicesCart.value.items?.length],
+  );
 
   const onClickBookServices = async () => {
     try {
       setIsBooking(true);
       const booking = await bookingService.mutateAsync({
         centerId: servicesCart.value.center.id,
-        addressId: servicesCart.value.address!.id,
+        addressId: hasAtHomeService
+          ? servicesCart.value.address?.id
+          : undefined,
+        phoneNumber: servicesCart.value.phoneNumber,
         items: servicesCart.value.items.map((item) => ({
           serviceId: item.service.id,
           slotId: item.slot.id,
@@ -48,10 +60,8 @@ export default function BookServicesButton({
 
       setBookingId(booking);
     } catch (e) {
-      if (e instanceof TRPCClientError) {
-        toast.error(
-          e.message ?? "Failed to book services. Please try again later.",
-        );
+      if (e instanceof TRPCClientError || e instanceof TRPCError) {
+        toast.error("Failed to book services. Please try again later.");
       }
     }
 
@@ -68,7 +78,11 @@ export default function BookServicesButton({
   const isDisabled =
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     disabled ||
-    !servicesCart.value?.address?.id ||
+    (hasAtHomeService && !servicesCart.value?.address?.id) ||
+    (!hasAtHomeService &&
+      !validationUtils.validatePhoneNumber(
+        servicesCart.value?.phoneNumber,
+      )[0]) ||
     !servicesCart.value?.items?.length ||
     !servicesCart.value.center;
 

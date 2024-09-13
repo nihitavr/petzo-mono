@@ -14,11 +14,12 @@ export default function HeroSection({
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4 ">
         <HomePageServicesCard
-          name="Home/Mobile Grooming"
-          // label="Home Grooming Centers near you"
-          imageUrl="/pet-home-grooming-card-image-removebg-preview.png"
-          // link={`/center/furclub-bengaluru/home-grooming`}
-          link={`/${cityPublicId}/centers?serviceType=home_grooming,mobile_grooming`}
+          name="Pet Boarding"
+          // label="Boarding Centers near you"
+          disabled={false}
+          imageUrl="/pet-boarding-card-image-removebg-preview.png"
+          link={`/${cityPublicId}/centers?serviceType=boarding`}
+          disabledToastText="Pet Boarding is coming soon. Stay tuned!"
         />
 
         <HomePageServicesCard
@@ -39,12 +40,11 @@ export default function HeroSection({
         />
 
         <HomePageServicesCard
-          name="Pet Boarding"
-          // label="Boarding Centers near you"
-          disabled={false}
-          imageUrl="/pet-boarding-card-image-removebg-preview.png"
-          link={`/${cityPublicId}/centers?serviceType=boarding`}
-          disabledToastText="Pet Boarding is coming soon. Stay tuned!"
+          name="Home/Mobile Grooming"
+          // label="Home Grooming Centers near you"
+          imageUrl="/pet-home-grooming-card-image-removebg-preview.png"
+          // link={`/center/furclub-bengaluru/home-grooming`}
+          link={`/${cityPublicId}/centers?serviceType=home_grooming,mobile_grooming`}
         />
       </div>
     </div>

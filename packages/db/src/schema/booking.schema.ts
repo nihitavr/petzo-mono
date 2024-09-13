@@ -26,7 +26,7 @@ export const bookings = pgTable(
     customerUserId: varchar("customer_user_id", { length: 255 })
       .notNull()
       .references(() => customerUsers.id),
-
+    phoneNumber: varchar("phone_number", { length: 10 }),
     addressId: integer("address_id").references(() => customerAddresses.id),
     centerId: integer("center_id")
       .notNull()

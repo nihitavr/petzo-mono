@@ -153,31 +153,42 @@ export type SERVICE_TYPE =
 
 export const SERVICES_CONFIG: Record<
   string,
-  { name: string; publicId: string; icon?: string; travelTimeInMins?: number }
+  {
+    type: "home" | "at-center";
+    name: string;
+    publicId: string;
+    icon?: string;
+    travelTimeInMins?: number;
+  }
 > = {
   mobile_grooming: {
+    type: "home",
     name: "Mobile Grooming",
     publicId: "mobile_grooming",
     icon: "/icons/mobile-grooming-icon.svg",
     travelTimeInMins: 30,
   },
   home_grooming: {
+    type: "home",
     name: "Home Grooming",
     publicId: "home_grooming",
     icon: "/icons/home-grooming-icon.svg",
     travelTimeInMins: 30,
   },
   grooming: {
+    type: "at-center",
     name: "In-store Grooming",
     publicId: "grooming",
     icon: "/icons/pet-grooming-icon.svg",
   },
   veterinary: {
+    type: "at-center",
     name: "Vet Consultation",
     publicId: "veterinary",
     icon: "/icons/vet-consultation-icon.svg",
   },
   boarding: {
+    type: "at-center",
     name: "Pet Boarding",
     publicId: "boarding",
     icon: "/icons/pet-boarding-icon.svg",

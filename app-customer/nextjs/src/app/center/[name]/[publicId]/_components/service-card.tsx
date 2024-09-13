@@ -4,7 +4,9 @@ import { useState } from "react";
 import Image from "next/image";
 
 import type { Center, CustomerUser, Service } from "@petzo/db";
+import { Button } from "@petzo/ui/components/button";
 import Price from "@petzo/ui/components/price";
+import { toast } from "@petzo/ui/components/toast";
 import { cn } from "@petzo/ui/lib/utils";
 import { timeUtils } from "@petzo/utils";
 
@@ -82,7 +84,7 @@ export default function ServiceCard({
 
           <span>{getServicePetTypesComponent()}</span>
 
-          {service.isBookingEnabled && (
+          {service.price > 0 && (
             <Price
               className="text-2base"
               price={service.price}
@@ -102,8 +104,8 @@ export default function ServiceCard({
 
         {/* TODO: Description has been removed as we currently only have  */}
         {!service.isBookingEnabled && (
-          <span className="line-clamp-2 whitespace-pre-wrap text-xs opacity-70 md:text-sm">
-            {service.description}
+          <span className="text-xs text-green-700 md:text-sm">
+            Call center to book this service.
           </span>
         )}
 

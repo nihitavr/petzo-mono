@@ -1,7 +1,7 @@
 "use client";
 
 import type { z } from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSignals } from "@preact/signals-react/runtime";
 
@@ -18,6 +18,7 @@ import {
 } from "@petzo/ui/components/form";
 import Loader from "@petzo/ui/components/loader";
 import { fetchLocation } from "@petzo/ui/components/location";
+import { toast } from "@petzo/ui/components/toast";
 import { cn } from "@petzo/ui/lib/utils";
 import { centerValidator } from "@petzo/validators";
 
@@ -43,17 +44,39 @@ export function CenterFilters({
     defaultValues: filters,
   });
 
+  useEffect(() => {
+    form.reset(filters);
+  }, [filters]);
+
   const [fetchingLocation, setFetchingLocation] = useState(false);
 
   const onSubmit = (values: CenterFilterFormSchemaType) => {
     let filterUrl = `/${filtersStore.city.value}/centers`;
     const urlQueryParams = new URLSearchParams();
 
-    const serviceType = values.filters
-      .find((filter) => filter.publicId === "serviceType")
-      ?.items.filter((item) => item.selected)
-      .map((item) => item.publicId)
-      .join(",");
+    const serviceTypeList = values.filters
+      .filter((filter) => filter.publicId === "serviceType")
+      .reduce((acc, filter) => {
+        filter.items.forEach((item) => {
+          if (item.selected) acc.push(item.publicId);
+        });
+        return acc;
+      }, [] as string[]);
+
+    const serviceType = serviceTypeList?.join(",");
+
+    if (
+      (serviceTypeList?.includes("home_grooming") ||
+        serviceTypeList?.includes("mobile_grooming")) &&
+      (serviceTypeList?.includes("grooming") ||
+        serviceTypeList?.includes("veterinary") ||
+        serviceTypeList?.includes("boarding"))
+    ) {
+      toast.error(
+        "Please select either At Center Services or Home Services, not both.",
+      );
+      return;
+    }
 
     if (serviceType) urlQueryParams.set("serviceType", serviceType);
 

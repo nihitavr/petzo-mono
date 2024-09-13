@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,7 +9,10 @@ import { format, parse } from "date-fns";
 import { getFullFormattedAddresses } from "node_modules/@petzo/utils/src/addresses.utils";
 import { FaArrowLeft } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
+import { z } from "zod";
 
+import type { CustomerUser } from "@petzo/db";
+import { REGEX, SERVICES_CONFIG } from "@petzo/constants";
 import {
   Accordion,
   AccordionContent,
@@ -17,11 +20,13 @@ import {
   AccordionTrigger,
 } from "@petzo/ui/components/accordion";
 import { Button } from "@petzo/ui/components/button";
+import { Input } from "@petzo/ui/components/input";
 import { Label } from "@petzo/ui/components/label";
 import Price from "@petzo/ui/components/price";
 import { Skeleton } from "@petzo/ui/components/skeleton";
 import { cn } from "@petzo/ui/lib/utils";
-import { centerUtils } from "@petzo/utils";
+import { centerUtils, validationUtils } from "@petzo/utils";
+import { isAtLeastTomorrow } from "@petzo/utils/time";
 
 import type { ServiceCartItem } from "~/lib/storage/service-cart-storage";
 import NewAddessModal from "~/app/center/[name]/[publicId]/_components/add-address-modal";
@@ -31,18 +36,27 @@ import {
   removeItemFromServicesCart,
   servicesCart,
   setAddressToServiceCart,
+  setPhoneNumberToServiceCart,
 } from "~/lib/storage/service-cart-storage";
 import { api } from "~/trpc/react";
 import { RecordEvent, trackCustom } from "~/web-analytics/react";
 import BookServicesButton from "./book-services-button";
 import BookingConfirmedAnimation from "./booking-confirmed-animation";
 
-export default function ServicesCheckoutPage() {
+export default function ServicesCheckoutPage({ user }: { user: CustomerUser }) {
   useSignals();
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [bookingId, setBookingId] = useState<number | undefined>();
   const [isAnySlotUnavailable, setIsAnySlotUnavailable] = useState(false);
+
+  const hasAtHomeService = useMemo(
+    () =>
+      centerUtils.hasAtHomeServices(
+        servicesCart.value.items?.map((item) => item.service),
+      ),
+    [servicesCart.value.items],
+  );
 
   const { data: booking } = api.booking.getBooking.useQuery(
     { id: bookingId! },
@@ -147,9 +161,15 @@ export default function ServicesCheckoutPage() {
           <BillDetails />
         </div>
 
-        <div>
-          <AddressDetails />
-        </div>
+        {hasAtHomeService ? (
+          <div>
+            <AddressDetails />
+          </div>
+        ) : (
+          <div>
+            <PhoneNumberDetails defaultPhoneNumber={user.phoneNumber} />
+          </div>
+        )}
 
         <BookServicesButton
           disabled={isAnySlotUnavailable}
@@ -202,9 +222,8 @@ const CartServiceDetails = ({
 
         item.slot.availableSlots = slotIdToAvailabilityMap[item.slot.id]!;
 
-        if (slotIdToAvailabilityMap[item.slot.id]! < 0) {
+        if (!validationUtils.validateSlotAvailability(item))
           isAnySlotUnavailable = true;
-        }
       });
 
       setIsAnySlotUnavailable(isAnySlotUnavailable);
@@ -226,7 +245,9 @@ const CartServiceDetails = ({
   return (
     <div className="mt-2 flex flex-col gap-5">
       {itemsState?.map((item, idx) => {
-        const isSlotUnavailable = item.slot.availableSlots < 0;
+        const isSlotUnavailable =
+          !validationUtils.validateSlotAvailability(item);
+
         return (
           <div
             key={`service-no-${idx}-${item.service.id}-${item.slot.id}-${item.pet.id}`}
@@ -240,6 +261,12 @@ const CartServiceDetails = ({
                 Booking for:{" "}
                 <span className="font-medium text-primary">
                   {item?.pet.name}
+                </span>
+              </span>
+              <span className="text-xs text-foreground/70 md:text-2sm">
+                Service Type:{" "}
+                <span className="font-medium text-primary">
+                  {SERVICES_CONFIG[item?.service.serviceType]?.name}
                 </span>
               </span>
               <span className="line-clamp-1 text-xs text-foreground/70 md:text-2sm">
@@ -301,8 +328,47 @@ const BillDetails = () => {
         </div>
       </div>
       <p className="text-xs font-medium text-destructive md:text-2sm">
-        *Payments should be made directly to the Service Provider.
+        *Payment should be made directly to the Service Provider.
       </p>
+    </div>
+  );
+};
+
+const PhoneNumberDetails = ({
+  defaultPhoneNumber,
+}: {
+  defaultPhoneNumber?: string | null;
+}) => {
+  useEffect(() => {
+    if (defaultPhoneNumber) setPhoneNumberToServiceCart(defaultPhoneNumber);
+  }, []);
+
+  const [phoneNumberValidated, errorMessage] =
+    validationUtils.validatePhoneNumber(servicesCart.value?.phoneNumber);
+
+  return (
+    <div>
+      <Label
+        className={cn(
+          "font-semibold",
+          phoneNumberValidated ? "" : "text-destructive",
+        )}
+      >
+        Phone Number*
+      </Label>
+
+      <Input
+        className={phoneNumberValidated ? "" : "border-destructive"}
+        value={servicesCart.value?.phoneNumber}
+        onChange={(e) => setPhoneNumberToServiceCart(e.currentTarget.value)}
+      />
+      {phoneNumberValidated ? (
+        <></>
+      ) : (
+        <div className="mt-2 text-xs leading-4 text-destructive md:text-2sm">
+          {errorMessage}
+        </div>
+      )}
     </div>
   );
 };

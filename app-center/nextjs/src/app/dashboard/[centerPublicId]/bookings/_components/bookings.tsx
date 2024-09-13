@@ -60,6 +60,8 @@ export default async function Bookings({
           <>
             {bookings.map((booking) => {
               // const bookingUrl = `/dashboard/${centerPublicId}/bookings/${booking.id}`;
+              const phoneNumber =
+                booking.address?.phoneNumber ?? booking?.phoneNumber;
 
               return (
                 <div
@@ -91,34 +93,42 @@ export default async function Bookings({
                       {/* Booking Address */}
                       <div className="flex items-center gap-1">
                         <span>Phone Number:</span>{" "}
-                        <a
-                          href={`tel:${booking.address?.phoneNumber ?? booking.user?.phoneNumber}`}
-                          className="inline-flex items-center gap-1 font-medium text-blue-700 dark:text-blue-500"
-                        >
-                          <FiPhone />
-                          <span>{booking.address?.phoneNumber}</span>
-                        </a>
+                        {phoneNumber ? (
+                          <a
+                            href={`tel:${phoneNumber}`}
+                            className="inline-flex items-center gap-1 font-medium text-blue-700 dark:text-blue-500"
+                          >
+                            <FiPhone />
+                            <span>{phoneNumber}</span>
+                          </a>
+                        ) : (
+                          <span className="text-destructive">N/A</span>
+                        )}
                       </div>
 
                       {/* Booking Address */}
-                      <div>
-                        <span>Address: </span>
-                        <a
-                          href={getGoogleLocationLink(booking.address?.geocode)}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          <span className="font-medium text-blue-700 dark:text-blue-500">
-                            {getFullFormattedAddresses(
-                              booking.address as CustomerAddresses,
+                      {booking.address && (
+                        <div>
+                          <span>Address: </span>
+                          <a
+                            href={getGoogleLocationLink(
+                              booking.address?.geocode,
                             )}
-                          </span>{" "}
-                          <GrLocation
-                            className="mb-0.5 inline text-blue-700 dark:text-blue-500"
-                            size={18}
-                          />
-                        </a>
-                      </div>
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <span className="font-medium text-blue-700 dark:text-blue-500">
+                              {getFullFormattedAddresses(
+                                booking.address as CustomerAddresses,
+                              )}
+                            </span>{" "}
+                            <GrLocation
+                              className="mb-0.5 inline text-blue-700 dark:text-blue-500"
+                              size={18}
+                            />
+                          </a>
+                        </div>
+                      )}
                     </div>
                   </div>
 
