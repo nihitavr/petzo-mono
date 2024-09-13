@@ -105,7 +105,7 @@ export default function ServiceCard({
         {/* TODO: Description has been removed as we currently only have  */}
         {!service.isBookingEnabled && (
           <span className="text-xs text-green-700 md:text-sm">
-            Call center to book this service.
+            Call center to know about this service.
           </span>
         )}
 
